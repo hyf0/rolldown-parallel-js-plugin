@@ -1,6 +1,6 @@
 # Vue and Svelte Plugin Case Notes
 
-Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope no longer runs Vite: the second case uses a transform-only adapter around `unplugin-vue/rolldown`, whose internal engine is the official pure-JavaScript compiler. Svelte is a required later transform case after Vue.
+Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope no longer runs Vite: the second case uses a transform-only adapter around `unplugin-vue/rolldown`. Most SFC compilation is in the official JavaScript compiler, while the TypeScript tail synchronously invokes Vite's native Oxc transform. Svelte is a required later transform case after Vue.
 
 ## Archived integration finding
 
@@ -14,6 +14,16 @@ Both official Vite plugins depend on Vite lifecycle and context beyond a direct 
 - The unchanged full ordinary plugin is the correctness reference. The timing comparison uses ordinary and parallel forms of the same thin adapter: instantiate the plugin with a fixed absolute root, production mode, `sourceMap: false`, and `inlineTemplate: true`; expose only `buildStart` and `transform`; apply an identical declarative `.vue` filter; and set `.vue` module type identically in both Rolldown configurations.
 - The case covers parse, script-setup macros and TypeScript, template compilation, component IDs, compiler import and JIT, code generation, and errors. It does not cover styles, external or custom blocks, virtual `resolveId` or `load`, source maps, function-valued compiler options, warnings, watch, or HMR.
 - Run every variant in a fresh Node.js process. `unplugin-vue` owns module-level descriptor and compiler caches, so sequential variants inside one process would contaminate cold-start comparison.
+- The TypeScript transform tail calls Vite's synchronous `transformWithOxc`, which loads a released Rolldown binding. Its import, CPU, and memory are real plugin costs but must not be described as JavaScript-worker time. A read-only stage estimate attributes about 83% of the 166-SFC handler work to `compiler-sfc` and about 17% to this native tail; formal attribution uses the committed runner rather than that estimate as a speed claim.
+
+### Measured result
+
+- Full-plugin ordinary, thin ordinary, and one, two, four, and eight worker outputs are byte-identical: six chunks, 171,205 bytes, 499 aggregate exports, SHA-256 `ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f`.
+- The 30-round full-corpus confirmation is negative at every worker count: paired median speed is 0.91x at two workers, 0.89x at four, and 0.75x at eight. The worker variants win only 8, 9, and 3 of 30 paired rounds. The 12-SFC worker-1 control is 0.75x and wins 0 of 30.
+- Instrumentation shows all 166 transforms outstanding and active handler count reaching every worker. Pool initialization is about 113–163 ms, worker implementation import is about 72–118 ms per instance, and per-handler time rises from 752 microseconds ordinary to 2813 microseconds at eight workers. This is import, JIT, compiler initialization, CPU contention, and memory overhead rather than insufficient graph width.
+- Worker-1 reduces median maximum event-loop delay from 183.1 ms to 4.59 ms while its paired build speed is 0.83x, confirming isolation value without throughput value in the same real case.
+- Invalid SFC output confirms diagnostic incompatibility: ordinary preserves plugin, module, hook, location, parser code, frame, and compiler stack; parallel reduces the inner error to `GenericFailure` and loses that structure.
+- Full method, raw data, and boundaries are in the [Vue result](../experiments/vue-transform/2026-07-11-vue-icon-results.md).
 
 ## Vue
 

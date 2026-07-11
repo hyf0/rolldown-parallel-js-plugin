@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "sourceReport": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-context-review/experiments/vue-transform/data/2026-07-11-release-isolation.json",
+  "sourceStartedAt": "2026-07-11T15:23:43.695Z",
+  "sourceFinishedAt": "2026-07-11T15:23:49.900Z",
+  "matrix": {
+    "description": "Vue full-corpus main-thread responsiveness comparison. Plugin import, factory, buildStart, transform, generate, and close are inside the event-loop monitor boundary.",
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "vue-icon-full-166-isolation",
+        "entrySet": "full",
+        "instrumentation": false,
+        "measureEventLoop": true,
+        "variants": [
+          "ordinary",
+          "worker-1"
+        ],
+        "warmups": 1,
+        "repeats": 5
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "name": "vue-icon-full-166-isolation",
+      "variant": "ordinary",
+      "samples": 5,
+      "totalElapsedMs": {
+        "n": 5,
+        "mean": 372.6712832,
+        "median": 321.416208,
+        "sampleStddev": 98.73690002787632,
+        "mad": 27.84637399999997,
+        "q1": 301.939916,
+        "q3": 423.76483299999995,
+        "min": 293.569834,
+        "max": 522.665625
+      },
+      "pluginSetupElapsedMs": {
+        "n": 5,
+        "mean": 96.38995,
+        "median": 93.01954200000002,
+        "sampleStddev": 16.196273934016467,
+        "mad": 9.240207999999981,
+        "q1": 84.28008300000002,
+        "q3": 102.25975,
+        "min": 81.062708,
+        "max": 121.32766699999999
+      },
+      "rolldownApiElapsedMs": {
+        "n": 5,
+        "mean": 276.24182460000003,
+        "median": 237.108208,
+        "sampleStddev": 83.6899107633257,
+        "mad": 36.58783299999996,
+        "q1": 220.84533299999998,
+        "q3": 321.434791,
+        "min": 200.52037500000003,
+        "max": 401.3004159999999
+      },
+      "cpuUserMs": {
+        "n": 5,
+        "mean": 324.2604,
+        "median": 303.146,
+        "sampleStddev": 52.18489717629039,
+        "mad": 22.888000000000034,
+        "q1": 290.025,
+        "q3": 339.27,
+        "min": 280.258,
+        "max": 408.603
+      },
+      "peakRssBytes": {
+        "n": 5,
+        "mean": 160759808,
+        "median": 160776192,
+        "sampleStddev": 1429732.8412818948,
+        "mad": 950272,
+        "q1": 160382976,
+        "q3": 161726464,
+        "min": 158597120,
+        "max": 162316288
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 5,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 5,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputHashes": [
+        "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f"
+      ]
+    },
+    {
+      "name": "vue-icon-full-166-isolation",
+      "variant": "worker-1",
+      "samples": 5,
+      "totalElapsedMs": {
+        "n": 5,
+        "mean": 446.4634,
+        "median": 407.022917,
+        "sampleStddev": 101.15222121940053,
+        "mad": 52.293542,
+        "q1": 363.432084,
+        "q3": 529.900541,
+        "min": 354.729375,
+        "max": 577.2320830000001
+      },
+      "pluginSetupElapsedMs": {
+        "n": 5,
+        "mean": 1.9946248000000053,
+        "median": 1.7963330000000042,
+        "sampleStddev": 0.4513150216929448,
+        "mad": 0.24233300000000213,
+        "q1": 1.763542000000001,
+        "q3": 2.15629100000001,
+        "min": 1.554000000000002,
+        "max": 2.7029580000000095
+      },
+      "rolldownApiElapsedMs": {
+        "n": 5,
+        "mean": 444.40584980000006,
+        "median": 405.43062499999996,
+        "sampleStddev": 100.74292285337829,
+        "mad": 52.53462499999995,
+        "q1": 361.59125,
+        "q3": 527.637833,
+        "min": 352.896,
+        "max": 574.4735410000001
+      },
+      "cpuUserMs": {
+        "n": 5,
+        "mean": 378.32219999999995,
+        "median": 375.965,
+        "sampleStddev": 43.29956456709467,
+        "mad": 35.553,
+        "q1": 346.779,
+        "q3": 411.518,
+        "min": 326.729,
+        "max": 430.62
+      },
+      "peakRssBytes": {
+        "n": 5,
+        "mean": 176671948.8,
+        "median": 176553984,
+        "sampleStddev": 421772.65996173816,
+        "mad": 458752,
+        "q1": 176537600,
+        "q3": 177045504,
+        "min": 176095232,
+        "max": 177127424
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 5,
+        "mean": 0.8348568129214007,
+        "median": 0.8275881691500739,
+        "sampleStddev": 0.10518545593933416,
+        "mad": 0.08576282372363941,
+        "q1": 0.7418253454264345,
+        "q3": 0.8843913956699542,
+        "min": 0.7341325014327034,
+        "max": 0.9863466529278369
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 5,
+        "mean": 1.0990530008904007,
+        "median": 1.0981351268725161,
+        "sampleStddev": 0.010456674637348798,
+        "mad": 0.005756996939926484,
+        "q1": 1.0952284469658595,
+        "q3": 1.1038921238124426,
+        "min": 1.0848894720904412,
+        "max": 1.1131198347107438
+      },
+      "outputHashes": [
+        "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f"
+      ]
+    }
+  ]
+}

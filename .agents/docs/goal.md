@@ -4,7 +4,7 @@
 
 Produce an evidence-backed verdict on the value of Rolldown parallel JavaScript plugins: whether the current worker execution path can run correctly, when it keeps synchronous transform work off the Node.js main thread, when several workers shorten a complete Rolldown build, what overhead removes the benefit, and which runtime or plugin changes are worth making.
 
-The immediate subject is the retained direct-Rolldown `defineParallelPlugin` execution path. Run that path before broadening the architecture. After its behavior and cost are understood, use a pure-JavaScript Vue transform as the second case. Svelte follows as the next transform case; `resolveId` and `load` follow after the transform evidence rather than starting in parallel.
+The immediate subject is the retained direct-Rolldown `defineParallelPlugin` execution path. Run that path before broadening the architecture. After its behavior and cost are understood, use a real Vue SFC transform as the second case and attribute its JavaScript compiler and synchronous native Oxc stages honestly. Svelte follows as the next transform case; `resolveId` and `load` follow after the transform evidence rather than starting in parallel.
 
 A neutral or negative result is successful research when it identifies the limiting mechanism and the conditions under which the result holds.
 

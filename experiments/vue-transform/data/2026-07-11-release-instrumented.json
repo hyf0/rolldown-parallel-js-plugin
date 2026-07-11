@@ -1,0 +1,2150 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-11T15:23:30.907Z",
+  "finishedAt": "2026-07-11T15:23:37.913Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "rolldownCommit": "1c3790b1817af3863c3eac7bad74e0caf3d41820",
+  "rolldownWorktreeStatus": "",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "corpus": {
+    "upstreamUrl": "https://github.com/cabinet-fe/icon.git",
+    "upstreamCommit": "9cadad32c72d79424c75e3b6e56798f216bb0b06",
+    "full": {
+      "entryPaths": [
+        "src/index.ts",
+        "src/normal/index.ts",
+        "src/colorful/index.ts",
+        "src/names.ts"
+      ],
+      "sfcCount": 166,
+      "totalSfcBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd"
+    },
+    "colorful": {
+      "entryPaths": [
+        "src/colorful/index.ts"
+      ],
+      "sfcCount": 12,
+      "totalSfcBytes": 16932,
+      "manifestHash": "6b8c33346f17113a20a245c684cc38f8c9549db519a9d27809376b505ea4c083"
+    }
+  },
+  "matrix": {
+    "description": "Instrumented Vue transform matrix for startup, buildStart, handler, queue, payload, and concurrency attribution only.",
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "vue-icon-full-166-instrumented",
+        "entrySet": "full",
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-2",
+          "worker-4",
+          "worker-8"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 160989184,
+      "variant": "ordinary",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 239.610666,
+      "pluginSetupElapsedMs": 69.071291,
+      "rolldownApiElapsedMs": 170.51437500000003,
+      "generateElapsedMs": 169.874416,
+      "closeElapsedMs": 0.07837499999999409,
+      "cpuUserMs": 235.884,
+      "cpuSystemMs": 113.138,
+      "finalRssBytes": 160759808,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 290500,
+        "factoryNsMax": 290500,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 32818750,
+        "buildStartNsMax": 32818750,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 124801047,
+        "handlerNsMax": 11156000,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 172392448,
+      "variant": "worker-1",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 317.910167,
+      "pluginSetupElapsedMs": 1.2998329999999996,
+      "rolldownApiElapsedMs": 316.567625,
+      "generateElapsedMs": 314.04004199999997,
+      "closeElapsedMs": 1.912417000000005,
+      "cpuUserMs": 323.238,
+      "cpuSystemMs": 118.796,
+      "finalRssBytes": 164249600,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 288958,
+        "factoryNsMax": 288958,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 32770959,
+        "buildStartNsMax": 32770959,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 141511910,
+        "handlerNsMax": 11276333,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 1,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 14785152002,
+          "max": 158901708
+        },
+        "permitHeldNs": {
+          "total": 153231579,
+          "max": 11636459
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 165
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 113.287375,
+        "rssBeforeBytes": 68009984,
+        "rssAfterBytes": 116490240,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 113.04179199999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 75.90225,
+              "registerPluginsMs": 0.135249999999985,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 74.69887499999999,
+                  "factoryMs": 0.382000000000005,
+                  "bindingifyMs": 0.6488750000000039
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.7916250000000105,
+        "rssBeforeBytes": 172261376,
+        "rssAfterBytes": 162529280
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 0,
+      "sequence": 2,
+      "peakRssBytes": 225804288,
+      "variant": "worker-2",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 251.658834,
+      "pluginSetupElapsedMs": 1.2553339999999977,
+      "rolldownApiElapsedMs": 250.36841700000002,
+      "generateElapsedMs": 247.81766600000003,
+      "closeElapsedMs": 1.9598340000000007,
+      "cpuUserMs": 513.206,
+      "cpuSystemMs": 149.56,
+      "finalRssBytes": 209616896,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 2,
+        "factoryNsTotal": 650625,
+        "factoryNsMax": 334875,
+        "buildStartCalls": 2,
+        "buildStartNsTotal": 63999709,
+        "buildStartNsMax": 32020750,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 2,
+        "handlerNsTotal": 158821286,
+        "handlerNsMax": 12248958,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "3",
+        "perWorkerCalls": [
+          82,
+          84
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 2,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 8608194120,
+          "max": 88307459
+        },
+        "permitHeldNs": {
+          "total": 173341464,
+          "max": 12551542
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 164
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 2
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "pluginCount": 1,
+        "poolInitializationMs": 118.41175,
+        "rssBeforeBytes": 68042752,
+        "rssAfterBytes": 154091520,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 118.18145799999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 79.963,
+              "registerPluginsMs": 0.13724999999999454,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 78.698042,
+                  "factoryMs": 0.4237499999999841,
+                  "bindingifyMs": 0.6600830000000144
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 117.495167,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 79.20583300000001,
+              "registerPluginsMs": 0.07508300000000645,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 78.00399999999999,
+                  "factoryMs": 0.4312500000000057,
+                  "bindingifyMs": 0.6569590000000005
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "poolTerminationMs": 1.8425829999999905,
+        "rssBeforeBytes": 225542144,
+        "rssAfterBytes": 207896576
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 0,
+      "sequence": 3,
+      "peakRssBytes": 322502656,
+      "variant": "worker-4",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 237.20524999999998,
+      "pluginSetupElapsedMs": 1.2097920000000002,
+      "rolldownApiElapsedMs": 235.96249999999998,
+      "generateElapsedMs": 233.21450000000002,
+      "closeElapsedMs": 2.19404099999997,
+      "cpuUserMs": 933.012,
+      "cpuSystemMs": 215.976,
+      "finalRssBytes": 289046528,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "factoryNsTotal": 1280709,
+        "factoryNsMax": 333958,
+        "buildStartCalls": 4,
+        "buildStartNsTotal": 136114958,
+        "buildStartNsMax": 34468292,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 231294045,
+        "handlerNsMax": 13319500,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "f",
+        "perWorkerCalls": [
+          41,
+          44,
+          43,
+          38
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 4,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 6049068163,
+          "max": 63048916
+        },
+        "permitHeldNs": {
+          "total": 251180916,
+          "max": 13622500
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 162
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 126.4805,
+        "rssBeforeBytes": 67862528,
+        "rssAfterBytes": 219267072,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 126.22470899999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.93929200000001,
+              "registerPluginsMs": 0.15904199999999946,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.217833,
+                  "factoryMs": 0.41833299999998985,
+                  "bindingifyMs": 1.0224170000000186
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 124.908833,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.938375,
+              "registerPluginsMs": 0.14204200000000355,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.526875,
+                  "factoryMs": 0.3990829999999903,
+                  "bindingifyMs": 0.827666999999991
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 124.78275000000002,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.255417,
+              "registerPluginsMs": 0.06791699999999423,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.86325,
+                  "factoryMs": 0.43370799999999576,
+                  "bindingifyMs": 0.8492080000000044
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 124.670084,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 84.700042,
+              "registerPluginsMs": 0.06274999999999409,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.33324999999999,
+                  "factoryMs": 0.4158749999999998,
+                  "bindingifyMs": 0.8482079999999996
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 2.0491670000000113,
+        "rssBeforeBytes": 322273280,
+        "rssAfterBytes": 287309824
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 0,
+      "sequence": 4,
+      "peakRssBytes": 496631808,
+      "variant": "worker-8",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 321.186084,
+      "pluginSetupElapsedMs": 1.6033749999999998,
+      "rolldownApiElapsedMs": 319.54766700000005,
+      "generateElapsedMs": 315.677083,
+      "closeElapsedMs": 3.2900840000000358,
+      "cpuUserMs": 1964.13,
+      "cpuSystemMs": 425.095,
+      "finalRssBytes": 428949504,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 8,
+        "factoryNsTotal": 3021250,
+        "factoryNsMax": 685917,
+        "buildStartCalls": 8,
+        "buildStartNsTotal": 444807543,
+        "buildStartNsMax": 64625291,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 8,
+        "handlerNsTotal": 510419501,
+        "handlerNsMax": 27284875,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "ff",
+        "perWorkerCalls": [
+          19,
+          21,
+          20,
+          19,
+          21,
+          22,
+          21,
+          23
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 8,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 6433044328,
+          "max": 72852292
+        },
+        "permitHeldNs": {
+          "total": 615899661,
+          "max": 27866416
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 158
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 8
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "pluginCount": 1,
+        "poolInitializationMs": 163.196459,
+        "rssBeforeBytes": 68009984,
+        "rssAfterBytes": 351698944,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 156.253458,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 107.83370799999999,
+              "registerPluginsMs": 0.06458299999999895,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 106.173708,
+                  "factoryMs": 0.48662500000000364,
+                  "bindingifyMs": 1.0721670000000074
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 162.249708,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 111.665583,
+              "registerPluginsMs": 0.07099999999999795,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 110.51212499999998,
+                  "factoryMs": 0.38579200000000924,
+                  "bindingifyMs": 0.6206250000000182
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 148.9485,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 99.8555,
+              "registerPluginsMs": 0.21483400000002462,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 96.808709,
+                  "factoryMs": 0.8923340000000053,
+                  "bindingifyMs": 1.8341250000000002
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 158.231166,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.434083,
+              "registerPluginsMs": 0.05299999999999727,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 112.263584,
+                  "factoryMs": 0.42491700000002197,
+                  "bindingifyMs": 0.6545419999999922
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 4,
+            "mainReadyMs": 156.306125,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 112.25012499999998,
+              "registerPluginsMs": 0.04454199999997854,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 110.97279200000001,
+                  "factoryMs": 0.4300829999999962,
+                  "bindingifyMs": 0.763875000000013
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 5,
+            "mainReadyMs": 156.186334,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 110.79875,
+              "registerPluginsMs": 0.06170800000001009,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 109.51991699999999,
+                  "factoryMs": 0.4712910000000079,
+                  "bindingifyMs": 0.6902500000000202
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 6,
+            "mainReadyMs": 157.637542,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 111.90229199999999,
+              "registerPluginsMs": 0.06520799999998417,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 110.67891599999999,
+                  "factoryMs": 0.4427919999999972,
+                  "bindingifyMs": 0.6773340000000019
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 7,
+            "mainReadyMs": 153.43308399999998,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 105.912375,
+              "registerPluginsMs": 0.0976660000000038,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 104.201375,
+                  "factoryMs": 0.5380000000000109,
+                  "bindingifyMs": 1.0303749999999923
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "poolTerminationMs": 3.148249999999962,
+        "rssBeforeBytes": 496435200,
+        "rssAfterBytes": 427196416
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 1,
+      "sequence": 5,
+      "peakRssBytes": 176783360,
+      "variant": "worker-1",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 297.477583,
+      "pluginSetupElapsedMs": 1.3449579999999983,
+      "rolldownApiElapsedMs": 296.093625,
+      "generateElapsedMs": 293.43287499999997,
+      "closeElapsedMs": 2.044249999999977,
+      "cpuUserMs": 296.885,
+      "cpuSystemMs": 117.389,
+      "finalRssBytes": 168804352,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 291041,
+        "factoryNsMax": 291041,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 30842083,
+        "buildStartNsMax": 30842083,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 125654917,
+        "handlerNsMax": 10928542,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 1,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 12945659080,
+          "max": 137920958
+        },
+        "permitHeldNs": {
+          "total": 134321379,
+          "max": 11421375
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 165
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 114.66845800000002,
+        "rssBeforeBytes": 67911680,
+        "rssAfterBytes": 116015104,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 114.422459,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 77.223334,
+              "registerPluginsMs": 0.14145899999999756,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 76.03662499999999,
+                  "factoryMs": 0.3853330000000028,
+                  "bindingifyMs": 0.6212079999999958
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.9192079999999692,
+        "rssBeforeBytes": 176652288,
+        "rssAfterBytes": 167100416
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 1,
+      "sequence": 6,
+      "peakRssBytes": 223821824,
+      "variant": "worker-2",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 244.10950000000003,
+      "pluginSetupElapsedMs": 1.248625000000004,
+      "rolldownApiElapsedMs": 242.826792,
+      "generateElapsedMs": 240.194416,
+      "closeElapsedMs": 2.0430840000000217,
+      "cpuUserMs": 491.305,
+      "cpuSystemMs": 139.754,
+      "finalRssBytes": 207585280,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 2,
+        "factoryNsTotal": 586166,
+        "factoryNsMax": 295083,
+        "buildStartCalls": 2,
+        "buildStartNsTotal": 64479417,
+        "buildStartNsMax": 32308542,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 2,
+        "handlerNsTotal": 153768542,
+        "handlerNsMax": 11958875,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "3",
+        "perWorkerCalls": [
+          81,
+          85
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 2,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 8142307205,
+          "max": 84238625
+        },
+        "permitHeldNs": {
+          "total": 164751867,
+          "max": 12379291
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 164
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 2
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "pluginCount": 1,
+        "poolInitializationMs": 114.63904199999999,
+        "rssBeforeBytes": 67829760,
+        "rssAfterBytes": 151863296,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 114.41391700000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 76.47016599999999,
+              "registerPluginsMs": 0.05320799999998371,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 75.3385,
+                  "factoryMs": 0.37966700000001197,
+                  "bindingifyMs": 0.6503749999999968
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 113.669708,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 75.95987500000001,
+              "registerPluginsMs": 0.13545899999999733,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 74.754125,
+                  "factoryMs": 0.38791700000001583,
+                  "bindingifyMs": 0.6446249999999907
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "poolTerminationMs": 1.92266699999999,
+        "rssBeforeBytes": 223559680,
+        "rssAfterBytes": 205848576
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 1,
+      "sequence": 7,
+      "peakRssBytes": 326909952,
+      "variant": "worker-4",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 260.394708,
+      "pluginSetupElapsedMs": 1.5206250000000026,
+      "rolldownApiElapsedMs": 258.775875,
+      "generateElapsedMs": 255.84616699999998,
+      "closeElapsedMs": 2.29933299999999,
+      "cpuUserMs": 980.663,
+      "cpuSystemMs": 229.595,
+      "finalRssBytes": 293502976,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "factoryNsTotal": 1661042,
+        "factoryNsMax": 559792,
+        "buildStartCalls": 4,
+        "buildStartNsTotal": 197920041,
+        "buildStartNsMax": 53188000,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 240866286,
+        "handlerNsMax": 15970417,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "f",
+        "perWorkerCalls": [
+          43,
+          41,
+          40,
+          42
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 4,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 6693621371,
+          "max": 65598792
+        },
+        "permitHeldNs": {
+          "total": 260777416,
+          "max": 16397667
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 162
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 127.672917,
+        "rssBeforeBytes": 67878912,
+        "rssAfterBytes": 220266496,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 127.40587500000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 86.58425,
+              "registerPluginsMs": 0.06183400000000461,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 85.25233300000001,
+                  "factoryMs": 0.554583000000008,
+                  "bindingifyMs": 0.6726250000000107
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 126.006,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.26941700000002,
+              "registerPluginsMs": 0.06683400000000006,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.07270900000002,
+                  "factoryMs": 0.41679099999998925,
+                  "bindingifyMs": 0.6723749999999882
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 125.22875,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 86.313042,
+              "registerPluginsMs": 0.18720799999999826,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.95441699999999,
+                  "factoryMs": 0.42025000000001,
+                  "bindingifyMs": 0.708375000000018
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 125.11249999999998,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.677542,
+              "registerPluginsMs": 0.1767499999999984,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.50850000000001,
+                  "factoryMs": 0.6867080000000101,
+                  "bindingifyMs": 1.2658340000000123
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 2.1774169999999913,
+        "rssBeforeBytes": 326729728,
+        "rssAfterBytes": 291766272
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 1,
+      "sequence": 8,
+      "peakRssBytes": 500580352,
+      "variant": "worker-8",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 288.24975,
+      "pluginSetupElapsedMs": 1.255625000000002,
+      "rolldownApiElapsedMs": 286.954667,
+      "generateElapsedMs": 283.27320799999995,
+      "closeElapsedMs": 3.105000000000018,
+      "cpuUserMs": 1958.279,
+      "cpuSystemMs": 440.658,
+      "finalRssBytes": 432898048,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 8,
+        "factoryNsTotal": 3395210,
+        "factoryNsMax": 755459,
+        "buildStartCalls": 8,
+        "buildStartNsTotal": 373840708,
+        "buildStartNsMax": 49171292,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 8,
+        "handlerNsTotal": 433518797,
+        "handlerNsMax": 20606917,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "ff",
+        "perWorkerCalls": [
+          26,
+          20,
+          20,
+          17,
+          19,
+          23,
+          20,
+          21
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 8,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 5915892744,
+          "max": 58169208
+        },
+        "permitHeldNs": {
+          "total": 491279591,
+          "max": 21818292
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 158
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 8
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "pluginCount": 1,
+        "poolInitializationMs": 163.011958,
+        "rssBeforeBytes": 67911680,
+        "rssAfterBytes": 357613568,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 158.28979199999998,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.036417,
+              "registerPluginsMs": 0.09545800000000781,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 111.794625,
+                  "factoryMs": 0.4426250000000209,
+                  "bindingifyMs": 0.6597090000000208
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 161.350208,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.30775,
+              "registerPluginsMs": 0.06429099999999721,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 112.004209,
+                  "factoryMs": 0.41854199999997377,
+                  "bindingifyMs": 0.7840840000000071
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 155.445917,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 106.56562499999998,
+              "registerPluginsMs": 0.25183400000000233,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 103.845833,
+                  "factoryMs": 0.9578750000000014,
+                  "bindingifyMs": 1.449417000000011
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 161.04262500000002,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.66054100000001,
+              "registerPluginsMs": 0.04475000000002183,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 112.36025,
+                  "factoryMs": 0.4009579999999744,
+                  "bindingifyMs": 0.8156669999999906
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 4,
+            "mainReadyMs": 160.070792,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 109.437458,
+              "registerPluginsMs": 0.09379100000001017,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 108.157167,
+                  "factoryMs": 0.4231670000000065,
+                  "bindingifyMs": 0.7246660000000134
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 5,
+            "mainReadyMs": 161.621417,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 115.64124999999999,
+              "registerPluginsMs": 0.05358300000000327,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 114.52599999999998,
+                  "factoryMs": 0.3933749999999918,
+                  "bindingifyMs": 0.6249170000000106
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 6,
+            "mainReadyMs": 160.019916,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.31066700000001,
+              "registerPluginsMs": 0.049000000000006594,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 112.05216700000001,
+                  "factoryMs": 0.47454199999998536,
+                  "bindingifyMs": 0.6385830000000112
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 7,
+            "mainReadyMs": 154.946459,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 104.772791,
+              "registerPluginsMs": 0.11770799999999326,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 102.06875,
+                  "factoryMs": 0.9409589999999923,
+                  "bindingifyMs": 1.4989170000000058
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "poolTerminationMs": 2.991333999999995,
+        "rssBeforeBytes": 500465664,
+        "rssAfterBytes": 431194112
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 1,
+      "sequence": 9,
+      "peakRssBytes": 160120832,
+      "variant": "ordinary",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 241.853541,
+      "pluginSetupElapsedMs": 68.981416,
+      "rolldownApiElapsedMs": 172.84191600000003,
+      "generateElapsedMs": 172.197583,
+      "closeElapsedMs": 0.04270800000000463,
+      "cpuUserMs": 236.79,
+      "cpuSystemMs": 110.307,
+      "finalRssBytes": 159924224,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 342042,
+        "factoryNsMax": 342042,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 33281709,
+        "buildStartNsMax": 33281709,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 126794871,
+        "handlerNsMax": 11263917,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 2,
+      "sequence": 10,
+      "peakRssBytes": 222117888,
+      "variant": "worker-2",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 265.772792,
+      "pluginSetupElapsedMs": 1.286875000000002,
+      "rolldownApiElapsedMs": 264.45183399999996,
+      "generateElapsedMs": 262.00912500000004,
+      "closeElapsedMs": 1.864499999999964,
+      "cpuUserMs": 521.75,
+      "cpuSystemMs": 155.125,
+      "finalRssBytes": 205881344,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 2,
+        "factoryNsTotal": 892000,
+        "factoryNsMax": 582792,
+        "buildStartCalls": 2,
+        "buildStartNsTotal": 78158792,
+        "buildStartNsMax": 39399084,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 2,
+        "handlerNsTotal": 162785577,
+        "handlerNsMax": 12747291,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "3",
+        "perWorkerCalls": [
+          82,
+          84
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 2,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 8532991783,
+          "max": 87822959
+        },
+        "permitHeldNs": {
+          "total": 174056879,
+          "max": 13102917
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 164
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 2
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "pluginCount": 1,
+        "poolInitializationMs": 123.841916,
+        "rssBeforeBytes": 67960832,
+        "rssAfterBytes": 151044096,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 123.389208,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.07375000000002,
+              "registerPluginsMs": 0.14245800000000486,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.475458,
+                  "factoryMs": 0.6823750000000075,
+                  "bindingifyMs": 0.7329590000000223
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 122.684416,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 84.578708,
+              "registerPluginsMs": 0.10754099999999767,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.369667,
+                  "factoryMs": 0.40262500000000045,
+                  "bindingifyMs": 0.6575829999999883
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 2,
+        "poolTerminationMs": 1.7463339999999903,
+        "rssBeforeBytes": 221872128,
+        "rssAfterBytes": 204177408
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 2,
+      "sequence": 11,
+      "peakRssBytes": 326680576,
+      "variant": "worker-4",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 237.307583,
+      "pluginSetupElapsedMs": 1.2163329999999988,
+      "rolldownApiElapsedMs": 236.053875,
+      "generateElapsedMs": 233.28637500000002,
+      "closeElapsedMs": 2.1929999999999836,
+      "cpuUserMs": 914.531,
+      "cpuSystemMs": 220.883,
+      "finalRssBytes": 293273600,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "factoryNsTotal": 1245459,
+        "factoryNsMax": 316792,
+        "buildStartCalls": 4,
+        "buildStartNsTotal": 140346250,
+        "buildStartNsMax": 35954542,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 226651250,
+        "handlerNsMax": 13561417,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "f",
+        "perWorkerCalls": [
+          42,
+          43,
+          41,
+          40
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 4,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 6094230906,
+          "max": 60703084
+        },
+        "permitHeldNs": {
+          "total": 245440832,
+          "max": 13968917
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 162
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 126.23212500000001,
+        "rssBeforeBytes": 68108288,
+        "rssAfterBytes": 220692480,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 125.578959,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 84.575791,
+              "registerPluginsMs": 0.12437499999998636,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.31758300000001,
+                  "factoryMs": 0.4051669999999774,
+                  "bindingifyMs": 0.677125000000018
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 124.885292,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.61329099999999,
+              "registerPluginsMs": 0.09008299999999281,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.420666,
+                  "factoryMs": 0.40100000000001046,
+                  "bindingifyMs": 0.6561669999999822
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 124.82916699999998,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 85.627625,
+              "registerPluginsMs": 0.05366699999999014,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 84.44875000000002,
+                  "factoryMs": 0.41049999999998477,
+                  "bindingifyMs": 0.675832999999983
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 124.9335,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 84.324083,
+              "registerPluginsMs": 0.05145799999999667,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 83.156042,
+                  "factoryMs": 0.40587500000000887,
+                  "bindingifyMs": 0.6757920000000013
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 2.075417000000016,
+        "rssBeforeBytes": 326451200,
+        "rssAfterBytes": 291553280
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 2,
+      "sequence": 12,
+      "peakRssBytes": 495599616,
+      "variant": "worker-8",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 300.12983399999996,
+      "pluginSetupElapsedMs": 1.1985420000000033,
+      "rolldownApiElapsedMs": 298.898375,
+      "generateElapsedMs": 295.818625,
+      "closeElapsedMs": 2.518624999999986,
+      "cpuUserMs": 1976.986,
+      "cpuSystemMs": 434.199,
+      "finalRssBytes": 427982848,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 8,
+        "factoryNsTotal": 3137543,
+        "factoryNsMax": 824334,
+        "buildStartCalls": 8,
+        "buildStartNsTotal": 408704623,
+        "buildStartNsMax": 55098708,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 8,
+        "handlerNsTotal": 466953092,
+        "handlerNsMax": 18775334,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "ff",
+        "perWorkerCalls": [
+          21,
+          22,
+          21,
+          19,
+          19,
+          22,
+          21,
+          21
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 8,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 6562335283,
+          "max": 65001833
+        },
+        "permitHeldNs": {
+          "total": 535569547,
+          "max": 19774875
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 158
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 8
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "pluginCount": 1,
+        "poolInitializationMs": 164.653833,
+        "rssBeforeBytes": 67944448,
+        "rssAfterBytes": 356237312,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 156.755292,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 109.01766699999999,
+              "registerPluginsMs": 0.09020799999998985,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 106.773417,
+                  "factoryMs": 0.5120419999999797,
+                  "bindingifyMs": 1.5581249999999898
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 161.168625,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 117.72062500000001,
+              "registerPluginsMs": 0.05154200000001197,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 116.568792,
+                  "factoryMs": 0.39537500000000136,
+                  "bindingifyMs": 0.6592499999999859
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 163.572083,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 119.12754199999999,
+              "registerPluginsMs": 0.05408399999998892,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 118.07020899999999,
+                  "factoryMs": 0.3680830000000128,
+                  "bindingifyMs": 0.5995410000000163
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 160.904,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 113.17779100000001,
+              "registerPluginsMs": 0.053625000000010914,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 111.892917,
+                  "factoryMs": 0.42779200000001083,
+                  "bindingifyMs": 0.7588329999999814
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 4,
+            "mainReadyMs": 158.234959,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 112.234083,
+              "registerPluginsMs": 0.07879199999999287,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 110.82000000000001,
+                  "factoryMs": 0.5335000000000036,
+                  "bindingifyMs": 0.7582079999999962
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 5,
+            "mainReadyMs": 153.457167,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 103.00175000000002,
+              "registerPluginsMs": 0.14220800000001077,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 101.60670900000001,
+                  "factoryMs": 0.43341599999999403,
+                  "bindingifyMs": 0.7384999999999877
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 6,
+            "mainReadyMs": 160.05875,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 117.23754100000001,
+              "registerPluginsMs": 0.0770000000000266,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 115.844209,
+                  "factoryMs": 0.4818750000000023,
+                  "bindingifyMs": 0.7541250000000161
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 7,
+            "mainReadyMs": 156.201708,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 112.049959,
+              "registerPluginsMs": 0.07474999999999454,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 110.257958,
+                  "factoryMs": 0.9377499999999941,
+                  "bindingifyMs": 0.7362909999999943
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 8,
+        "poolTerminationMs": 2.392791999999986,
+        "rssBeforeBytes": 495468544,
+        "rssAfterBytes": 426246144
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 2,
+      "sequence": 13,
+      "peakRssBytes": 159940608,
+      "variant": "ordinary",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 249.94920799999997,
+      "pluginSetupElapsedMs": 69.881125,
+      "rolldownApiElapsedMs": 180.041792,
+      "generateElapsedMs": 179.417458,
+      "closeElapsedMs": 0.03979199999997718,
+      "cpuUserMs": 247.797,
+      "cpuSystemMs": 113.247,
+      "finalRssBytes": 159744000,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 295958,
+        "factoryNsMax": 295958,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 43890125,
+        "buildStartNsMax": 43890125,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 123732959,
+        "handlerNsMax": 11546250,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      }
+    },
+    {
+      "name": "vue-icon-full-166-instrumented",
+      "index": 2,
+      "sequence": 14,
+      "peakRssBytes": 173113344,
+      "variant": "worker-1",
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 166,
+      "totalSourceBytes": 109122,
+      "manifestHash": "9ae54c3311168ccd093c9da5a1e977c81654590ce040a5de63c2702ff0f3fedd",
+      "totalElapsedMs": 287.834583,
+      "pluginSetupElapsedMs": 1.1725410000000025,
+      "rolldownApiElapsedMs": 286.626417,
+      "generateElapsedMs": 284.202917,
+      "closeElapsedMs": 1.87420800000001,
+      "cpuUserMs": 290.556,
+      "cpuSystemMs": 110.997,
+      "finalRssBytes": 165167104,
+      "outputBytes": 171205,
+      "outputChunks": 6,
+      "outputAssets": 0,
+      "totalExports": 499,
+      "outputRawHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "outputHash": "ff29988dfc1f0d902dfb4790700a33026f29727ed41f43b35b612bfd546ff98f",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "factoryNsTotal": 287125,
+        "factoryNsMax": 287125,
+        "buildStartCalls": 1,
+        "buildStartNsTotal": 30975708,
+        "buildStartNsMax": 30975708,
+        "handlerCalls": 166,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 122131587,
+        "handlerNsMax": 11279667,
+        "handlerInputCodeBytes": 109122,
+        "handlerReturnedCodeBytes": 185438,
+        "handlerReturnedMapBytes": 2490,
+        "workerMask": "1",
+        "perWorkerCalls": [
+          166
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "parallel-vue-transform",
+        "workerCount": 1,
+        "wrapperCalls": 171,
+        "permitAcquiredCalls": 171,
+        "completedWrapperCalls": 171,
+        "permitQueueWaitNs": {
+          "total": 12490088457,
+          "max": 133515333
+        },
+        "permitHeldNs": {
+          "total": 130431049,
+          "max": 11621375
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 165
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 166
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 125022,
+        "returnedCodeBytes": 185438,
+        "valueResults": 166,
+        "nullResults": 5,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 110.378916,
+        "rssBeforeBytes": 67862528,
+        "rssAfterBytes": 115752960,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 110.16704200000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 73.417209,
+              "registerPluginsMs": 0.12333399999999983,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 72.265959,
+                  "factoryMs": 0.3783329999999978,
+                  "bindingifyMs": 0.6123749999999859
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.7512499999999704,
+        "rssBeforeBytes": 172982272,
+        "rssAfterBytes": 163446784
+      }
+    }
+  ]
+}

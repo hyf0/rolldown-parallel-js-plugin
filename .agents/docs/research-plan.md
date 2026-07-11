@@ -8,7 +8,7 @@ This is a live research sequence, not an implementation commitment. Replace it a
 2. Run the retained ParallelPlugin `transform` path unchanged.
 3. Repair only what blocks that path, preserving the unchanged failure and exact patch.
 4. Measure the core transform path before adding a real plugin.
-5. Use a direct-Rolldown pure-JavaScript Vue transform as the second case.
+5. Use a direct-Rolldown Vue SFC transform as the second case, separating the JavaScript compiler work from its synchronous native Oxc tail.
 6. Optimize only a measured dominant cost.
 7. Complete the required Svelte transform case, then the separate `resolveId` and `load` evidence needed for hook-specific conclusions.
 
