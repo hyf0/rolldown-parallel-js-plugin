@@ -41,11 +41,12 @@ The time-share gate uses `overall speedup = 1 / ((1 - p) + p / s)`, where `p` is
 
 Before screening, commit a candidate-search manifest that pins the search date, public sources or indexes, queries or selection method, inclusion and exclusion rules, and initial longlist. Screen at most three serious candidates from that declared universe whose source, production configuration, transform path, and approximate scale have already passed a source review. Preserve each candidate's failed admission rule and mark later rules `not evaluated` after a decisive early rejection. If fewer than three credible candidates exist in the manifest, preserve that bounded result. Do not keep broadening the search until an artificial positive appears.
 
-The iteration has three valid terminal outcomes:
+The iteration has four valid terminal outcomes:
 
 1. A positive result: an admitted candidate reaches the wall-time target under the pinned resource and correctness envelope.
 2. A bounded negative result: an admitted candidate does not reach the target, and the measured critical path, throughput, resource, semantic, or authoring limit explains why.
-3. An inconclusive corpus result: no credible candidate in the predeclared search universe, up to the screening limit of three, passes admission. This completes the bounded search and records an evidence gap; it must not be presented as proof that ParallelPlugin has no value.
+3. A formal inconclusive result: an admitted candidate reaches the predeclared maximum confirmation blocks while a required interval still crosses the 2x target or plugin-owned parity. This records the unresolved claim without selecting a conclusion from the median.
+4. An inconclusive corpus result: no credible candidate in the predeclared search universe, up to the screening limit of three, passes admission. This completes the bounded search and records an evidence gap; it must not be presented as proof that ParallelPlugin has no value.
 
 ## Execution models
 
@@ -182,7 +183,7 @@ Record changed lines, additional worker entry points, configuration restrictions
 
 ## Success and completion criteria
 
-When at least one candidate passes admission, the goal succeeds with either a positive or a bounded negative conclusion, but it is not complete until all of the following exist:
+When at least one candidate passes admission, the goal completes with a positive, bounded negative, or formal inconclusive conclusion, but it is not complete until all of the following exist:
 
 - A pinned representative ordinary build lasting 15–30 minutes with roughly 5,000 distinct project module IDs verified at the expensive JavaScript transform boundary and a measured critical-path bound.
 - A repeated ordinary versus parallel comparison using the same JavaScript behavior, with absolute evidence for or against 30→15 or 15→7–8 minutes.
