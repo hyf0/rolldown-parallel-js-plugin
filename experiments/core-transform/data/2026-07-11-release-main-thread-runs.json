@@ -1,0 +1,218 @@
+{
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "rolldownCommit": "6e8d37e5b2a6a7daa57a66f0498d48faef175a9f",
+  "rolldownWorktreeStatus": "",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "startedAt": "2026-07-11T14:49:45.131Z",
+  "finishedAt": "2026-07-11T14:50:28.428Z",
+  "runs": [
+    {
+      "index": 0,
+      "peakRssBytes": 681230336,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 3968.442375,
+      "cpuUserMs": 4352.426,
+      "cpuSystemMs": 432.871,
+      "finalRssBytes": 680984576,
+      "eventLoopDelayMs": {
+        "min": 0.012288,
+        "mean": 19.466431063414632,
+        "p50": 1.145855,
+        "p95": 1.276927,
+        "p99": 1013.972991,
+        "max": 1018.167295
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 1,
+      "peakRssBytes": 679510016,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 4001.498,
+      "cpuUserMs": 4373.937,
+      "cpuSystemMs": 396.824,
+      "finalRssBytes": 679264256,
+      "eventLoopDelayMs": {
+        "min": 0.0128,
+        "mean": 18.97976754716981,
+        "p50": 1.147903,
+        "p95": 1.229823,
+        "p99": 1018.691583,
+        "max": 1033.371647
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 2,
+      "peakRssBytes": 680017920,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 4034.4497920000003,
+      "cpuUserMs": 4370.399,
+      "cpuSystemMs": 444.743,
+      "finalRssBytes": 679673856,
+      "eventLoopDelayMs": {
+        "min": 0.013312,
+        "mean": 20.487505454545452,
+        "p50": 1.145855,
+        "p95": 1.204223,
+        "p99": 1022.361599,
+        "max": 1067.450367
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 3,
+      "peakRssBytes": 674824192,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 3948.734,
+      "cpuUserMs": 4330.286,
+      "cpuSystemMs": 386.865,
+      "finalRssBytes": 674529280,
+      "eventLoopDelayMs": {
+        "min": 0.01536,
+        "mean": 20.89917978947368,
+        "p50": 1.143807,
+        "p95": 1.389567,
+        "p99": 1012.400127,
+        "max": 1024.983039
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 4,
+      "peakRssBytes": 676462592,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 3932.61,
+      "cpuUserMs": 4317.738,
+      "cpuSystemMs": 352.756,
+      "finalRssBytes": 676184064,
+      "eventLoopDelayMs": {
+        "min": 0.012288,
+        "mean": 21.037832170212763,
+        "p50": 1.144831,
+        "p95": 1.263615,
+        "p99": 1012.924415,
+        "max": 1015.021567
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 0,
+      "peakRssBytes": 693157888,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 4369.386166,
+      "cpuUserMs": 4396.078,
+      "cpuSystemMs": 399.579,
+      "finalRssBytes": 692895744,
+      "eventLoopDelayMs": {
+        "min": 0.011776,
+        "mean": 1.130149286670098,
+        "p50": 1.143807,
+        "p95": 1.156095,
+        "p99": 1.176575,
+        "max": 2.435071
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 1,
+      "peakRssBytes": 694779904,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 4364.161,
+      "cpuUserMs": 4386.948,
+      "cpuSystemMs": 406.781,
+      "finalRssBytes": 694501376,
+      "eventLoopDelayMs": {
+        "min": 0.011776,
+        "mean": 1.1318692170322582,
+        "p50": 1.144831,
+        "p95": 1.155071,
+        "p99": 1.177599,
+        "max": 2.582527
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 2,
+      "peakRssBytes": 697565184,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 4355.8775829999995,
+      "cpuUserMs": 4381.577,
+      "cpuSystemMs": 412.312,
+      "finalRssBytes": 697303040,
+      "eventLoopDelayMs": {
+        "min": 0.011264,
+        "mean": 1.134495212231148,
+        "p50": 1.143807,
+        "p95": 1.154047,
+        "p99": 1.191935,
+        "max": 2.437119
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 3,
+      "peakRssBytes": 698761216,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 4362.120042,
+      "cpuUserMs": 4385.686,
+      "cpuSystemMs": 385.992,
+      "finalRssBytes": 698417152,
+      "eventLoopDelayMs": {
+        "min": 0.011264,
+        "mean": 1.1338024846133954,
+        "p50": 1.143807,
+        "p95": 1.156095,
+        "p99": 1.209343,
+        "max": 2.871295
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 4,
+      "peakRssBytes": 692273152,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 4352.714291,
+      "cpuUserMs": 4383.912,
+      "cpuSystemMs": 388.024,
+      "finalRssBytes": 692011008,
+      "eventLoopDelayMs": {
+        "min": 0.011264,
+        "mean": 1.1313372847168348,
+        "p50": 1.143807,
+        "p95": 1.155071,
+        "p99": 1.182719,
+        "max": 2.433023
+      },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    }
+  ]
+}

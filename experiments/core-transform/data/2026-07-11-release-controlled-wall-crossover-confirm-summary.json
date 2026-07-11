@@ -1,0 +1,556 @@
+{
+  "schema": 1,
+  "sourceReport": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-context-review/experiments/core-transform/data/2026-07-11-release-controlled-wall-crossover-confirm.json",
+  "sourceStartedAt": "2026-07-11T14:48:03.208Z",
+  "sourceFinishedAt": "2026-07-11T14:48:19.355Z",
+  "matrix": {
+    "description": "Fifteen-round release-binding confirmation for the noisy 125k and 150k operation crossover cells.",
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "crossover-confirm-wide-512-work-125k",
+        "graphShape": "wide",
+        "moduleCount": 512,
+        "minimumSourceBytes": 256,
+        "workIterations": 125000,
+        "resultPaddingBytes": 0,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-4",
+          "worker-8"
+        ],
+        "warmups": 1,
+        "repeats": 15
+      },
+      {
+        "name": "crossover-confirm-wide-512-work-150k",
+        "graphShape": "wide",
+        "moduleCount": 512,
+        "minimumSourceBytes": 256,
+        "workIterations": 150000,
+        "resultPaddingBytes": 0,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-4",
+          "worker-8"
+        ],
+        "warmups": 1,
+        "repeats": 15
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "name": "crossover-confirm-wide-512-work-125k",
+      "variant": "ordinary",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 96.43786953333334,
+        "median": 96.38175000000001,
+        "sampleStddev": 1.5825703894805245,
+        "mad": 0.7928750000000093,
+        "q1": 95.7279585,
+        "q3": 97.2312505,
+        "min": 94.11225000000002,
+        "max": 99.5375
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 0.8128084000000001,
+        "median": 0.8055000000000021,
+        "sampleStddev": 0.10666967205469911,
+        "mad": 0.06670799999999844,
+        "q1": 0.7319585000000011,
+        "q3": 0.8434795000000008,
+        "min": 0.7148749999999993,
+        "max": 1.1409579999999977
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 95.6248278,
+        "median": 95.49879200000001,
+        "sampleStddev": 1.6273846126741047,
+        "mad": 0.8067079999999862,
+        "q1": 94.95252099999999,
+        "q3": 96.502125,
+        "min": 93.10762500000001,
+        "max": 98.69937499999999
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 110.5758,
+        "median": 110.573,
+        "sampleStddev": 2.265225885929639,
+        "mad": 0.9790000000000134,
+        "q1": 109.17599999999999,
+        "q3": 111.275,
+        "min": 107.12,
+        "max": 115.94
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 116150545.06666666,
+        "median": 116260864,
+        "sampleStddev": 502685.14563058066,
+        "mad": 327680,
+        "q1": 115744768,
+        "q3": 116432896,
+        "min": 115245056,
+        "max": 117080064
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "crossover-confirm-wide-512-work-125k",
+      "variant": "worker-4",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 92.91223053333334,
+        "median": 92.00508400000001,
+        "sampleStddev": 2.371669679852835,
+        "mad": 2.3701659999999833,
+        "q1": 91.1459165,
+        "q3": 94.79795800000001,
+        "min": 89.03033300000001,
+        "max": 97.003625
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.3844000000000007,
+        "median": 1.3158749999999984,
+        "sampleStddev": 0.3543735565606282,
+        "mad": 0.04033300000000395,
+        "q1": 1.2652295000000002,
+        "q3": 1.3462500000000048,
+        "min": 1.1594170000000048,
+        "max": 2.6505420000000015
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 91.52760826666668,
+        "median": 90.72745900000001,
+        "sampleStddev": 2.2442888083960844,
+        "mad": 2.406499999999994,
+        "q1": 89.832604,
+        "q3": 93.53087500000001,
+        "min": 87.67379100000001,
+        "max": 94.352708
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 337.14599999999996,
+        "median": 334.114,
+        "sampleStddev": 7.108885998724205,
+        "mad": 4.338000000000022,
+        "q1": 332.67949999999996,
+        "q3": 343.4375,
+        "min": 323.744,
+        "max": 348.643
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 172433954.13333333,
+        "median": 172441600,
+        "sampleStddev": 945454.8933839705,
+        "mad": 802816,
+        "q1": 171827200,
+        "q3": 173334528,
+        "min": 170426368,
+        "max": 173670400
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1.0386487610703588,
+        "median": 1.034331804044757,
+        "sampleStddev": 0.033899954615473946,
+        "mad": 0.025852370125443835,
+        "q1": 1.0120286500118556,
+        "q3": 1.0655246840448487,
+        "min": 0.9740340425422247,
+        "max": 1.0887656838863902
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.4845850967768934,
+        "median": 1.485947161326588,
+        "sampleStddev": 0.007987590729203057,
+        "mad": 0.0054662560932075,
+        "q1": 1.4789328578583416,
+        "q3": 1.4886444009885254,
+        "min": 1.4690015534529022,
+        "max": 1.5012051609244292
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "crossover-confirm-wide-512-work-125k",
+      "variant": "worker-8",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 91.38858599999999,
+        "median": 90.18441599999998,
+        "sampleStddev": 7.820293230403162,
+        "mad": 3.8634170000000125,
+        "q1": 86.3983125,
+        "q3": 92.653229,
+        "min": 84.57233299999999,
+        "max": 115.13470799999999
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.4224332666666675,
+        "median": 1.3073340000000044,
+        "sampleStddev": 0.35947403058525534,
+        "mad": 0.08895900000000267,
+        "q1": 1.2528539999999992,
+        "q3": 1.4899999999999984,
+        "min": 1.153374999999997,
+        "max": 2.627082999999999
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 89.96589999999999,
+        "median": 87.55704099999998,
+        "sampleStddev": 7.779236531281272,
+        "mad": 3.0629989999999907,
+        "q1": 85.148646,
+        "q3": 91.2155625,
+        "min": 83.294333,
+        "max": 113.67174999999999
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 590.7798,
+        "median": 583.743,
+        "sampleStddev": 23.47622378127648,
+        "mad": 9.912000000000035,
+        "q1": 575.7484999999999,
+        "q3": 598.5250000000001,
+        "min": 568.676,
+        "max": 660.817
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 221139217.06666666,
+        "median": 220708864,
+        "sampleStddev": 1376178.9075913616,
+        "mad": 950272,
+        "q1": 220233728,
+        "q3": 221921280,
+        "min": 219004928,
+        "max": 223756288
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1.0613237714066461,
+        "median": 1.0765045694860274,
+        "sampleStddev": 0.0781866662300059,
+        "mad": 0.036297296816987235,
+        "q1": 1.0470297957631383,
+        "q3": 1.102897864711313,
+        "min": 0.8398473812084537,
+        "max": 1.1621254797799214
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.9039527201436637,
+        "median": 1.9010635320458997,
+        "sampleStddev": 0.01676640642572773,
+        "mad": 0.010675673698513632,
+        "q1": 1.8917356956196714,
+        "q3": 1.9148281797954292,
+        "min": 1.8820311404124002,
+        "max": 1.9316831683168316
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "crossover-confirm-wide-512-work-150k",
+      "variant": "ordinary",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 109.90918053333334,
+        "median": 110.41795900000001,
+        "sampleStddev": 2.4333121194263447,
+        "mad": 1.478293000000022,
+        "q1": 108.29702049999999,
+        "q3": 110.692146,
+        "min": 105.488583,
+        "max": 113.939
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 0.7459166666666661,
+        "median": 0.7445840000000032,
+        "sampleStddev": 0.08908411111629806,
+        "mad": 0.048915999999998405,
+        "q1": 0.6923330000000014,
+        "q3": 0.7899999999999991,
+        "min": 0.5952500000000001,
+        "max": 0.9301659999999998
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 109.16300826666667,
+        "median": 109.740375,
+        "sampleStddev": 2.42777905069129,
+        "mad": 1.4739170000000001,
+        "q1": 107.58918700000001,
+        "q3": 110.005,
+        "min": 104.607375,
+        "max": 113.0085
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 124.3428,
+        "median": 123.937,
+        "sampleStddev": 3.113319340235708,
+        "mad": 1.8709999999999951,
+        "q1": 121.9165,
+        "q3": 125.0655,
+        "min": 120.493,
+        "max": 131.279
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 116010734.93333334,
+        "median": 116015104,
+        "sampleStddev": 724093.011420047,
+        "mad": 393216,
+        "q1": 115703808,
+        "q3": 116408320,
+        "min": 113999872,
+        "max": 116899840
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "crossover-confirm-wide-512-work-150k",
+      "variant": "worker-4",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 100.01215833333335,
+        "median": 99.7175,
+        "sampleStddev": 4.099496811936254,
+        "mad": 1.7219579999999866,
+        "q1": 97.9098745,
+        "q3": 101.26829149999999,
+        "min": 93.53604200000001,
+        "max": 110.155125
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.297516733333333,
+        "median": 1.2777499999999975,
+        "sampleStddev": 0.09188470027506375,
+        "mad": 0.03566599999999909,
+        "q1": 1.2533960000000022,
+        "q3": 1.3370625000000018,
+        "min": 1.1360409999999987,
+        "max": 1.480708
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 98.71438880000001,
+        "median": 98.41874999999999,
+        "sampleStddev": 4.094116563302063,
+        "mad": 1.7469169999999963,
+        "q1": 96.574021,
+        "q3": 99.99893749999998,
+        "min": 92.17958300000001,
+        "max": 108.877166
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 364.4260666666666,
+        "median": 363.559,
+        "sampleStddev": 11.142423880099408,
+        "mad": 7.1749999999999545,
+        "q1": 359.1615,
+        "q3": 370.166,
+        "min": 345.794,
+        "max": 388.051
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 171595093.33333334,
+        "median": 171540480,
+        "sampleStddev": 720195.261158951,
+        "mad": 573440,
+        "q1": 171040768,
+        "q3": 172187648,
+        "min": 170360832,
+        "max": 172851200
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1.100694467488849,
+        "median": 1.100343704429442,
+        "sampleStddev": 0.05124363154312314,
+        "mad": 0.027616309590618338,
+        "q1": 1.085026007192344,
+        "q3": 1.1440110425830508,
+        "min": 0.9772979241773816,
+        "max": 1.169206397461144
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.4791898741422957,
+        "median": 1.4769100409546674,
+        "sampleStddev": 0.011831276452664815,
+        "mad": 0.007541907828222838,
+        "q1": 1.472117045207563,
+        "q3": 1.4846094234491183,
+        "min": 1.462918827982616,
+        "max": 1.5125035929864903
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "crossover-confirm-wide-512-work-150k",
+      "variant": "worker-8",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 91.13116659999999,
+        "median": 89.727375,
+        "sampleStddev": 4.761650693056836,
+        "mad": 0.9652090000000015,
+        "q1": 88.8591035,
+        "q3": 91.02522900000001,
+        "min": 88.51750000000001,
+        "max": 107.60249999999999
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.2762082666666668,
+        "median": 1.2522499999999965,
+        "sampleStddev": 0.09891636858656133,
+        "mad": 0.04825000000000301,
+        "q1": 1.2085829999999973,
+        "q3": 1.2965209999999985,
+        "min": 1.1606670000000037,
+        "max": 1.518416000000002
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 89.85474153333334,
+        "median": 88.550166,
+        "sampleStddev": 4.716044281453757,
+        "mad": 1.0404580000000152,
+        "q1": 87.631625,
+        "q3": 89.77154150000001,
+        "min": 87.23625000000001,
+        "max": 106.187084
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 607.1626666666667,
+        "median": 606.334,
+        "sampleStddev": 15.698257690705983,
+        "mad": 8.427000000000021,
+        "q1": 596.2864999999999,
+        "q3": 611.8335,
+        "min": 591.029,
+        "max": 652.626
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 221134848,
+        "median": 221413376,
+        "sampleStddev": 792431.2130579988,
+        "mad": 327680,
+        "q1": 221052928,
+        "q3": 221503488,
+        "min": 219512832,
+        "max": 222199808
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1.2086553253764885,
+        "median": 1.223967835455794,
+        "sampleStddev": 0.059809568653922465,
+        "mad": 0.02344943689873613,
+        "q1": 1.192795127084282,
+        "q3": 1.2381306372876164,
+        "min": 1.0261653679050209,
+        "max": 1.2795857680799556
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.9062281808600683,
+        "median": 1.9050035236081748,
+        "sampleStddev": 0.013778533753272409,
+        "mad": 0.00813236983096366,
+        "q1": 1.8983295977622663,
+        "q3": 1.9132681023726046,
+        "min": 1.8819571007991027,
+        "max": 1.9422247772348376
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    }
+  ]
+}

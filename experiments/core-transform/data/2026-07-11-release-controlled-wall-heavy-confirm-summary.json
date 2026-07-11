@@ -1,0 +1,371 @@
+{
+  "schema": 1,
+  "sourceReport": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-context-review/experiments/core-transform/data/2026-07-11-release-controlled-wall-heavy-confirm.json",
+  "sourceStartedAt": "2026-07-11T14:57:15.565Z",
+  "sourceFinishedAt": "2026-07-11T14:58:14.519Z",
+  "matrix": {
+    "description": "Release-binding confirmation of the noisy heavy controlled transform point. Instrumentation is disabled; totalElapsedMs is the primary duration.",
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "heavy-confirm-wide-512-work-2m",
+        "graphShape": "wide",
+        "moduleCount": 512,
+        "minimumSourceBytes": 256,
+        "workIterations": 2000000,
+        "resultPaddingBytes": 0,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-4",
+          "worker-8",
+          "worker-12"
+        ],
+        "warmups": 2,
+        "repeats": 15
+      }
+    ]
+  },
+  "summaries": [
+    {
+      "name": "heavy-confirm-wide-512-work-2m",
+      "variant": "ordinary",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 1739.0202192666663,
+        "median": 1736.602542,
+        "sampleStddev": 8.678389547568983,
+        "mad": 4.050709000000097,
+        "q1": 1733.370833,
+        "q3": 1744.9608125,
+        "min": 1729.016042,
+        "max": 1754.6671660000002
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 0.7232223333333337,
+        "median": 0.7135829999999999,
+        "sampleStddev": 0.04501737831845191,
+        "mad": 0.015374999999998806,
+        "q1": 0.704542,
+        "q3": 0.7498749999999994,
+        "min": 0.6157090000000025,
+        "max": 0.796999999999997
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 1738.2967692666668,
+        "median": 1735.84975,
+        "sampleStddev": 8.684209658990504,
+        "mad": 4.01175000000012,
+        "q1": 1732.6152915,
+        "q3": 1744.2544790000002,
+        "min": 1728.311792,
+        "max": 1753.944708
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 1747.9756666666667,
+        "median": 1745.16,
+        "sampleStddev": 9.16308120874714,
+        "mad": 5.5750000000000455,
+        "q1": 1742.3045000000002,
+        "q3": 1753.1405,
+        "min": 1736.846,
+        "max": 1764.479
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 116408320,
+        "median": 116490240,
+        "sampleStddev": 235968.60629934893,
+        "mad": 180224,
+        "q1": 116260864,
+        "q3": 116563968,
+        "min": 116047872,
+        "max": 116785152
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "heavy-confirm-wide-512-work-2m",
+      "variant": "worker-4",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 660.5695777333334,
+        "median": 661.022792,
+        "sampleStddev": 5.494563693566843,
+        "mad": 2.5187490000000707,
+        "q1": 657.8013960000001,
+        "q3": 663.077937,
+        "min": 651.8361669999999,
+        "max": 671.1509169999999
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.3029415333333338,
+        "median": 1.2754580000000004,
+        "sampleStddev": 0.12373306431061618,
+        "mad": 0.017082999999999515,
+        "q1": 1.2549375000000005,
+        "q3": 1.286312500000001,
+        "min": 1.0793329999999983,
+        "max": 1.6118749999999977
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 659.2664166666667,
+        "median": 659.742167,
+        "sampleStddev": 5.551805576337347,
+        "mad": 2.523749000000066,
+        "q1": 656.5374999999999,
+        "q3": 661.883187,
+        "min": 650.484959,
+        "max": 669.8585419999999
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 2561.6915999999997,
+        "median": 2565.489,
+        "sampleStddev": 13.707156581248219,
+        "mad": 6.346000000000004,
+        "q1": 2552.8565,
+        "q3": 2568.4494999999997,
+        "min": 2539.243,
+        "max": 2582.95
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 170494088.53333333,
+        "median": 170491904,
+        "sampleStddev": 697341.3005471842,
+        "mad": 475136,
+        "q1": 170008576,
+        "q3": 170868736,
+        "min": 169230336,
+        "max": 171769856
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 2.632766235246764,
+        "median": 2.631049599596335,
+        "sampleStddev": 0.02425684521357171,
+        "mad": 0.018465605396326357,
+        "q1": 2.6188250398742223,
+        "q3": 2.653735588616576,
+        "min": 2.583904437993936,
+        "max": 2.665381844925155
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.4646276257050181,
+        "median": 1.463085360708761,
+        "sampleStddev": 0.006886711150418649,
+        "mad": 0.004681763182060594,
+        "q1": 1.4596298472004103,
+        "q3": 1.4690390698437448,
+        "min": 1.4548260381593714,
+        "max": 1.4780522230063515
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "heavy-confirm-wide-512-work-2m",
+      "variant": "worker-8",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 417.0012416,
+        "median": 412.368875,
+        "sampleStddev": 8.916263788875291,
+        "mad": 4.766458,
+        "q1": 410.259562,
+        "q3": 424.94810400000006,
+        "min": 406.844792,
+        "max": 433.77929100000006
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.2943000000000007,
+        "median": 1.274000000000001,
+        "sampleStddev": 0.09548532975578712,
+        "mad": 0.04449999999999932,
+        "q1": 1.2357085000000012,
+        "q3": 1.3232500000000016,
+        "min": 1.159041000000002,
+        "max": 1.4639999999999986
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 415.70672786666665,
+        "median": 411.101,
+        "sampleStddev": 8.879553912616709,
+        "mad": 4.887084000000016,
+        "q1": 409.000104,
+        "q3": 423.569354,
+        "min": 405.527292,
+        "max": 432.31941600000005
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 3105.2369333333327,
+        "median": 3084.632,
+        "sampleStddev": 39.260223237242236,
+        "mad": 15.990000000000236,
+        "q1": 3077.6775,
+        "q3": 3124.848,
+        "min": 3066.327,
+        "max": 3186.753
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 220464196.26666668,
+        "median": 220348416,
+        "sampleStddev": 866284.2414047538,
+        "mad": 458752,
+        "q1": 219996160,
+        "q3": 221011968,
+        "min": 218955776,
+        "max": 222085120
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 4.171931880553007,
+        "median": 4.194349694348989,
+        "sampleStddev": 0.08402496980572122,
+        "mad": 0.05712294937092377,
+        "q1": 4.12054296928725,
+        "q3": 4.243482124341973,
+        "min": 3.9993927464831414,
+        "max": 4.257507464682184
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 1.8938908186781764,
+        "median": 1.894818579697868,
+        "sampleStddev": 0.007514059341713624,
+        "mad": 0.0067168478271355525,
+        "q1": 1.8877408846291592,
+        "q3": 1.8979918799233437,
+        "min": 1.8833145434047351,
+        "max": 1.907410021171489
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    },
+    {
+      "name": "heavy-confirm-wide-512-work-2m",
+      "variant": "worker-12",
+      "samples": 15,
+      "totalElapsedMs": {
+        "n": 15,
+        "mean": 372.8332221333333,
+        "median": 365.554292,
+        "sampleStddev": 16.927708564467753,
+        "mad": 8.21470899999997,
+        "q1": 358.6105205,
+        "q3": 385.561875,
+        "min": 353.748708,
+        "max": 399.006417
+      },
+      "pluginSetupElapsedMs": {
+        "n": 15,
+        "mean": 1.2742609999999994,
+        "median": 1.2830000000000013,
+        "sampleStddev": 0.07514299702186869,
+        "mad": 0.03295800000000071,
+        "q1": 1.2475000000000023,
+        "q3": 1.3047080000000015,
+        "min": 1.137791,
+        "max": 1.4298749999999956
+      },
+      "rolldownApiElapsedMs": {
+        "n": 15,
+        "mean": 371.5587332666667,
+        "median": 364.30920799999996,
+        "sampleStddev": 16.92958060334557,
+        "mad": 8.334040999999957,
+        "q1": 357.4163545,
+        "q3": 384.2853335,
+        "min": 352.461541,
+        "max": 397.57637500000004
+      },
+      "cpuUserMs": {
+        "n": 15,
+        "mean": 3549.8349333333326,
+        "median": 3547.157,
+        "sampleStddev": 34.45555615668788,
+        "mad": 16.96199999999999,
+        "q1": 3531.4905,
+        "q3": 3557.2385000000004,
+        "min": 3503.263,
+        "max": 3638.108
+      },
+      "peakRssBytes": {
+        "n": 15,
+        "mean": 269562675.2,
+        "median": 269680640,
+        "sampleStddev": 1161502.2925486998,
+        "mad": 770048,
+        "q1": 269164544,
+        "q3": 270442496,
+        "min": 266862592,
+        "max": 271106048
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 15,
+        "mean": 4.672835745617439,
+        "median": 4.746897319726274,
+        "sampleStddev": 0.20172450183041146,
+        "mad": 0.12784380005350027,
+        "q1": 4.499591447456451,
+        "q3": 4.838877551558087,
+        "min": 4.357413381499273,
+        "max": 4.894625059662408
+      },
+      "pairedPeakRssRatioVsOrdinary": {
+        "n": 15,
+        "mean": 2.3156764612619316,
+        "median": 2.318348365276212,
+        "sampleStddev": 0.011590961988792146,
+        "mad": 0.008914094133642969,
+        "q1": 2.307698646095271,
+        "q3": 2.322134978886568,
+        "min": 2.2902137232845896,
+        "max": 2.3361569956233232
+      },
+      "outputHashes": [
+        "c98e1c46fbeefa9905bbfe803150f885c203be96fc25b1dde108de17c3ffca4c"
+      ]
+    }
+  ]
+}

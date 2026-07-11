@@ -1,10 +1,11 @@
 # Main-Thread Isolation Measurement
 
-This experiment separates one-worker main-thread isolation from complete-build speed. The one-worker variant makes this workload slower, while keeping the Node.js main event loop available during the synchronous transform work.
+This exploratory experiment separates one-worker main-thread isolation from complete-build speed. The one-worker variant makes this workload slower, while keeping the Node.js main event loop available during the synchronous transform work. It used a debug native binding; the event-loop mechanism is observed, but final speed ratios require the release-binding rerun.
 
 ## Method
 
 - Environment and dependency pins match the [core transform smoke evidence](./2026-07-11-node-24.18.0-smoke.md).
+- Native binding profile was debug, produced by `just build-rolldown`. Release-binding samples are required before using the wall-time ratio as a production result.
 - Rolldown research commit `2a032a612` contains the committed measurement programs at `examples/par-plugin/measure-main-thread.mjs` and `examples/par-plugin/run-main-thread-matrix.mjs`.
 - The working directory was `examples/par-plugin` in the isolated Rolldown worktree.
 - The exact top-level invocation was:

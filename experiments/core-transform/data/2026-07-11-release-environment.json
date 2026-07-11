@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "capturedAt": "2026-07-11T22:32:19+08:00",
+  "node": {
+    "version": "v24.18.0",
+    "binary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node"
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "nativeBinding": {
+    "profile": "release",
+    "buildCommand": "just build-rolldown-release",
+    "sourceCommit": "d0ce1939f382b759d0ead0a56cd5ff05483ac46d",
+    "path": "packages/rolldown/src/rolldown-binding.darwin-arm64.node",
+    "sizeBytes": 16311136,
+    "sha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d"
+  },
+  "notes": [
+    "The controlled reports at 6e8d37e5b and the heavy confirmation at 54fd0e241 use this binding.",
+    "There are no changes under crates/rolldown_binding or packages/rolldown/src between d0ce1939f and 54fd0e241.",
+    "The benchmark runners declare bindingProfile=release but do not independently infer a Cargo profile from the binary; this manifest pins the executed build command and binary hash."
+  ]
+}

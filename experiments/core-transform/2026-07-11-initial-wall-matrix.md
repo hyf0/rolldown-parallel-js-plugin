@@ -1,10 +1,11 @@
 # Initial Core Transform Wall-Time Matrix
 
-This is the first repeated wall-time and worker-count result after the runtime repairs. It is not yet the final core cost model because hook call count, ready concurrency, queue wait, service time, task-size crossover, and independently sampled multi-worker RSS are still missing. One-worker event-loop availability and RSS are covered separately in the [main-thread isolation measurement](./2026-07-11-main-thread-isolation.md).
+This is an exploratory repeated wall-time and worker-count result after the runtime repairs. It used Rolldown's debug native binding because the setup command was `just build-rolldown`, so none of its speed ratios are final production-build claims. The release-binding controlled matrix and baseline rerun supersede it for final performance conclusions. Hook call count, ready concurrency, queue wait, service time, task-size crossover, and independently sampled multi-worker RSS are also still missing here. One-worker event-loop availability and RSS are covered separately in the [main-thread isolation measurement](./2026-07-11-main-thread-isolation.md).
 
 ## Method
 
 - Environment and code pins match the [smoke evidence](./2026-07-11-node-24.18.0-smoke.md), with Rolldown research head `30d992c39` adding the non-public `ROLLDOWN_PARALLEL_PLUGIN_WORKERS` control.
+- Native binding profile was debug. The exact setup command was `mise exec node@24.18.0 -- just build-rolldown`; this was discovered after the first matrix and is why the data are retained as exploratory evidence rather than silently replaced.
 - Hyperfine 1.20.0 invoked the Node.js 24.18.0 binary and Rolldown CLI directly, avoiding pnpm startup in measured commands.
 - Every sample used a fresh Node.js process and newly created plugin workers.
 - The five-variant matrices used one warmup and five measured runs per variant. The Babel confirmation used two warmups and ten measured runs per variant.
@@ -56,7 +57,7 @@ The ordinary and one-worker variants ran in one batch; the two-, four-, and eigh
 
 Four and eight workers are effectively tied on confirmed Babel wall time, while eight workers use about 39% more user CPU than four. Hyperfine also reports about 728 MB more maximum memory for eight workers than four, but the macOS memory series shows stepwise values and needs an independent process-tree sampler before it is treated as authoritative RSS.
 
-## What this establishes
+## What this establishes for the debug binding
 
 - One worker has a large observed wall-time penalty in both workloads: approximately 69% slower than ordinary for no-op and 45% slower in the ten-run Babel confirmation. The [separate main-thread measurement](./2026-07-11-main-thread-isolation.md) shows what isolation buys without treating this combined penalty as one fixed cost.
 - Multiple workers can reduce complete direct-Rolldown build time. The no-op workload continues improving through eight workers; Babel reaches its useful plateau around four workers on this 12-logical-CPU machine.

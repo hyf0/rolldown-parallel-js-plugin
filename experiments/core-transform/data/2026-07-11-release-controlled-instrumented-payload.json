@@ -1,0 +1,2944 @@
+{
+  "schema": 2,
+  "startedAt": "2026-07-11T14:49:33.590Z",
+  "finishedAt": "2026-07-11T14:49:39.239Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "rolldownCommit": "6e8d37e5b2a6a7daa57a66f0498d48faef175a9f",
+  "rolldownWorktreeStatus": "",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "matrix": {
+    "description": "Release-binding explanation runs for the source round-trip and additional result payload axes. Instrumented durations are not speed claims.",
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "explain-payload-small-wide-128",
+        "graphShape": "wide",
+        "moduleCount": 128,
+        "minimumSourceBytes": 256,
+        "workIterations": 100000,
+        "resultPaddingBytes": 0,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-4"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      },
+      {
+        "name": "explain-payload-source-roundtrip-256k-wide-128",
+        "graphShape": "wide",
+        "moduleCount": 128,
+        "minimumSourceBytes": 262144,
+        "workIterations": 100000,
+        "resultPaddingBytes": 0,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-4"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      },
+      {
+        "name": "explain-payload-result-padding-256k-wide-128",
+        "graphShape": "wide",
+        "moduleCount": 128,
+        "minimumSourceBytes": 256,
+        "workIterations": 100000,
+        "resultPaddingBytes": 262144,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-4"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 94617600,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 31.390416000000002,
+      "pluginSetupElapsedMs": 0.7885830000000027,
+      "rolldownApiElapsedMs": 30.601625,
+      "generateElapsedMs": 30.114916,
+      "closeElapsedMs": 0.04349999999999454,
+      "cpuUserMs": 40.4,
+      "cpuSystemMs": 19.093,
+      "finalRssBytes": 94257152,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 23822869,
+        "handlerNsMax": 890500,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 12042,
+        "factoryNsMax": 12042,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 110329856,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 71.941083,
+      "pluginSetupElapsedMs": 1.325833000000003,
+      "rolldownApiElapsedMs": 70.61500000000001,
+      "generateElapsedMs": 69.012834,
+      "closeElapsedMs": 1.1580410000000114,
+      "cpuUserMs": 78.68,
+      "cpuSystemMs": 21.355,
+      "finalRssBytes": 107544576,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 19959876,
+        "handlerNsMax": 883083,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 10667,
+        "factoryNsMax": 10667,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1746637919,
+          "max": 23928375
+        },
+        "permitHeldNs": {
+          "total": 23948668,
+          "max": 1188208
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 126
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 39.321,
+        "rssBeforeBytes": 67944448,
+        "rssAfterBytes": 83869696,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 39.10175,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3078749999999957,
+              "registerPluginsMs": 0.12591599999998948,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4605420000000038,
+                  "factoryMs": 0.09345899999999574,
+                  "bindingifyMs": 0.5892499999999927
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.0384580000000057,
+        "rssBeforeBytes": 110264320,
+        "rssAfterBytes": 107364352
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 0,
+      "sequence": 2,
+      "peakRssBytes": 148127744,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 63.031625,
+      "pluginSetupElapsedMs": 1.2347499999999982,
+      "rolldownApiElapsedMs": 61.796707999999995,
+      "generateElapsedMs": 59.527959,
+      "closeElapsedMs": 1.837582999999995,
+      "cpuUserMs": 221.758,
+      "cpuSystemMs": 38.34,
+      "finalRssBytes": 136331264,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 34865797,
+        "handlerNsMax": 1213958,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "f",
+        "factoryNsTotal": 47125,
+        "factoryNsMax": 15750,
+        "perWorkerCalls": [
+          32,
+          32,
+          30,
+          35
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 690805625,
+          "max": 9971500
+        },
+        "permitHeldNs": {
+          "total": 41885249,
+          "max": 2064000
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 123
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 43.314792,
+        "rssBeforeBytes": 68075520,
+        "rssAfterBytes": 123813888,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 41.732209000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.960667000000001,
+              "registerPluginsMs": 0.13487500000000807,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 2.014542000000006,
+                  "factoryMs": 0.11379100000000619,
+                  "bindingifyMs": 0.6567079999999947
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 41.858042000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.5752080000000035,
+              "registerPluginsMs": 0.05308300000000088,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.6822499999999962,
+                  "factoryMs": 0.09483400000000586,
+                  "bindingifyMs": 0.7100410000000039
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 42.264583,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2444579999999945,
+              "registerPluginsMs": 0.04899999999999238,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4310000000000116,
+                  "factoryMs": 0.08929200000000037,
+                  "bindingifyMs": 0.6422500000000042
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 41.46641700000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 3.0534580000000062,
+              "registerPluginsMs": 0.06441600000000847,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 2.1765840000000054,
+                  "factoryMs": 0.10208400000000495,
+                  "bindingifyMs": 0.667459000000008
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.6992500000000064,
+        "rssBeforeBytes": 148062208,
+        "rssAfterBytes": 136200192
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 1,
+      "sequence": 3,
+      "peakRssBytes": 109445120,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 76.193459,
+      "pluginSetupElapsedMs": 1.2556669999999954,
+      "rolldownApiElapsedMs": 74.93758400000002,
+      "generateElapsedMs": 73.302667,
+      "closeElapsedMs": 1.2104170000000067,
+      "cpuUserMs": 82.378,
+      "cpuSystemMs": 23.08,
+      "finalRssBytes": 106676224,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 24551877,
+        "handlerNsMax": 885750,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 10125,
+        "factoryNsMax": 10125,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 2067664833,
+          "max": 28060500
+        },
+        "permitHeldNs": {
+          "total": 28208121,
+          "max": 1229708
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 126
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 39.19025,
+        "rssBeforeBytes": 67895296,
+        "rssAfterBytes": 83886080,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 38.986292,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.1116250000000036,
+              "registerPluginsMs": 0.11966700000000685,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 0.9525840000000017,
+                  "factoryMs": 0.08612499999999557,
+                  "bindingifyMs": 0.6151249999999919
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.0925410000000113,
+        "rssBeforeBytes": 109379584,
+        "rssAfterBytes": 106496000
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 1,
+      "sequence": 4,
+      "peakRssBytes": 147406848,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 61.272915999999995,
+      "pluginSetupElapsedMs": 1.1054579999999987,
+      "rolldownApiElapsedMs": 60.167207999999995,
+      "generateElapsedMs": 58.245250000000006,
+      "closeElapsedMs": 1.513832999999991,
+      "cpuUserMs": 219.587,
+      "cpuSystemMs": 35.723,
+      "finalRssBytes": 135610368,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 35656127,
+        "handlerNsMax": 1320209,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "f",
+        "factoryNsTotal": 46835,
+        "factoryNsMax": 15042,
+        "perWorkerCalls": [
+          36,
+          32,
+          31,
+          30
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 675895674,
+          "max": 10157667
+        },
+        "permitHeldNs": {
+          "total": 42141751,
+          "max": 2119708
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 122
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 125
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 42.016125,
+        "rssBeforeBytes": 67960832,
+        "rssAfterBytes": 122978304,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 40.940667000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.407083,
+              "registerPluginsMs": 0.06895799999999497,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5337920000000054,
+                  "factoryMs": 0.09754200000000424,
+                  "bindingifyMs": 0.6688749999999999
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 39.762249999999995,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2673340000000053,
+              "registerPluginsMs": 0.14374999999999716,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3220830000000063,
+                  "factoryMs": 0.10729200000000105,
+                  "bindingifyMs": 0.6567919999999958
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 40.387291000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2008340000000004,
+              "registerPluginsMs": 0.05279200000001083,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3402090000000015,
+                  "factoryMs": 0.09658299999999542,
+                  "bindingifyMs": 0.6743329999999901
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 40.909749999999995,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.324416999999997,
+              "registerPluginsMs": 0.051833000000002016,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.482208,
+                  "factoryMs": 0.10391599999999812,
+                  "bindingifyMs": 0.6516249999999957
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.4014590000000027,
+        "rssBeforeBytes": 147341312,
+        "rssAfterBytes": 135479296
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 1,
+      "sequence": 5,
+      "peakRssBytes": 94257152,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 27.527582999999993,
+      "pluginSetupElapsedMs": 0.7394579999999991,
+      "rolldownApiElapsedMs": 26.787915999999996,
+      "generateElapsedMs": 26.289291999999996,
+      "closeElapsedMs": 0.0418329999999969,
+      "cpuUserMs": 35.989,
+      "cpuSystemMs": 20.173,
+      "finalRssBytes": 93913088,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 20023459,
+        "handlerNsMax": 911792,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 11250,
+        "factoryNsMax": 11250,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 2,
+      "sequence": 6,
+      "peakRssBytes": 147079168,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 62.138166000000005,
+      "pluginSetupElapsedMs": 1.3073750000000004,
+      "rolldownApiElapsedMs": 60.830541000000004,
+      "generateElapsedMs": 58.724042000000004,
+      "closeElapsedMs": 1.662582999999998,
+      "cpuUserMs": 220.557,
+      "cpuSystemMs": 36.957,
+      "finalRssBytes": 135282688,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 36174376,
+        "handlerNsMax": 1711209,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "f",
+        "factoryNsTotal": 44458,
+        "factoryNsMax": 12834,
+        "perWorkerCalls": [
+          30,
+          31,
+          31,
+          37
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 668217331,
+          "max": 10427500
+        },
+        "permitHeldNs": {
+          "total": 42501333,
+          "max": 2378750
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 121
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 125
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 41.992917000000006,
+        "rssBeforeBytes": 67928064,
+        "rssAfterBytes": 123797504,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 40.829458,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.569915999999992,
+              "registerPluginsMs": 0.14054099999999892,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.6155830000000009,
+                  "factoryMs": 0.10479200000000333,
+                  "bindingifyMs": 0.672333000000009
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 41.048958000000006,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.1922079999999937,
+              "registerPluginsMs": 0.049791999999996506,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3389999999999986,
+                  "factoryMs": 0.0972500000000025,
+                  "bindingifyMs": 0.6625000000000085
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 40.549875,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3092089999999956,
+              "registerPluginsMs": 0.049791999999996506,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4802080000000046,
+                  "factoryMs": 0.08762500000000273,
+                  "bindingifyMs": 0.6524589999999932
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 39.833583999999995,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.1627500000000026,
+              "registerPluginsMs": 0.058167000000011626,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.326082999999997,
+                  "factoryMs": 0.09070900000000393,
+                  "bindingifyMs": 0.6504169999999903
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.491250000000008,
+        "rssBeforeBytes": 147013632,
+        "rssAfterBytes": 135118848
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 2,
+      "sequence": 7,
+      "peakRssBytes": 94617600,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 31.495500000000007,
+      "pluginSetupElapsedMs": 0.8022500000000008,
+      "rolldownApiElapsedMs": 30.693042000000005,
+      "generateElapsedMs": 30.144749999999995,
+      "closeElapsedMs": 0.08704200000001094,
+      "cpuUserMs": 39.687,
+      "cpuSystemMs": 18.825,
+      "finalRssBytes": 94355456,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 23972035,
+        "handlerNsMax": 870458,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 12375,
+        "factoryNsMax": 12375,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-small-wide-128",
+      "index": 2,
+      "sequence": 8,
+      "peakRssBytes": 108937216,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 94.94916700000002,
+      "pluginSetupElapsedMs": 1.5351250000000007,
+      "rolldownApiElapsedMs": 93.41375000000002,
+      "generateElapsedMs": 90.21145800000001,
+      "closeElapsedMs": 2.6720420000000047,
+      "cpuUserMs": 95.959,
+      "cpuSystemMs": 26.362,
+      "finalRssBytes": 106151936,
+      "outputBytes": 29220,
+      "outputRawHash": "8384ec37714f041a4963efa92ebb614c6950a99f50ec9f9826ed0dd4f6018cf9",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 23386250,
+        "handlerNsMax": 998042,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 39587,
+        "workerMask": "1",
+        "factoryNsTotal": 11083,
+        "factoryNsMax": 11083,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 2201252581,
+          "max": 28845625
+        },
+        "permitHeldNs": {
+          "total": 28813792,
+          "max": 1472000
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 124
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 125
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 39587,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 49.48233400000001,
+        "rssBeforeBytes": 67846144,
+        "rssAfterBytes": 83935232,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 49.07012499999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.460249999999988,
+              "registerPluginsMs": 0.13924999999998988,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5635829999999942,
+                  "factoryMs": 0.09883299999999906,
+                  "bindingifyMs": 0.6168749999999932
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 2.313874999999996,
+        "rssBeforeBytes": 108871680,
+        "rssAfterBytes": 105988096
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 0,
+      "sequence": 9,
+      "peakRssBytes": 253591552,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 76.811917,
+      "pluginSetupElapsedMs": 0.7328749999999999,
+      "rolldownApiElapsedMs": 76.078833,
+      "generateElapsedMs": 75.58766700000001,
+      "closeElapsedMs": 0.06212499999999466,
+      "cpuUserMs": 104.917,
+      "cpuSystemMs": 67.491,
+      "finalRssBytes": 253280256,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 40024251,
+        "handlerNsMax": 1688125,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 11375,
+        "factoryNsMax": 11375,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 0,
+      "sequence": 10,
+      "peakRssBytes": 245694464,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 150.49795899999998,
+      "pluginSetupElapsedMs": 1.3086669999999998,
+      "rolldownApiElapsedMs": 149.18908399999998,
+      "generateElapsedMs": 147.293042,
+      "closeElapsedMs": 1.4155419999999879,
+      "cpuUserMs": 161.619,
+      "cpuSystemMs": 62.044,
+      "finalRssBytes": 230932480,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 40978543,
+        "handlerNsMax": 1536209,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 11167,
+        "factoryNsMax": 11167,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 6117914249,
+          "max": 94443166
+        },
+        "permitHeldNs": {
+          "total": 81454002,
+          "max": 2223250
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 124
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 125
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 40.67633300000001,
+        "rssBeforeBytes": 67813376,
+        "rssAfterBytes": 83869696,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 40.468334,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.500959000000009,
+              "registerPluginsMs": 0.12333399999999983,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.6085000000000065,
+                  "factoryMs": 0.09800000000001319,
+                  "bindingifyMs": 0.6272090000000077
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.2898330000000158,
+        "rssBeforeBytes": 235929600,
+        "rssAfterBytes": 230768640
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 0,
+      "sequence": 11,
+      "peakRssBytes": 313180160,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 87.05545899999998,
+      "pluginSetupElapsedMs": 1.4557919999999953,
+      "rolldownApiElapsedMs": 85.59937499999998,
+      "generateElapsedMs": 83.35904199999999,
+      "closeElapsedMs": 1.7778749999999945,
+      "cpuUserMs": 338.538,
+      "cpuSystemMs": 71.051,
+      "finalRssBytes": 279445504,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 61797915,
+        "handlerNsMax": 2778584,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "f",
+        "factoryNsTotal": 42168,
+        "factoryNsMax": 11834,
+        "perWorkerCalls": [
+          33,
+          30,
+          33,
+          33
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1804607412,
+          "max": 31345333
+        },
+        "permitHeldNs": {
+          "total": 116667915,
+          "max": 4280375
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 117
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 121
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 43.505874999999996,
+        "rssBeforeBytes": 68124672,
+        "rssAfterBytes": 123355136,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 42.309875,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.494375000000005,
+              "registerPluginsMs": 0.12199999999999989,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5712919999999997,
+                  "factoryMs": 0.09883299999999906,
+                  "bindingifyMs": 0.6426249999999953
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 42.55520799999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.0981250000000102,
+              "registerPluginsMs": 0.049000000000006594,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.2708750000000038,
+                  "factoryMs": 0.09158299999999997,
+                  "bindingifyMs": 0.6535000000000082
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 42.186166,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.210208999999992,
+              "registerPluginsMs": 0.04929199999999412,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3840829999999897,
+                  "factoryMs": 0.0900840000000045,
+                  "bindingifyMs": 0.6495409999999993
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 41.656042,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3576670000000064,
+              "registerPluginsMs": 0.05491700000000321,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5211670000000055,
+                  "factoryMs": 0.09670900000000415,
+                  "bindingifyMs": 0.6448330000000055
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.6444999999999936,
+        "rssBeforeBytes": 302940160,
+        "rssAfterBytes": 279314432
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 1,
+      "sequence": 12,
+      "peakRssBytes": 259293184,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 133.652792,
+      "pluginSetupElapsedMs": 1.3569999999999993,
+      "rolldownApiElapsedMs": 132.295583,
+      "generateElapsedMs": 130.13012500000002,
+      "closeElapsedMs": 1.6816249999999968,
+      "cpuUserMs": 137.119,
+      "cpuSystemMs": 67.731,
+      "finalRssBytes": 231161856,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 34526329,
+        "handlerNsMax": 1288750,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 10000,
+        "factoryNsMax": 10000,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 5567687579,
+          "max": 81881625
+        },
+        "permitHeldNs": {
+          "total": 68720086,
+          "max": 1884125
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 124
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 125
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 38.8995,
+        "rssBeforeBytes": 67928064,
+        "rssAfterBytes": 83886080,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 38.681459000000004,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2567920000000044,
+              "registerPluginsMs": 0.11683299999999974,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.373625000000004,
+                  "factoryMs": 0.09754100000000676,
+                  "bindingifyMs": 0.629917000000006
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.568792000000002,
+        "rssBeforeBytes": 259244032,
+        "rssAfterBytes": 230965248
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 1,
+      "sequence": 13,
+      "peakRssBytes": 319127552,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 85.24866699999998,
+      "pluginSetupElapsedMs": 1.0878340000000009,
+      "rolldownApiElapsedMs": 84.16062499999998,
+      "generateElapsedMs": 82.22812499999999,
+      "closeElapsedMs": 1.5168749999999989,
+      "cpuUserMs": 328.892,
+      "cpuSystemMs": 79.19,
+      "finalRssBytes": 282509312,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 63747085,
+        "handlerNsMax": 3379958,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "f",
+        "factoryNsTotal": 41209,
+        "factoryNsMax": 11167,
+        "perWorkerCalls": [
+          31,
+          34,
+          32,
+          32
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1773460501,
+          "max": 31454500
+        },
+        "permitHeldNs": {
+          "total": 115265666,
+          "max": 4782167
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 120
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 124
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 42.377250000000004,
+        "rssBeforeBytes": 67780608,
+        "rssAfterBytes": 123322368,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 41.02075,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.302209000000005,
+              "registerPluginsMs": 0.12425000000000352,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3675420000000003,
+                  "factoryMs": 0.0955420000000089,
+                  "bindingifyMs": 0.6754169999999959
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 40.604417,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.139375000000001,
+              "registerPluginsMs": 0.05341699999999605,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.2982079999999883,
+                  "factoryMs": 0.09154200000000401,
+                  "bindingifyMs": 0.6573330000000084
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 41.333916,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 1.7716250000000002,
+              "registerPluginsMs": 0.048458999999994035,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 0.946832999999998,
+                  "factoryMs": 0.08620799999999917,
+                  "bindingifyMs": 0.6537919999999957
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 40.831667,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.179792000000006,
+              "registerPluginsMs": 0.050459000000003584,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3269999999999982,
+                  "factoryMs": 0.0898339999999962,
+                  "bindingifyMs": 0.6741250000000036
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.4022500000000093,
+        "rssBeforeBytes": 306528256,
+        "rssAfterBytes": 282378240
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 1,
+      "sequence": 14,
+      "peakRssBytes": 246595584,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 76.742417,
+      "pluginSetupElapsedMs": 0.8853340000000003,
+      "rolldownApiElapsedMs": 75.85675,
+      "generateElapsedMs": 75.29750000000001,
+      "closeElapsedMs": 0.04749999999999943,
+      "cpuUserMs": 97.499,
+      "cpuSystemMs": 59.648,
+      "finalRssBytes": 246284288,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 37446290,
+        "handlerNsMax": 996375,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 11292,
+        "factoryNsMax": 11292,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 2,
+      "sequence": 15,
+      "peakRssBytes": 311902208,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 93.13758299999999,
+      "pluginSetupElapsedMs": 1.274791999999998,
+      "rolldownApiElapsedMs": 91.862541,
+      "generateElapsedMs": 89.79279199999999,
+      "closeElapsedMs": 1.6004159999999956,
+      "cpuUserMs": 351.07,
+      "cpuSystemMs": 79.742,
+      "finalRssBytes": 279035904,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 70455331,
+        "handlerNsMax": 2592750,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "f",
+        "factoryNsTotal": 47752,
+        "factoryNsMax": 15959,
+        "perWorkerCalls": [
+          30,
+          33,
+          32,
+          34
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1944985411,
+          "max": 36190750
+        },
+        "permitHeldNs": {
+          "total": 135968343,
+          "max": 4453458
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 117
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 121
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 44.695375000000006,
+        "rssBeforeBytes": 67878912,
+        "rssAfterBytes": 122863616,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 43.95037500000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3193749999999937,
+              "registerPluginsMs": 0.055999999999997385,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4657079999999922,
+                  "factoryMs": 0.09125000000000227,
+                  "bindingifyMs": 0.6663750000000022
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 42.769459000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.741624999999999,
+              "registerPluginsMs": 0.13299999999999557,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.7943750000000023,
+                  "factoryMs": 0.10091599999999801,
+                  "bindingifyMs": 0.6689580000000035
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 43.615708,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2024159999999995,
+              "registerPluginsMs": 0.05354099999999562,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.375249999999994,
+                  "factoryMs": 0.08812500000000512,
+                  "bindingifyMs": 0.6473749999999967
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 42.641083,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.5160000000000053,
+              "registerPluginsMs": 0.05933399999999267,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5773750000000035,
+                  "factoryMs": 0.09383300000000361,
+                  "bindingifyMs": 0.7472920000000016
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.4685419999999851,
+        "rssBeforeBytes": 306446336,
+        "rssAfterBytes": 278904832
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 2,
+      "sequence": 16,
+      "peakRssBytes": 248152064,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 78.08783300000002,
+      "pluginSetupElapsedMs": 0.7782499999999999,
+      "rolldownApiElapsedMs": 77.30937500000002,
+      "generateElapsedMs": 76.77375,
+      "closeElapsedMs": 0.078708000000006,
+      "cpuUserMs": 96.855,
+      "cpuSystemMs": 50.296,
+      "finalRssBytes": 247889920,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 38325911,
+        "handlerNsMax": 996542,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 11833,
+        "factoryNsMax": 11833,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-source-roundtrip-256k-wide-128",
+      "index": 2,
+      "sequence": 17,
+      "peakRssBytes": 246087680,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 262144,
+      "workIterations": 100000,
+      "resultPaddingBytes": 0,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 33816576,
+      "totalElapsedMs": 144.729292,
+      "pluginSetupElapsedMs": 1.2596670000000003,
+      "rolldownApiElapsedMs": 143.469375,
+      "generateElapsedMs": 141.66774999999998,
+      "closeElapsedMs": 1.3528750000000116,
+      "cpuUserMs": 161.126,
+      "cpuSystemMs": 70.665,
+      "finalRssBytes": 229736448,
+      "outputBytes": 29220,
+      "outputRawHash": "30c7db91a45e94cb367eda1d925ace8b9c8a2f57da5c82e9cb3926e9de09398f",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 40899542,
+        "handlerNsMax": 1327292,
+        "handlerInputCodeBytes": 33816576,
+        "handlerReturnedCodeBytes": 33818769,
+        "workerMask": "1",
+        "factoryNsTotal": 13000,
+        "factoryNsMax": 13000,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 5785397291,
+          "max": 88186916
+        },
+        "permitHeldNs": {
+          "total": 76835750,
+          "max": 1928875
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 123
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 124
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 33820860,
+        "returnedCodeBytes": 33818769,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 42.900375,
+        "rssBeforeBytes": 68042752,
+        "rssAfterBytes": 84017152,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 42.668125,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.511209000000008,
+              "registerPluginsMs": 0.13241700000000378,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.578833000000003,
+                  "factoryMs": 0.10320800000000929,
+                  "bindingifyMs": 0.6515830000000022
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.221291000000008,
+        "rssBeforeBytes": 235307008,
+        "rssAfterBytes": 229588992
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 0,
+      "sequence": 18,
+      "peakRssBytes": 135823360,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 62.906709,
+      "pluginSetupElapsedMs": 0.7224590000000006,
+      "rolldownApiElapsedMs": 62.184000000000005,
+      "generateElapsedMs": 61.691667,
+      "closeElapsedMs": 0.04316699999999685,
+      "cpuUserMs": 79.284,
+      "cpuSystemMs": 24.161,
+      "finalRssBytes": 135479296,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 33230831,
+        "handlerNsMax": 1046667,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 15541,
+        "factoryNsMax": 15541,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 0,
+      "sequence": 19,
+      "peakRssBytes": 149356544,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 134.975833,
+      "pluginSetupElapsedMs": 1.4577919999999978,
+      "rolldownApiElapsedMs": 133.51775,
+      "generateElapsedMs": 131.77462500000001,
+      "closeElapsedMs": 1.2498329999999953,
+      "cpuUserMs": 134.54,
+      "cpuSystemMs": 33.397,
+      "finalRssBytes": 145784832,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 37542749,
+        "handlerNsMax": 1036875,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 17583,
+        "factoryNsMax": 17583,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 5621511126,
+          "max": 82876667
+        },
+        "permitHeldNs": {
+          "total": 67310825,
+          "max": 1578334
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 126
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 41.476000000000006,
+        "rssBeforeBytes": 68075520,
+        "rssAfterBytes": 83902464,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 41.21941700000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3342090000000013,
+              "registerPluginsMs": 0.14979200000000503,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.082459,
+                  "factoryMs": 0.10541600000000528,
+                  "bindingifyMs": 0.6487500000000068
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.1171249999999873,
+        "rssBeforeBytes": 149291008,
+        "rssAfterBytes": 145539072
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 0,
+      "sequence": 20,
+      "peakRssBytes": 197246976,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 82.39766599999999,
+      "pluginSetupElapsedMs": 1.1703329999999994,
+      "rolldownApiElapsedMs": 81.22716599999998,
+      "generateElapsedMs": 79.16479199999999,
+      "closeElapsedMs": 1.6532909999999958,
+      "cpuUserMs": 293.042,
+      "cpuSystemMs": 50.171,
+      "finalRssBytes": 180649984,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 57496872,
+        "handlerNsMax": 1394459,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "f",
+        "factoryNsTotal": 54165,
+        "factoryNsMax": 18833,
+        "perWorkerCalls": [
+          34,
+          30,
+          32,
+          33
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1635511679,
+          "max": 26317042
+        },
+        "permitHeldNs": {
+          "total": 94304786,
+          "max": 2283625
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 123
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 45.006333,
+        "rssBeforeBytes": 67993600,
+        "rssAfterBytes": 123207680,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 44.75291599999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.2781249999999886,
+              "registerPluginsMs": 0.050041999999990594,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4521249999999952,
+                  "factoryMs": 0.09370900000000404,
+                  "bindingifyMs": 0.6441659999999985
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 43.34420899999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.411208000000002,
+              "registerPluginsMs": 0.05766700000000924,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5446249999999964,
+                  "factoryMs": 0.10112499999999613,
+                  "bindingifyMs": 0.6662499999999909
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 43.172084000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.7984169999999864,
+              "registerPluginsMs": 0.1333749999999867,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.7190410000000043,
+                  "factoryMs": 0.22462500000000318,
+                  "bindingifyMs": 0.6773749999999978
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 43.26825,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.260333000000003,
+              "registerPluginsMs": 0.056875000000005116,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3997500000000116,
+                  "factoryMs": 0.09487500000000182,
+                  "bindingifyMs": 0.6708339999999993
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.5209159999999997,
+        "rssBeforeBytes": 197181440,
+        "rssAfterBytes": 180502528
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 1,
+      "sequence": 21,
+      "peakRssBytes": 149946368,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 156.65449999999998,
+      "pluginSetupElapsedMs": 1.4983330000000024,
+      "rolldownApiElapsedMs": 155.15587499999998,
+      "generateElapsedMs": 153.434625,
+      "closeElapsedMs": 1.2167079999999828,
+      "cpuUserMs": 145.758,
+      "cpuSystemMs": 36.061,
+      "finalRssBytes": 144080896,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 39163417,
+        "handlerNsMax": 2611000,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 35375,
+        "factoryNsMax": 35375,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 5989121248,
+          "max": 81674125
+        },
+        "permitHeldNs": {
+          "total": 71906746,
+          "max": 4448416
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 127
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 128
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 54.25120799999999,
+        "rssBeforeBytes": 67796992,
+        "rssAfterBytes": 83968000,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 54.02829200000001,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 5.854165999999992,
+              "registerPluginsMs": 0.2150000000000034,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 3.8412919999999957,
+                  "factoryMs": 0.27737500000000637,
+                  "bindingifyMs": 1.3384999999999962
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.1083749999999952,
+        "rssBeforeBytes": 149864448,
+        "rssAfterBytes": 143917056
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 1,
+      "sequence": 22,
+      "peakRssBytes": 199442432,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 76.78649999999999,
+      "pluginSetupElapsedMs": 1.254125000000002,
+      "rolldownApiElapsedMs": 75.53216699999999,
+      "generateElapsedMs": 73.48266699999999,
+      "closeElapsedMs": 1.5742500000000064,
+      "cpuUserMs": 287.173,
+      "cpuSystemMs": 47.528,
+      "finalRssBytes": 180977664,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 50401251,
+        "handlerNsMax": 1357917,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "f",
+        "factoryNsTotal": 56335,
+        "factoryNsMax": 20000,
+        "perWorkerCalls": [
+          33,
+          31,
+          34,
+          31
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1482378203,
+          "max": 21871208
+        },
+        "permitHeldNs": {
+          "total": 79736835,
+          "max": 2198334
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 122
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 126
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 44.495708,
+        "rssBeforeBytes": 67846144,
+        "rssAfterBytes": 122732544,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 44.237458000000004,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.4908750000000026,
+              "registerPluginsMs": 0.06083300000000236,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.6013750000000044,
+                  "factoryMs": 0.09533299999999656,
+                  "bindingifyMs": 0.6909580000000091
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 42.966292,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.8781669999999906,
+              "registerPluginsMs": 0.09458399999999756,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.3067080000000004,
+                  "factoryMs": 0.10887499999999761,
+                  "bindingifyMs": 1.0123329999999982
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 42.288582999999996,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.893709000000001,
+              "registerPluginsMs": 0.09258399999998801,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.7156249999999886,
+                  "factoryMs": 0.08041699999999707,
+                  "bindingifyMs": 0.9639159999999976
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 41.664708000000005,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.6569159999999954,
+              "registerPluginsMs": 0.13675000000000637,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.598458000000008,
+                  "factoryMs": 0.10683300000000884,
+                  "bindingifyMs": 0.7755420000000015
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.4617920000000026,
+        "rssBeforeBytes": 199376896,
+        "rssAfterBytes": 180797440
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 1,
+      "sequence": 23,
+      "peakRssBytes": 136167424,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 64.749417,
+      "pluginSetupElapsedMs": 0.7515000000000001,
+      "rolldownApiElapsedMs": 63.997667,
+      "generateElapsedMs": 63.512334,
+      "closeElapsedMs": 0.056708000000000425,
+      "cpuUserMs": 81.523,
+      "cpuSystemMs": 28.074,
+      "finalRssBytes": 135823360,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 34910008,
+        "handlerNsMax": 1037291,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 14792,
+        "factoryNsMax": 14792,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 2,
+      "sequence": 24,
+      "peakRssBytes": 204177408,
+      "variant": "worker-4",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 74.40174999999999,
+      "pluginSetupElapsedMs": 1.450916999999997,
+      "rolldownApiElapsedMs": 72.950583,
+      "generateElapsedMs": 70.93933299999999,
+      "closeElapsedMs": 1.545375000000007,
+      "cpuUserMs": 271.823,
+      "cpuSystemMs": 48.12,
+      "finalRssBytes": 181747712,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 4,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 4,
+        "handlerNsTotal": 45733492,
+        "handlerNsMax": 1319625,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "f",
+        "factoryNsTotal": 54084,
+        "factoryNsMax": 20459,
+        "perWorkerCalls": [
+          32,
+          33,
+          33,
+          31
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 4,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 1404537579,
+          "max": 20666791
+        },
+        "permitHeldNs": {
+          "total": 75574584,
+          "max": 2336625
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 123
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 4
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "pluginCount": 1,
+        "poolInitializationMs": 42.901625,
+        "rssBeforeBytes": 67960832,
+        "rssAfterBytes": 123289600,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 42.438917,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 1.933250000000001,
+              "registerPluginsMs": 0.0559159999999963,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.0404999999999944,
+                  "factoryMs": 0.09337499999999466,
+                  "bindingifyMs": 0.7013749999999987
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 1,
+            "mainReadyMs": 41.063041,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.3650829999999985,
+              "registerPluginsMs": 0.06266700000000469,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.5078749999999985,
+                  "factoryMs": 0.09583399999999642,
+                  "bindingifyMs": 0.6602500000000049
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 2,
+            "mainReadyMs": 41.67245799999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 1.777084000000002,
+              "registerPluginsMs": 0.04329199999999389,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.0252499999999998,
+                  "factoryMs": 0.08187499999999659,
+                  "bindingifyMs": 0.5919580000000053
+                }
+              ]
+            }
+          },
+          {
+            "threadNumber": 3,
+            "mainReadyMs": 40.543749999999996,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.5357079999999996,
+              "registerPluginsMs": 0.13220800000000565,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.586459000000005,
+                  "factoryMs": 0.11120900000000233,
+                  "bindingifyMs": 0.6664999999999992
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 4,
+        "poolTerminationMs": 1.437375000000003,
+        "rssBeforeBytes": 204079104,
+        "rssAfterBytes": 181600256
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 2,
+      "sequence": 25,
+      "peakRssBytes": 135577600,
+      "variant": "ordinary",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 65.261291,
+      "pluginSetupElapsedMs": 0.8532909999999987,
+      "rolldownApiElapsedMs": 64.407708,
+      "generateElapsedMs": 63.858917,
+      "closeElapsedMs": 0.062458000000006564,
+      "cpuUserMs": 81.661,
+      "cpuSystemMs": 24.208,
+      "finalRssBytes": 135266304,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 34179119,
+        "handlerNsMax": 1005292,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 16625,
+        "factoryNsMax": 16625,
+        "perWorkerCalls": [
+          129
+        ]
+      }
+    },
+    {
+      "name": "explain-payload-result-padding-256k-wide-128",
+      "index": 2,
+      "sequence": 26,
+      "peakRssBytes": 149454848,
+      "variant": "worker-1",
+      "graphShape": "wide",
+      "moduleCount": 128,
+      "minimumSourceBytes": 256,
+      "workIterations": 100000,
+      "resultPaddingBytes": 262144,
+      "instrumentation": true,
+      "expectedMatchingHandlerCalls": 129,
+      "totalSourceBytes": 37394,
+      "totalElapsedMs": 140.707875,
+      "pluginSetupElapsedMs": 1.2743329999999986,
+      "rolldownApiElapsedMs": 139.433375,
+      "generateElapsedMs": 137.526333,
+      "closeElapsedMs": 1.3817090000000007,
+      "cpuUserMs": 135.993,
+      "cpuSystemMs": 35.532,
+      "finalRssBytes": 145899520,
+      "outputBytes": 29220,
+      "outputRawHash": "7394ad043e857dafc8fb1438e5fb65f1bb7756a14b014e418687396c5148ccd4",
+      "outputHash": "4910086b94dd4bf493b88e2f1017283281d43a1d955008b3ec4848354f0993a0",
+      "jsMetrics": {
+        "factoryCalls": 1,
+        "handlerCalls": 129,
+        "handlerActive": 0,
+        "maxHandlerActive": 1,
+        "handlerNsTotal": 41112755,
+        "handlerNsMax": 2874625,
+        "handlerInputCodeBytes": 37394,
+        "handlerReturnedCodeBytes": 33856163,
+        "workerMask": "1",
+        "factoryNsTotal": 16875,
+        "factoryNsMax": 16875,
+        "perWorkerCalls": [
+          129
+        ]
+      },
+      "rustMetrics": {
+        "kind": "rolldown_parallel_plugin_transform_metrics",
+        "version": 1,
+        "plugin": "controlled-transform",
+        "workerCount": 1,
+        "wrapperCalls": 130,
+        "permitAcquiredCalls": 130,
+        "completedWrapperCalls": 130,
+        "permitQueueWaitNs": {
+          "total": 5959297669,
+          "max": 81799250
+        },
+        "permitHeldNs": {
+          "total": 68495210,
+          "max": 3385083
+        },
+        "permitQueuePending": {
+          "current": 0,
+          "max": 126
+        },
+        "wrapperOutstanding": {
+          "current": 0,
+          "max": 127
+        },
+        "permitInFlight": {
+          "current": 0,
+          "max": 1
+        },
+        "wrapperInputCodeBytes": 41678,
+        "returnedCodeBytes": 33856163,
+        "valueResults": 129,
+        "nullResults": 1,
+        "errorResults": 0,
+        "cancelledBeforeAcquire": 0,
+        "cancelledDuringService": 0
+      },
+      "initializationMetrics": {
+        "kind": "rolldown_parallel_plugin_init_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "pluginCount": 1,
+        "poolInitializationMs": 46.766541999999994,
+        "rssBeforeBytes": 68026368,
+        "rssAfterBytes": 84000768,
+        "workers": [
+          {
+            "threadNumber": 0,
+            "mainReadyMs": 46.51991699999999,
+            "workerBootstrap": {
+              "measuredBootstrapMs": 2.470499999999987,
+              "registerPluginsMs": 0.14083399999999813,
+              "plugins": [
+                {
+                  "pluginIndex": 0,
+                  "implementationImportMs": 1.4694169999999929,
+                  "factoryMs": 0.11099999999999,
+                  "bindingifyMs": 0.6995840000000015
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "terminationMetrics": {
+        "kind": "rolldown_parallel_plugin_termination_metrics",
+        "version": 1,
+        "workerCount": 1,
+        "poolTerminationMs": 1.2462500000000034,
+        "rssBeforeBytes": 149389312,
+        "rssAfterBytes": 145653760
+      }
+    }
+  ]
+}
