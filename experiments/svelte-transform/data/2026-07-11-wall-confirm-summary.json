@@ -1,0 +1,547 @@
+{
+  "schema": 1,
+  "sourceReport": "./.results/2026-07-11-wall-confirm.json",
+  "sourceStartedAt": "2026-07-11T15:37:18.378Z",
+  "sourceFinishedAt": "2026-07-11T15:39:59.103Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "svelteVersion": "5.56.4",
+  "rolldownCommit": "20cbc043ccf1ab730ded962db1f413abde15753d",
+  "rolldownWorktreeStatus": "",
+  "nativeBinding": {
+    "path": "packages/rolldown/src/rolldown-binding.darwin-arm64.node",
+    "bytes": 16311136,
+    "sha256": "d5dfc108c1267f08555dd4652f785bca40ad053fc573996bf1799ee714dddee1",
+    "profileClaim": "release",
+    "profileVerification": "The byte hash pins the artifact; the report cannot infer its Cargo profile."
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "corpus": {
+    "upstream": {
+      "repository": "https://github.com/huntabyte/shadcn-svelte.git",
+      "commit": "efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63",
+      "directory": "docs/src/lib/registry",
+      "license": "MIT",
+      "licenseSha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+    },
+    "selection": {
+      "glob": "docs/src/lib/registry/**/*.svelte",
+      "exclusion": "source.toLowerCase().includes(\"<svg\")",
+      "excludedSvgFiles": 26,
+      "ordering": "sha256(\"ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8\\0\" + path), then UTF-8 path"
+    },
+    "summary": {
+      "files": 1340,
+      "lines": 64392,
+      "bytes": 1946145,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "styleTags": 0,
+      "uniqueContents": 1322,
+      "aggregateSha256": "ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8"
+    }
+  },
+  "matrix": {
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "full-1340-confirmation",
+        "componentCount": 1340,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-2",
+          "worker-4",
+          "worker-8",
+          "worker-12"
+        ],
+        "warmups": 1,
+        "repeats": 10
+      }
+    ]
+  },
+  "caseSelections": [
+    {
+      "name": "full-1340-confirmation",
+      "componentCount": 1340,
+      "selectionHash": "23d7134d98a9b8ff9f87a9229900e67362b77d174fef5e0b4028bc7a69c59e47",
+      "sourceBytes": 1946145,
+      "sourceLines": 64392,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "uniqueContents": 1322
+    }
+  ],
+  "summaries": [
+    {
+      "name": "full-1340-confirmation",
+      "variant": "ordinary",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 2441.0364584,
+        "median": 2054.4393955,
+        "sampleStddev": 636.6797749011394,
+        "mad": 19.153207500000008,
+        "q1": 2038.0835204999998,
+        "q3": 2796.60829175,
+        "min": 2034.9844590000002,
+        "max": 3610.341542
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 121.11637909999999,
+        "median": 105.55472950000001,
+        "sampleStddev": 37.2386836262495,
+        "mad": 5.488187499999995,
+        "q1": 101.44662475000001,
+        "q3": 125.09851025,
+        "min": 99.76891699999999,
+        "max": 220.81599999999997
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 2319.9196875000002,
+        "median": 1949.7095210000002,
+        "sampleStddev": 605.1979345288089,
+        "mad": 19.510917000000177,
+        "q1": 1934.93263575,
+        "q3": 2674.2886350000003,
+        "min": 1928.247291,
+        "max": 3389.525125
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 3371.0152000000003,
+        "median": 3007.941,
+        "sampleStddev": 622.1459579583842,
+        "mad": 50.27299999999968,
+        "q1": 2971.16,
+        "q3": 3701.5485,
+        "min": 2949.969,
+        "max": 4570.462
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 786566348.8,
+        "median": 784384000,
+        "sampleStddev": 20025574.886803333,
+        "mad": 13991936,
+        "q1": 776105984,
+        "q3": 799543296,
+        "min": 756072448,
+        "max": 817266688
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-confirmation",
+      "variant": "worker-1",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 2857.0313625,
+        "median": 2644.2551875,
+        "sampleStddev": 668.6136120892922,
+        "mad": 368.6983745,
+        "q1": 2289.71986475,
+        "q3": 3265.440062,
+        "min": 2265.092542,
+        "max": 4058.1160830000003
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 1.8351873999999995,
+        "median": 1.3368540000000024,
+        "sampleStddev": 0.8721342954191547,
+        "mad": 0.07922900000000155,
+        "q1": 1.3011665000000008,
+        "q3": 2.081405999999996,
+        "min": 1.249167,
+        "max": 3.976292000000001
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 2855.1959625,
+        "median": 2642.968792,
+        "sampleStddev": 667.9963520860491,
+        "mad": 368.7375420000001,
+        "q1": 2288.45223925,
+        "q3": 3263.0410730000003,
+        "min": 2263.793,
+        "max": 4056.1455830000004
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 3670.4555,
+        "median": 3486.6189999999997,
+        "sampleStddev": 612.8521731589203,
+        "mad": 349.7545,
+        "q1": 3157.0775000000003,
+        "q3": 4023.7875,
+        "min": 3111.739,
+        "max": 4724.198
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 741400576,
+        "median": 740433920,
+        "sampleStddev": 8999771.118450217,
+        "mad": 3178496,
+        "q1": 735088640,
+        "q3": 742629376,
+        "min": 732708864,
+        "max": 764018688
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 0.8642946032777704,
+        "median": 0.8891212061755106,
+        "sampleStddev": 0.15399543492038742,
+        "mad": 0.021624958353608448,
+        "q1": 0.8480522278924059,
+        "q3": 0.9038016020111568,
+        "min": 0.5814740286095903,
+        "max": 1.1679849198618966
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-confirmation",
+      "variant": "worker-2",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 2182.5445377,
+        "median": 1941.0675625000001,
+        "sampleStddev": 555.8676146044646,
+        "mad": 264.74704150000014,
+        "q1": 1711.19786475,
+        "q3": 2614.19796925,
+        "min": 1667.157,
+        "max": 3054.7874580000002
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 1.7959418000000014,
+        "median": 1.4149579999999986,
+        "sampleStddev": 0.7395512062373153,
+        "mad": 0.08937449999999814,
+        "q1": 1.3563332500000005,
+        "q3": 1.9790732500000061,
+        "min": 1.2587919999999997,
+        "max": 3.1439589999999953
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 2180.748346,
+        "median": 1939.6885835000003,
+        "sampleStddev": 555.3841205470673,
+        "mad": 264.75287500000024,
+        "q1": 1709.8474585,
+        "q3": 2611.301219,
+        "min": 1665.808542,
+        "max": 3053.378333
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 4597.8624,
+        "median": 4195.154,
+        "sampleStddev": 859.9164464088875,
+        "mad": 361.8160000000005,
+        "q1": 3879.39725,
+        "q3": 5245.76125,
+        "min": 3826.265,
+        "max": 5969.743
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 867713024,
+        "median": 868851712,
+        "sampleStddev": 12572845.751310665,
+        "mad": 10059776,
+        "q1": 856461312,
+        "q3": 876994560,
+        "min": 849870848,
+        "max": 886374400
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 1.149292541447981,
+        "median": 1.1977336129129594,
+        "sampleStddev": 0.26941044851246493,
+        "mad": 0.060484988212907154,
+        "q1": 1.0336667484749749,
+        "q3": 1.2182838835219514,
+        "min": 0.702356011329024,
+        "max": 1.6854535662855048
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-confirmation",
+      "variant": "worker-4",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 1747.4374791000002,
+        "median": 1509.040125,
+        "sampleStddev": 404.6625221209815,
+        "mad": 26.352687500000002,
+        "q1": 1502.45081225,
+        "q3": 1980.0522707500002,
+        "min": 1479.9274580000001,
+        "max": 2584.17625
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 1.751416600000001,
+        "median": 1.3653750000000002,
+        "sampleStddev": 0.5824840642022747,
+        "mad": 0.054374499999997994,
+        "q1": 1.3465834999999995,
+        "q3": 2.0604372500000014,
+        "min": 1.2820840000000047,
+        "max": 2.819541000000001
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 1745.6858334,
+        "median": 1507.718375,
+        "sampleStddev": 404.19326380476605,
+        "mad": 26.38060399999995,
+        "q1": 1501.0876147499998,
+        "q3": 1977.6107500000003,
+        "min": 1478.56825,
+        "max": 2582.06675
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 6122.2148,
+        "median": 5689.0145,
+        "sampleStddev": 764.8054905198371,
+        "mad": 80.85750000000007,
+        "q1": 5625.87225,
+        "q3": 6693.91075,
+        "min": 5582.017,
+        "max": 7479.177
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 1034621747.2,
+        "median": 1030414336,
+        "sampleStddev": 34315305.77598576,
+        "mad": 21250048,
+        "q1": 1016848384,
+        "q3": 1059790848,
+        "min": 968212480,
+        "max": 1089404928
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 1.4174825332238825,
+        "median": 1.3572805849683527,
+        "sampleStddev": 0.33499563232059343,
+        "mad": 0.015424563334165864,
+        "q1": 1.3508991188551545,
+        "q3": 1.373881022927429,
+        "min": 1.0071095356330195,
+        "max": 2.316800614571474
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-confirmation",
+      "variant": "worker-8",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 1863.6251751,
+        "median": 1626.0264585,
+        "sampleStddev": 505.58168730972034,
+        "mad": 47.795208499999944,
+        "q1": 1589.9649165,
+        "q3": 1741.183667,
+        "min": 1571.707875,
+        "max": 3011.266
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 1.5514083999999997,
+        "median": 1.3176455000000011,
+        "sampleStddev": 0.4747985019739556,
+        "mad": 0.07747850000000511,
+        "q1": 1.2758647499999984,
+        "q3": 1.5530519999999992,
+        "min": 1.210208999999999,
+        "max": 2.628667000000007
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 1862.0735376999996,
+        "median": 1624.7085625,
+        "sampleStddev": 505.11980292600475,
+        "mad": 47.71766649999984,
+        "q1": 1588.45146925,
+        "q3": 1739.7879377499999,
+        "min": 1570.4375420000001,
+        "max": 3008.637125
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 8911.2407,
+        "median": 8627.1405,
+        "sampleStddev": 664.0045674991918,
+        "mad": 187.8259999999991,
+        "q1": 8572.5985,
+        "q3": 8839.588249999999,
+        "min": 8339.691,
+        "max": 10378.738
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 1405445734.4,
+        "median": 1405616128,
+        "sampleStddev": 35228524.61310331,
+        "mad": 22118400,
+        "q1": 1381285888,
+        "q3": 1421426688,
+        "min": 1343340544,
+        "max": 1459421184
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 1.3278888596548275,
+        "median": 1.270449290189894,
+        "sampleStddev": 0.2618450615213549,
+        "mad": 0.02558074447555181,
+        "q1": 1.2492133859107992,
+        "q3": 1.293989584841824,
+        "min": 1.126218770444059,
+        "max": 2.055195687674685
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-confirmation",
+      "variant": "worker-12",
+      "samples": 10,
+      "totalElapsedMs": {
+        "n": 10,
+        "mean": 2209.2432624999997,
+        "median": 1876.1941255,
+        "sampleStddev": 587.1881922889974,
+        "mad": 60.525499999999965,
+        "q1": 1839.57738525,
+        "q3": 2538.83984375,
+        "min": 1777.532458,
+        "max": 3216.623125
+      },
+      "pluginSetupElapsedMs": {
+        "n": 10,
+        "mean": 1.6065875000000005,
+        "median": 1.3972704999999976,
+        "sampleStddev": 0.46691857294423345,
+        "mad": 0.11793699999999774,
+        "q1": 1.2990315000000017,
+        "q3": 1.7445520000000005,
+        "min": 1.2772089999999992,
+        "max": 2.750792000000004
+      },
+      "rolldownApiElapsedMs": {
+        "n": 10,
+        "mean": 2207.636454,
+        "median": 1874.8559999999998,
+        "sampleStddev": 586.8379248375072,
+        "mad": 60.181542000000036,
+        "q1": 1838.25810375,
+        "q3": 2537.1576142500003,
+        "min": 1776.2166659999998,
+        "max": 3213.872083
+      },
+      "cpuUserMs": {
+        "n": 10,
+        "mean": 11072.4695,
+        "median": 10625.937,
+        "sampleStddev": 856.5413046663953,
+        "mad": 175.28749999999945,
+        "q1": 10485.92125,
+        "q3": 11738.6335,
+        "min": 10360.741,
+        "max": 12500.862
+      },
+      "peakRssBytes": {
+        "n": 10,
+        "mean": 1882718208,
+        "median": 1887641600,
+        "sampleStddev": 52706166.51308921,
+        "mad": 37265408,
+        "q1": 1858994176,
+        "q3": 1923190784,
+        "min": 1766178816,
+        "max": 1937408000
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 10,
+        "mean": 1.1064515389879825,
+        "median": 1.1061443410946166,
+        "sampleStddev": 0.027128044018621598,
+        "mad": 0.009912169022096351,
+        "q1": 1.0996919725209104,
+        "q3": 1.1170994863819814,
+        "min": 1.054318196509266,
+        "max": 1.1464542876999886
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    }
+  ]
+}

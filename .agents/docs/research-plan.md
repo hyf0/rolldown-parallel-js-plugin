@@ -16,6 +16,8 @@ Vite, watch, rebuild, development-server behavior, and HMR are outside the resea
 
 ## Phase 1: current transform path
 
+Status: complete. Unchanged current main failure, two minimal research repairs, successful controls, failure behavior, and source commits are preserved in the runtime evidence.
+
 - Pin current Rolldown main, the latest Node.js LTS patch, pnpm, Rust, operating system, CPU, and commands.
 - Use an isolated Rolldown worktree because the primary checkout is not an experiment workspace.
 - Build Rolldown and run the existing direct-Rolldown parallel no-op transform example unchanged. Record exit status, stdout and stderr, output artifact, worker initialization, first callback, and shutdown.
@@ -26,6 +28,8 @@ Vite, watch, rebuild, development-server behavior, and HMR are outside the resea
 
 ## Phase 2: core transform cost surface
 
+Status: complete. Release matrices now cover fresh-build fixed cost, task-cost crossover, worker count, graph width, chain serialization, payload, JavaScript and Rust timing, CPU, RSS, output hashes, and one-worker main-loop isolation. The [controlled release report](../../experiments/core-transform/2026-07-11-controlled-release.md) is the current result.
+
 - Create a controlled direct-Rolldown transform fixture only after the retained path runs. It must exercise real module-graph concurrency rather than call a compiler outside Rolldown.
 - Compare ordinary main-thread execution, one-worker isolation, and several explicit worker counts. If the current API has no worker-count control, add the smallest research-only control and keep the default behavior unchanged.
 - Vary graph width, module count, source and result bytes, per-module synchronous JavaScript work, and source-map output independently.
@@ -35,6 +39,8 @@ Vite, watch, rebuild, development-server behavior, and HMR are outside the resea
 - Locate the crossover and retain negative cells. One worker answers isolation; multiple workers answer throughput.
 
 ## Phase 3: Vue second case
+
+Status: complete. Full-plugin and thin-adapter output parity holds, every tested worker count regresses in the 30-round 166-SFC confirmation, and worker-1 still improves main-loop responsiveness. Import, initialization, handler contention, CPU, RSS, and compiler-error semantics explain the result in the [Vue report](../../experiments/vue-transform/2026-07-11-vue-icon-results.md).
 
 - Use `unplugin-vue/rolldown` under the direct Rolldown API. Do not run Vite or claim Vite-plugin parity. Count the Vite helper modules imported by the Rolldown entry as real plugin initialization and memory overhead.
 - Pin `unplugin-vue` 7.2.0, Vue and `@vue/compiler-sfc` 3.5.39, and `cabinet-fe/icon` at `9cadad32c72d79424c75e3b6e56798f216bb0b06` as the initial real corpus. Its four JavaScript entries reach 166 small SFCs without style or external blocks.
@@ -47,11 +53,15 @@ Vite, watch, rebuild, development-server behavior, and HMR are outside the resea
 
 ## Phase 4: attributed optimization
 
+Status: scoped by evidence. Worker-count reduction is insufficient for the 166-SFC Vue case because even two workers regress, while four workers are the best observed Svelte setting. The dominant Vue opportunity is a separately loadable compiler kernel that avoids full unplugin, Vite-helper, and released-binding replication. Svelte confirms that such a kernel can win at sufficient scale, but implementing one while preserving the complete Vue reference is a plugin architecture change rather than a bounded runtime optimization. Complete the hook comparisons before ranking that investment against runtime-level changes.
+
 - Change only the cost shown to dominate the core transform or Vue result: callback lifetime, worker count, lazy initialization, dispatch, batching, payload conversion, cache replication, state placement, module affinity, or CPU contention.
 - Re-run the same pinned core and Vue cases after each optimization.
 - Stop an optimization when its expected end-to-end benefit is smaller than its implementation and maintenance cost.
 
 ## Phase 5: required later cases
+
+Status: active. The [Svelte result](../../experiments/svelte-transform/2026-07-11-svelte-results.md) is complete: the small case loses, the full 1,340-component case reaches 1.36x at four workers, output code and maps match, and diagnostic parity fails. The separate `resolveId` and `load` release run is in progress.
 
 - Add a direct-Rolldown Svelte transform after Vue and preserve a reproducible ordinary, one-worker, and multi-worker comparison. Select its boundary and corpus from the earlier source audit, but do not run Vite.
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.

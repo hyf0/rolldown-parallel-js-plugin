@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-11T15:29:37.174Z",
+  "finishedAt": "2026-07-11T15:29:41.871Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "svelteVersion": "5.56.4",
+  "rolldownCommit": "eaa061bff488aa49ff81b46dba4fdcd4ee46b47a",
+  "rolldownWorktreeStatus": "",
+  "nativeBinding": {
+    "path": "packages/rolldown/src/rolldown-binding.darwin-arm64.node",
+    "bytes": 16311136,
+    "sha256": "d5dfc108c1267f08555dd4652f785bca40ad053fc573996bf1799ee714dddee1",
+    "profileClaim": "release",
+    "profileVerification": "The byte hash pins the artifact; the report cannot infer its Cargo profile."
+  },
+  "corpus": {
+    "upstream": {
+      "repository": "https://github.com/huntabyte/shadcn-svelte.git",
+      "commit": "efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63",
+      "directory": "docs/src/lib/registry",
+      "license": "MIT",
+      "licenseSha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+    },
+    "selection": {
+      "glob": "docs/src/lib/registry/**/*.svelte",
+      "exclusion": "source.toLowerCase().includes(\"<svg\")",
+      "excludedSvgFiles": 26,
+      "ordering": "sha256(\"ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8\\0\" + path), then UTF-8 path"
+    },
+    "summary": {
+      "files": 1340,
+      "lines": 64392,
+      "bytes": 1946145,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "styleTags": 0,
+      "uniqueContents": 1322,
+      "aggregateSha256": "ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8"
+    }
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "matrix": {
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "full-1340",
+        "componentCount": 1340,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-4"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "caseSelections": [
+    {
+      "name": "full-1340",
+      "componentCount": 1340,
+      "selectionHash": "23d7134d98a9b8ff9f87a9229900e67362b77d174fef5e0b4028bc7a69c59e47",
+      "sourceBytes": 1946145,
+      "sourceLines": 64392,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "uniqueContents": 1322
+    }
+  ],
+  "runs": [
+    {
+      "name": "full-1340",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 783220736,
+      "variant": "ordinary",
+      "componentCount": 1340,
+      "instrumentation": false,
+      "selectionHash": "23d7134d98a9b8ff9f87a9229900e67362b77d174fef5e0b4028bc7a69c59e47",
+      "expectedMatchingHandlerCalls": 1340,
+      "selectedSourceBytes": 1946145,
+      "totalElapsedMs": 2555.140042,
+      "pluginSetupElapsedMs": 231.73937500000002,
+      "rolldownApiElapsedMs": 2323.4002920000003,
+      "generateElapsedMs": 2321.280875,
+      "closeElapsedMs": 0.07475000000022192,
+      "cpuUserMs": 3301.052,
+      "cpuSystemMs": 416.251,
+      "finalRssBytes": 783122432,
+      "outputCodeBytes": 5465989,
+      "outputMapBytes": 3123695,
+      "outputRawCodeHash": "33d7dea38b9ebf814986fffd5511c13847d23a120f910aad2d658542a1932f22",
+      "outputCodeHash": "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34",
+      "outputRawMapHash": "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b",
+      "outputMapHash": "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+    },
+    {
+      "name": "full-1340",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 1011302400,
+      "variant": "worker-4",
+      "componentCount": 1340,
+      "instrumentation": false,
+      "selectionHash": "23d7134d98a9b8ff9f87a9229900e67362b77d174fef5e0b4028bc7a69c59e47",
+      "expectedMatchingHandlerCalls": 1340,
+      "selectedSourceBytes": 1946145,
+      "totalElapsedMs": 1790.86175,
+      "pluginSetupElapsedMs": 1.8714159999999964,
+      "rolldownApiElapsedMs": 1788.990084,
+      "generateElapsedMs": 1784.513208,
+      "closeElapsedMs": 3.9389169999999467,
+      "cpuUserMs": 6312.425,
+      "cpuSystemMs": 749.374,
+      "finalRssBytes": 1010548736,
+      "outputCodeBytes": 5465989,
+      "outputMapBytes": 3123695,
+      "outputRawCodeHash": "33d7dea38b9ebf814986fffd5511c13847d23a120f910aad2d658542a1932f22",
+      "outputCodeHash": "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34",
+      "outputRawMapHash": "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b",
+      "outputMapHash": "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+    }
+  ]
+}

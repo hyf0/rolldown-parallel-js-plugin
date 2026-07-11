@@ -130,11 +130,11 @@ For `N` normal Svelte component transforms, `P` preprocessed transforms, `S` uni
 - `svelte.compile` and `compileModule` are synchronous and reset module-global compiler state for each call. [Compiler entry](https://github.com/sveltejs/svelte/blob/eae50dfd1c2269e37258ef5c09527003bcf61573/packages/svelte/src/compiler/index.js#L23-L76) [Compiler state](https://github.com/sveltejs/svelte/blob/eae50dfd1c2269e37258ef5c09527003bcf61573/packages/svelte/src/compiler/state.js#L9-L148) One call at a time in each separate worker isolate fits that model, but each isolate pays compiler import, JIT, and memory.
 - Resolved options can contain preprocessors, `dynamicCompileOptions`, `onwarn`, `cssHash`, warning filters, custom-element logic, Vite config/server objects, stats classes, and closures. Some per-file functions can be evaluated by the coordinator into scalar task options; `cssHash` and arbitrary side-effectful callbacks need an explicit worker-loadable contract or incompatibility rule.
 
-### Earlier worker-boundary hypothesis
+### Measured worker boundary and remaining integration gap
 
 Keep configuration, preprocessing, dynamic option evaluation, warning policy, virtual-CSS resolve/load, custom loading, HMR/watch state, optimizer and inspector behavior, and plugin API on the coordinator. Move a prepared `svelte.compile` task that receives plain code, ID, environment, scalar options, and combined input map, then returns plain JavaScript, CSS, maps, dependencies, metadata, and normalized diagnostics.
 
-This was the earlier first-adaptation hypothesis because the expensive boundary is visible. The confirmed direction puts the current ParallelPlugin transform path first and direct-Rolldown Vue second; the required Svelte case follows and should isolate the compiler, state, or task-granularity difference from Vue.
+The completed direct-Rolldown case tests this prepared compiler boundary with 1,340 pinned real components and no Vite runtime. Four workers reach a 1.36x paired median speedup, while 24 components lose at every count and worker-8 and worker-12 are worse than worker-4. Exact code and source-map parity passes. Diagnostic parity does not: worker warnings disappear and compile errors lose ordinary plugin and module attribution. The corpus has no styles, so virtual-CSS metadata remains an explicit untested integration blocker rather than being hidden behind the positive transform number. [Formal result](../experiments/svelte-transform/2026-07-11-svelte-results.md)
 
 ### Archived Vite candidate builds and fixtures
 

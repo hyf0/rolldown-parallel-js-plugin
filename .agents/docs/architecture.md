@@ -48,9 +48,13 @@ These are possible responses to evidence, not the starting architecture or a pro
 
 The first experiment uses a controlled JavaScript transform so the runtime path and its costs are observable without plugin integration variables. The second case uses the real `unplugin-vue/rolldown` transform path under Rolldown's API. A thin adapter exposes only `buildStart` and `transform`, applies the same declarative `.vue` filter and module type to ordinary and parallel variants, and keeps the unchanged full ordinary plugin as the correctness reference.
 
-`unplugin-vue` imports some Vite helper code even through its Rolldown entry. No Vite runtime is invoked; the duplicated import and memory cost is counted as real plugin initialization overhead. The transform-only case does not claim styles, external blocks, virtual modules, source maps, function-valued configuration, or full Vite-plugin parity.
+`unplugin-vue` imports Vite helper code even through its Rolldown entry, and its TypeScript tail synchronously invokes native Oxc. No Vite runtime is invoked; the duplicated helper, binding, import, CPU, and memory cost is counted as real plugin overhead. The transform-only case does not claim styles, external blocks, virtual modules, source maps, function-valued configuration, or full Vite-plugin parity.
 
-Svelte is the required later transform comparison after Vue. Its experiment should emphasize the compiler, state, or task-granularity differences that make it more than a duplicate of the Vue matrix.
+The measured 166-SFC result shows why a hook shell is not a worker kernel: all transforms are ready together, but every worker still imports the complete unplugin dependency graph, resolves a compiler, warms its own isolate and caches, and competes with Rust and native Oxc. A future coordinator/kernel design is justified only if it can preserve the full ordinary output and diagnostics while loading a materially smaller implementation in workers.
+
+The Svelte comparison now supplies the positive real-compiler case that Vue did not. The same direct-Rolldown architecture loses for 24 components, crosses into a small gain at 256 components, and reaches a 1.36x paired median speedup at four workers for 1,340 independent real SFCs. Four workers also use about 89% more user CPU and 235 MiB more peak RSS; eight and twelve add resources while reducing the wall benefit. This establishes that framework identity and file count are not sufficient selectors: total compiler work, ready width, import and JIT cost, payload, and contention determine the result.
+
+The narrowed Svelte kernel is intentionally more parallel-friendly than a complete integration. It excludes preprocessing, dynamic callbacks, virtual CSS, and cross-hook metadata, and the corpus uses a wide synthetic entry with dependencies externalized. Exact code and map parity passes, while warning and error parity fails. A production integration therefore still needs a coordinator/kernel split that returns structured diagnostics and module metadata explicitly.
 
 ## Evidence levels
 
@@ -60,7 +64,7 @@ Each level answers a different question and must not be promoted into a stronger
 2. A controlled direct-Rolldown transform fixture measures startup, dispatch, payload, scheduling, isolation, and crossover without claiming real-plugin value.
 3. A direct-Rolldown Vue transform measures whether compiler initialization, source maps, diagnostics, and realistic SFC work survive the execution model.
 4. A pinned direct-Rolldown application graph measures end-to-end build value, including Rust work, output generation, and contention.
-5. The required direct-Rolldown Svelte case follows Vue, then separate `resolveId` and `load` evidence completes the hook-specific conclusions. Earlier results may narrow these later matrices but do not remove them.
+5. The direct-Rolldown Svelte case supplies a larger real-compiler comparison after Vue; separate `resolveId` and `load` evidence then completes the hook-specific conclusions.
 
 Technical quality is an equal evidence axis at every level. A faster variant is not viable if it changes output or source maps, loses metadata, changes diagnostics, leaks workers, deadlocks, or produces worker-count-dependent results.
 

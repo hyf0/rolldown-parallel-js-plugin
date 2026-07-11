@@ -1,0 +1,1306 @@
+{
+  "schema": 1,
+  "sourceReport": "./.results/2026-07-11-instrumented.json",
+  "sourceStartedAt": "2026-07-11T15:33:55.346Z",
+  "sourceFinishedAt": "2026-07-11T15:35:17.867Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "svelteVersion": "5.56.4",
+  "rolldownCommit": "eaa061bff488aa49ff81b46dba4fdcd4ee46b47a",
+  "rolldownWorktreeStatus": "",
+  "nativeBinding": {
+    "path": "packages/rolldown/src/rolldown-binding.darwin-arm64.node",
+    "bytes": 16311136,
+    "sha256": "d5dfc108c1267f08555dd4652f785bca40ad053fc573996bf1799ee714dddee1",
+    "profileClaim": "release",
+    "profileVerification": "The byte hash pins the artifact; the report cannot infer its Cargo profile."
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "corpus": {
+    "upstream": {
+      "repository": "https://github.com/huntabyte/shadcn-svelte.git",
+      "commit": "efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63",
+      "directory": "docs/src/lib/registry",
+      "license": "MIT",
+      "licenseSha256": "230594c9dedb06fb0759381a520b449c1b47b0f63b95fc88ef9d7e851e2540a9"
+    },
+    "selection": {
+      "glob": "docs/src/lib/registry/**/*.svelte",
+      "exclusion": "source.toLowerCase().includes(\"<svg\")",
+      "excludedSvgFiles": 26,
+      "ordering": "sha256(\"ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8\\0\" + path), then UTF-8 path"
+    },
+    "summary": {
+      "files": 1340,
+      "lines": 64392,
+      "bytes": 1946145,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "styleTags": 0,
+      "uniqueContents": 1322,
+      "aggregateSha256": "ea584b2189062d5986cb4c15f344bcb42cbee8b7089277ee95d5d7ab9f49b8e8"
+    }
+  },
+  "matrix": {
+    "bindingProfile": "release",
+    "cases": [
+      {
+        "name": "small-24-instrumented",
+        "componentCount": 24,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-4",
+          "worker-8"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      },
+      {
+        "name": "full-1340-instrumented",
+        "componentCount": 1340,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-4",
+          "worker-8",
+          "worker-12"
+        ],
+        "warmups": 1,
+        "repeats": 3
+      }
+    ]
+  },
+  "caseSelections": [
+    {
+      "name": "small-24-instrumented",
+      "componentCount": 24,
+      "selectionHash": "731d6562bbf014470ec9205f669bd64d47bac015b4b6a8b165b4d88272a43766",
+      "sourceBytes": 45640,
+      "sourceLines": 1421,
+      "typeScriptFiles": 24,
+      "runeFiles": 12,
+      "uniqueContents": 24
+    },
+    {
+      "name": "full-1340-instrumented",
+      "componentCount": 1340,
+      "selectionHash": "23d7134d98a9b8ff9f87a9229900e67362b77d174fef5e0b4028bc7a69c59e47",
+      "sourceBytes": 1946145,
+      "sourceLines": 64392,
+      "typeScriptFiles": 1314,
+      "runeFiles": 616,
+      "uniqueContents": 1322
+    }
+  ],
+  "summaries": [
+    {
+      "name": "full-1340-instrumented",
+      "variant": "ordinary",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 2732.1760560000002,
+        "median": 2784.619084,
+        "sampleStddev": 442.9834700670244,
+        "mad": 361.9845830000004,
+        "q1": 2524.9622504999998,
+        "q3": 2965.6113755,
+        "min": 2265.305417,
+        "max": 3146.6036670000003
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 142.82443066666667,
+        "median": 135.873125,
+        "sampleStddev": 26.507675407328655,
+        "mad": 15.38808299999998,
+        "q1": 128.1790835,
+        "q3": 153.994125,
+        "min": 120.485042,
+        "max": 172.115125
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 2589.3512776666666,
+        "median": 2612.503625,
+        "sampleStddev": 433.41913371462203,
+        "mad": 398.2265830000001,
+        "q1": 2378.6618124999995,
+        "q3": 2811.6169165,
+        "min": 2144.8199999999997,
+        "max": 3010.730208
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 3707.351,
+        "median": 3857.881,
+        "sampleStddev": 391.80060516032904,
+        "mad": 143.68200000000024,
+        "q1": 3560.245,
+        "q3": 3929.7219999999998,
+        "min": 3262.609,
+        "max": 4001.563
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 788507306.6666666,
+        "median": 791478272,
+        "sampleStddev": 5899089.479568633,
+        "mad": 851968,
+        "q1": 786595840,
+        "q3": 791904256,
+        "min": 781713408,
+        "max": 792330240
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 1314690.5942786068,
+        "median": 1373779.2925373134,
+        "sampleStddev": 182722.1752031559,
+        "mad": 86777.2932835822,
+        "q1": 1241757.5985074625,
+        "q3": 1417167.9391791045,
+        "min": 1109735.9044776119,
+        "max": 1460556.5858208956
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-instrumented",
+      "variant": "worker-1",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 4136.116611,
+        "median": 3089.246958,
+        "sampleStddev": 1966.0774701162773,
+        "mad": 174.2609580000003,
+        "q1": 3002.1164790000003,
+        "q3": 4746.6819165,
+        "min": 2914.986,
+        "max": 6404.116875
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 1.6578750000000018,
+        "median": 1.7767080000000064,
+        "sampleStddev": 0.33221628672748804,
+        "mad": 0.13762499999999278,
+        "q1": 1.5296460000000032,
+        "q3": 1.8455205000000028,
+        "min": 1.282584,
+        "max": 1.9143329999999992
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 4134.4584859999995,
+        "median": 3087.4700000000003,
+        "sampleStddev": 1966.4052499165327,
+        "mad": 174.39862500000027,
+        "q1": 3000.2706875000003,
+        "q3": 4745.1520414999995,
+        "min": 2913.071375,
+        "max": 6402.834083
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 4248.016,
+        "median": 3946.602,
+        "sampleStddev": 575.8554997323548,
+        "mad": 61.17399999999998,
+        "q1": 3916.015,
+        "q3": 4429.3099999999995,
+        "min": 3885.428,
+        "max": 4912.018
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 744248661.3333334,
+        "median": 747651072,
+        "sampleStddev": 15752722.541066648,
+        "mad": 10371072,
+        "q1": 737361920,
+        "q3": 752836608,
+        "min": 727072768,
+        "max": 758022144
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 0.7232852008131001,
+        "median": 0.7771239439914978,
+        "sampleStddev": 0.21025992433547455,
+        "mad": 0.12426695219078143,
+        "q1": 0.6342323531285105,
+        "q3": 0.8392574200868885,
+        "min": 0.4913407622655232,
+        "max": 0.9013908961822792
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 1966393.4268656715,
+        "median": 1386917.7820895521,
+        "sampleStddev": 1053154.1099359053,
+        "mad": 56685.85895522381,
+        "q1": 1358574.8526119404,
+        "q3": 2284474.1787313432,
+        "min": 1330231.9231343283,
+        "max": 3182030.575373134
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 1339.6666666666667,
+        "median": 1340,
+        "sampleStddev": 0.5773502691896258,
+        "mad": 0,
+        "q1": 1339.5,
+        "q3": 1340,
+        "min": 1339,
+        "max": 1340
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 166.419389,
+        "median": 163.805292,
+        "sampleStddev": 9.384874212754642,
+        "mad": 5.1865840000000105,
+        "q1": 161.212,
+        "q3": 170.3197295,
+        "min": 158.618708,
+        "max": 176.834167
+      },
+      "workerImplementationImportMs": {
+        "n": 3,
+        "mean": 120.13423633333333,
+        "median": 120.02350000000001,
+        "sampleStddev": 5.032268375823206,
+        "mad": 4.865250000000003,
+        "q1": 117.59087500000001,
+        "q3": 122.6222295,
+        "min": 115.15825000000001,
+        "max": 125.22095900000001
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-instrumented",
+      "variant": "worker-4",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 1956.3779860000002,
+        "median": 1790.171958,
+        "sampleStddev": 334.8786836217739,
+        "mad": 53.057291999999734,
+        "q1": 1763.6433120000002,
+        "q3": 2066.009646,
+        "min": 1737.1146660000002,
+        "max": 2341.847334
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 1.600986333333329,
+        "median": 1.4935839999999914,
+        "sampleStddev": 0.3198838848868972,
+        "mad": 0.14495899999999295,
+        "q1": 1.4211044999999949,
+        "q3": 1.7271669999999943,
+        "min": 1.3486249999999984,
+        "max": 1.9607499999999973
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 1954.77675,
+        "median": 1788.823125,
+        "sampleStddev": 334.9958236028933,
+        "mad": 53.669541999999865,
+        "q1": 1761.988354,
+        "q3": 2064.5883335,
+        "min": 1735.153583,
+        "max": 2340.353542
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 6553.892,
+        "median": 6482.164,
+        "sampleStddev": 327.2398869147831,
+        "mad": 213.6979999999994,
+        "q1": 6375.3150000000005,
+        "q3": 6696.605,
+        "min": 6268.466,
+        "max": 6911.046
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 1030318762.6666666,
+        "median": 1029046272,
+        "sampleStddev": 7689741.573550397,
+        "mad": 5701632,
+        "q1": 1026195456,
+        "q3": 1033805824,
+        "min": 1023344640,
+        "max": 1038565376
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 1.4040226117740657,
+        "median": 1.3436416718187318,
+        "sampleStddev": 0.17671483992233517,
+        "mad": 0.07822948229319349,
+        "q1": 1.304526930672135,
+        "q3": 1.4733278228983295,
+        "min": 1.2654121895255384,
+        "max": 1.6030139739779272
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 2587781.2689054725,
+        "median": 2319361.3201492536,
+        "sampleStddev": 540197.1692648253,
+        "mad": 84992.91268656682,
+        "q1": 2276864.86380597,
+        "q3": 2764487.699626866,
+        "min": 2234368.4074626868,
+        "max": 3209614.0791044775
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 4,
+        "median": 4,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 4,
+        "q3": 4,
+        "min": 4,
+        "max": 4
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 4,
+        "median": 4,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 4,
+        "q3": 4,
+        "min": 4,
+        "max": 4
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 1339.6666666666667,
+        "median": 1340,
+        "sampleStddev": 0.5773502691896258,
+        "mad": 0,
+        "q1": 1339.5,
+        "q3": 1340,
+        "min": 1339,
+        "max": 1340
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 257.79465266666665,
+        "median": 264.017333,
+        "sampleStddev": 43.911497134458386,
+        "mad": 34.245542,
+        "q1": 237.5605415,
+        "q3": 281.140104,
+        "min": 211.10375,
+        "max": 298.262875
+      },
+      "workerImplementationImportMs": {
+        "n": 12,
+        "mean": 202.77638533333334,
+        "median": 211.696625,
+        "sampleStddev": 31.849534676054542,
+        "mad": 21.292915999999977,
+        "q1": 165.85427074999998,
+        "q3": 227.94757249999998,
+        "min": 156.43820799999997,
+        "max": 244.00324999999998
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-instrumented",
+      "variant": "worker-8",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 2021.8705140000002,
+        "median": 1902.6535000000001,
+        "sampleStddev": 320.13112687678296,
+        "mad": 124.19991700000014,
+        "q1": 1840.5535415,
+        "q3": 2143.5789795,
+        "min": 1778.453583,
+        "max": 2384.5044589999998
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 1.425944333333329,
+        "median": 1.3769159999999943,
+        "sampleStddev": 0.14155931556889284,
+        "mad": 0.06149899999999775,
+        "q1": 1.3461664999999954,
+        "q3": 1.4812079999999952,
+        "min": 1.3154169999999965,
+        "max": 1.5854999999999961
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 2020.4444026666667,
+        "median": 1901.337916,
+        "sampleStddev": 320.0015025326232,
+        "mad": 124.26137400000016,
+        "q1": 1839.2072289999999,
+        "q3": 2142.1283329999997,
+        "min": 1777.0765419999998,
+        "max": 2382.91875
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 9012.659999999998,
+        "median": 9070.317,
+        "sampleStddev": 173.22700998112248,
+        "mad": 79.38900000000103,
+        "q1": 8944.136999999999,
+        "q3": 9110.0115,
+        "min": 8817.957,
+        "max": 9149.706
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 1410329258.6666667,
+        "median": 1415168000,
+        "sampleStddev": 34156523.452046424,
+        "mad": 26640384,
+        "q1": 1394589696,
+        "q3": 1428488192,
+        "min": 1374011392,
+        "max": 1441808384
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 1.3586537079374816,
+        "median": 1.3196048575726318,
+        "sampleStddev": 0.19059892704640327,
+        "mad": 0.1290016200414681,
+        "q1": 1.2551040475518978,
+        "q3": 1.4426789431406406,
+        "min": 1.1906032375311637,
+        "max": 1.5657530287086496
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 4914050.5231343275,
+        "median": 4790141.329104478,
+        "sampleStddev": 923939.2776632131,
+        "mad": 731822.7962686568,
+        "q1": 4424229.930970149,
+        "q3": 5341916.518283581,
+        "min": 4058318.5328358207,
+        "max": 5893691.707462686
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 8,
+        "median": 8,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 8,
+        "q3": 8,
+        "min": 8,
+        "max": 8
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 8,
+        "median": 8,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 8,
+        "q3": 8,
+        "min": 8,
+        "max": 8
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 1339.6666666666667,
+        "median": 1340,
+        "sampleStddev": 0.5773502691896258,
+        "mad": 0,
+        "q1": 1339.5,
+        "q3": 1340,
+        "min": 1339,
+        "max": 1340
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 358.67141666666663,
+        "median": 301.30249999999995,
+        "sampleStddev": 149.45375393622678,
+        "mad": 54.90062499999999,
+        "q1": 273.85218749999996,
+        "q3": 414.80618749999996,
+        "min": 246.40187499999996,
+        "max": 528.309875
+      },
+      "workerImplementationImportMs": {
+        "n": 24,
+        "mean": 248.25593225000003,
+        "median": 227.25770799999998,
+        "sampleStddev": 62.06779293752502,
+        "mad": 35.02085349999999,
+        "q1": 195.95888549999998,
+        "q3": 308.46072950000007,
+        "min": 177.524375,
+        "max": 369.408833
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "full-1340-instrumented",
+      "variant": "worker-12",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 2137.0789170000003,
+        "median": 2120.714667,
+        "sampleStddev": 234.59470187455102,
+        "mad": 209.61987500000032,
+        "q1": 2015.9047295,
+        "q3": 2250.0709795000002,
+        "min": 1911.0947919999999,
+        "max": 2379.4272920000003
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 1.8117780000000014,
+        "median": 1.8742499999999964,
+        "sampleStddev": 0.2976659811802452,
+        "mad": 0.19900000000000517,
+        "q1": 1.6810420000000015,
+        "q3": 1.973749999999999,
+        "min": 1.4878340000000065,
+        "max": 2.0732500000000016
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 2135.2668750000003,
+        "median": 2118.641167,
+        "sampleStddev": 234.415624864774,
+        "mad": 209.0344590000002,
+        "q1": 2014.1239375,
+        "q3": 2248.0969585000003,
+        "min": 1909.606708,
+        "max": 2377.5527500000003
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 10566.094333333333,
+        "median": 10670.702,
+        "sampleStddev": 184.8289286457436,
+        "mad": 4.1930000000011205,
+        "q1": 10511.694,
+        "q3": 10672.7985,
+        "min": 10352.686,
+        "max": 10674.895
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 1840884394.6666667,
+        "median": 1794703360,
+        "sampleStddev": 96496420.91217943,
+        "mad": 18546688,
+        "q1": 1785430016,
+        "q3": 1873248256,
+        "min": 1776156672,
+        "max": 1951793152
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 1.2736072928824946,
+        "median": 1.3130569271438908,
+        "sampleStddev": 0.07658119677663484,
+        "mad": 0.009363672796004252,
+        "q1": 1.2492006393537944,
+        "q3": 1.317738763541893,
+        "min": 1.1853443515636979,
+        "max": 1.322420599939895
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 6698064.790547264,
+        "median": 6745822.219402985,
+        "sampleStddev": 377719.4154252661,
+        "mad": 303812.0925373137,
+        "q1": 6522280.029850746,
+        "q3": 6897728.265671642,
+        "min": 6298737.840298507,
+        "max": 7049634.311940298
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 12,
+        "median": 12,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 12,
+        "q3": 12,
+        "min": 12,
+        "max": 12
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 12,
+        "median": 12,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 12,
+        "q3": 12,
+        "min": 12,
+        "max": 12
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 1340,
+        "median": 1340,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1340,
+        "q3": 1340,
+        "min": 1340,
+        "max": 1340
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 468.28101399999997,
+        "median": 502.535916,
+        "sampleStddev": 101.48788338189694,
+        "mad": 45.67300099999994,
+        "q1": 428.3170625,
+        "q3": 525.3724165,
+        "min": 354.098209,
+        "max": 548.2089169999999
+      },
+      "workerImplementationImportMs": {
+        "n": 36,
+        "mean": 364.8591190277778,
+        "median": 385.57714550000003,
+        "sampleStddev": 64.59179415093006,
+        "mad": 49.250021000000004,
+        "q1": 293.33827099999996,
+        "q3": 410.6238332500001,
+        "min": 258.350958,
+        "max": 467.48520799999994
+      },
+      "outputCodeHashes": [
+        "74632c9311245ef6bb64e0b59d279301b298006ea0bd721eadb13c59cf481a34"
+      ],
+      "outputMapHashes": [
+        "8af02de1db25c2663eef3ca6f62c00304df79160e83f8714e65ab3a2bcc3198b"
+      ]
+    },
+    {
+      "name": "small-24-instrumented",
+      "variant": "ordinary",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 701.2334586666666,
+        "median": 369.171084,
+        "sampleStddev": 613.4550203649235,
+        "mad": 43.78095900000005,
+        "q1": 347.2806045,
+        "q3": 889.1551254999999,
+        "min": 325.39012499999995,
+        "max": 1409.1391669999998
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 332.0387916666666,
+        "median": 204.27950000000004,
+        "sampleStddev": 247.26899073267447,
+        "mad": 29.494792000000075,
+        "q1": 189.532104,
+        "q3": 410.66583349999996,
+        "min": 174.78470799999997,
+        "max": 617.0521669999999
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 369.19398633333327,
+        "median": 164.89125,
+        "sampleStddev": 366.30448254491887,
+        "mad": 14.28608300000002,
+        "q1": 157.7482085,
+        "q3": 478.48839599999997,
+        "min": 150.605167,
+        "max": 792.0855419999999
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 423.211,
+        "median": 391.325,
+        "sampleStddev": 66.4312738625416,
+        "mad": 12.591000000000008,
+        "q1": 385.0295,
+        "q3": 445.4495,
+        "min": 378.734,
+        "max": 499.574
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 155385856,
+        "median": 153239552,
+        "sampleStddev": 7357510.617893527,
+        "mad": 3899392,
+        "q1": 151289856,
+        "q3": 158408704,
+        "min": 149340160,
+        "max": 163577856
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 13351252.416666666,
+        "median": 5777153,
+        "sampleStddev": 13318702.175378606,
+        "mad": 230338.75,
+        "q1": 5661983.625,
+        "q3": 17253471.5,
+        "min": 5546814.25,
+        "max": 28729790
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "outputCodeHashes": [
+        "ce53c8d71ca6bc0bcc6c0652681a1d50b54636883774786d6c3df21bee907d13"
+      ],
+      "outputMapHashes": [
+        "1e099b5139a0fb1dc04558ec8c9bd5890612734c0bd5f8b92fd5ceaa04d43027"
+      ]
+    },
+    {
+      "name": "small-24-instrumented",
+      "variant": "worker-1",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 1165.7153333333333,
+        "median": 467.71179200000006,
+        "sampleStddev": 1232.817609343032,
+        "mad": 27.439917000000094,
+        "q1": 453.9918335,
+        "q3": 1528.4370625000001,
+        "min": 440.27187499999997,
+        "max": 2589.162333
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 30.939917000000012,
+        "median": 2.5985000000000014,
+        "sampleStddev": 49.58728203824435,
+        "mad": 0.5746659999999935,
+        "q1": 2.3111670000000046,
+        "q3": 45.397958500000016,
+        "min": 2.023834000000008,
+        "max": 88.19741700000003
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 1134.775125,
+        "median": 465.687625,
+        "sampleStddev": 1183.2378346709097,
+        "mad": 28.014625000000024,
+        "q1": 451.6803125,
+        "q3": 1483.3261875,
+        "min": 437.673,
+        "max": 2500.96475
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 529.9673333333334,
+        "median": 474.15,
+        "sampleStddev": 115.16869850064874,
+        "mad": 20.80699999999996,
+        "q1": 463.74649999999997,
+        "q3": 568.2795,
+        "min": 453.343,
+        "max": 662.409
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 160950954.66666666,
+        "median": 163446784,
+        "sampleStddev": 4508617.617356936,
+        "mad": 212992,
+        "q1": 159596544,
+        "q3": 163553280,
+        "min": 155746304,
+        "max": 163659776
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 0.69281958619786,
+        "median": 0.6957064811399921,
+        "sampleStddev": 0.14715218072785946,
+        "mad": 0.14280059815050317,
+        "q1": 0.6199758396515422,
+        "q3": 0.7671067802152437,
+        "min": 0.5442451981630925,
+        "max": 0.8385070792904953
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 13165263.361111112,
+        "median": 6292880.208333333,
+        "sampleStddev": 12477231.05500906,
+        "mad": 657694.333333333,
+        "q1": 5964033.041666666,
+        "q3": 16930302.104166668,
+        "min": 5635185.875,
+        "max": 27567724
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 1,
+        "median": 1,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 1,
+        "q3": 1,
+        "min": 1,
+        "max": 1
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 24,
+        "median": 24,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 24,
+        "q3": 24,
+        "min": 24,
+        "max": 24
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 741.285,
+        "median": 282.809958,
+        "sampleStddev": 800.3677226711427,
+        "mad": 7.225540999999964,
+        "q1": 279.19718750000004,
+        "q3": 974.1352915,
+        "min": 275.58441700000003,
+        "max": 1665.4606250000002
+      },
+      "workerImplementationImportMs": {
+        "n": 3,
+        "mean": 600.625125,
+        "median": 222.19929100000002,
+        "sampleStddev": 674.5244393222135,
+        "mad": 21.919249000000008,
+        "q1": 211.2396665,
+        "q3": 800.7976665,
+        "min": 200.280042,
+        "max": 1379.3960419999999
+      },
+      "outputCodeHashes": [
+        "ce53c8d71ca6bc0bcc6c0652681a1d50b54636883774786d6c3df21bee907d13"
+      ],
+      "outputMapHashes": [
+        "1e099b5139a0fb1dc04558ec8c9bd5890612734c0bd5f8b92fd5ceaa04d43027"
+      ]
+    },
+    {
+      "name": "small-24-instrumented",
+      "variant": "worker-4",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 807.4022916666667,
+        "median": 485.92691699999995,
+        "sampleStddev": 569.2620123724525,
+        "mad": 14.324374999999975,
+        "q1": 478.76472949999993,
+        "q3": 975.3021664999999,
+        "min": 471.60254199999997,
+        "max": 1464.677416
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 2.734388999999988,
+        "median": 2.103166999999999,
+        "sampleStddev": 1.5756192346068096,
+        "mad": 0.5309170000000023,
+        "q1": 1.837708499999998,
+        "q3": 3.315458499999984,
+        "min": 1.5722499999999968,
+        "max": 4.527749999999969
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 804.667597,
+        "median": 483.82337499999994,
+        "sampleStddev": 567.7058001977206,
+        "mad": 13.793374999999969,
+        "q1": 476.92668749999996,
+        "q3": 971.9863955,
+        "min": 470.03,
+        "max": 1460.149416
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 1430.9193333333333,
+        "median": 1434.24,
+        "sampleStddev": 15.58462734021361,
+        "mad": 10.336000000000013,
+        "q1": 1424.091,
+        "q3": 1439.408,
+        "min": 1413.942,
+        "max": 1444.576
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 307172693.3333333,
+        "median": 306298880,
+        "sampleStddev": 1599378.2975610658,
+        "mad": 98304,
+        "q1": 306249728,
+        "q3": 307658752,
+        "min": 306200576,
+        "max": 309018624
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 0.8048368625653461,
+        "median": 0.7828013022033288,
+        "sampleStddev": 0.14746692002736828,
+        "mad": 0.11317359973135399,
+        "q1": 0.7262145023376518,
+        "q3": 0.8724414426120319,
+        "min": 0.6696277024719748,
+        "max": 0.9620815830207351
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 15865538.666666666,
+        "median": 15279968.625,
+        "sampleStddev": 1538533.1339965109,
+        "mad": 574199.583333334,
+        "q1": 14992868.833333332,
+        "q3": 16445423.479166666,
+        "min": 14705769.041666666,
+        "max": 17610878.333333332
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 4,
+        "median": 4,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 4,
+        "q3": 4,
+        "min": 4,
+        "max": 4
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 4,
+        "median": 4,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 4,
+        "q3": 4,
+        "min": 4,
+        "max": 4
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 24,
+        "median": 24,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 24,
+        "q3": 24,
+        "min": 24,
+        "max": 24
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 663.8324443333332,
+        "median": 351.33270799999997,
+        "sampleStddev": 551.6674790741564,
+        "mad": 11.973749999999939,
+        "q1": 345.34583299999997,
+        "q3": 826.0691875,
+        "min": 339.35895800000003,
+        "max": 1300.8056669999999
+      },
+      "workerImplementationImportMs": {
+        "n": 12,
+        "mean": 574.3601562500002,
+        "median": 269.505708,
+        "sampleStddev": 455.02817118612296,
+        "mad": 8.867145999999991,
+        "q1": 264.91363575,
+        "q3": 1176.76357275,
+        "min": 259.089917,
+        "max": 1212.761542
+      },
+      "outputCodeHashes": [
+        "ce53c8d71ca6bc0bcc6c0652681a1d50b54636883774786d6c3df21bee907d13"
+      ],
+      "outputMapHashes": [
+        "1e099b5139a0fb1dc04558ec8c9bd5890612734c0bd5f8b92fd5ceaa04d43027"
+      ]
+    },
+    {
+      "name": "small-24-instrumented",
+      "variant": "worker-8",
+      "samples": 3,
+      "totalElapsedMs": {
+        "n": 3,
+        "mean": 906.6251663333334,
+        "median": 938.3839159999999,
+        "sampleStddev": 307.9213822436874,
+        "mad": 259.05245900000034,
+        "q1": 761.219562,
+        "q3": 1067.9101455,
+        "min": 584.055208,
+        "max": 1197.4363750000002
+      },
+      "pluginSetupElapsedMs": {
+        "n": 3,
+        "mean": 1.9117359999999952,
+        "median": 1.934624999999997,
+        "sampleStddev": 0.1272617645367237,
+        "mad": 0.09137499999999932,
+        "q1": 1.8546039999999948,
+        "q3": 1.9803124999999966,
+        "min": 1.7745829999999927,
+        "max": 2.0259999999999962
+      },
+      "rolldownApiElapsedMs": {
+        "n": 3,
+        "mean": 904.7131249999999,
+        "median": 936.3576249999999,
+        "sampleStddev": 307.8328365374969,
+        "mad": 259.1437920000003,
+        "q1": 759.3189789999999,
+        "q3": 1065.929521,
+        "min": 582.280333,
+        "max": 1195.5014170000002
+      },
+      "cpuUserMs": {
+        "n": 3,
+        "mean": 2694.9533333333334,
+        "median": 2708.84,
+        "sampleStddev": 138.05281749147076,
+        "mad": 116.69799999999987,
+        "q1": 2629.661,
+        "q3": 2767.1890000000003,
+        "min": 2550.482,
+        "max": 2825.538
+      },
+      "peakRssBytes": {
+        "n": 3,
+        "mean": 483551914.6666667,
+        "median": 484212736,
+        "sampleStddev": 2595213.877414602,
+        "mad": 1540096,
+        "q1": 482451456,
+        "q3": 484982784,
+        "min": 480690176,
+        "max": 485752832
+      },
+      "pairedSpeedupVsOrdinary": {
+        "n": 3,
+        "mean": 0.7185450235909389,
+        "median": 0.6320825136790836,
+        "sampleStddev": 0.4217211984213062,
+        "mad": 0.2853266502718937,
+        "q1": 0.4894191885431368,
+        "q3": 0.9044396036828133,
+        "min": 0.34675586340718995,
+        "max": 1.176796693686543
+      },
+      "handlerNsPerCall": {
+        "n": 3,
+        "mean": 54726183.47222222,
+        "median": 52506189.25,
+        "sampleStddev": 6874420.395267935,
+        "mad": 3270112.833333336,
+        "q1": 50871132.83333333,
+        "q3": 57471237,
+        "min": 49236076.416666664,
+        "max": 62436284.75
+      },
+      "maxHandlerActive": {
+        "n": 3,
+        "mean": 8,
+        "median": 8,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 8,
+        "q3": 8,
+        "min": 8,
+        "max": 8
+      },
+      "maxPermitInFlight": {
+        "n": 3,
+        "mean": 8,
+        "median": 8,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 8,
+        "q3": 8,
+        "min": 8,
+        "max": 8
+      },
+      "maxWrapperOutstanding": {
+        "n": 3,
+        "mean": 24,
+        "median": 24,
+        "sampleStddev": 0,
+        "mad": 0,
+        "q1": 24,
+        "q3": 24,
+        "min": 24,
+        "max": 24
+      },
+      "poolInitializationMs": {
+        "n": 3,
+        "mean": 684.7068476666667,
+        "median": 699.989042,
+        "sampleStddev": 280.6553938569114,
+        "mad": 257.41987500000005,
+        "q1": 548.355813,
+        "q3": 828.6989795000001,
+        "min": 396.722584,
+        "max": 957.4089170000001
+      },
+      "workerImplementationImportMs": {
+        "n": 24,
+        "mean": 506.44767883333316,
+        "median": 527.520313,
+        "sampleStddev": 164.28629641140927,
+        "mad": 164.23260350000004,
+        "q1": 316.01144775,
+        "q3": 621.070823,
+        "min": 279.741125,
+        "max": 768.7325
+      },
+      "outputCodeHashes": [
+        "ce53c8d71ca6bc0bcc6c0652681a1d50b54636883774786d6c3df21bee907d13"
+      ],
+      "outputMapHashes": [
+        "1e099b5139a0fb1dc04558ec8c9bd5890612734c0bd5f8b92fd5ceaa04d43027"
+      ]
+    }
+  ]
+}

@@ -52,7 +52,8 @@ The parallel JavaScript plugin implementation has not been deleted, but unchange
 - The [`compile` plugin](https://github.com/sveltejs/vite-plugin-svelte/blob/c9feef65f78bb42a1dc85c58522ca3c9bdfde01c/packages/vite-plugin-svelte/src/plugins/compile.js) exposes a promising module-local boundary only after a coordinator supplies the filter, options, ID parser, compile closure, Vite environment identity, and combined source map initialized or provided by the ordinary plugin lifecycle. It cannot be moved unchanged into the current ParallelPlugin.
 - The split does not make it immediately parallel-safe. Resolved options can contain non-serializable preprocessors, `dynamicCompileOptions`, and warning handlers; compile statistics are shared mutable state; compiled CSS is later read through module metadata; preprocessing tracks dependency maps; HMR maintains prior transformed outputs.
 - Its compiled-CSS `resolveId` is an exact-filtered constant return, and its `load` path depends on graph metadata and a rebuild cache. Those hooks should initially remain coordinated while the synchronous compiler kernel is the primary worker candidate.
-- Svelte remains the required later transform comparison because the heavy compile boundary is visible. It is no longer the first adaptation; its case follows Vue and must explain the compiler, state, or task-granularity difference it tests.
+- The completed direct-Rolldown Svelte case uses one shared, stateless `svelte.compile` kernel over 1,340 pinned shadcn-svelte components. Four workers reduce paired median build wall time from 2054 ms to 1509 ms, a 1.36x speedup, while increasing user CPU from 3008 ms to 5689 ms and peak RSS from 748 MiB to 983 MiB. The 24-component case loses at every worker count, and eight or twelve workers are worse than four. [Formal Svelte result](../experiments/svelte-transform/2026-07-11-svelte-results.md)
+- The Svelte output code and maps match exactly, but the current worker context drops two structured compiler warnings and worker errors lose ordinary plugin and module attribution. The experiment intentionally excludes preprocessing, virtual CSS, cross-hook metadata, SvelteKit, and Vite, so it establishes the value of a prepared compiler kernel rather than full official-plugin compatibility.
 
 The complete source-derived hook maps, serialization constraints, worker-boundary hypotheses, correctness fixtures, and candidate project pool are in [Vue and Svelte plugin case notes](./plugin-case-notes.md).
 
@@ -67,6 +68,6 @@ Pinned sources, static project inventories, and rejection reasons are retained i
 
 ## Current runtime sequence
 
-- Completed: unchanged-current reproduction, worker-lifetime and failed-initialization cleanup repairs, byte-identical ordinary and parallel controls, explicit worker-count control, release controlled transform cost model, payload and graph-shape axes, failure fixtures, and release one-worker main-thread isolation evidence.
-- Active: finish the pinned direct-Rolldown Vue case with full-plugin output reference, thin ordinary and parallel adapters, formal wall data, attribution, main-loop response, and diagnostics.
-- Next: complete the Svelte transform comparison and separate `resolveId` and `load` evidence, then synthesize optimization priorities and the compatibility contract.
+- Completed: unchanged-current reproduction, worker-lifetime and failed-initialization cleanup repairs, release controlled transform cost model, the 166-SFC Vue negative case, and the 1,340-SFC Svelte positive case, including output, diagnostics, CPU, RSS, worker-count, and main-loop evidence.
+- Active: complete the separate release `resolveId` and `load` evidence.
+- Next: synthesize hook-specific value, optimization priorities, the plugin authoring contract, and the final compatibility verdict.

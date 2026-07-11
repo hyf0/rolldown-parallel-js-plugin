@@ -48,9 +48,10 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 
 ## D006: each plugin instance receives incomplete and isolated context data
 
-- Status: source-proven.
+- Status: source-proven; warning loss is observed in the pinned Svelte compiler case.
 - Severity: blocker for plugins that require diagnostics, watch mode, plugin discovery, or output option callbacks.
 - Behavior: [`parallel-plugin-worker.ts`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/parallel-plugin-worker.ts#L13-L38) creates a separate `PluginContextData` for every plugin in every worker, passes empty input and output options and plugin lists, uses a no-op logger, and hard-codes `watchMode = false`.
+- Observed result: ordinary Svelte compilation emits two structured accessibility warnings with plugin, hook, ID, code, location, and frame. The worker form produces identical code and map hashes but emits no logs. [Evidence](../experiments/svelte-transform/2026-07-11-svelte-results.md#correctness-gates)
 - Impact: `warn`, `info`, and `debug` are discarded; normalized option views are incomplete; plugin-to-plugin discovery is absent; watch behavior is misreported; output behavior that depends on JavaScript option functions can fail.
 - Fix condition: every exposed context field either has ordinary-plugin semantics, has a documented parallel meaning, or is unavailable at type and runtime level.
 
@@ -151,10 +152,10 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 - Impact: miss-heavy plugins can queue behind the shared worker pool and briefly occupy permits even when a Rust-side filter has enough information to reject them. Real hits can wait behind work that should never select a worker, and adding a native filter does not remove this queueing cost under the wrapper.
 - Fix condition: wrapper-visible hook usage and filters reject calls before permit acquisition, ordinary and parallel variants use equivalent filters, and measurements prove that filter-only gains are not attributed to worker execution.
 
-## D019: transform failures lose plugin and module attribution
+## D019: worker hook failures lose plugin and module attribution
 
-- Status: observed for synchronous throws and rejected transform promises on Node.js 24.18.0 with research commits `75ba695d1` and `8fe749827`.
+- Status: observed for controlled synchronous throws and rejected transform promises, the pinned Vue compiler error, and the pinned Svelte compiler error on Node.js 24.18.0.
 - Severity: medium for debugging and plugin compatibility; the build fails rather than silently succeeding.
-- Behavior: the failure fixtures retain the thrown message but the CLI renders `Error: Error: <message>` without the plugin name, module ID, hook name, or worker-side stack. Both processes exit promptly after peer workers are terminated. [Evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md)
+- Behavior: the controlled fixtures retain the thrown message but render `Error: Error: <message>` without the plugin name, module ID, hook name, or worker-side stack. The Vue and Svelte compiler probes likewise fail rather than silently succeeding, but both lose ordinary plugin and module attribution and change the structured error. Peer workers terminate promptly in the controlled fixtures. [Core evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md), [Vue evidence](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [Svelte evidence](../experiments/svelte-transform/2026-07-11-svelte-results.md#correctness-gates)
 - Impact: users can see the immediate message but cannot identify which parallel plugin instance or module produced it, and worker stacks needed to debug compiler failures are lost.
 - Fix condition: synchronous and asynchronous hook failures retain the plugin name, hook, module ID, original message and stack, exit without leaked workers, and match ordinary-plugin error attribution at the strongest practical level.
