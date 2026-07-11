@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "environment": {
+    "machine": "Apple M3 Pro",
+    "logical_cpus": 12,
+    "os": "macOS Darwin 25.5.0 arm64",
+    "node": "24.18.0",
+    "rolldown_base": "21d7b32827045e377a82c3cb681dafa51c244883",
+    "rolldown_research_head": "2a032a612",
+    "runner": "examples/par-plugin/run-main-thread-matrix.mjs"
+  },
+  "invocation": {
+    "working_directory": "examples/par-plugin",
+    "command": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node ./run-main-thread-matrix.mjs",
+    "samples_per_variant": 5,
+    "fresh_process_per_sample": true
+  },
+  "runs": [
+    {
+      "index": 0,
+      "peakRssBytes": 1169801216,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 6028.932625,
+      "cpuUserMs": 10947.183,
+      "cpuSystemMs": 420.475,
+      "finalRssBytes": 1169506304,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 3.4082937149295773, "p50": 1.267711, "p95": 1.287167, "p99": 2.854911, "max": 1029.701631 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 1,
+      "peakRssBytes": 1162788864,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 6066.988041,
+      "cpuUserMs": 10951.924,
+      "cpuSystemMs": 381.427,
+      "finalRssBytes": 1156415488,
+      "eventLoopDelayMs": { "min": 0.011776, "mean": 3.3560456890848953, "p50": 1.267711, "p95": 1.283071, "p99": 2.238463, "max": 1028.653055 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 2,
+      "peakRssBytes": 1179942912,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 6034.072167,
+      "cpuUserMs": 10971.3,
+      "cpuSystemMs": 386.334,
+      "finalRssBytes": 1179451392,
+      "eventLoopDelayMs": { "min": 0.011776, "mean": 3.3752770925306574, "p50": 1.267711, "p95": 1.283071, "p99": 2.367487, "max": 1030.750207 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 3,
+      "peakRssBytes": 1170243584,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 6092.189666,
+      "cpuUserMs": 11191.394,
+      "cpuSystemMs": 408.906,
+      "finalRssBytes": 1169981440,
+      "eventLoopDelayMs": { "min": 0.011776, "mean": 3.3715644787644785, "p50": 1.267711, "p95": 1.284095, "p99": 2.467839, "max": 1031.798783 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 4,
+      "peakRssBytes": 1161232384,
+      "mode": "ordinary",
+      "workerCount": 0,
+      "elapsedMs": 6091.2168329999995,
+      "cpuUserMs": 11036.904,
+      "cpuSystemMs": 391.428,
+      "finalRssBytes": 1160986624,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 3.3160996809549648, "p50": 1.267711, "p95": 1.288191, "p99": 2.041855, "max": 1027.080191 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 0,
+      "peakRssBytes": 1133608960,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 10130.75375,
+      "cpuUserMs": 11180.859,
+      "cpuSystemMs": 505.229,
+      "finalRssBytes": 1131036672,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 1.2673471896142803, "p50": 1.267711, "p95": 1.295359, "p99": 1.860607, "max": 8.343551 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 1,
+      "peakRssBytes": 1163493376,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 9597.169125,
+      "cpuUserMs": 11006.889,
+      "cpuSystemMs": 481.576,
+      "finalRssBytes": 1163165696,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 1.248575800623053, "p50": 1.267711, "p95": 1.275903, "p99": 1.335295, "max": 4.923391 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 2,
+      "peakRssBytes": 1189822464,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 9690.428791,
+      "cpuUserMs": 11013.087,
+      "cpuSystemMs": 444.21,
+      "finalRssBytes": 1189593088,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 1.2543567547462224, "p50": 1.267711, "p95": 1.274879, "p99": 1.311743, "max": 6.692863 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 3,
+      "peakRssBytes": 1158234112,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 9673.019957999999,
+      "cpuUserMs": 10947.405,
+      "cpuSystemMs": 441.142,
+      "finalRssBytes": 1157971968,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 1.2513289581827567, "p50": 1.267711, "p95": 1.274879, "p99": 1.312767, "max": 4.964351 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    },
+    {
+      "index": 4,
+      "peakRssBytes": 1160167424,
+      "mode": "worker-1",
+      "workerCount": 1,
+      "elapsedMs": 9968.840750000001,
+      "cpuUserMs": 11353.567,
+      "cpuSystemMs": 489.499,
+      "finalRssBytes": 1159839744,
+      "eventLoopDelayMs": { "min": 0.011264, "mean": 1.2508232758232127, "p50": 1.267711, "p95": 1.285119, "p99": 1.422335, "max": 6.914047 },
+      "outputBytes": 10167549,
+      "outputHash": "cf6dfe8b08d3c3f31a2d6e6308d7604b5d5db5d32d7aac9ebff130c2b53fe49f"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # `resolveId` and `load` Candidate Survey
 
-Snapshot date: 2026-07-11. This is a source-only candidate screen, not benchmark evidence. A candidate remains provisional until a pinned baseline build shows that its hook is reached often enough and owns enough wall or main-thread time to matter.
+Snapshot date: 2026-07-11. This is a source-only candidate screen, not benchmark evidence. The confirmed direction defers all `resolveId` and `load` experiments until the direct-Rolldown transform path and Vue case are understood. These candidates are background, not current commitments, and Vite-dependent cases cannot become fixtures under the current Rolldown-only scope.
 
 ## Selection rules
 

@@ -17,9 +17,9 @@ concurrent Rust module tasks
 
 Hook calls do not take a per-call `postMessage` detour through the main thread. Rust queues the callback directly into the Node environment that created the thread-safe function. Plugin options are different: they are copied once per worker through `workerData` and therefore use Node's structured-clone rules. Hook arguments and results still pay Node-API conversion and allocation costs, including source and source-map strings.
 
-Hook order remains sequential within one module and one resolution chain. The available speedup comes from different module or resolution tasks reaching the same plugin concurrently. Rolldown also resolves the distinct imports discovered in one module concurrently, so `resolveId` can have more runnable calls than the module count alone suggests. The actual parallel supply still depends on graph shape: a narrow discovery chain can leave workers idle, while a wide graph or a module with many imports can fill the pool.
+Hook order remains sequential within one module. The first transform research slice therefore gets throughput only when different modules are ready at the same time. A narrow discovery chain can leave workers idle, while a wide graph can fill the pool. Other ordinary JavaScript plugins and serial build phases remain on the main thread, so moving one transform cannot remove their contribution to the critical path.
 
-`resolveId`, `load`, and `transform` must be treated separately because they have different call counts, early-return behavior, payloads, cache dependencies, and effects on graph discovery. Lifecycle hooks that need every instance use a whole-pool barrier and broadcast, which has different cost and state semantics from per-module hooks. Other ordinary JavaScript plugins and serial build phases remain on the main thread, so moving one plugin cannot remove their contribution to the critical path.
+`resolveId` and `load` have different call shapes and will require separate evidence later. They must not be folded into the transform result, but they also must not delay the first transform verdict.
 
 ## Execution models to compare
 
@@ -28,44 +28,48 @@ The research must not collapse distinct designs into one "parallel" number:
 1. Ordinary plugin execution is the behavior and performance baseline; JavaScript callbacks run in the main Node environment.
 2. One worker with one plugin instance isolates synchronous JavaScript CPU work from the main event loop but cannot provide multi-worker throughput.
 3. The current prototype creates the complete plugin in every worker and sends each throughput hook to an available instance. This is the cheapest runtime model but requires state to be safely replicated or partitioned.
-4. An adapted plugin keeps a main-thread coordinator and moves only an explicit worker kernel. This adds authoring work but can preserve configuration, Vite hooks, plugin communication, and global state.
+4. An adapted plugin can keep a main-thread coordinator and move only an explicit worker kernel. This is a later comparison only when the current whole-plugin path exposes a measured state or authoring limit.
 5. Native or built-in execution is an alternative architecture and a possible performance bound. It must remain a separate result because it does not measure pure JavaScript plugin parallelization.
 
-## Plugin adaptation bet
+The immediate comparison stops at models one through three. The research must first establish what the retained ParallelPlugin itself does before designing a more general replacement.
 
-A general-purpose plugin object is unlikely to become safe and fast merely by constructing identical copies in several workers. The initial architecture bet is to split an adapted plugin into explicit roles:
+## Later adaptation options
 
-- A main-thread coordinator handles configuration, Vite-only hooks, non-serializable integrations, global output decisions, and final reductions.
+A general-purpose plugin object may not remain safe when identical copies run in several workers. If the current path or Vue case proves that whole-plugin replication is the limiting mechanism, classify state before choosing a replacement:
+
+- A main-thread coordinator can handle non-serializable configuration, plugin communication, global output decisions, and final reductions.
 - A worker kernel performs expensive module-local work on serializable inputs and returns code, source maps, diagnostics, dependencies, and declared metadata.
 - State is classified rather than hidden in closures: immutable replicated configuration, module-affine state, shared read-mostly cache, worker-local cache, or globally reduced state.
-- The scheduler has an explicit policy for module affinity, worker count, lifecycle broadcast, cancellation, and reuse across builds. In the current scope, the cross-build reuse policy may explicitly be unsupported or deferred; it does not require runtime reuse evidence.
+- The scheduler has an explicit policy for module affinity, worker count, lifecycle broadcast, and cancellation.
 
-This is a hypothesis to test against the real plugins, not a proposed API. The project should preserve a simpler design if the adaptations show that fewer concepts are sufficient. If the current API cannot express the smallest correct split, the experiment should record that API gap rather than hide a coordinator or shared-state service inside benchmark-only code.
+These are possible responses to evidence, not the starting architecture or a proposed API. Preserve the current simpler design when it is correct and sufficiently fast.
 
-## Why Svelte and Vue are complementary cases
+## Why Vue is second
 
-The current Svelte plugin already returns a list of task-specific plugin objects. Its expensive compile hook exposes a comparatively isolated boundary, and compiled CSS is passed through module metadata. It becomes a worker kernel only after a coordinator supplies the filter, options, ID parser, compile closure, Vite environment identity, and combined source map established by ordinary lifecycle and context; the current subplugin cannot move unchanged. That makes it a useful first case for testing a coordinator plus worker-kernel split, while also exposing whether metadata can cross worker instances correctly.
+The first experiment uses a controlled JavaScript transform so the runtime path and its costs are observable without plugin integration variables. The second case uses the real `unplugin-vue/rolldown` transform path under Rolldown's API. A thin adapter exposes only `buildStart` and `transform`, applies the same declarative `.vue` filter and module type to ordinary and parallel variants, and keeps the unchanged full ordinary plugin as the correctness reference.
 
-The current Vue plugin combines configuration, HMR, resolution, loading, SFC parsing, script and template compilation, and several descriptor caches. Later requests for an SFC's virtual submodules depend on state created by earlier hooks. It is the stronger test of module affinity and state ownership rather than a second copy of the Svelte experiment.
+`unplugin-vue` imports some Vite helper code even through its Rolldown entry. No Vite runtime is invoked; the duplicated import and memory cost is counted as real plugin initialization overhead. The transform-only case does not claim styles, external blocks, virtual modules, source maps, function-valued configuration, or full Vite-plugin parity.
+
+Svelte is the required later transform comparison after Vue. Its experiment should emphasize the compiler, state, or task-granularity differences that make it more than a duplicate of the Vue matrix.
 
 ## Evidence levels
 
 Each level answers a different question and must not be promoted into a stronger claim:
 
-1. A hook microbenchmark measures fixed startup, dispatch, payload, and scheduling costs.
-2. An isolated JavaScript compiler corpus measures the theoretical benefit when tasks are independent.
-3. An adapted real plugin measures whether its state and hook semantics survive the execution model.
-4. A pinned real application measures end-to-end build value, including other plugins, Rust work, output generation, and contention.
-5. Repeated builds or watch mode would measure whether worker reuse and cache behavior change the conclusion. This evidence level is deferred and is not required for the current production-build verdict.
+1. The unchanged existing example or test establishes whether the retained path can execute at all on the latest Node.js LTS release.
+2. A controlled direct-Rolldown transform fixture measures startup, dispatch, payload, scheduling, isolation, and crossover without claiming real-plugin value.
+3. A direct-Rolldown Vue transform measures whether compiler initialization, source maps, diagnostics, and realistic SFC work survive the execution model.
+4. A pinned direct-Rolldown application graph measures end-to-end build value, including Rust work, output generation, and contention.
+5. The required direct-Rolldown Svelte case follows Vue, then separate `resolveId` and `load` evidence completes the hook-specific conclusions. Earlier results may narrow these later matrices but do not remove them.
 
-Technical quality is an equal evidence axis at levels three through five. A faster variant is not viable if it changes resolution order, loses virtual modules or metadata, duplicates diagnostics, leaks workers, deadlocks under reentrant plugin-context calls, or produces worker-count-dependent output.
+Technical quality is an equal evidence axis at every level. A faster variant is not viable if it changes output or source maps, loses metadata, changes diagnostics, leaks workers, deadlocks, or produces worker-count-dependent results.
 
-Lifecycle terms must stay distinct even when some are deferred. A cold production build includes worker creation, plugin import, compiler initialization, and first-use JIT. A separate warm operating-system-cache run still creates new workers and is not worker reuse. A repeated `generate` or `write` on the current `RolldownBuild` also creates a new worker pool, while a watch rebuild reuses existing workers and worker-local caches; runtime evidence for those cross-build modes and any custom reused-worker harness is deferred.
+A cold process includes worker creation, plugin import, compiler initialization, and first-use JIT. A separate warm operating-system-cache run still creates new workers. Watch, rebuild, HMR, and cross-build worker reuse are outside scope and must not appear as required lifecycle cells.
 
 ## Optimization families to investigate only after attribution
 
-- Use truthful hook usage and apply Rust-side filters before acquiring a worker permit, then quantify the no-op calls and queueing they eliminate before changing the transport.
-- Lazily create or initialize workers when startup dominates a production build. Cross-build reuse remains a deferred optimization family until repeated-build or watch coverage enters scope.
+- Repair only the callback or worker-lifetime condition needed to run the current transform path, and preserve the unchanged failure as evidence.
+- Lazily create or initialize workers only when startup is measured as dominant within a production build.
 - Select worker count from workload and CPU contention rather than always creating the hardware-derived maximum.
 - Route related module hooks to the same worker when state is module-affine.
 - Move cross-worker module metadata into a shared Rolldown-owned representation or return it explicitly with hook results.

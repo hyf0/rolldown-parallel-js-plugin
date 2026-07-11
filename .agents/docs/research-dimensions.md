@@ -2,25 +2,23 @@
 
 Performance value and technical defects are parallel workstreams. The project must answer both before recommending a production direction.
 
-Every hook result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
+The active value workstream is `transform`. Every result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
 
 ## Value by hook
-
-### `resolveId`
-
-`resolveId` can be called much more often than source compilation and often returns nothing after a small amount of work. Its opportunity depends on the distribution, not the average: cache hits, cache misses, package or tsconfig lookup, filesystem checks, alias rules, and recursive `this.resolve` have different costs. Calls for different modules and distinct imports discovered in one module can overlap, but plugins in one resolution chain remain ordered and stop at the first result. Worker dispatch may therefore dominate lightweight misses while helping expensive synchronous resolvers.
-
-Measure call count, result rate, position of the winning plugin, graph fan-out, concurrent-call high-water mark, cache warmth, time in JavaScript versus Rust resolution, recursive calls, queue wait, and the amount eliminated by Rust-side hook filters. Correctness checks must cover skip-self behavior, custom options, externalization, package metadata, hook order, stable ordering, and reentrancy.
-
-### `load`
-
-`load` can hide CPU-heavy virtual-module generation, synchronous filesystem work, decoding, preprocessing, or already-asynchronous I/O. A worker can make synchronous JavaScript work concurrent and keep the main thread free, but it cannot make an async I/O operation intrinsically faster and may add dispatch and data-transfer cost. The returned source can also be much larger than a resolution result.
-
-Measure virtual and filesystem-backed paths, hit and miss rates, graph fan-out, synchronous and async forms, cache warmth, returned code size, source maps, metadata, emitted files, watch-file registration, and calls to `this.load`. Current production-build correctness checks cover virtual-module identity, dependency discovery, module type, metadata, and error propagation. Watch invalidation remains a recorded but deferred compatibility constraint.
 
 ### `transform`
 
 `transform` is the clearest CPU-bound candidate because JavaScript compilers often perform independent per-module work, but it is not the whole plugin cost. Measure compiler initialization, source size, source-map generation, diagnostics, metadata, cache behavior, ready-module concurrency, and the amount of downstream work changed by the transform. Keep pure JavaScript compilation separate from hooks that await native work already running outside the main thread. Declaring a synchronous JavaScript compiler wrapper `async` does not move its CPU work off the main thread.
+
+The first fixture establishes the current ParallelPlugin path with controlled synchronous JavaScript work. It varies graph width, module count, source and result size, per-call work, and worker count. The second fixture uses direct-Rolldown Vue compilation. Both compare ordinary execution, one-worker isolation, and multi-worker throughput while preserving outputs and errors.
+
+### Deferred `resolveId`
+
+`resolveId` can be called much more often than source compilation and often returns nothing after a small amount of work. Its opportunity depends on hit and miss distributions, caches, filesystem work, recursive `this.resolve`, and ordered early returns. The earlier source survey is retained, but no resolver experiment begins before the transform and Vue results show that another hook can change the verdict.
+
+### Deferred `load`
+
+`load` can contain synchronous JavaScript, filesystem work, virtual-module generation, or already-asynchronous I/O. A worker can isolate synchronous JavaScript but cannot make async I/O intrinsically faster. The earlier loader candidates remain background only and are not current fixtures.
 
 ### Cross-hook effects
 
@@ -32,11 +30,11 @@ Classify every important state edge as immutable replicated configuration, worke
 
 ### Runtime viability and lifecycle
 
-- Weak or closing Node-API thread-safe functions, worker event-loop lifetime, startup failure, worker crash, shutdown delay, leaked workers, repeated build cleanup, watch lifetime, cancellation, and Node.js version compatibility.
+- Weak or closing Node-API thread-safe functions, worker event-loop lifetime, startup failure, worker crash, shutdown delay, leaked workers, cancellation, and compatibility with the pinned latest Node.js LTS release.
 
 ### Hook and plugin-context compatibility
 
-- Missing hooks that silently become no-ops, lost hook `order` metadata, unsupported Vite hooks, missing plugin `api`, dummy input and output options, worker-local or discarded logging, incomplete `this.meta`, and ordinary plugin-context methods whose state does not cross workers.
+- Missing hooks that silently become no-ops, lost hook `order` metadata, missing plugin `api`, dummy input and output options, worker-local or discarded logging, incomplete `this.meta`, and ordinary plugin-context methods whose state does not cross workers.
 
 ### State consistency and determinism
 
@@ -60,9 +58,9 @@ Classify every important state edge as immutable replicated configuration, worke
 
 ## Defect attribution
 
-Separate defects in the retained prototype from limits inherent to multi-instance plugins and from adaptation mistakes in a particular Vue or Svelte experiment. A source-proven missing hook is not the same kind of result as a plugin whose global state cannot be partitioned, and neither should be blamed on worker overhead.
+Separate defects in the retained prototype from limits inherent to multi-instance plugins and from adaptation mistakes in the direct-Rolldown Vue experiment. A source-proven missing hook is not the same kind of result as a plugin whose global state cannot be partitioned, and neither should be blamed on worker overhead.
 
-The living source-backed inventory is [current defect inventory](../../research/defect-inventory.md). Source-inferred failure paths remain labeled as hypotheses until reproduced after the framing review.
+The living source-backed inventory is [current defect inventory](../../research/defect-inventory.md). Source-inferred failure paths remain labeled as hypotheses until reproduced. Vite-specific and watch-only findings may remain as historical background but are not active runtime tasks.
 
 ## Required defect record shape
 

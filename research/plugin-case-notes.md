@@ -1,10 +1,19 @@
 # Vue and Svelte Plugin Case Notes
 
-Snapshot date: 2026-07-11. These notes describe source shape and candidate experiments only. No project has been selected as a benchmark fixture until a successful pinned build and baseline trace prove that the target plugin owns enough time to matter.
+Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope no longer runs Vite: the second case uses a transform-only adapter around `unplugin-vue/rolldown`, whose internal engine is the official pure-JavaScript compiler. Svelte is a required later transform case after Vue.
 
-## Integration baseline
+## Archived integration finding
 
-Real official-plugin evidence should use a Vite production build. [Vite 8 uses Rolldown as its production bundler](https://vite.dev/blog/announcing-vite8), while both official plugins depend on Vite lifecycle and context beyond a direct Rolldown plugin object. Direct Rolldown remains the smaller environment for runtime viability, hook overhead, and defect reproductions.
+Both official Vite plugins depend on Vite lifecycle and context beyond a direct Rolldown plugin object. The earlier notes remain useful for understanding state and compiler boundaries, but they no longer define the runtime or project harness. A direct-Rolldown Vue transform must state its supported behavior explicitly and must not claim parity with `@vitejs/plugin-vue`.
+
+## Current direct-Rolldown Vue case
+
+- Pin `unplugin-vue` 7.2.0 at [`7815bee8367c19c31df244c7ccb188ceedef3a16`](https://github.com/unplugin/unplugin-vue/tree/7815bee8367c19c31df244c7ccb188ceedef3a16), Vue and `@vue/compiler-sfc` 3.5.39 at [`c0606e91798c8dca4f33d101e1dd836d672592c1`](https://github.com/vuejs/core/tree/c0606e91798c8dca4f33d101e1dd836d672592c1), and [`cabinet-fe/icon@9cadad32c72d79424c75e3b6e56798f216bb0b06`](https://github.com/cabinet-fe/icon/tree/9cadad32c72d79424c75e3b6e56798f216bb0b06/packages/vue).
+- `unplugin-vue` exposes a real [Rolldown entry](https://github.com/unplugin/unplugin-vue/blob/7815bee8367c19c31df244c7ccb188ceedef3a16/src/rolldown.ts) and [direct Rolldown example](https://github.com/unplugin/unplugin-vue/blob/7815bee8367c19c31df244c7ccb188ceedef3a16/examples/rolldown/build.ts). It imports Vite helper modules internally, but the experiment invokes only Rolldown. Duplicated helper initialization and memory remain measured plugin costs.
+- The corpus has four JavaScript entries reaching 154 normal and 12 colorful SFCs. The 166 inputs total 109,122 bytes, with a 552-byte median, 1,320-byte p95, and 2,566-byte maximum. They use `<script setup lang="ts">` and ordinary templates without style or external `src` blocks, so production inline-template compilation stays inside one transform call.
+- The unchanged full ordinary plugin is the correctness reference. The timing comparison uses ordinary and parallel forms of the same thin adapter: instantiate the plugin with a fixed absolute root, production mode, `sourceMap: false`, and `inlineTemplate: true`; expose only `buildStart` and `transform`; apply an identical declarative `.vue` filter; and set `.vue` module type identically in both Rolldown configurations.
+- The case covers parse, script-setup macros and TypeScript, template compilation, component IDs, compiler import and JIT, code generation, and errors. It does not cover styles, external or custom blocks, virtual `resolveId` or `load`, source maps, function-valued compiler options, warnings, watch, or HMR.
+- Run every variant in a fresh Node.js process. `unplugin-vue` owns module-level descriptor and compiler caches, so sequential variants inside one process would contaminate cold-start comparison.
 
 ## Vue
 
@@ -12,7 +21,7 @@ Real official-plugin evidence should use a Vite production build. [Vite 8 uses R
 
 - `@vitejs/plugin-vue` `6.0.7` at [`28d6889104e76c8f420910bee6d17a081b130f1d`](https://github.com/vitejs/vite-plugin-vue/tree/28d6889104e76c8f420910bee6d17a081b130f1d/packages/plugin-vue).
 - `@vue/compiler-sfc` `3.5.39` at [`c0606e91798c8dca4f33d101e1dd836d672592c1`](https://github.com/vuejs/core/tree/c0606e91798c8dca4f33d101e1dd836d672592c1/packages/compiler-sfc).
-- The plugin package explicitly marks direct Rolldown and Rollup use incompatible because it depends on Vite-specific APIs. A real baseline is therefore a Vite build or an explicit coordinator split, not `rolldown({ plugins: [vue()] })`. [Package declaration](https://github.com/vitejs/vite-plugin-vue/blob/28d6889104e76c8f420910bee6d17a081b130f1d/packages/plugin-vue/package.json#L56-L65)
+- The plugin package explicitly marks direct Rolldown and Rollup use incompatible because it depends on Vite-specific APIs. The current research therefore uses a transform-only adapter around `unplugin-vue/rolldown`, whose internal engine is `@vue/compiler-sfc`, rather than `rolldown({ plugins: [vue()] })`. [Package declaration](https://github.com/vitejs/vite-plugin-vue/blob/28d6889104e76c8f420910bee6d17a081b130f1d/packages/plugin-vue/package.json#L56-L65)
 
 ### Actual module and hook flow
 
@@ -49,14 +58,14 @@ For `N` reached main SFCs, `S` virtual scripts, `T` external or non-HTML templat
 - `compiler-sfc` maintains parse, template-analysis, TypeScript resolution, tsconfig, and type-scope caches. Replicating them multiplies import, JIT, cache-warmup, and memory costs. [Parse cache](https://github.com/vuejs/core/blob/c0606e91798c8dca4f33d101e1dd836d672592c1/packages/compiler-sfc/src/parse.ts#L103-L118) [Type resolution caches](https://github.com/vuejs/core/blob/c0606e91798c8dca4f33d101e1dd836d672592c1/packages/compiler-sfc/src/script/resolveType.ts#L1079-L1175)
 - Configuration, server and HMR hooks, plugin API state, logging, watchers, and type-dependency invalidation require a coordinator. [Vite lifecycle](https://github.com/vitejs/vite-plugin-vue/blob/28d6889104e76c8f420910bee6d17a081b130f1d/packages/plugin-vue/src/index.ts#L221-L392) [HMR state](https://github.com/vitejs/vite-plugin-vue/blob/28d6889104e76c8f420910bee6d17a081b130f1d/packages/plugin-vue/src/handleHotUpdate.ts#L27-L179)
 
-### Worker boundaries to compare later
+### Archived worker-boundary options
 
 1. Stable owner-SFC affinity routes the main module, child virtual modules, environment variant, and rebuilds to the same worker. It preserves local caches but constrains scheduling and makes worker restart or invalidation visible.
 2. Whole-SFC compilation returns the child virtual-module payloads, dependencies, maps, diagnostics, and compact metadata to coordinator-owned storage. Later child loads become lookups and do not depend on worker identity, but external resolution and some style work still require a split.
 
 Both designs keep trivial resolve/helper loading, Vite lifecycle, global type-dependency reduction, logging, and non-cloneable integrations in the coordinator. The second design is the stronger initial hypothesis because it reduces hook round trips and hidden cache dependencies, but this is not yet a settled direction.
 
-### Candidate builds and correctness fixtures
+### Archived Vite candidate builds and fixtures
 
 - First real-build candidate: [`vbenjs/vue-vben-admin@8b7c245bc7a2346764d98d26003a2faf67a98182`](https://github.com/vbenjs/vue-vben-admin/tree/8b7c245bc7a2346764d98d26003a2faf67a98182). It has a direct Vite production build, pins Vite `8.0.10` and plugin-vue `6.0.7`, and has 680 tracked SFCs in a static repository scan. The actual `web-antd` reachable graph and plugin share remain unmeasured. [Build scripts](https://github.com/vbenjs/vue-vben-admin/blob/8b7c245bc7a2346764d98d26003a2faf67a98182/package.json#L27-L37) [Plugin configuration](https://github.com/vbenjs/vue-vben-admin/blob/8b7c245bc7a2346764d98d26003a2faf67a98182/internal/vite-config/src/plugins/index.ts#L51-L89)
 - State-stress candidate: [`elk-zone/elk@d444a5988b93fdf632fd0a39195747be1c62e750`](https://github.com/elk-zone/elk/tree/d444a5988b93fdf632fd0a39195747be1c62e750). It has 255 SFCs under `app/`, uses Vue Macros, and builds both client and server through Nuxt, making it useful for transformed-source and environment-cache semantics. Its Vite 7/Nuxt build compatibility and actual reached work must be established before selection. [Configuration](https://github.com/elk-zone/elk/blob/d444a5988b93fdf632fd0a39195747be1c62e750/nuxt.config.ts#L33-L54)
@@ -111,13 +120,13 @@ For `N` normal Svelte component transforms, `P` preprocessed transforms, `S` uni
 - `svelte.compile` and `compileModule` are synchronous and reset module-global compiler state for each call. [Compiler entry](https://github.com/sveltejs/svelte/blob/eae50dfd1c2269e37258ef5c09527003bcf61573/packages/svelte/src/compiler/index.js#L23-L76) [Compiler state](https://github.com/sveltejs/svelte/blob/eae50dfd1c2269e37258ef5c09527003bcf61573/packages/svelte/src/compiler/state.js#L9-L148) One call at a time in each separate worker isolate fits that model, but each isolate pays compiler import, JIT, and memory.
 - Resolved options can contain preprocessors, `dynamicCompileOptions`, `onwarn`, `cssHash`, warning filters, custom-element logic, Vite config/server objects, stats classes, and closures. Some per-file functions can be evaluated by the coordinator into scalar task options; `cssHash` and arbitrary side-effectful callbacks need an explicit worker-loadable contract or incompatibility rule.
 
-### Initial worker boundary
+### Earlier worker-boundary hypothesis
 
 Keep configuration, preprocessing, dynamic option evaluation, warning policy, virtual-CSS resolve/load, custom loading, HMR/watch state, optimizer and inspector behavior, and plugin API on the coordinator. Move a prepared `svelte.compile` task that receives plain code, ID, environment, scalar options, and combined input map, then returns plain JavaScript, CSS, maps, dependencies, metadata, and normalized diagnostics.
 
-This is the provisional first adaptation because the expensive boundary is already visible and does not need module affinity for production compilation if CSS metadata becomes graph-global. Watch and HMR still need persistent centralized state, but their runtime coverage is deferred. Moving preprocessors later would be a separate authoring-model experiment rather than part of the first success claim.
+This was the earlier first-adaptation hypothesis because the expensive boundary is visible. The confirmed direction puts the current ParallelPlugin transform path first and direct-Rolldown Vue second; the required Svelte case follows and should isolate the compiler, state, or task-granularity difference from Vue.
 
-### Candidate builds and correctness fixtures
+### Archived Vite candidate builds and fixtures
 
 - High-volume candidate: [`huntabyte/shadcn-svelte@efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63`](https://github.com/huntabyte/shadcn-svelte/tree/efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63), with 1,658 tracked SFCs in `docs/`, 100 MDSX `.md` files configured as Svelte extensions, and function-valued preprocessing. It is strong compile/preprocess stress but weak CSS-load stress. The current manifest and lockfile disagree on SvelteKit, so use parent `fda888bd2ac97cb3d0f7b36448b27fd8b1f13a39` or intentionally preserve a refreshed lockfile. Time its prepared Vite build separately from content and generation scripts. [Svelte config](https://github.com/huntabyte/shadcn-svelte/blob/efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63/docs/svelte.config.js#L1-L81) [Build scripts](https://github.com/huntabyte/shadcn-svelte/blob/efcf8a4ef2c6a3a21ee2fd4db905519f8d4c8e63/docs/package.json#L6-L24)
 - Representative official candidate: [`sveltejs/svelte.dev@93a400dd1ea459ed4c39530c0db75edf4f9ee45c`](https://github.com/sveltejs/svelte.dev/tree/93a400dd1ea459ed4c39530c0db75edf4f9ee45c), pinned to Vite `8.0.16` and Svelte `5.56.4`, with 514 tracked app SFCs plus workspace components. Many tutorial/example files may be data rather than reached modules, so the physical count is not a hook count. Time the prepared Vite build separately from package and content generation. [App package](https://github.com/sveltejs/svelte.dev/blob/93a400dd1ea459ed4c39530c0db75edf4f9ee45c/apps/svelte.dev/package.json#L1-L86)

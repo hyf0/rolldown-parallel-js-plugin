@@ -2,80 +2,64 @@
 
 This is a live research sequence, not an implementation commitment. Replace it as evidence changes.
 
-The current experimental scope is production builds. Repeated builds, watch/rebuild, development-server behavior, HMR, and custom cross-build worker reuse remain documented compatibility and lifecycle questions, but their runtime coverage is deferred and does not gate the current production-build verdict.
+## Confirmed order
 
-## Phase 0: framing and evidence baseline
+1. Use direct Rolldown on the latest Node.js LTS release.
+2. Run the retained ParallelPlugin `transform` path unchanged.
+3. Repair only what blocks that path, preserving the unchanged failure and exact patch.
+4. Measure the core transform path before adding a real plugin.
+5. Use a direct-Rolldown pure-JavaScript Vue transform as the second case.
+6. Optimize only a measured dominant cost.
+7. Complete the required Svelte transform case, then the separate `resolveId` and `load` evidence needed for hook-specific conclusions.
 
-- Verify the current implementation and history from pinned source, and separate source-proven behavior from historical runtime reports that still need reproduction.
-- Record which hooks, plugin context methods, metadata paths, options, and output plugins are supported rather than assuming the ordinary plugin contract carries over.
-- Establish `resolveId`, `load`, and `transform` as separate performance workloads, with their own call counts, hit or miss distributions, state dependencies, and correctness checks.
-- Start a technical defect inventory covering known current failures and defects discovered by source audit or reproduction; do not hide defects inside benchmark notes.
-- Audit the old prototype and the unmerged native-bridge benchmark branch, preserving useful measurements while marking the claims they cannot support.
-- Inspect the current Vue and Svelte plugins, map their hook and state edges, and identify candidate projects without selecting fixtures before profiling.
-- Treat Vue and Svelte's cheap `resolveId` and ordinary `load` paths as valid overhead controls. If source and baseline profiles confirm that they contain no useful positive workload, select an additional real resolver or loader case instead of adding artificial work to these plugins.
-- Screen current resolver and loader candidates by where their work actually runs. Keep Vite native resolution, Oxc, async filesystem waits, image native addons, and existing worker pools separate from JavaScript CPU rather than crediting all hook time to Node workers.
-- Present the tradeoffs and a provisional recommendation for using Vite's Rolldown-powered production build for real-plugin evidence while using Rolldown directly for runtime overhead experiments.
-- Present whole-plugin replication, a coordinator plus worker kernel, and a comparison of both as alternative real-plugin targets; make the selection at the framing review.
-- Review this goal and architecture framing with Yunfei before writing a harness or adapter.
+Vite, watch, rebuild, development-server behavior, and HMR are outside the research scope.
 
-Phase 0 is source and design research only. Do not restore the prototype, write a harness, or run performance experiments before the review gate.
+## Phase 1: current transform path
 
-## Phase 1: runtime viability and current cost surface
+- Pin current Rolldown main, the latest Node.js LTS patch, pnpm, Rust, operating system, CPU, and commands.
+- Use an isolated Rolldown worktree because the primary checkout is not an experiment workspace.
+- Build Rolldown and run the existing direct-Rolldown parallel no-op transform example unchanged. Record exit status, stdout and stderr, output artifact, worker initialization, first callback, and shutdown.
+- Run the existing Babel transform example after the no-op path. Compare its output and errors with the ordinary single-thread plugin before trusting timing.
+- Add bounded direct-Rolldown fixtures for plugin-factory initialization failure and synchronous and rejected transform failures. Require attributed errors, cleanup of peer workers, and clean process exit before calling the retained path usable.
+- If unchanged current main fails, retain the failing command and logs. Apply the smallest research-only callback or worker-lifetime repair required to continue, and label every later result with that patch.
+- Do not expand hook coverage, change the API, add Vite compatibility, or solve unrelated defects during this phase.
 
-- Reproduce the weak-callback failure and the separate worker-event-loop lifetime failure on pinned Rolldown revisions across the supported Node 20, 22, and 24 lines before choosing a restoration path.
-- Use the smallest explicit lifecycle workaround only to make research possible; do not treat a keepalive timer or a successful first callback as a production lifecycle design.
-- Establish behavior fixtures for hook order, missing hooks, plugin-context methods, metadata, diagnostics, shutdown, and worker failure before trusting timing results.
-- Measure startup separately from steady state across worker counts, module counts, hook durations, payload sizes, and one or several parallel plugins.
-- For `resolveId`, vary call volume, hit position in the ordered plugin chain, filesystem or package-resolution work, recursive `this.resolve`, and cache warmth.
-- For `load`, vary virtual versus filesystem-backed modules, synchronous JavaScript CPU or I/O work, async I/O, returned payload size, and cache warmth. Record watch-file and invalidation semantics from source, but defer rebuild execution.
-- For `transform`, vary source size, JavaScript CPU time, source-map and metadata output, and compiler cache behavior.
-- Include one-worker mode to isolate off-main-thread value from multi-worker throughput.
-- Capture queue wait, service time, total wall time, Node.js event-loop availability, CPU, and peak memory.
-- Check whether Rust worker pools and Node.js workers compete for the same cores and whether fewer workers outperform the current cap.
-- Keep a fresh process and first build separate from an independent run with warm operating-system and filesystem caches. Both create new workers; do not label the second run as worker reuse.
+## Phase 2: core transform cost surface
 
-## Phase 2: pure JavaScript compiler bounds
+- Create a controlled direct-Rolldown transform fixture only after the retained path runs. It must exercise real module-graph concurrency rather than call a compiler outside Rolldown.
+- Compare ordinary main-thread execution, one-worker isolation, and several explicit worker counts. If the current API has no worker-count control, add the smallest research-only control and keep the default behavior unchanged.
+- Vary graph width, module count, source and result bytes, per-module synchronous JavaScript work, and source-map output independently.
+- Measure worker creation, module and plugin initialization, first-use JIT, queue wait, service time, Node-API conversion, copied bytes, total wall time, Node.js main-thread availability, CPU, peak RSS, and contention with Rolldown's Rust work.
+- Keep fresh-process and independent warm operating-system-cache runs distinct. Both create new workers.
+- Preserve output bytes, source maps, errors, diagnostics, hook order, and determinism across worker counts.
+- Locate the crossover and retain negative cells. One worker answers isolation; multiple workers answer throughput.
 
-- Run `@vue/compiler-sfc` and `svelte/compiler` over pinned, valid SFC corpora with identical outputs and errors in main-thread, one-worker, and multi-worker forms.
-- Keep worker startup both included and excluded inside the isolated compiler experiment so the cold-task-set cost and steady-state compiler bound are visible without claiming cross-build worker reuse.
-- Use this only to locate the possible crossover and upper bound; do not call it a plugin result.
+## Phase 3: Vue second case
 
-## Phase 3: real plugin adaptation
+- Use `unplugin-vue/rolldown` under the direct Rolldown API. Do not run Vite or claim Vite-plugin parity. Count the Vite helper modules imported by the Rolldown entry as real plugin initialization and memory overhead.
+- Pin `unplugin-vue` 7.2.0, Vue and `@vue/compiler-sfc` 3.5.39, and `cabinet-fe/icon` at `9cadad32c72d79424c75e3b6e56798f216bb0b06` as the initial real corpus. Its four JavaScript entries reach 166 small SFCs without style or external blocks.
+- Use the unchanged full ordinary plugin as the correctness reference. Compare it with a thin ordinary and parallel adapter that exposes only `buildStart` and `transform`, applies the same declarative `.vue` filter, sets the same `.vue` module type, and uses production inline-template compilation.
+- State the supported surface explicitly: script setup, TypeScript script compilation, HTML template compilation, component IDs, code generation, and errors. Do not claim styles, custom or external blocks, virtual-module hooks, source maps, function options, warnings, watch, or HMR.
+- Compare ordinary, one-worker, and multiple-worker forms with identical compiler versions, options, inputs, outputs, and errors.
+- Attribute compiler import and initialization, parse, script compilation, template compilation, returned bytes, queueing, memory, and end-to-end build time separately. The initial case disables source maps and makes no map-performance claim.
+- Report every plugin change and state-ownership decision as part of the cost. If Vue does not improve, identify whether the limit is plugin share, graph concurrency, initialization, transfer, memory, or Rust CPU contention.
+- Run every variant in a fresh Node.js process. Module-level descriptor and compiler caches make sequential variants in one process an invalid cold-start comparison.
 
-- Admit loader adaptations only after unchanged profiles prove useful headroom. Prefer one lower-state JavaScript case such as `vite-svg-loader`; use high-volume `vite-plugin-svgr` only with Oxc time separated, and use `unplugin-icons` to test cache replication or affinity only if its own baseline qualifies.
-- Give ordinary and worker variants the same declarative or coordinator-side hook filter. Report the filter-only change separately so skipping misses is not misattributed to worker execution.
-- Start provisionally with the Svelte compile subplugin because its current task split provides a smaller semantic surface.
-- Keep configuration, preprocessing integrations, HMR, and global coordination on the main side unless evidence shows they can move safely.
-- Define how compiled CSS metadata, diagnostics, dependencies, and dynamic compile options cross the boundary.
-- Adapt Vue next to test descriptor ownership, virtual submodule loads, plugin context use, and module-affine scheduling.
-- Measure and document the plugin changes required by each adaptation, including duplicated logic, new state ownership, serialization rules, behavior fixtures, and maintenance obligations.
-- Add production-build behavior fixtures before performance comparisons, including compiler errors, source maps, CSS, SSR or client mode, and custom preprocessors.
-- Add targeted `resolveId` and `load` fixtures from the adapted plugins instead of assuming their cost is negligible beside compilation.
-- Keep a real resolver or loader case separate if Vue and Svelte only provide negative controls, so a negative framework-plugin result is not generalized to every `resolveId` or `load` workload.
-- Treat `@rollup/plugin-node-resolve` first as a coordinator, reentrancy, custom-option, and cache-lifecycle case. Promote a package-resolution worker kernel to a value experiment only after its baseline isolates material JavaScript CPU from async filesystem wait.
-- Profile the low-state NativeScript platform resolver only after pairing it with a parity-checked Vite 8 project; compare early filtering, caching, and native extension resolution with workers. Admit the direct Rolldown Yarn PnP resolver only after finding a substantial independent consumer and retaining Rolldown's built-in PnP path as the baseline.
+## Phase 4: attributed optimization
 
-## Phase 4: real application builds
+- Change only the cost shown to dominate the core transform or Vue result: callback lifetime, worker count, lazy initialization, dispatch, batching, payload conversion, cache replication, state placement, module affinity, or CPU contention.
+- Re-run the same pinned core and Vue cases after each optimization.
+- Stop an optimization when its expected end-to-end benefit is smaller than its implementation and maintenance cost.
 
-- Select projects only after a baseline profile shows that the target plugin consumes a material share of the build; popularity alone is not a selection criterion.
-- Prefer pinned projects with many independently compilable SFCs, reproducible installs, successful Rolldown-powered builds, and outputs that can be compared.
-- Include at least one project that represents a normal application shape; a generated flat import list may locate a crossover but cannot be the real-project result.
-- Compare the ordinary plugin, one-worker isolation, and several worker counts on the same build.
-- Report fresh-process and independent warm-cache production builds, plugin share, end-to-end speedup, main-thread availability, CPU, memory, and correctness together. Both lifecycle cases use newly created workers.
-- Attribute improvements by hook so a total speedup cannot be incorrectly assigned to `transform` when resolution or loading changed.
-- If no representative project has enough plugin cost to expose headroom, record that as a limit on the feature's practical value.
+## Phase 5: required later cases
 
-## Phase 5: optimize attributed costs
-
-- Change only the cost shown to dominate by the previous phases: startup and reuse, dispatch and batching, worker selection, module affinity, shared metadata, cache replication, or CPU contention.
-- Re-run the same pinned Vue and Svelte cases after each optimization and keep neutral or negative results.
-- Finish with a scenario-based recommendation and a minimal plugin-authoring contract derived from the successful adaptations, or a recommendation not to productize the capability.
+- Add a direct-Rolldown Svelte transform after Vue and preserve a reproducible ordinary, one-worker, and multi-worker comparison. Select its boundary and corpus from the earlier source audit, but do not run Vite.
+- Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.
+- A negative core or Vue result may narrow the later matrices, but it does not remove the required Svelte experiment or separate hook conclusions.
 
 ## Parallel defect track
 
-- Keep a living inventory of correctness, lifecycle, compatibility, determinism, scheduling, observability, memory, and error-handling defects.
-- Give every claimed defect a minimal reproduction, pinned source evidence, or an explicit `not yet reproduced` label.
-- Test worker startup and shutdown, build failure, cancellation, worker crash, plugin initialization failure, nested `this.resolve` or `this.load`, and several parallel plugins sharing the pool. Keep repeated `generate` or `write` and watch rebuild execution in the deferred lifecycle backlog.
-- Compare outputs, diagnostics, hook order, and plugin-visible state across worker counts and independent runs to catch races and worker-dependent behavior.
-- Treat defects caused by the plugin-authoring contract separately from defects in Rolldown's runtime so the recommended fix lands at the right boundary.
-- Require source-inferred deadlocks and lifecycle failures to gain a minimal reproduction before they are called observed defects; preserve the source reasoning if reproduction disproves or narrows it.
+- Reproduce defects that block or invalidate the direct-Rolldown production-build transform path on the pinned latest LTS release.
+- Keep other source-backed defects in the inventory, but label Vite-specific, watch-only, rebuild-only, and other-Node-version items as outside the active runtime scope.
+- Separate runtime defects from plugin-authoring limits and from experiment mistakes.
+- Require every observed defect to retain a minimal command, environment, raw log, expected behavior, observed behavior, and fix condition.

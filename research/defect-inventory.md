@@ -1,21 +1,25 @@
 # Current Defect Inventory
 
-Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. This is a source audit, not a runtime test report. `Source-proven` means the behavior follows directly from current code or an explicit upstream statement. `Source-inferred` means the call graph contains a failure path that must still be reproduced after the framing review. `Historical` means an earlier experiment reported the behavior and current reproduction is pending.
+Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. This is a living source and runtime defect record. `Observed` means the behavior has a pinned reproduction in this repository. `Source-proven` means the behavior follows directly from current code or an explicit upstream statement. `Source-inferred` means the call graph contains a failure path that still needs reproduction. `Historical` means an earlier experiment reported the behavior and current reproduction is pending.
+
+The active runtime scope is the direct-Rolldown production-build transform path on the latest Node.js LTS release. Vite-specific, watch-only, rebuild-only, HMR, and other-Node-version defects remain recorded as background but are not active reproduction tasks or completion gates.
 
 ## D001: worker callbacks use the main-thread weak lifetime mode
 
-- Status: source-proven configuration and explicit upstream breakage statement; current runtime reproduction pending.
-- Severity: historically reported blocker; current severity remains provisional until the supported Node versions are reproduced.
+- Status: source-proven configuration and explicit upstream breakage statement; the current Node.js 24.18.0 result narrows rather than independently reproduces the claim.
+- Severity: blocker through its worker-lifetime interaction, but not independently fatal while the worker event loop has an explicit owner.
 - Behavior: [`JsCallback`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/types/js_callback.rs#L104-L105) instantiates napi-rs `ThreadsafeFunction` with `Weak = true` for every JavaScript callback. [PR #2135](https://github.com/rolldown/rolldown/pull/2135) explicitly says this breaks `ParallelPlugin` because worker callbacks cannot use that weak mode.
-- Impact: current main cannot be treated as a viable benchmark baseline until the historical failure is reproduced or disproved and the worker callback and event-loop lifecycle is understood.
-- Fix condition: first and repeated callbacks, clean shutdown, build failure, worker failure, repeated output builds, and watch close pass on supported Node 20, 22, and 24 versions without keeping ordinary main-thread callbacks alive unnecessarily.
+- Observed result: unchanged current main loses every worker after bootstrap and its first build fails. Research commit `75ba695d1` adds only a worker keepalive; callbacks then work without changing `Weak = true`, and the no-op and Babel outputs match their ordinary controls. [Evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md)
+- Impact: weak callbacks do not own the worker lifetime. ParallelPlugin therefore needs a separate explicit lifecycle owner even though the callback remains usable while that owner exists.
+- Fix condition for the active research path: first and later transform callbacks, clean production-build shutdown, build failure, and worker failure pass on the pinned Node.js 24 LTS patch without keeping ordinary main-thread callbacks alive unnecessarily. Broader lifecycle fixes are outside the current experiment scope.
 
 ## D002: the worker event loop can close immediately after bootstrap
 
-- Status: historical Node 24 reproduction on unmerged commit [`ca6e746c3`](https://github.com/rolldown/rolldown/commit/ca6e746c3838e7ce843669a336909b536ae9c65d); current reproduction pending.
-- Severity: blocker when reproduced; lifecycle design remains high risk even with the timer workaround.
+- Status: observed on current main and Node.js 24.18.0; matches the earlier unmerged [`ca6e746c3`](https://github.com/rolldown/rolldown/commit/ca6e746c3838e7ce843669a336909b536ae9c65d) report.
+- Severity: blocker on unchanged current main; lifecycle design remains incomplete even with the research timer workaround.
 - Behavior: current bootstrap [`unref()`s the worker and its parent port](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/parallel-plugin-worker.ts#L41-L48), while weak thread-safe functions do not keep the event loop alive. The unmerged workaround adds a long-lived timer and reports `Status::Closing` on the first callback without it.
-- Impact: a keepalive timer can make a benchmark run but does not define worker ownership, crash handling, or shutdown semantics.
+- Observed result: all eight workers emit their end events immediately after bootstrap; the parallel no-op build exits 1 with two empty binding errors. Commit `75ba695d1` adds the historical timer-shaped keepalive and makes the same command succeed with byte-identical output. [Evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md)
+- Impact: a keepalive timer makes research possible but does not define worker ownership, crash handling, or shutdown semantics.
 - Fix condition: an explicit lifecycle owner keeps workers callable while Rust holds their plugin callbacks and makes worker closure visible to in-flight and queued calls.
 
 ## D003: eleven supported JavaScript hooks silently become no-ops
@@ -116,10 +120,11 @@ Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. Thi
 
 ## D015: bootstrap cleanup and post-bootstrap worker health have no explicit control path
 
-- Status: source-proven absence of error, exit, partial-initialization cleanup, and health protocols; exact failure behavior needs reproduction.
+- Status: partial-initialization cleanup failure observed; pre-message error and exit handling plus post-bootstrap health remain source-proven gaps.
 - Severity: high for production use and fault attribution.
 - Behavior: [`initializeWorker`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/utils/initialize-parallel-plugins.ts#L48-L87) waits for one bootstrap `message` but does not listen for `error` or `exit`, so a worker that fails before posting can leave initialization unsettled. If one worker reports an initialization error, the rejecting `Promise.all` path has no list with which to terminate other workers that already succeeded or are still starting. After bootstrap, there is no exit, replacement, cancellation, or worker-health state shared with Rust.
-- Impact: bootstrap can hang or leave partially initialized workers, and a later worker crash can turn calls into bridge errors or unavailable capacity without a clear plugin diagnostic or pool repair.
+- Observed result: a plugin-factory error is initially reported, then a peer worker still registering the Node-API binding panics with `PendingException` and aborts the process with SIGABRT. Research commit `8fe749827` waits for every initialization result, awaits failed-worker termination, terminates successful peers, and converts the same fixture into a clean attributed exit 1. [Evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md)
+- Impact: bootstrap can abort, hang, or leave partially initialized workers, and a later worker crash can turn calls into bridge errors or unavailable capacity without a clear plugin diagnostic or pool repair.
 - Fix condition: bootstrap resolves or rejects on message, error, and exit; partial initialization terminates every peer; worker exit invalidates or repairs its slot, rejects in-flight and queued hooks with attributed errors, and cannot leave permits or registry state inconsistent.
 
 ## D016: worker instances may expose inconsistent hook shapes
@@ -145,3 +150,11 @@ Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. Thi
 - Behavior: [`ParallelJsPlugin::load`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/parallel_js_plugin.rs#L112-L120), `resolve_id`, and `transform` call `run_single` and acquire a worker permit before the selected [`JsPlugin` evaluates its filter](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/js_plugin.rs#L200-L220). A rejected call avoids the Node callback but still enters pool scheduling.
 - Impact: miss-heavy plugins can queue behind the shared worker pool and briefly occupy permits even when a Rust-side filter has enough information to reject them. Real hits can wait behind work that should never select a worker, and adding a native filter does not remove this queueing cost under the wrapper.
 - Fix condition: wrapper-visible hook usage and filters reject calls before permit acquisition, ordinary and parallel variants use equivalent filters, and measurements prove that filter-only gains are not attributed to worker execution.
+
+## D019: transform failures lose plugin and module attribution
+
+- Status: observed for synchronous throws and rejected transform promises on Node.js 24.18.0 with research commits `75ba695d1` and `8fe749827`.
+- Severity: medium for debugging and plugin compatibility; the build fails rather than silently succeeding.
+- Behavior: the failure fixtures retain the thrown message but the CLI renders `Error: Error: <message>` without the plugin name, module ID, hook name, or worker-side stack. Both processes exit promptly after peer workers are terminated. [Evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md)
+- Impact: users can see the immediate message but cannot identify which parallel plugin instance or module produced it, and worker stacks needed to debug compiler failures are lost.
+- Fix condition: synchronous and asynchronous hook failures retain the plugin name, hook, module ID, original message and stack, exit without leaked workers, and match ordinary-plugin error attribution at the strongest practical level.

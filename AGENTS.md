@@ -1,6 +1,6 @@
 # Project-specific agent instructions
 
-- This project is research-first. Do not write implementation or benchmark code until Yunfei has reviewed the initial goal, architecture bets, and research plan.
+- This project is research-first. Yunfei completed the initial direction review on 2026-07-11. Runtime and benchmark work may proceed only in the confirmed order: direct Rolldown, current ParallelPlugin `transform` flow, cost attribution, then the Vue case.
 - Separate two possible benefits in every analysis: keeping work off the Node.js main thread and reducing total build time through parallel execution.
 - Never infer value for a pure JavaScript plugin from a benchmark whose expensive work already runs in Rust or another native thread pool.
 - Keep technical defect discovery beside performance research. Record known and newly discovered defects with pinned evidence or an explicit unverified label; do not bury them in benchmark caveats.
