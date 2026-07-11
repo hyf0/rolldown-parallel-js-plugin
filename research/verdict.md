@@ -16,7 +16,7 @@ Yunfei clarified the intended product target on 2026-07-12: a project must retai
 
 The measured real cases are orders of magnitude shorter and cannot settle that target. Their startup evidence also changes priority at production duration: removing a full 400 ms saves less than 0.05% of 15 minutes. The open decision depends on sustained per-worker service, worker and Rust CPU allocation, ready work over time, long-task balance, retained RSS, garbage collection, memory pressure, several-plugin execution, cache determinism, and worker or task failure semantics.
 
-The next comparison uses a Rolldown-managed shared worker group by default and an explicitly requested exclusive group for a sustained heavy plugin, both under the same global CPU and memory budget. Exclusive means a dedicated group containing one or several workers, not one worker per plugin. Colocating several plugins in shared workers remains distinct from executing their transforms as one combined worker request. The full admission and success gates are in the draft [production-scale goal](../.agents/docs/production-scale-goal.md), which is not active until the next `/goal` starts.
+The next comparison uses a Rolldown-managed shared worker group by default and an explicitly requested exclusive group for a sustained heavy plugin, both under the same global CPU and memory budget. Exclusive means a dedicated group containing one or several workers, not one worker per plugin. Colocating several plugins in shared workers remains distinct from executing their transforms as one combined worker request. The full admission and success gates are in the active [production-scale goal](../.agents/docs/production-scale-goal.md); implementation remains gated on candidate admission.
 
 ## What has value
 

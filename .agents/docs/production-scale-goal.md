@@ -1,6 +1,6 @@
 # Production-Scale Parallel JavaScript Transform Goal
 
-Status: draft for the next `/goal`; not started. Yunfei set this direction on 2026-07-12. The completed mechanism-scale research remains evidence, but it does not satisfy this goal.
+Status: active since 2026-07-12. The finite [candidate-search manifest](./production-candidate-search.md) is frozen before deep screening. The completed mechanism-scale research remains evidence, but it does not satisfy this goal.
 
 ## Outcome
 
@@ -16,13 +16,13 @@ The product claim must separate the value of JavaScript worker execution from th
 
 The completed cases establish execution mechanics, fixed cost, crossover, main-thread isolation, state risks, and opposite real-compiler outcomes. They are too short to answer the intended production-scale question: the 166-SFC Vue build is about 316 ms, the graph-preserving Svelte build about 596 ms, and the isolated 1,340-SFC Svelte fixture about 2.1 seconds ordinary.
 
-Measured fresh pool and plugin initialization is roughly 100–400 ms for the real compiler cases. Removing all 400 ms would save less than 0.05% of a 15-minute build and less than 0.03% of a 30-minute build. The next iteration therefore prioritizes sustained transform throughput, CPU allocation, ready work over time, memory pressure, cache semantics, multi-plugin execution, and failure behavior. Startup remains measured but cannot by itself satisfy the goal.
+Measured fresh pool and plugin initialization is roughly 100–400 ms for the real compiler cases. Removing all 400 ms would save less than 0.05% of a 15-minute build and less than 0.03% of a 30-minute build. This iteration therefore prioritizes sustained transform throughput, CPU allocation, ready work over time, memory pressure, cache semantics, multi-plugin execution, and failure behavior. Startup remains measured but cannot by itself satisfy the goal.
 
 ## Workload admission gate
 
 A candidate enters adaptation only when the unmodified ordinary build proves all of the following:
 
-- It uses Rolldown directly on the latest Node.js LTS available when the next `/goal` starts, pins the exact patch, and has a stable 15–30 minute production-build baseline under a representative pinned developer or CI allocation. Artificial CPU throttling or memory pressure introduced only to reach the duration does not qualify. This iteration does not run a Node.js version matrix.
+- It uses Rolldown directly on the latest Node.js LTS available when this `/goal` started, pins the exact patch, and has a stable 15–30 minute production-build baseline under a representative pinned developer or CI allocation. Artificial CPU throttling or memory pressure introduced only to reach the duration does not qualify. This iteration does not run a Node.js version matrix.
 - It is one real project or monorepo build using the original module relationships and production plugin configuration. It does not join unrelated repositories, duplicate source files, manufacture extra outputs, or otherwise add work only to reach the target duration.
 - A required JavaScript plugin or transform chain owns the expensive path. The plugin is retained because its JavaScript behavior, configuration, callbacks, ecosystem extensions, or maintenance model makes a wholesale Rust rewrite an unrealistic product answer.
 - Roughly 5,000 distinct project module IDs execute the target expensive transform. Each hit is counted at the actual handler boundary; total invocations, repeated target or output invocations, misses, and bypassed cache paths are reported separately and cannot substitute for the distinct-module count.
@@ -208,4 +208,4 @@ When no candidate passes admission, completion instead requires the predeclared 
 - Starting new production-scale `resolveId` or `load` performance studies. Transform-time calls to `this.resolve` or `this.load` remain in scope only as coordinator-boundary, reentrancy, overhead, and correctness requirements for the admitted transform.
 - Dynamic migration of a live plugin instance, public placement syntax, automatic crash retry, a purity-declaration API, and cross-process global worker management.
 - Requiring second-hardware replication, a Node.js version matrix, or cross-platform generalization in this iteration.
-- Running any candidate measurement before Yunfei starts the next `/goal`. After it starts, candidate screening and the ordinary long-running trace are allowed because they determine whether the admission gate passes; plugin adaptation, parallel implementation, and the full shared/exclusive matrix wait until that gate passes.
+- Running any candidate measurement before Yunfei started this `/goal`. Candidate screening and the ordinary long-running trace are now allowed because they determine whether the admission gate passes; plugin adaptation, parallel implementation, and the full shared/exclusive matrix wait until that gate passes.

@@ -1,6 +1,6 @@
 # Research Plan
 
-This record separates the completed mechanism-scale sequence from the draft production-scale iteration. The next iteration is not an implementation commitment and must not start until Yunfei creates its `/goal`.
+This record separates the completed mechanism-scale sequence from the active production-scale iteration. Yunfei started its `/goal` on 2026-07-12; candidate screening is active, while implementation remains gated on admission.
 
 ## Completed first-iteration order
 
@@ -67,15 +67,15 @@ Status: complete. The [isolated Svelte result](../../experiments/svelte-transfor
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.
 - A negative core or Vue result may narrow the later matrices, but it does not remove the required Svelte experiment or separate hook conclusions.
 
-## Draft next iteration: required high-frequency JavaScript transform
+## Active production-scale iteration: required high-frequency JavaScript transform
 
-Status: not started. The complete scope, admission rules, execution models, seven sustained-operation questions, correctness gates, and success criteria are in [production-scale goal](./production-scale-goal.md). Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
+Status: Phase A active. The finite [candidate-search manifest](./production-candidate-search.md) is frozen with Cloudflare Docs, Gutenberg, and Kibana as the only deep-screen candidates. Implementation and parallel matrices remain unstarted and gated on admission. Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
 
 ### Phase A: candidate admission
 
 - Commit a candidate-search manifest that pins the search date, sources or indexes, queries or selection method, inclusion and exclusion rules, and initial longlist. Source-review and screen at most three credible candidates from that declared universe. If none passes admission, preserve each failed rule, mark later rules `not evaluated`, and finish with a pinned inconclusive-corpus record rather than continuing indefinitely or treating the absence of a workload as a negative ParallelPlugin verdict.
 - Find a representative direct-Rolldown build lasting 15–30 minutes in one real project or monorepo using its original graph and production plugin configuration, with roughly 5,000 distinct project module IDs verified at the expensive JavaScript transform boundary.
-- Use the latest Node.js LTS available when the next `/goal` starts and pin its exact patch; do not run a version matrix.
+- Use the latest Node.js LTS available when this `/goal` started and pin its exact patch; do not run a version matrix.
 - Report distinct module IDs, total handler invocations, repeated target/output invocations, filter misses, and cache paths separately. Reject physical module count, duplicate files, joined unrelated repositories, manufactured outputs, filter misses, cache bypasses, artificial delay, an externalized main graph, or a Rust/native substitute as evidence for the target.
 - Pin why the plugin must remain JavaScript: behavior, configuration, callbacks, ecosystem extensions, ownership, or maintenance cost.
 - Define one primary direct-Rolldown invocation and module graph. If the production command runs several independent invocations, report single-graph and whole-command timing separately and compare top-level process parallelism.

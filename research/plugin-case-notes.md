@@ -1,6 +1,6 @@
 # Vue and Svelte Plugin Case Notes
 
-Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit and completed Vue/Svelte mechanism cases as first-iteration background. They do not select the next production workload. The draft next iteration targets any required JavaScript transform or transform chain that passes the roughly 5,000-hit, 15–30 minute admission gate; Vue and Svelte remain controls rather than the product definition. [Production-scale goal](../.agents/docs/production-scale-goal.md)
+Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit and completed Vue/Svelte mechanism cases as first-iteration background. They do not select the production workload. The active next iteration targets any required JavaScript transform or transform chain that passes the roughly 5,000-distinct-module, 15–30 minute admission gate; Vue and Svelte remain controls rather than the product definition. [Production-scale goal](../.agents/docs/production-scale-goal.md)
 
 ## Archived integration finding
 

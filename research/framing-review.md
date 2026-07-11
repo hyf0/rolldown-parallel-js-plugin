@@ -1,6 +1,6 @@
 # First-Iteration Confirmed Research Direction
 
-Direction confirmed by Yunfei on 2026-07-11 and completed by the evidence committed on that date. It remains the historical reason for the mechanism-scale sequence. Yunfei set a broader production-scale direction on 2026-07-12; all new runtime work is governed by the draft [production-scale goal](../.agents/docs/production-scale-goal.md), which is not active until the next `/goal` starts.
+Direction confirmed by Yunfei on 2026-07-11 and completed by the evidence committed on that date. It remains the historical reason for the mechanism-scale sequence. Yunfei started the broader [production-scale goal](../.agents/docs/production-scale-goal.md) on 2026-07-12; candidate admission is active, while implementation remains gated.
 
 ## Confirmed scope
 
