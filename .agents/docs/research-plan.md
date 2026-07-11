@@ -73,39 +73,47 @@ Status: not started. The complete scope, admission rules, execution models, seve
 
 ### Phase A: candidate admission
 
-- Find a representative direct-Rolldown build lasting 15–30 minutes with roughly 5,000 verified hits in an expensive required JavaScript transform or transform chain.
+- Commit a candidate-search manifest that pins the search date, sources or indexes, queries or selection method, inclusion and exclusion rules, and initial longlist. Source-review and screen at most three credible candidates from that declared universe. If none passes admission, preserve each failed rule, mark later rules `not evaluated`, and finish with a pinned inconclusive-corpus record rather than continuing indefinitely or treating the absence of a workload as a negative ParallelPlugin verdict.
+- Find a representative direct-Rolldown build lasting 15–30 minutes in one real project or monorepo using its original graph and production plugin configuration, with roughly 5,000 distinct project module IDs verified at the expensive JavaScript transform boundary.
 - Use the latest Node.js LTS available when the next `/goal` starts and pin its exact patch; do not run a version matrix.
-- Reject physical module count, filter misses, cache bypasses, artificial delay, an externalized main graph, or a Rust/native substitute as evidence for the target.
+- Report distinct module IDs, total handler invocations, repeated target/output invocations, filter misses, and cache paths separately. Reject physical module count, duplicate files, joined unrelated repositories, manufactured outputs, filter misses, cache bypasses, artificial delay, an externalized main graph, or a Rust/native substitute as evidence for the target.
 - Pin why the plugin must remain JavaScript: behavior, configuration, callbacks, ecosystem extensions, ownership, or maintenance cost.
-- Measure the ordinary target-transform time share and apply the stated overall-speedup formula before adapting the plugin. Reject a candidate that cannot mathematically reach a repeated 2x complete-build result.
-- If the primary candidate contains one plugin, select a second real JavaScript transform on the same pinned graph for the independent shared-placement, colocated-failure, and optional pipeline case. It must not inflate or contribute to the primary 2x baseline.
+- Define one primary direct-Rolldown invocation and module graph. If the production command runs several independent invocations, report single-graph and whole-command timing separately and compare top-level process parallelism.
+- Measure the ordinary target-transform critical-path bound and apply the stated overall-speedup formula before adapting the plugin. Do not substitute accumulated handler time divided by wall time; use an ordinary wall baseline, an instrumented blocking timeline, and an exact-result replay bound. Reject a candidate that cannot mathematically reach a repeated 2x complete-build result.
+- If the primary candidate contains one plugin, select a second real JavaScript transform on the same pinned graph for the independent shared-placement, colocated-failure, and optional pipeline case. It must execute over a substantial documented fraction of the same modules and consume material transform time; pipeline work additionally requires meaningful filter overlap and adjacency in plugin order. It must not inflate or contribute to the primary 2x baseline. If no qualifying companion exists, preserve an inconclusive multi-plugin axis rather than adding a trivial transform.
 
 ### Phase B: ordinary production trace
 
-- Record target-transform hit, miss, and cache-path counts; per-call cost distribution; ready-call width over time; queue-free ordinary service; Node main-thread CPU; Rust and native CPU where observable; RSS over time; garbage collection; source and source-map bytes; warnings; errors; output; and shutdown.
-- Establish repeated absolute wall time and environmental variance before any worker change. The intended result is expressed as minutes, not only a ratio.
+- Pin one dedicated representative host or CI allocation, CPU and memory quotas, power and thermal policy, background-load policy, and a no-swap requirement before formal measurement; do not throttle the host merely to reach the target duration. Before parallel runs, derive separate CPU-minute, peak-RSS, and retained-RSS acceptance or review thresholds from that allocation and its real headroom.
+- Separate instrumented attribution from uninstrumented wall confirmation. Record target-transform hit, miss, and cache-path counts; per-call cost distribution; ready-call width over time; queue-free ordinary service; Node main-thread CPU; Rust and native CPU where observable; RSS over time; garbage collection; source and source-map bytes; warnings; errors; output; and shutdown in the attribution run, then quantify instrumentation overhead.
+- Establish repeated absolute wall time and environmental variance before any worker change. The intended result is expressed as minutes, not only a ratio. Formal confirmation uses rotated blocks containing ordinary, the best eligible plugin-owned variant, and the best eligible Rolldown-owned variant. Run at least five blocks; if any required ordinary-to-variant 95% paired interval crosses the 2x target or the direct Rolldown-owned-to-plugin-owned interval crosses parity, continue to a maximum of ten, after which the affected wall or incremental-value claim remains inconclusive rather than being decided from the median alone.
 - Prove that the expensive time is synchronous JavaScript on the critical path and that the machine has CPU capacity workers can use.
 
 ### Phase C: worker execution and placement
 
-- Compare ordinary execution, one-worker isolation, the Rolldown-managed shared group, and an explicitly exclusive group containing one or several workers.
-- Use one global CPU and memory budget across shared groups, exclusive groups, Rolldown Rust work, and native compiler stages.
+- Compare ordinary execution, one-worker isolation, a plugin-managed `worker_threads` pool, the Rolldown-managed shared group, and an explicitly exclusive group containing one or several workers. When adaptation requires a worker kernel, the plugin-managed and Rolldown-managed forms use the same JavaScript kernel, inputs, outputs, and worker count.
+- Use one fixed CPU and memory envelope across plugin-managed workers, shared groups, exclusive groups, Rolldown Rust work, and native compiler stages. Record each Rust-thread and JavaScript-worker allocation and prohibit swap.
+- Freeze placement for the lifetime of each fresh build. Use FIFO order within each plugin plus starvation prevention across plugins as the default shared reference; fail configuration if an exclusive request cannot be honored, and do not add dynamic instance migration in this iteration.
 - Record sustained per-worker service, ready width, utilization, task assignment, per-plugin queueing, long-task imbalance, CPU, RSS, garbage collection, and complete-build wall time for each worker count and placement.
-- When several high-frequency transforms exist, first measure ordinary separate hook crossings; compare same-worker placement and a combined worker-side ordered pipeline only if boundary conversion is material.
+- Inventory clean-build lifecycle hooks and transform-time plugin-context calls. Keep global lifecycle and externally visible side effects coordinator-owned by default; include the latency and semantics of any required coordinator RPC.
+- When several high-frequency transforms exist, first measure ordinary separate hook crossings; compare same-worker placement and a combined worker-side ordered pipeline only if boundary conversion is material and the transforms are adjacent in plugin order with substantial filter overlap.
+- In the multi-plugin case, compare two plugin-owned pools with one Rolldown-managed shared group under the same total JavaScript-worker, Rust-thread, CPU, and memory budget. This comparison, rather than a single plugin-owned pool alone, determines whether Rolldown-wide cross-plugin coordination adds value.
 - Keep the primary 2x comparison separate from a companion multi-plugin case when the accepted production workload contains only one target plugin.
 
 ### Phase D: one-at-a-time sustained optimization
 
 - Change only a measured dominant cost: worker placement, worker count, load balance, long-lived compiler or cache memory, per-call conversion, several-plugin pipeline execution, or cache ownership.
 - Treat fresh worker startup as secondary for the 15–30 minute target unless the production trace contradicts the measured sub-0.05% bound.
-- Repeat the same pinned ordinary, shared, and exclusive cases after every change. Stop changes whose expected complete-build benefit is smaller than their implementation and maintenance cost.
+- Repeat the same pinned ordinary, plugin-managed, shared, and exclusive cases after every adaptation-neutral change. For a Rolldown-specific change, preserve the unchanged plugin-managed control and repeat every affected Rolldown placement. Stop changes whose expected complete-build benefit is smaller than their implementation and maintenance cost.
+- Classify every adaptation as whole-plugin, upstream-maintainable worker-entry/coordinator-kernel, or benchmark-only fork. Record changed lines, disabled capabilities, duplicated upstream logic, dual paths, configuration limits, and expected upgrade maintenance; a benchmark-only fork can establish an upper bound but not general product value.
 
 ### Phase E: semantic and failure closure
 
 - Prove exact code, source-map, output-shape, plugin-order, warning, error, metadata, state, cache-determinism, cancellation, and shutdown behavior.
+- Test whether colocated plugins observe shared ESM or CommonJS singleton state and whether shared versus exclusive placement changes behavior.
 - Inject worker exit, crash, synchronous throw, rejected task, and unresponsive task conditions with queued and in-flight work in shared and exclusive groups.
-- Define retry only for behaviorally pure tasks; otherwise fail with ordinary-equivalent attribution and no partial state or leaked capacity.
-- Finish with an updated investment verdict that either demonstrates repeated 30→15 or 15→7–8 minute behavior or names the measured reason the target is not achievable.
+- Fail a lost task and the build with ordinary-equivalent attribution and no partial state or leaked capacity. Record what a future purity contract would need, but do not implement automatic retry in this iteration.
+- After a candidate passes admission, finish with an updated investment verdict that either demonstrates repeated 30→15 or 15→7–8 minute behavior, names the measured reason the target is not achievable, or records a formal interval that remains inconclusive after the predeclared maximum. When no candidate passes admission, finish instead with the bounded inconclusive-corpus verdict from Phase A.
 
 ## Parallel defect track
 

@@ -6,11 +6,11 @@ The mechanism-scale iteration is complete. Its experiments use Rolldown directly
 
 ## Draft next iteration
 
-The next `/goal` is drafted but not started. It targets a required user- or ecosystem-owned JavaScript transform that cannot reasonably be replaced wholesale with Rust, roughly 5,000 modules that actually execute its expensive handler, a repeated 15–30 minute ordinary direct-Rolldown build, and an end-to-end target of about 30→15 or 15→7–8 minutes. Vue and Svelte remain controls rather than the product definition. [Production-scale goal](./.agents/docs/production-scale-goal.md)
+The next `/goal` is drafted but not started. It first commits a finite candidate-search manifest, then screens at most three credible candidates for a required user- or ecosystem-owned JavaScript transform that cannot reasonably be replaced wholesale with Rust, roughly 5,000 distinct project modules that actually execute its expensive handler, a repeated 15–30 minute ordinary direct-Rolldown build, and an end-to-end target of about 30→15 or 15→7–8 minutes. Vue and Svelte remain controls rather than the product definition. If no candidate passes admission, the valid result is an inconclusive corpus record rather than a fabricated benchmark or a negative product verdict. [Production-scale goal](./.agents/docs/production-scale-goal.md)
 
-The default placement model is a Rolldown-managed shared worker group that may host several plugins. A sustained heavy plugin may explicitly request an exclusive group containing one or several workers. Shared and exclusive comparisons use the same global CPU and memory budget. The iteration measures sustained per-worker service, CPU competition with Rust and native stages, ready work and load balance over time, RSS/JIT/cache/garbage-collection pressure, several ordered transforms in one worker, cache determinism, and worker or task failure semantics.
+The execution comparison includes ordinary main-thread execution, one-worker isolation, a plugin-managed `worker_threads` pool, a Rolldown-managed shared worker group that may host several plugins, and an explicitly exclusive group containing one or several workers. The companion multi-plugin case compares two plugin-owned pools with one shared Rolldown group under the same total budget. Every model uses the same pinned JavaScript behavior and global CPU and memory envelope. The iteration measures sustained per-worker service, CPU competition with Rust and native stages, ready work and load balance over time, RSS/JIT/cache/garbage-collection pressure, several ordered transforms in one worker, clean-build coordinator semantics, adaptation cost, cache determinism, and worker or task failure behavior.
 
-No candidate measurement begins until Yunfei starts the next `/goal`. Once it starts, candidate screening and the ordinary long-running trace establish whether the workload and complete-build time-share gates pass; plugin adaptation, parallel implementation, and the full shared/exclusive matrix begin only after they do.
+No candidate measurement begins until Yunfei starts the next `/goal`. Once it starts, candidate screening and the ordinary long-running trace establish whether the workload and complete-build critical-path gates pass; plugin adaptation, parallel implementation, and the full plugin-managed/shared/exclusive matrix begin only after they do.
 
 ## First-iteration questions
 
@@ -40,7 +40,7 @@ The source audit and runtime probes also found compatibility blockers independen
 ## Repository map
 
 - [Project context](./.agents/docs/README.md) records the durable goal, research boundaries, and current plan.
-- [Draft production-scale goal](./.agents/docs/production-scale-goal.md) records the next iteration's required JavaScript workload, time and hit-count gates, shared and exclusive worker placement, sustained measurements, semantic requirements, and 2x success target.
+- [Draft production-scale goal](./.agents/docs/production-scale-goal.md) records the next iteration's bounded candidate search, required JavaScript workload, time and distinct-module gates, plugin-owned and Rolldown-owned worker baselines, resource and statistical protocol, adaptation cost, semantic requirements, and 2x success target.
 - [Current-state evidence](./research/current-state.md) pins the source revisions and distinguishes verified facts from open checks.
 - [Research dimensions](./.agents/docs/research-dimensions.md) keeps hook-specific value questions and technical defect discovery as equal workstreams.
 - [Current defect inventory](./research/defect-inventory.md) distinguishes source-proven gaps, source-inferred failure paths, and historical reports awaiting reproduction.

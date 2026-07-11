@@ -32,7 +32,7 @@ Classify every important state edge as immutable replicated configuration, worke
 
 ## Production-scale transform dimensions
 
-The next iteration targets a required JavaScript transform or transform chain with roughly 5,000 actual expensive handler hits in a repeated 15–30 minute direct-Rolldown build. Vue and Svelte remain controls rather than the product definition. File count, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
+The next iteration targets one real project or monorepo whose original graph and production configuration send roughly 5,000 distinct project module IDs through a required expensive JavaScript transform or transform chain in a repeated 15–30 minute direct-Rolldown build. Vue and Svelte remain controls rather than the product definition. Duplicate files, joined unrelated repositories, manufactured outputs, file count without handler execution, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
 
 ### Sustained service
 
@@ -52,11 +52,11 @@ The next iteration targets a required JavaScript transform or transform chain wi
 
 ### Shared and exclusive placement
 
-- Compare the Rolldown-managed shared group with an explicitly exclusive worker group under the same global budget. Measure whether one long plugin blocks other plugins, whether shared workers reuse meaningful imports, how memory and garbage collection combine, how capacity is divided fairly, and which colocated plugins are affected by one worker failure.
+- Compare a plugin-managed `worker_threads` pool, the Rolldown-managed shared group, and an explicitly exclusive worker group under the same global budget and with the same JavaScript kernel when possible. Measure whether one long plugin blocks other plugins, whether shared workers reuse meaningful imports or expose shared singleton state, how memory and garbage collection combine, how capacity is divided fairly, and which colocated plugins are affected by one worker failure.
 
 ### Several plugins in one worker
 
-- Distinguish colocating plugin instances from executing several transforms in one combined request. A worker-side ordered pipeline must retain every intermediate code value, null result, source-map chain, hook order, metadata update, warning, error, and plugin identity before reduced boundary traffic can count as a gain.
+- Distinguish colocating plugin instances from executing several transforms in one combined request. Use real transforms with material work over a substantial shared module set; pipeline fusion additionally requires meaningful filter overlap and adjacency in ordinary plugin order. A worker-side ordered pipeline must retain every intermediate code value, null result, source-map chain, hook order, metadata update, warning, error, and plugin identity before reduced boundary traffic can count as a gain.
 
 ### Cache determinism
 
@@ -64,7 +64,7 @@ The next iteration targets a required JavaScript transform or transform chain wi
 
 ### Failure behavior
 
-- Exercise worker exit, crash, synchronous throw, rejected task, unresponsive task, queued cancellation, and shutdown in shared and exclusive groups. Preserve ordinary attribution, define which work fails, retry only proven-pure tasks, restore or reject capacity deterministically, and leave no permit, callback, worker, or partial state behind.
+- Exercise worker exit, crash, synchronous throw, rejected task, unresponsive task, queued cancellation, and shutdown in shared and exclusive groups. Preserve ordinary attribution, fail the primary build without automatic task retry, record the future purity contract that retry would require, restore or reject capacity deterministically, and leave no permit, callback, worker, or partial state behind.
 
 ## Technical defect dimensions
 
