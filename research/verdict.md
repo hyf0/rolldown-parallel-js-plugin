@@ -46,8 +46,8 @@ The controlled case establishes the mechanism, while Vue and Svelte show opposit
 | --- | ---: | ---: | ---: | --- |
 | Controlled, 512 generated modules and 513 calls at 2m operations | 1737 ms | worker-12, 366 ms | 4.75x | 3547 ms user CPU and 257 MiB RSS versus 1745 ms and 111 MiB; diminishing after worker-8 |
 | Vue, 166 real SFCs | 316 ms | worker-2, 362 ms | 0.91x | all counts lose; worker-8 reaches about 2244 ms user CPU and 462 MiB RSS; output matches but errors degrade |
-| Svelte, 24 real SFCs | 213 ms | worker-2, 232 ms | 0.90x | every count loses |
-| Svelte, 1,340 real SFCs | 2054 ms | worker-4, 1509 ms | 1.36x | user CPU rises from 3008 ms to 5689 ms and RSS from 748 MiB to 983 MiB; code and maps match but warnings and errors do not |
+| Isolated Svelte fan-out, 24 real SFC sources | 213 ms | worker-2, 232 ms | 0.90x | every tested count loses |
+| Isolated Svelte fan-out, 1,340 real SFC sources | 2054 ms | worker-4, 1509 ms | 1.36x | user CPU rises from 3008 ms to 5689 ms and RSS from 748 MiB to 983 MiB; code and maps match but warnings and errors do not |
 
 ### Why Vue loses
 
@@ -65,13 +65,15 @@ This is not a complete official Svelte-plugin or representative-project result. 
 
 The hook name alone predicts nothing. A cheap 512-call resolver falls to 0.26x even at the best worker setting. Sixteen cached `existsSync` probes per call remain too short and fall to 0.41x. The equally expensive 512-module dependency chain never has more than one handler, permit, or wrapper outstanding and every worker count regresses to 0.78–0.84x.
 
-The controlled positive is a prepared resolver-kernel result, not evidence that a complete ecosystem resolver should move unchanged. Real resolvers often have native alternatives, async filesystem work, instance caches, ordered first-result behavior, custom receipts, and recursive resolution. The probe shows the state and scheduling risks directly: a closure counter is partitioned across workers and changes output, while same-plugin `this.resolve(..., { skipSelf: false })` deterministically deadlocks with one worker. No current surveyed real resolver qualifies as a clean whole-plugin positive case. [Controlled hook result](../experiments/resolve-load/2026-07-11/README.md), [source candidate survey](./resolve-load-candidates.md)
+The controlled positive is a prepared resolver-kernel result, not evidence that a complete ecosystem resolver should move unchanged. Real resolvers often have native alternatives, async filesystem work, instance caches, ordered first-result behavior, custom receipts, and recursive resolution. The probe shows the state and scheduling risks directly: a closure counter is partitioned across workers and produces ten different output hashes in ten reruns, while same-plugin `this.resolve(..., { skipSelf: false })` deterministically deadlocks with one worker. No current surveyed real resolver qualifies as a clean whole-plugin positive case. [Controlled hook result](../experiments/resolve-load/2026-07-11/README.md), [source candidate survey](./resolve-load-candidates.md)
 
 ## `load` conclusion
 
 `load` is valuable for wide synchronous CPU generation under the same conditions as transform. The matched 512-call confirmation reaches 1.45x, 2.18x, and 2.74x at two, four, and eight workers. Worker-1 reaches 0.86x but reduces event-loop p99 from 502 ms to 1.22 ms. Cheap generation, an equally expensive serial chain, and 64 KiB of returned code per call without enough computation all regress.
 
-Already-asynchronous load work is a decisive negative. An ordinary plugin overlaps 512 five-millisecond timers and completes in about 22 ms; its isolation run already has event-loop p99 below 4 ms. Worker-1 takes about 3.0 seconds and worker-8 about 440 ms because every unresolved Promise retains one exclusive pool permit. The worker form adds no responsiveness value and destroys the concurrency already supplied by the event loop. Async filesystem and network loaders should remain ordinary unless a separately measured synchronous stage is extracted as the worker kernel.
+Every worker-2/4/8 confirmation round beats ordinary for both CPU hooks, so the direction is strong. The magnitude is noisy: worker-8 load spans 2.08x to 4.90x across rounds, and recorded one-minute host load averages are roughly 7.3–11.5 on 12 logical CPUs. The medians are evidence for this batch, not portable constants.
+
+Already-asynchronous load work is a decisive negative in the controlled timer fixture. An ordinary plugin overlaps 512 five-millisecond timers and completes in about 22 ms; its isolation run already has event-loop p99 below 4 ms. Worker-1 takes about 3.0 seconds and worker-8 about 440 ms because every unresolved Promise retains one exclusive pool permit. This proves that the current permit lifetime can destroy concurrency already supplied by the event loop. Keep already-asynchronous stages ordinary by default and measure real filesystem or network loaders before generalizing; extract a separately measured synchronous stage only when it has material CPU work.
 
 Real virtual loaders also need precise filters, cache ownership, input and result payload, native compiler stages, and state from `resolveId` or transform. The controlled evidence proves the CPU and permit mechanisms but does not establish a universal load crossover or a complete real-plugin win. [Controlled hook result](../experiments/resolve-load/2026-07-11/README.md)
 

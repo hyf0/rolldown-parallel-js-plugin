@@ -1,0 +1,656 @@
+{
+  "schema": 1,
+  "purpose": "Ten independent reruns of the committed controlled-hook correctness probe to test mutable worker-state repeatability",
+  "command": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node examples/par-plugin/cases/controlled-hooks/probe-correctness.mjs",
+  "generatedAt": "2026-07-11T16:17:07.097Z",
+  "environment": {
+    "node": "v24.18.0",
+    "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+    "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+    "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+    "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b"
+  },
+  "summary": {
+    "runCount": 10,
+    "ordinaryHashes": [
+      "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9"
+    ],
+    "ordinaryStable": true,
+    "distinctWorkerHashCount": 10,
+    "workerHashes": [
+      "8c9c77a99260ffd06235ef6b3c4c1eb9767ba2066d426b023623d3a2b361f932",
+      "1ddff2891c122862f36901902e143db10cb7de737070dbe3e8252b9ddf873b22",
+      "551a6f3a8ecee2951e2471fcd21761b268a42c9bcce20f69bf2034adf684e77a",
+      "b903182da4b75b8c8fa3fda5f74dfab0d0501be0c31ad2915c2ca914559e97f8",
+      "7cdb71d845fab01ad5cf0a1fa832fb7f849cb6c27e043a20cfeba387cdfd5a6e",
+      "eabd8c29bb9ef6f69bbd6718ced0d6cffbfbdfe1b885ec05ae50d33be27e6a88",
+      "f706afe4b97d5d8a3d2e7ce2f1aafc294fc91eeb37d144d3c34dcfb69818c452",
+      "16ed608c4361b2f20323f3a916667a6996881a75069a47c87bef7eee3bd42c3b",
+      "1509ec8201588286f6c66335f92c4260884658cb3d08e54be004107af121cfa6",
+      "f26be82bd6f5ee58055305f5e5ae1250841f5bbc3553f65f0e5d156b3569ec1b"
+    ],
+    "distinctDistributionCount": 8,
+    "distributions": [
+      [
+        8,
+        8,
+        9,
+        7
+      ],
+      [
+        9,
+        8,
+        8,
+        7
+      ],
+      [
+        8,
+        8,
+        8,
+        8
+      ],
+      [
+        8,
+        9,
+        7,
+        8
+      ],
+      [
+        9,
+        6,
+        9,
+        8
+      ],
+      [
+        7,
+        9,
+        8,
+        8
+      ],
+      [
+        9,
+        7,
+        8,
+        8
+      ],
+      [
+        7,
+        8,
+        9,
+        8
+      ]
+    ]
+  },
+  "runs": [
+    {
+      "index": 1,
+      "startedAt": "2026-07-11T16:16:37.852Z",
+      "finishedAt": "2026-07-11T16:16:40.788Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "8c9c77a99260ffd06235ef6b3c4c1eb9767ba2066d426b023623d3a2b361f932",
+      "perWorkerCalls": [
+        8,
+        8,
+        9,
+        7
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 2,
+      "startedAt": "2026-07-11T16:16:40.788Z",
+      "finishedAt": "2026-07-11T16:16:43.698Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "1ddff2891c122862f36901902e143db10cb7de737070dbe3e8252b9ddf873b22",
+      "perWorkerCalls": [
+        9,
+        8,
+        8,
+        7
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 3,
+      "startedAt": "2026-07-11T16:16:43.698Z",
+      "finishedAt": "2026-07-11T16:16:46.606Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "551a6f3a8ecee2951e2471fcd21761b268a42c9bcce20f69bf2034adf684e77a",
+      "perWorkerCalls": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 4,
+      "startedAt": "2026-07-11T16:16:46.606Z",
+      "finishedAt": "2026-07-11T16:16:49.518Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "b903182da4b75b8c8fa3fda5f74dfab0d0501be0c31ad2915c2ca914559e97f8",
+      "perWorkerCalls": [
+        8,
+        9,
+        7,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 5,
+      "startedAt": "2026-07-11T16:16:49.518Z",
+      "finishedAt": "2026-07-11T16:16:52.481Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "7cdb71d845fab01ad5cf0a1fa832fb7f849cb6c27e043a20cfeba387cdfd5a6e",
+      "perWorkerCalls": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 6,
+      "startedAt": "2026-07-11T16:16:52.481Z",
+      "finishedAt": "2026-07-11T16:16:55.453Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "eabd8c29bb9ef6f69bbd6718ced0d6cffbfbdfe1b885ec05ae50d33be27e6a88",
+      "perWorkerCalls": [
+        9,
+        6,
+        9,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 7,
+      "startedAt": "2026-07-11T16:16:55.453Z",
+      "finishedAt": "2026-07-11T16:16:58.368Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "f706afe4b97d5d8a3d2e7ce2f1aafc294fc91eeb37d144d3c34dcfb69818c452",
+      "perWorkerCalls": [
+        7,
+        9,
+        8,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 8,
+      "startedAt": "2026-07-11T16:16:58.368Z",
+      "finishedAt": "2026-07-11T16:17:01.268Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "16ed608c4361b2f20323f3a916667a6996881a75069a47c87bef7eee3bd42c3b",
+      "perWorkerCalls": [
+        9,
+        7,
+        8,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 9,
+      "startedAt": "2026-07-11T16:17:01.268Z",
+      "finishedAt": "2026-07-11T16:17:04.164Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "1509ec8201588286f6c66335f92c4260884658cb3d08e54be004107af121cfa6",
+      "perWorkerCalls": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    },
+    {
+      "index": 10,
+      "startedAt": "2026-07-11T16:17:04.164Z",
+      "finishedAt": "2026-07-11T16:17:07.097Z",
+      "ordinaryOutputHash": "5c1817024903b91e457f2d39905946e3855e63d2a9493bece4e3478120b550c9",
+      "workerOutputHash": "f26be82bd6f5ee58055305f5e5ae1250841f5bbc3553f65f0e5d156b3569ec1b",
+      "perWorkerCalls": [
+        7,
+        8,
+        9,
+        8
+      ],
+      "node": "v24.18.0",
+      "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+      "rolldownCommit": "937864d40bd8a563744eb22b1c7f62a73f4c2482",
+      "nativeBindingSha256": "72376e7c924a33f459b3b1a2641bdab94c620fbcb5f810c3c053501e20e8766d",
+      "nativeBindingSourceCommit": "c9a41b1b93bdceab0572edb91c8d68bf630f3c4b",
+      "filterMiss": {
+        "wrapperCalls": 1,
+        "permitAcquiredCalls": 1,
+        "nullResults": 1
+      },
+      "reentrant": {
+        "ordinaryAndWorkerTwoHash": "d7e47d6d5015cf6dbcd3e6ee09c9dce8c7ea3ecf2e908473c8f17260d58c9371",
+        "workerOne": "timed out after 2000 ms while holding the only permit"
+      },
+      "errors": {
+        "propagated": [
+          "ordinary resolveId",
+          "worker-1 resolveId",
+          "ordinary load",
+          "worker-1 load"
+        ],
+        "attribution": {
+          "resolve-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          },
+          "load-error": {
+            "ordinary": {
+              "pluginLabel": true,
+              "handlerFrame": true
+            },
+            "worker-1": {
+              "pluginLabel": false,
+              "handlerFrame": false
+            }
+          }
+        }
+      }
+    }
+  ]
+}

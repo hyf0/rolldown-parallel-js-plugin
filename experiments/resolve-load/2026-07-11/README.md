@@ -34,7 +34,7 @@ The 15-round confirmation used 512 independently ready hooks and 500,000 fixed c
 | `load`      | worker-4 |    294.2 ms |  65.1 ms |          2.18x |        901.5 ms | 161.7 MiB |
 | `load`      | worker-8 |    249.5 ms |  69.7 ms |          2.74x |      1,223.7 ms | 209.4 MiB |
 
-The direction is robust in this batch: every paired worker-2/4/8 round beat ordinary for both hooks. Exact wall times are not stable enough to present as general constants. Fixed operations still pass through V8 tiering, per-isolate optimization, CPU frequency changes, and contention; for example, the primary `load` batch drifted substantially in its later rounds, which is why this independent 15-round confirmation exists.
+The direction is robust in this batch: every paired worker-2/4/8 round beat ordinary for both hooks. Exact wall times and speedup magnitudes are not stable enough to present as general constants; worker-8 `load` spans 2.08x to 4.90x across paired confirmation rounds despite its 2.74x median. Recorded one-minute host load averages across the formal reports range roughly from 7.3 to 11.5 on 12 logical CPUs. Fixed operations still pass through V8 tiering, per-isolate optimization, CPU frequency changes, external host load, and contention; the primary `load` batch also drifted substantially in its later rounds, which is why this independent 15-round confirmation exists.
 
 Worker-1 is useful here for isolation, not throughput. Additional workers trade more total CPU and memory for lower wall time. Peak RSS rises by roughly 12–14 MiB per worker in these cases.
 
@@ -60,14 +60,16 @@ Instrumentation is explanatory only; Atomics and timing calls perturb the path, 
 
 - Each wide case records 512 matching handlers and 513 Rust wrapper calls. The extra call is the physical entry, which misses the native filter only after acquiring a worker permit. This is D018, now observed for both `resolveId` and `load`, not just inferred from source.
 - Cheap ordinary handlers average about 2.4 microseconds for `resolveId` and 1.0 microsecond for `load`. With worker-1, permit-held time averages about 51.2 microseconds and 15.8 microseconds respectively, before amortizing the roughly 50+ ms build-level pool cost.
-- For wide CPU work, wrapper outstanding reaches 512 and permit in-flight reaches exactly 1/4/8. For cheap work, permits can be occupied while JavaScript handler activity fails to reach all workers, showing that dispatch and bridge work consume much of the task.
+- For wide CPU work, wrapper outstanding reaches 512 and permit in-flight reaches exactly 1/4/8. For cheap work, permits can be occupied while JavaScript handler activity fails to reach all workers, which is consistent with scheduling, selection, and bridge overhead consuming much of the task; the instrumentation does not isolate those components.
 - For async `load`, ordinary JavaScript handler activity reaches 512. Parallel variants reach exactly 1/4/8 because a pending Promise retains its permit for the full timer. Median handler duration remains around 5.4–5.6 ms, but worker-1 serializes 512 timers.
 - Queue-wait totals are sums across concurrently waiting wrappers and are not build wall time. They show pressure and readiness, not additive latency.
-- Pool initialization in the instrumented batches varies materially by batch and worker count. Near-empty wall cases provide the safer practical statement: one to four workers add roughly 50–75 ms on this host, with larger counts and cold batches costing more.
+- Pool initialization in the instrumented batches varies materially by batch and worker count. The separate [controlled-transform near-empty cases](../../core-transform/2026-07-11-controlled-release.md#fresh-build-fixed-cost) provide the safer fixed-cost statement: one to four minimal workers add roughly 47–50 ms on this host, with larger counts costing more. The hook matrix's cheap 512-call cases measure complete hook overhead rather than pure pool startup.
 
 ## Main-thread responsiveness
 
 The event-loop monitor uses 1 ms resolution. After `chdir` and GC, the child enables it, waits 25 ms, and resets the histogram. The monitor then covers plugin import/factory, worker initialization, `rolldown()`, `generate()`, and `close()`, followed by a trailing 25 ms sampling window. `totalElapsedMs` excludes both sampling windows. Output hashing is outside the monitor and total-time boundaries, and every variant passes the usual hash and byte gates.
+
+In the short ordinary CPU runs, the histogram mostly observes one long synchronous stall plus the trailing sampling window, so p99 is effectively the per-run maximum rather than a steady-state latency percentile. The maximum falling from roughly 0.5 seconds to 3–4 ms is the direct isolation evidence.
 
 | Case            |  Variant | Median wall | Paired speedup | Median event-loop mean | Median p99 | Median max |
 | --------------- | -------: | ----------: | -------------: | ---------------------: | ---------: | ---------: |
@@ -86,7 +88,7 @@ This separates two values that should not be conflated. Synchronous CPU hooks ca
 
 ### D018: native filters run after permit acquisition
 
-The dedicated miss probe has one wrapper call, one acquired permit, one null result, and zero JavaScript handler calls. Formal 512-call builds likewise have 513 acquired wrappers and one null result. Moving filter interpretation before `WorkerManager::acquire()` would avoid queueing and worker dispatch for misses. Real plugins with broad hook registration and narrow filters can have far more misses than this controlled entry-only case.
+The dedicated miss probe has one wrapper call, one acquired permit, one null result, and zero JavaScript handler calls. Formal 512-call builds likewise have 513 acquired wrappers and one null result. Moving filter interpretation before `WorkerManager::acquire()` would avoid worker-pool queueing, permit acquisition, and instance selection for misses; the current native filter already prevents the JavaScript callback itself. Real plugins with broad hook registration and narrow filters can have far more misses than this controlled entry-only case.
 
 ### D011: same-plugin reentrancy can deadlock
 
@@ -94,11 +96,11 @@ An outer `resolveId` calls `this.resolve('controlled-reentrant:inner', importer,
 
 ### Per-instance mutable state changes semantics
 
-The state probe creates the same closure counter in each factory. Ordinary produces one local sequence of 32 unique values. Worker-4 distributes calls across four factories, each with its own sequence; the returned IDs and final output hash differ. Plugin authors must decide whether state is immutable, per-instance/sharded, or explicitly shared through a safe mechanism such as a `SharedArrayBuffer` or main-thread coordination. Existing singleton caches, counters, and ordering assumptions cannot be moved into workers unchanged.
+The state probe creates the same closure counter in each factory. Ordinary produces one local sequence of 32 unique values. Worker-4 distributes calls across four factories, each with its own sequence; the returned IDs and final output hash differ. A later [ten-run audit](./state-repeat-10.json) keeps the ordinary hash stable in all runs but produces ten distinct worker output hashes and eight call-count distributions. Three runs have the same `[8, 8, 8, 8]` aggregate distribution and still produce different hashes, proving that availability routing changes module-to-instance assignment and observable output even when per-worker totals match. Plugin authors must decide whether state is immutable, per-instance/sharded, or explicitly shared through a safe mechanism such as a `SharedArrayBuffer` or main-thread coordination. Existing singleton caches, counters, and ordering assumptions cannot be moved into workers unchanged.
 
 ### D019: errors propagate, but worker attribution is lost
 
-Synchronous `resolveId` throws and asynchronous `load` rejections exit with status 1 and no signal for ordinary and worker-1; the earlier PendingException/SIGABRT failure is not reproduced. Ordinary stderr includes the plugin label and the handler frame in `probe-impl.js`. Worker stderr retains only the message: both the plugin label and original handler frame are absent, and no hook, module ID, or worker number is added. The probe establishes visible message propagation and non-abort, not structured error-attribution parity. Failed builds also exit before the drop-time hook metrics line is emitted, limiting diagnostics. The worker bridge should serialize structured error context and preserve or reconstruct the worker stack.
+The committed probe assertion requires synchronous `resolveId` throws and asynchronous `load` rejections to exit nonzero, without a signal, and with the controlled message for ordinary and worker-1; all four pass and the earlier PendingException/SIGABRT failure is not reproduced. The retained correctness artifact directly records that ordinary stderr has the plugin label and `probe-impl.js` handler frame while worker stderr lacks both. It does not retain raw stderr or directly prove every possible module, hook, worker-number, or structured-error field, so the result establishes visible message propagation, non-abort, and those two attribution losses rather than full structured parity. Future runners should preserve status, signal, and exact normalized stderr. The worker bridge should serialize structured error context and preserve or reconstruct the worker stack.
 
 ## Where optimization effort should go
 
@@ -116,6 +118,7 @@ Synchronous `resolveId` throws and asynchronous `load` rejections exit with stat
 - `workIterations` fixes executed operations, not elapsed handler cost. V8 optimization and contention make operation-to-time mapping non-linear and different between hook shapes and isolates.
 - The fixture uses 512 homogeneous modules to expose concurrency. Real projects need their ready-task distribution and plugin cost profile measured before choosing workers.
 - The controlled evidence establishes mechanisms and boundaries; it does not claim one universal crossover threshold for `resolveId` or `load`.
+- The native binding and Node executable are hashed, the source commit and clean worktree are pinned, and later commits contain only fixtures and documentation. The runner does not hash Rolldown's ignored generated JavaScript distribution, so future provenance should pin that artifact and retain the release build command or log as well. `bindingProfile: "release"` remains a declared build claim rather than a property inferred from the binary.
 
 ## Artifacts
 
@@ -125,3 +128,4 @@ Synchronous `resolveId` throws and asynchronous `load` rejections exit with stat
 - [`wall-confirmation.raw.json`](./wall-confirmation.raw.json) and [`wall-confirmation.summary.json`](./wall-confirmation.summary.json)
 - [`isolation.raw.json`](./isolation.raw.json) and [`isolation.summary.json`](./isolation.summary.json)
 - [`correctness.json`](./correctness.json)
+- [`state-repeat-10.json`](./state-repeat-10.json), a post-result adversarial repeatability audit
