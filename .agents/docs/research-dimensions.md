@@ -16,7 +16,7 @@ Measure call count, result rate, position of the winning plugin, graph fan-out, 
 
 `load` can hide CPU-heavy virtual-module generation, synchronous filesystem work, decoding, preprocessing, or already-asynchronous I/O. A worker can make synchronous JavaScript work concurrent and keep the main thread free, but it cannot make an async I/O operation intrinsically faster and may add dispatch and data-transfer cost. The returned source can also be much larger than a resolution result.
 
-Measure virtual and filesystem-backed paths, hit and miss rates, graph fan-out, synchronous and async forms, cache warmth, returned code size, source maps, metadata, emitted files, watch files, and calls to `this.load`. Correctness checks must cover virtual-module identity, dependency discovery, module type, metadata, watch invalidation, and error propagation.
+Measure virtual and filesystem-backed paths, hit and miss rates, graph fan-out, synchronous and async forms, cache warmth, returned code size, source maps, metadata, emitted files, watch-file registration, and calls to `this.load`. Current production-build correctness checks cover virtual-module identity, dependency discovery, module type, metadata, and error propagation. Watch invalidation remains a recorded but deferred compatibility constraint.
 
 ### `transform`
 

@@ -33,7 +33,7 @@ The subject is the execution model, not merely the retained `defineParallelPlugi
 - A cost model that separates worker startup, steady-state dispatch, plugin work, queueing, duplicated initialization, and contention with Rolldown's Rust work.
 - Separate value and crossover results for `resolveId`, `load`, and `transform`, including realistic miss-heavy and hit-heavy paths.
 - Correct and reproducible baseline, one-worker, and multi-worker variants for selected Vue and Svelte builds.
-- Measurements of total wall time, plugin time, Node.js main-thread availability, CPU use, memory, worker count, cold start, a repeated build that recreates workers, watch or explicit worker reuse, and correctness.
+- Measurements of total wall time, plugin time, Node.js main-thread availability, CPU use, memory, worker count, fresh-process cold start, warm operating-system-cache runs with newly created workers, and production-build correctness.
 - A comparison of ordinary main-thread execution, one-worker isolation, current multi-instance replication, and the smallest correct adapted execution model for each case study.
 - A plugin-authoring model grounded in the Vue and Svelte adaptations rather than invented before them.
 - An explicit account of the required plugin changes, unsupported behavior, and ongoing maintenance burden for each successful or failed adaptation.
@@ -45,6 +45,6 @@ The subject is the execution model, not merely the retained `defineParallelPlugi
 - No production implementation or API proposal before the framing and evidence baseline are reviewed.
 - No claim that worker threads are valuable merely because hook execution can be distributed.
 - No use of a Rust-backed transform benchmark as proof that a CPU-bound pure JavaScript compiler will behave the same way.
-- Initial experiments target production builds. Development-server and HMR behavior are recorded as constraints but are not the first performance target because their cross-build state and event routing are substantially harder.
+- Current experiments target production builds. Runtime coverage of repeated builds, watch/rebuild, development-server behavior, and HMR is deferred and is not a completion condition for the current production-build verdict. Their source-backed constraints and defects remain in the research record so a later scope review can decide whether to add that evidence.
 - Replacing the Vue or Svelte compiler with a Rust compiler is a separate question. It may establish a performance ceiling but does not answer the value of parallelizing the existing JavaScript plugin.
 - Making a hook `async` without moving its CPU work off the main JavaScript thread is not a parallel execution model. Native async work may be a useful alternative baseline, but it cannot stand in for pure JavaScript worker execution.

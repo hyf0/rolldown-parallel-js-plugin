@@ -2,6 +2,8 @@
 
 This is a live research sequence, not an implementation commitment. Replace it as evidence changes.
 
+The current experimental scope is production builds. Repeated builds, watch/rebuild, development-server behavior, HMR, and custom cross-build worker reuse remain documented compatibility and lifecycle questions, but their runtime coverage is deferred and does not gate the current production-build verdict.
+
 ## Phase 0: framing and evidence baseline
 
 - Verify the current implementation and history from pinned source, and separate source-proven behavior from historical runtime reports that still need reproduction.
@@ -22,20 +24,20 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 
 - Reproduce the weak-callback failure and the separate worker-event-loop lifetime failure on pinned Rolldown revisions across the supported Node 20, 22, and 24 lines before choosing a restoration path.
 - Use the smallest explicit lifecycle workaround only to make research possible; do not treat a keepalive timer or a successful first callback as a production lifecycle design.
-- Establish behavior fixtures for hook order, missing hooks, plugin-context methods, metadata, diagnostics, repeated builds, shutdown, and worker failure before trusting timing results.
+- Establish behavior fixtures for hook order, missing hooks, plugin-context methods, metadata, diagnostics, shutdown, and worker failure before trusting timing results.
 - Measure startup separately from steady state across worker counts, module counts, hook durations, payload sizes, and one or several parallel plugins.
 - For `resolveId`, vary call volume, hit position in the ordered plugin chain, filesystem or package-resolution work, recursive `this.resolve`, and cache warmth.
-- For `load`, vary virtual versus filesystem-backed modules, synchronous JavaScript CPU or I/O work, async I/O, returned payload size, watch dependencies, and cache warmth.
+- For `load`, vary virtual versus filesystem-backed modules, synchronous JavaScript CPU or I/O work, async I/O, returned payload size, and cache warmth. Record watch-file and invalidation semantics from source, but defer rebuild execution.
 - For `transform`, vary source size, JavaScript CPU time, source-map and metadata output, and compiler cache behavior.
 - Include one-worker mode to isolate off-main-thread value from multi-worker throughput.
 - Capture queue wait, service time, total wall time, Node.js event-loop availability, CPU, and peak memory.
 - Check whether Rust worker pools and Node.js workers compete for the same cores and whether fewer workers outperform the current cap.
-- Keep four lifecycle measurements separate: a fresh process and first build, another build with warm operating-system caches but newly created workers, a watch rebuild that reuses workers, and any custom reused-worker harness.
+- Keep a fresh process and first build separate from an independent run with warm operating-system and filesystem caches. Both create new workers; do not label the second run as worker reuse.
 
 ## Phase 2: pure JavaScript compiler bounds
 
 - Run `@vue/compiler-sfc` and `svelte/compiler` over pinned, valid SFC corpora with identical outputs and errors in main-thread, one-worker, and multi-worker forms.
-- Keep worker startup both included and excluded so cold builds and reused workers are visible.
+- Keep worker startup both included and excluded inside the isolated compiler experiment so the cold-task-set cost and steady-state compiler bound are visible without claiming cross-build worker reuse.
 - Use this only to locate the possible crossover and upper bound; do not call it a plugin result.
 
 ## Phase 3: real plugin adaptation
@@ -47,7 +49,7 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 - Define how compiled CSS metadata, diagnostics, dependencies, and dynamic compile options cross the boundary.
 - Adapt Vue next to test descriptor ownership, virtual submodule loads, plugin context use, and module-affine scheduling.
 - Measure and document the plugin changes required by each adaptation, including duplicated logic, new state ownership, serialization rules, behavior fixtures, and maintenance obligations.
-- Add behavior fixtures before performance comparisons, including compiler errors, source maps, CSS, SSR or client mode, custom preprocessors, and repeated builds where applicable.
+- Add production-build behavior fixtures before performance comparisons, including compiler errors, source maps, CSS, SSR or client mode, and custom preprocessors.
 - Add targeted `resolveId` and `load` fixtures from the adapted plugins instead of assuming their cost is negligible beside compilation.
 - Keep a real resolver or loader case separate if Vue and Svelte only provide negative controls, so a negative framework-plugin result is not generalized to every `resolveId` or `load` workload.
 - Treat `@rollup/plugin-node-resolve` first as a coordinator, reentrancy, custom-option, and cache-lifecycle case. Promote a package-resolution worker kernel to a value experiment only after its baseline isolates material JavaScript CPU from async filesystem wait.
@@ -59,7 +61,7 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 - Prefer pinned projects with many independently compilable SFCs, reproducible installs, successful Rolldown-powered builds, and outputs that can be compared.
 - Include at least one project that represents a normal application shape; a generated flat import list may locate a crossover but cannot be the real-project result.
 - Compare the ordinary plugin, one-worker isolation, and several worker counts on the same build.
-- Report fresh-process build, repeated build with current worker recreation, watch or explicit reused-worker build, plugin share, end-to-end speedup, main-thread availability, CPU, memory, and correctness together.
+- Report fresh-process and independent warm-cache production builds, plugin share, end-to-end speedup, main-thread availability, CPU, memory, and correctness together. Both lifecycle cases use newly created workers.
 - Attribute improvements by hook so a total speedup cannot be incorrectly assigned to `transform` when resolution or loading changed.
 - If no representative project has enough plugin cost to expose headroom, record that as a limit on the feature's practical value.
 
@@ -73,7 +75,7 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 
 - Keep a living inventory of correctness, lifecycle, compatibility, determinism, scheduling, observability, memory, and error-handling defects.
 - Give every claimed defect a minimal reproduction, pinned source evidence, or an explicit `not yet reproduced` label.
-- Test worker startup and shutdown, build failure, cancellation, repeated `generate` or `write`, watch rebuild, worker crash, plugin initialization failure, nested `this.resolve` or `this.load`, and several parallel plugins sharing the pool.
-- Compare outputs, diagnostics, hook order, and plugin-visible state across worker counts and repeated runs to catch races and worker-dependent behavior.
+- Test worker startup and shutdown, build failure, cancellation, worker crash, plugin initialization failure, nested `this.resolve` or `this.load`, and several parallel plugins sharing the pool. Keep repeated `generate` or `write` and watch rebuild execution in the deferred lifecycle backlog.
+- Compare outputs, diagnostics, hook order, and plugin-visible state across worker counts and independent runs to catch races and worker-dependent behavior.
 - Treat defects caused by the plugin-authoring contract separately from defects in Rolldown's runtime so the recommended fix lands at the right boundary.
 - Require source-inferred deadlocks and lifecycle failures to gain a minimal reproduction before they are called observed defects; preserve the source reasoning if reproduction disproves or narrows it.

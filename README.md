@@ -2,7 +2,7 @@
 
 This repository is the research workspace for determining when running JavaScript plugins on Node.js worker threads improves Rolldown builds, what changes plugin authors need to make, and which runtime overheads are worth optimizing.
 
-The current phase is framing and evidence collection. This repository does not yet propose a production API or claim that parallel plugins are broadly faster.
+The current phase is framing and evidence collection. This repository does not yet propose a production API or claim that parallel plugins are broadly faster. The current experiment scope is production builds; watch, rebuild, development-server, and HMR runtime coverage is deferred while their source-backed risks remain recorded.
 
 ## Questions
 

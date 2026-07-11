@@ -66,11 +66,11 @@ The source maps and project candidates are in [Vue and Svelte plugin case notes]
 
 ## Proposed admission calculation
 
-For throughput, let `s` be the fraction of end-to-end critical-path time attributable to movable synchronous JavaScript in the target hook, and let `p` be the smaller of the proposed worker count and the measured ready-call concurrency. The optimistic overhead-free bound is:
+For a cheap throughput screen, let `s` be the fraction of end-to-end critical-path time attributable to movable synchronous JavaScript in the target hook, and let `p_peak` be the smaller of the proposed worker count and the peak count of simultaneously ready target-hook calls observed in a concurrency trace. The deliberately optimistic, overhead-free screening estimate is:
 
-`speedup_bound(p) = 1 / ((1 - s) + s / p)`
+`screening_speedup(p_peak) = 1 / ((1 - s) + s / p_peak)`
 
-The provisional optional-case rule is to write a loader or resolver adapter only when `p > 1` and the bound is at least `1.05x`. Yunfei should confirm or replace the `1.05x` threshold. Startup, copying, queueing, duplicated state, and Rust contention can only reduce the observed result, so passing the bound admits an experiment rather than predicting a win.
+The provisional optional-case rule is to write a loader or resolver adapter only when `p_peak > 1`, this screening estimate is at least `1.05x`, and replaying the full ready-call trace with measured movable service times through an ideal work-conserving scheduler also retains an end-to-end estimate of at least `1.05x`. The trace, replay method, and result must be retained with the baseline profile. Yunfei should confirm or replace the `1.05x` threshold. Startup, copying, queueing, duplicated state, and Rust contention can only reduce the observed result, so passing both screens admits an experiment rather than predicting a win.
 
 Vue and Svelte remain required case studies. Their baseline bound selects the representative project and sets the expected result; if every valid project falls below the threshold, choose the most representative reproducible project and preserve the negative result rather than dropping that framework. A case that fails the throughput rule may still enter a separately labeled one-worker isolation experiment when main-thread availability is itself the question.
 

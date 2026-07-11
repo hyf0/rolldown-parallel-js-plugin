@@ -38,7 +38,7 @@ A general-purpose plugin object is unlikely to become safe and fast merely by co
 - A main-thread coordinator handles configuration, Vite-only hooks, non-serializable integrations, global output decisions, and final reductions.
 - A worker kernel performs expensive module-local work on serializable inputs and returns code, source maps, diagnostics, dependencies, and declared metadata.
 - State is classified rather than hidden in closures: immutable replicated configuration, module-affine state, shared read-mostly cache, worker-local cache, or globally reduced state.
-- The scheduler has an explicit policy for module affinity, worker count, lifecycle broadcast, cancellation, and reuse across builds.
+- The scheduler has an explicit policy for module affinity, worker count, lifecycle broadcast, cancellation, and reuse across builds. In the current scope, the cross-build reuse policy may explicitly be unsupported or deferred; it does not require runtime reuse evidence.
 
 This is a hypothesis to test against the real plugins, not a proposed API. The project should preserve a simpler design if the adaptations show that fewer concepts are sufficient. If the current API cannot express the smallest correct split, the experiment should record that API gap rather than hide a coordinator or shared-state service inside benchmark-only code.
 
@@ -56,16 +56,16 @@ Each level answers a different question and must not be promoted into a stronger
 2. An isolated JavaScript compiler corpus measures the theoretical benefit when tasks are independent.
 3. An adapted real plugin measures whether its state and hook semantics survive the execution model.
 4. A pinned real application measures end-to-end build value, including other plugins, Rust work, output generation, and contention.
-5. Repeated builds or watch mode measure whether worker reuse and cache behavior change the conclusion.
+5. Repeated builds or watch mode would measure whether worker reuse and cache behavior change the conclusion. This evidence level is deferred and is not required for the current production-build verdict.
 
 Technical quality is an equal evidence axis at levels three through five. A faster variant is not viable if it changes resolution order, loses virtual modules or metadata, duplicates diagnostics, leaks workers, deadlocks under reentrant plugin-context calls, or produces worker-count-dependent output.
 
-Lifecycle terms must stay distinct in results. A cold build includes worker creation, plugin import, compiler initialization, and first-use JIT. A repeated `generate` or `write` on the current `RolldownBuild` creates a new worker pool and is not worker reuse, even if operating-system and filesystem caches are warm. A watch rebuild reuses the existing workers and worker-local caches. Any custom reused-worker harness is reported as its own execution mode.
+Lifecycle terms must stay distinct even when some are deferred. A cold production build includes worker creation, plugin import, compiler initialization, and first-use JIT. A separate warm operating-system-cache run still creates new workers and is not worker reuse. A repeated `generate` or `write` on the current `RolldownBuild` also creates a new worker pool, while a watch rebuild reuses existing workers and worker-local caches; runtime evidence for those cross-build modes and any custom reused-worker harness is deferred.
 
 ## Optimization families to investigate only after attribution
 
 - Use truthful hook usage and apply Rust-side filters before acquiring a worker permit, then quantify the no-op calls and queueing they eliminate before changing the transport.
-- Reuse or lazily create workers so startup and plugin import/JIT costs are not paid for every output build.
+- Lazily create or initialize workers when startup dominates a production build. Cross-build reuse remains a deferred optimization family until repeated-build or watch coverage enters scope.
 - Select worker count from workload and CPU contention rather than always creating the hardware-derived maximum.
 - Route related module hooks to the same worker when state is module-affine.
 - Move cross-worker module metadata into a shared Rolldown-owned representation or return it explicitly with hook results.

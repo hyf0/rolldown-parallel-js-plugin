@@ -58,7 +58,7 @@ The case still needs an explicit adaptation boundary:
 - `createFilter` runs inside a plain function hook. Every nonmatching module can be dispatched to a worker before that check unless an equivalent native filter or coordinator prefilter is added to both variants.
 - A worker permit is held across the file read, dynamic compiler imports, possible runtime SVGR config search, JavaScript compilation, and Oxc. Whole-hook routing and a coordinator-read plus worker-kernel form have different I/O concurrency and transfer costs.
 - Default ZenML options are plain data, but general SVGR configuration supports custom templates, plugin functions, and Babel plugins that cannot be structured-cloned. [SVGR configuration](https://github.com/gregberge/svgr/blob/975215efe85805cecafc920c103a827d864d2580/packages/core/src/config.ts#L9-L49)
-- SVGR's default runtime configuration lookup and compiler module caches are per isolate. Cold worker initialization, duplicated config search, Babel module memory, and persistent-worker reuse must be reported.
+- SVGR's default runtime configuration lookup and compiler module caches are per isolate. Current evidence must report cold worker initialization, duplicated config search, and Babel module memory. Persistent-worker reuse remains a deferred lifecycle question.
 
 This is the strongest high-volume hypothesis, not automatically the first implementation. Its unchanged baseline must split read wait, SVGR/Babel JavaScript CPU, Oxc native CPU, returned bytes, and critical-path share. If the JavaScript share alone has no useful end-to-end upper bound, it should not be promoted merely because the combined JS-plus-Oxc hook is expensive.
 
@@ -102,7 +102,7 @@ The pinned app has 173 active icon import sites and 108 distinct textual icon sp
 This candidate exposes costs that the stateless SVG loader does not:
 
 - `@iconify/utils` caches a promise for each collection under each current working directory in module-global state. Every worker isolate owns a separate cache. Availability-based routing can cause every worker to read and parse the same collection JSON, multiplying cold work and retained memory. [Collection cache](https://github.com/iconify/iconify/blob/14e346a69699414d8df9169dd2e1e6ce1c4082f5/packages/utils/src/loader/fs.ts#L8-L42)
-- Every worker separately imports, initializes, and JITs the Vue compiler. A cold-build regression alongside a reused-worker improvement would be expected evidence, not noise to remove from the result.
+- Every worker separately imports, initializes, and JITs the Vue compiler. A cold-build regression is expected evidence, not noise to remove from the result; whether cross-build worker reuse changes it is deferred.
 - Routing icons from one collection to the same worker could reduce cache replication but may create load imbalance because this app's collection distribution is highly skewed. Affinity, cache ownership, and scheduling therefore need separate attribution.
 - The app's raw scalar options are structured-cloneable, but the plugin also supports function-valued custom collections, icon customizers, transforms, and custom compilers. A successful default configuration must not be generalized to those authoring modes.
 - The source uses Unplugin's function-valued `loadInclude` precheck and `enforce: 'pre'`. In the pinned Unplugin `2.3.11` Rolldown adapter, `loadInclude` is wrapped around the JavaScript handler rather than converted to a native Rolldown hook filter. A worker form that leaves this unchanged can dispatch every module only to reject most of them inside the worker. If the adaptation adds an equivalent native ID filter, the ordinary baseline needs the same filter and the filter-only delta must remain separate from worker value. [Unplugin adapter](https://github.com/unjs/unplugin/blob/b84b899dcdae23c36c8770c0cdb682a0109d47ef/src/rollup/index.ts#L37-L57)
@@ -200,9 +200,9 @@ Before a candidate becomes benchmark evidence:
 1. Pin the plugin, project, package manager, Node.js line, Vite or Rolldown revision, lockfile, build command, `UV_THREADPOOL_SIZE`, and other relevant environment variables.
 2. Run an unchanged baseline and report reached hook calls, result and miss counts, ready-call concurrency, JavaScript CPU, native or I/O wait, returned bytes, and the hook's share of total wall time.
 3. Compute the idealized end-to-end upper bound from that baseline share and reject the project as a value fixture if the target hook has no material headroom, even when the repository contains many matching files.
-4. Establish output, diagnostics, source-map, watch-file, and repeated-build correctness before comparing worker counts.
+4. Establish production-build output, diagnostics, source-map, and watch-file-registration correctness before comparing worker counts. Defer invalidation and repeated-build execution.
 5. Compare ordinary execution, one worker, and several workers. One worker answers main-thread isolation; multiple workers answer throughput.
 6. Report worker creation, per-worker module loading and JIT, plugin and compiler initialization, worker-local cache warmup, queue wait, service time, CPU, peak RSS, and main-thread availability separately.
-7. Keep fresh process, newly recreated workers with warm operating-system caches, and reused watch workers as different lifecycle modes.
+7. Keep fresh-process and newly recreated-worker runs with warm operating-system caches as different production-build modes. Defer reused watch-worker measurement.
 8. For several parallel plugins, attribute shared-pool contention and test whether independently reasonable worker counts oversubscribe the Rust core.
 9. Adapt and measure only one target plugin in the first run for a project. Add shared-pool combinations only after each plugin's initialization, filtering, cache, and service costs are understood alone.
