@@ -8,3 +8,4 @@
 - For source-proven, source-inferred, and historical runtime defects with explicit verification status, read the [current defect inventory](../../research/defect-inventory.md).
 - For hook maps, state and serialization constraints, provisional worker boundaries, correctness fixtures, and real-project candidates for Vue and Svelte, read [plugin case notes](../../research/plugin-case-notes.md).
 - For the source-only screen of real `resolveId` and `load` candidates, controls, rejections, and admission checks, read [`resolveId` and `load` candidates](../../research/resolve-load-candidates.md).
+- For the concise Phase 0 summary and the provisional defaults awaiting Yunfei's review, read the [framing review brief](../../research/framing-review.md).
