@@ -61,7 +61,7 @@ Status: scoped by evidence. Worker-count reduction is insufficient for the 166-S
 
 ## Phase 5: required later cases
 
-Status: active. The [Svelte result](../../experiments/svelte-transform/2026-07-11-svelte-results.md) is complete: the small case loses, the full 1,340-component case reaches 1.36x at four workers, output code and maps match, and diagnostic parity fails. The separate `resolveId` and `load` release run is in progress.
+Status: active. The [isolated Svelte result](../../experiments/svelte-transform/2026-07-11-svelte-results.md) is complete as a prepared-kernel upper bound: the 24-component fixture loses, the synthetic 1,340-component corpus reaches 1.36x at four workers, output code and maps match, and diagnostic parity fails. Because it externalizes every SFC dependency, a graph-preserving shadcn registry UI subgraph is now the Svelte completion gate. The separate [`resolveId` and `load` release result](../../experiments/resolve-load/2026-07-11/README.md) is complete with synchronous CPU, cheap, serial, filesystem, async, payload, isolation, filter, state, reentrancy, and error evidence.
 
 - Add a direct-Rolldown Svelte transform after Vue and preserve a reproducible ordinary, one-worker, and multi-worker comparison. Select its boundary and corpus from the earlier source audit, but do not run Vite.
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.

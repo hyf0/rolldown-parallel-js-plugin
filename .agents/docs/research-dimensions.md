@@ -2,7 +2,7 @@
 
 Performance value and technical defects are parallel workstreams. The project must answer both before recommending a production direction.
 
-The active value workstream is `transform`. Every result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
+Every hook result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
 
 ## Value by hook
 
@@ -10,15 +10,19 @@ The active value workstream is `transform`. Every result needs three kinds of at
 
 `transform` is the clearest CPU-bound candidate because JavaScript compilers often perform independent per-module work, but it is not the whole plugin cost. Measure compiler initialization, source size, source-map generation, diagnostics, metadata, cache behavior, ready-module concurrency, and the amount of downstream work changed by the transform. Keep pure JavaScript compilation separate from hooks that await native work already running outside the main thread. Declaring a synchronous JavaScript compiler wrapper `async` does not move its CPU work off the main thread.
 
-The first fixture establishes the current ParallelPlugin path with controlled synchronous JavaScript work. It varies graph width, module count, source and result size, per-call work, and worker count. The second fixture uses direct-Rolldown Vue compilation. Both compare ordinary execution, one-worker isolation, and multi-worker throughput while preserving outputs and errors.
+The first fixture establishes the current ParallelPlugin path with controlled synchronous JavaScript work. It varies graph width, module count, source and result size, per-call work, and worker count. The second fixture uses direct-Rolldown Vue compilation. The isolated Svelte compiler-kernel case adds a larger pure compiler boundary, while the graph-preserving Svelte case covers a representative local project subgraph. All compare ordinary execution, one-worker isolation, and multi-worker throughput while preserving the strongest available outputs and diagnostics.
 
-### Deferred `resolveId`
+### `resolveId`
 
-`resolveId` can be called much more often than source compilation and often returns nothing after a small amount of work. Its opportunity depends on hit and miss distributions, caches, filesystem work, recursive `this.resolve`, and ordered early returns. The earlier source survey is retained, but no resolver experiment begins before the transform and Vue results show that another hook can change the verdict.
+`resolveId` can be called much more often than source compilation and often returns nothing after a small amount of work. The controlled release evidence shows that 512 independent millisecond-scale synchronous CPU resolutions can reach 2.91x at eight workers, while cheap resolutions, 16 cached `existsSync` probes, and an equally expensive 512-module chain all regress. One worker slows the CPU case to 0.85x but reduces event-loop p99 from 484 ms to 1.31 ms. The opportunity therefore depends on synchronous service cost and simultaneously ready import records, not call count alone.
 
-### Deferred `load`
+Real resolvers add stricter limits. Ordered first-result semantics still apply, caches become instance-local, and one-worker `this.resolve(..., { skipSelf: false })` now has a deterministic permit deadlock. The source survey found no clean current whole-plugin candidate that avoids native resolution, async I/O, recursive resolution, custom receipts, or shared cache ownership. The controlled result supports a prepared synchronous resolver kernel, not unmodified `@rollup/plugin-node-resolve` or a universal resolver speedup. [Controlled hook result](../../experiments/resolve-load/2026-07-11/README.md), [candidate survey](../../research/resolve-load-candidates.md)
 
-`load` can contain synchronous JavaScript, filesystem work, virtual-module generation, or already-asynchronous I/O. A worker can isolate synchronous JavaScript but cannot make async I/O intrinsically faster. The earlier loader candidates remain background only and are not current fixtures.
+### `load`
+
+`load` can contain synchronous JavaScript, filesystem work, virtual-module generation, or already-asynchronous I/O. The controlled CPU case reaches 2.74x at eight workers and shows the same main-loop isolation value as transform and resolution. Cheap generation, a serial chain, and 64 KiB returned code without enough computation all regress.
+
+Already-asynchronous work is a strong negative case. An ordinary plugin overlaps 512 five-millisecond timers in about 22 ms while keeping event-loop p99 below 4 ms. Parallel worker-1 takes about 3.0 seconds because each pending Promise holds its only permit; even worker-8 takes about 440 ms. The current model should target synchronous CPU kernels, not wrap async file or network I/O that the ordinary event loop already overlaps. Real load candidates still need their cache, filter, payload, native-stage, and cross-hook state measured separately. [Controlled hook result](../../experiments/resolve-load/2026-07-11/README.md)
 
 ### Cross-hook effects
 

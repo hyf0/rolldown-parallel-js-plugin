@@ -71,12 +71,13 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 - Impact: ordinary-to-parallel, parallel-to-ordinary, and parallel-to-another-instance resolver communication can lose generic custom options. Independent maps also reuse small numeric receipts, so a receiver can read unrelated custom data when the same number is active locally. The permit held by the caller prevents a recursive call from reusing that same worker instance.
 - Fix condition: custom resolver data has build-wide identity and ownership, or the parallel contract explicitly removes this communication pattern.
 
-## D009: availability-based routing and output hooks cannot reconstruct distributed state
+## D009: availability-based routing fragments mutable plugin state
 
-- Status: source-proven design behavior.
+- Status: source-proven design behavior; observable closure-state divergence is reproduced by the controlled resolver probe.
 - Severity: blocker for plugins that aggregate module or chunk state in output hooks.
 - Behavior: [`run_single`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/parallel_js_plugin.rs#L53-L57) selects the next available instance without module or output affinity. `generateBundle` and `writeBundle` each run on one available instance after earlier module and chunk work was distributed.
-- Impact: the selected output hook sees only one instance's closure state and can differ between hooks or runs.
+- Observed result: an ordinary resolver closure returns one sequence of 32 unique counter values. Worker-4 distributes the same calls across four independent counters, changes the resolved IDs, and produces a different output hash. [Evidence](../experiments/resolve-load/2026-07-11/README.md#per-instance-mutable-state-changes-semantics)
+- Impact: module hooks can change output when closure state is replicated, and the selected output hook sees only one instance's partial state and can differ between hooks or runs.
 - Fix condition: state is externalized and reduced before global hooks, or global hooks run in a designated coordinator with complete state.
 
 ## D010: `moduleParsed` multiplies work and concurrent pool-wide barriers may deadlock
@@ -89,10 +90,11 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 
 ## D011: reentrant `this.resolve` and `this.load` can exhaust the shared worker pool
 
-- Status: source-inferred and unreproduced.
-- Severity: blocker if reproduced; the source path requires an explicit scheduling argument even before reproduction.
+- Status: observed for same-plugin `this.resolve(..., { skipSelf: false })` with one worker; broader cross-plugin, load, broadcast, and cancellation paths remain source-inferred.
+- Severity: blocker for the observed resolver pattern and any equivalent permit cycle.
 - Behavior: `run_single` and `run_all` retain permits until the JavaScript promise resolves. `this.resolve` re-enters the shared plugin driver and `this.load` can start module work that reaches parallel hooks. All parallel plugins share one `WorkerManager`.
-- Impact: one worker, all workers occupied by reentrant calls, a broadcast calling another parallel plugin, or `moduleParsed` awaiting a new module can form a permit cycle. Default `skipSelf` only avoids one subset of resolver recursion.
+- Observed result: ordinary and worker-2 builds complete with the same output hash. Worker-1 retains its only permit while awaiting the inner resolve, whose wrapper waits for that same permit, and deterministically times out after two seconds. [Evidence](../experiments/resolve-load/2026-07-11/README.md#d011-same-plugin-reentrancy-can-deadlock)
+- Impact: one worker, all workers occupied by reentrant calls, a broadcast calling another parallel plugin, or `moduleParsed` awaiting a new module can form a permit cycle. Default `skipSelf` only avoids one subset of resolver recursion, and merely increasing the pool does not bound recursive depth.
 - Fix condition: nested scheduling has a proven non-blocking ownership rule or a separate reentrant path, with tests for same-plugin, cross-plugin, load, cancellation, and failure cases.
 
 ## D012: plugin options are limited by structured clone
@@ -146,16 +148,25 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 
 ## D018: native hook filters run after worker-pool acquisition
 
-- Status: source-proven.
+- Status: observed for controlled `resolveId` and `load` misses on Node.js 24.18.0, in addition to the source path.
 - Severity: workload-dependent performance defect; high when a hook has many fast misses or several parallel plugins share the pool.
 - Behavior: [`ParallelJsPlugin::load`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/parallel_js_plugin.rs#L112-L120), `resolve_id`, and `transform` call `run_single` and acquire a worker permit before the selected [`JsPlugin` evaluates its filter](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/js_plugin.rs#L200-L220). A rejected call avoids the Node callback but still enters pool scheduling.
+- Observed result: the dedicated resolver miss records one wrapper call, one acquired permit, one null result, and zero JavaScript handler calls. Formal 512-hit `resolveId` and `load` builds each record 513 acquired wrappers and one filter miss. [Evidence](../experiments/resolve-load/2026-07-11/README.md#d018-native-filters-run-after-permit-acquisition)
 - Impact: miss-heavy plugins can queue behind the shared worker pool and briefly occupy permits even when a Rust-side filter has enough information to reject them. Real hits can wait behind work that should never select a worker, and adding a native filter does not remove this queueing cost under the wrapper.
 - Fix condition: wrapper-visible hook usage and filters reject calls before permit acquisition, ordinary and parallel variants use equivalent filters, and measurements prove that filter-only gains are not attributed to worker execution.
 
-## D019: worker hook failures lose plugin and module attribution
+## D019: worker hook failures lose plugin, hook, and complete module attribution
 
-- Status: observed for controlled synchronous throws and rejected transform promises, the pinned Vue compiler error, and the pinned Svelte compiler error on Node.js 24.18.0.
+- Status: observed for controlled synchronous and rejected transform failures, controlled `resolveId` and `load` failures, the pinned Vue compiler error, and the pinned Svelte compiler error on Node.js 24.18.0.
 - Severity: medium for debugging and plugin compatibility; the build fails rather than silently succeeding.
-- Behavior: the controlled fixtures retain the thrown message but render `Error: Error: <message>` without the plugin name, module ID, hook name, or worker-side stack. The Vue and Svelte compiler probes likewise fail rather than silently succeeding, but both lose ordinary plugin and module attribution and change the structured error. Peer workers terminate promptly in the controlled fixtures. [Core evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md), [Vue evidence](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [Svelte evidence](../experiments/svelte-transform/2026-07-11-svelte-results.md#correctness-gates)
+- Behavior: the controlled transform fixtures retain the thrown message but render `Error: Error: <message>` without the plugin name, module ID, hook name, or worker-side stack. Controlled resolve and load failures propagate and exit without a signal, but worker stderr loses the ordinary plugin label and original handler frame; failed builds also end before drop-time hook metrics appear. The Vue compiler probe loses ordinary plugin, hook, module ID, location, parser code, and worker stack. The Svelte worker probe retains a relative filename and position but loses the complete module path, plugin and hook attribution, ordinary compiler error shape, and worker stack. Peer workers terminate promptly in the controlled transform fixtures. [Core evidence](../experiments/core-transform/2026-07-11-node-24.18.0-smoke.md), [hook evidence](../experiments/resolve-load/2026-07-11/README.md#d019-errors-propagate-but-worker-attribution-is-lost), [Vue evidence](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [Svelte evidence](../experiments/svelte-transform/2026-07-11-svelte-results.md#correctness-gates)
 - Impact: users can see the immediate message but cannot identify which parallel plugin instance or module produced it, and worker stacks needed to debug compiler failures are lost.
 - Fix condition: synchronous and asynchronous hook failures retain the plugin name, hook, module ID, original message and stack, exit without leaked workers, and match ordinary-plugin error attribution at the strongest practical level.
+
+## D020: a pending asynchronous hook holds an exclusive worker permit
+
+- Status: observed for controlled asynchronous `load` on Node.js 24.18.0.
+- Severity: high performance defect for already-asynchronous hooks; a compatibility risk if a plugin instance assumes either exclusive or concurrent callback execution.
+- Behavior: `run_single` holds one worker permit until the JavaScript Promise settles, even while that worker's event loop is idle and capable of tracking more Promises. An ordinary plugin overlaps 512 five-millisecond timers and completes in about 22 ms. Worker-1 serializes them in about 3.0 seconds; worker-8 still takes about 440 ms because only eight Promises can be pending. Ordinary JavaScript handler activity reaches 512, while parallel activity is exactly bounded by the worker count. [Evidence](../experiments/resolve-load/2026-07-11/README.md#main-thread-responsiveness)
+- Impact: moving async filesystem, network, or timer work into the current pool can reduce existing event-loop concurrency by orders of magnitude while adding startup, CPU, and memory. Releasing the permit at Promise creation would instead allow concurrent callbacks on one plugin instance and can break mutable-state assumptions, so this is an execution-contract issue rather than a local semaphore tweak.
+- Fix condition: the supported contract either keeps already-asynchronous hooks on the coordinator, gives pending operations a separate capacity policy, or explicitly permits concurrent calls within one worker instance with ordering, state, reentrancy, cancellation, and shutdown tests.

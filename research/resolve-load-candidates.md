@@ -1,6 +1,6 @@
 # `resolveId` and `load` Candidate Survey
 
-Snapshot date: 2026-07-11. This is a source-only candidate screen, not benchmark evidence. The confirmed direction defers all `resolveId` and `load` experiments until the direct-Rolldown transform path and Vue case are understood. These candidates are background, not current commitments, and Vite-dependent cases cannot become fixtures under the current Rolldown-only scope.
+Snapshot date: 2026-07-11. This is a source-only candidate screen, not benchmark evidence. It was completed before runtime hook work and kept `resolveId` and `load` behind the direct-Rolldown transform and Vue sequence. The later [controlled hook result](../experiments/resolve-load/2026-07-11/README.md) now establishes the CPU, cheap, serial, filesystem, async, payload, filter, state, and reentrancy mechanisms; this survey connects those mechanisms to possible real plugins without promoting a Vite-dependent case into the Rolldown-only fixture scope.
 
 ## Selection rules
 
@@ -32,7 +32,7 @@ Candidates have three distinct roles:
 | `resolveId` | `@rollup/plugin-node-resolve` on a direct Rolldown build | Contract stress case; value remains unproven | It has high call volume and nontrivial JavaScript resolution logic, but much of the cold path is asynchronous filesystem work and its shared caches plus recursive `this.resolve` make naive replication unsafe. |
 | `resolveId` | Vue, Svelte, alias, and icon ID mappings | Overhead controls | These hooks mainly recognize or normalize an ID and should normally lose to worker dispatch unless a native filter avoids the callback entirely. |
 
-No current `resolveId` plugin has yet passed the screen as a clean flagship value case. That is a valid intermediate result: modern Vite resolution has moved into Rolldown, while several remaining JavaScript resolvers are either I/O-heavy, stateful, recursively call the plugin driver, or are being replaced by native resolution. Phase 1 should still map a parametric `resolveId` cost surface and use a real resolver for semantics, but it should not manufacture expensive work inside a production plugin to force a positive result.
+No current `resolveId` plugin passed the screen as a clean flagship value case. That remains a valid result: modern Vite resolution has moved into Rolldown, while several remaining JavaScript resolvers are either I/O-heavy, stateful, recursively call the plugin driver, or are being replaced by native resolution. The completed controlled cost surface and semantics probes therefore establish a bounded resolver-kernel conclusion without manufacturing expensive work inside a production plugin to force a real-plugin win.
 
 ## `load` profile candidate: `vite-plugin-svgr`
 

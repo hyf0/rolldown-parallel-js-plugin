@@ -36,7 +36,7 @@ Every state item used by a worker hook needs one declared owner and lifetime.
 | Shared mutable state | Explicit shared memory or external service | Synchronization, failure, serialization, and contention are part of the contract |
 | Watch or rebuild cache | Reused owner with explicit invalidation | Outside the current runtime scope and unsupported by ordinary main-side invalidation alone |
 
-Undeclared closure or module-global state is worker-local by accident. Availability routing means `resolveId`, `load`, and `transform` for the same module may use different instances. `generateBundle` and `writeBundle` each choose one available instance, while `moduleParsed` broadcasts to all instances. A plugin that writes an instance map in transform and reads it in load or output cannot be converted safely without affinity, shared state, or reduction.
+Undeclared closure or module-global state is worker-local by accident. Availability routing means `resolveId`, `load`, and `transform` for the same module may use different instances. The controlled resolver probe turns this into observable evidence: an ordinary closure counter produces one sequence, while worker-4 produces four partial sequences, different resolved IDs, and a different output hash. `generateBundle` and `writeBundle` each choose one available instance, while `moduleParsed` broadcasts to all instances. A plugin that writes an instance map in transform and reads it in load or output cannot be converted safely without affinity, shared state, or reduction.
 
 ## Hook kernel requirements
 
@@ -48,7 +48,8 @@ The strongest current candidate is a module-local synchronous kernel:
 - It produces the same result for every worker count, task order, and worker assignment.
 - It does not depend on `this.warn`, `this.info`, or `this.debug`, because the current worker logger is a no-op.
 - It does not depend on worker-local module metadata or custom resolver receipts reaching another instance.
-- It does not call `this.resolve` or `this.load` unless the runtime has a proven reentrant scheduling rule. Current permits are held for the full hook promise, which contains pool-exhaustion paths.
+- It does not call `this.resolve` or `this.load` unless the runtime has a proven reentrant scheduling rule. A same-plugin `this.resolve(..., { skipSelf: false })` call deterministically deadlocks with one worker because the outer Promise retains the only permit while the inner call waits for it.
+- It does not move already-asynchronous work into an exclusive permit merely to call it parallel. An ordinary event loop can overlap many pending Promises in one plugin instance; the current worker pool caps them at its worker count.
 - It treats cancellation and worker exit as explicit failures and can be retried only when the hook is pure and duplicate side effects are impossible.
 
 The controlled transform kernel satisfies this model. The narrowed Vue whole-SFC adapter satisfies output determinism for its style-free, virtual-module-free corpus, but still loses ordinary compiler-error structure and imports too much code per worker. The Svelte kernel tests the same model with a larger real compiler corpus and separately records warning and error incompatibility.
@@ -67,7 +68,7 @@ The current arbitrary `run_single` selection for `generateBundle` and `writeBund
 
 ## Filters and dispatch
 
-Use declarative native hook filters whenever possible, but do not assume they remove current pool overhead. `resolveId`, `load`, and `transform` acquire a permit before the selected `JsPlugin` evaluates its filter. The controlled and Vue traces observe wrapper calls and input bytes for filter misses that never invoke the JavaScript handler.
+Use declarative native hook filters whenever possible, but do not assume they remove current pool overhead. `resolveId`, `load`, and `transform` acquire a permit before the selected `JsPlugin` evaluates its filter. Dedicated and formal hook probes observe acquired permits and null results for filter misses that never invoke the JavaScript handler; the controlled transform and Vue traces show the same wrapper shape.
 
 The runtime optimization is to evaluate wrapper-visible filters before permit acquisition. The authoring optimization is to expose a precise declarative filter rather than a JavaScript `include` function. Both ordinary and parallel baselines must use the same effective filter so filter improvement is not misreported as worker value.
 
@@ -82,7 +83,7 @@ Output hash parity is not diagnostic parity. A safe production contract must pre
 - initialization, in-flight, queued, cancellation, and worker-exit context;
 - clean termination of every peer after failure.
 
-Current parallel Vue and Svelte compiler errors lose structured plugin, module, hook, location, compiler code, and worker stack information. Worker warnings are discarded by the no-op logger. Plugin authors cannot repair these gaps inside an ordinary hook return because current worker-local module metadata does not reliably reach the coordinator.
+Current parallel Vue and Svelte compiler errors lose ordinary structured plugin and hook attribution, complete module identity, compiler-specific fields, and worker stack information. The Svelte case retains a relative filename and position, while the Vue case loses even that structured location. Worker warnings are discarded by the no-op logger. Plugin authors cannot repair these gaps inside an ordinary hook return because current worker-local module metadata does not reliably reach the coordinator.
 
 ## Worker-count policy
 
@@ -93,7 +94,8 @@ The current default creates up to eight workers for every parallel plugin and in
 - Heavy wide controlled work improves through twelve workers but has diminishing wall return and increasing CPU and RSS.
 - Babel is best around four workers in the supporting corpus, while eight consumes more CPU and is slower.
 - The 166-SFC Vue case regresses even at two workers and becomes much worse at eight.
-- The 24-SFC Svelte case regresses at every worker count, while the 1,340-SFC case is best at four workers and degrades at eight and twelve despite filling every slot.
+- The isolated 24-SFC Svelte fixture regresses at every tested worker count, while the synthetic 1,340-SFC kernel case is best at four workers and degrades at eight and twelve despite filling every slot. Its project dependencies are externalized, so it is not representative-graph evidence.
+- CPU-heavy wide `resolveId` and `load` improve through eight workers in the controlled case, while one worker regresses but removes the main-loop stall. Cheap, serial, payload-only, and already-asynchronous versions lose; async worker-1 is about 126 times slower than ordinary because a pending Promise holds its permit.
 - A serial dependency chain cannot use more than one worker regardless of hook cost.
 
 A usable policy therefore needs plugin or kernel identity, fresh versus reused lifecycle, estimated synchronous cost, observed ready concurrency, CPU competition with Rolldown and native addons, memory budget, and whether isolation without throughput is desired. Hardware concurrency alone is insufficient.
