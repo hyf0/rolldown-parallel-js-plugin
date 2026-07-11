@@ -41,7 +41,7 @@ This is a hypothesis rather than an API proposal. The amount of plugin code and 
 - The current Svelte plugin already separates configuration, preprocessing, compilation, compiled-CSS loading, HMR, and optimizer behavior into cooperating plugin objects. Its compile transform calls the synchronous Svelte compiler on module-local input, but the ordinary lifecycle must first supply filters, parsed IDs, environment identity, resolved options, dynamic option callbacks, warning policy, and combined source maps. Compiled CSS then crosses into a later load through module metadata. This makes Svelte the smaller coordinator/kernel case, not an unchanged worker plugin.
 - The current Vue plugin keeps configuration, SFC parsing, script and template compilation, virtual-block resolution and loading, HMR, and several descriptor and script caches in one stateful plugin. A main SFC transform creates state consumed by later script, template, style, and custom-block requests. Its own `resolveId` and common `load` paths are mostly identity or cache/metadata work; the transform path is the CPU candidate. Vue therefore tests whether coordinator ownership, shared metadata, or module-affine routing can preserve related-module behavior.
 
-Both plugins can contain function-valued configuration and integration callbacks that cannot use the current structured-cloned options path unchanged. Production compilation can avoid HMR timing initially, but watch state, invalidation, and diagnostics remain required correctness constraints.
+Both plugins can contain function-valued configuration and integration callbacks that cannot use the current structured-cloned options path unchanged. The current evidence scope can stay on production compilation. Watch state, invalidation, and HMR remain documented compatibility risks, but their runtime coverage is deferred.
 
 ## Hook-specific direction
 
@@ -61,8 +61,8 @@ The source maps and project candidates are in [Vue and Svelte plugin case notes]
 4. Adapt Svelte as the first required framework `transform` coordinator/kernel case. In a separate lane, admit at most one lower-state `load` adapter if its profile passes the optional-case threshold. Do not parallelize several plugins in the same project until each is understood alone.
 5. Adapt Vue as the second required framework case, specifically testing descriptor ownership, related virtual modules, metadata transport, and module affinity.
 6. Admit cache-heavy loaders or real resolvers only when their own baselines qualify. Do not force a positive `resolveId` result by adding artificial delay or enabling an option the project does not use.
-7. Once each adapted production-build path is correct, measure repeated builds that recreate workers and watch rebuilds that reuse them, including timing, invalidation, output, diagnostics, and shutdown behavior.
-8. Optimize only the measured dominant cost, then repeat the same pinned cases. Keep neutral and negative results.
+7. Optimize only the measured dominant cost, then repeat the same pinned production-build cases. Keep neutral and negative results.
+8. Treat repeated builds and watch rebuilds as a separate follow-up only if the production-build verdict justifies continued investment; they are not a completion condition for the current scope.
 
 ## Proposed admission calculation
 
@@ -79,10 +79,10 @@ Vue and Svelte remain required case studies. Their baseline bound selects the re
 - A repository file count nominates a project; reached calls and ready-call concurrency select it.
 - Keep three distinct comparisons when a filter changes: unchanged ordinary plugin, filter-only ordinary plugin, and worker plugin with the equivalent early filter. Filter-only improvement is not attributed to workers.
 - JavaScript CPU, async I/O wait, synchronous native work, and existing native worker pools are attributed separately.
-- Fresh process, warm operating-system cache with recreated workers, and reused watch workers are separate lifecycle results.
+- Fresh-process and warm operating-system-cache runs are separate production-build results. Reused watch workers are deferred to a possible follow-up.
 - One worker answers main-thread isolation; several workers answer throughput.
 - Wall time, event-loop availability, CPU, peak RSS, queueing, output bytes, and correctness are reported together.
-- Outputs, maps, metadata, diagnostics, errors, hook order, determinism, watch dependencies, and repeated builds must match the ordinary plugin.
+- Production-build outputs, maps, metadata, diagnostics, errors, hook order, and determinism must match the ordinary plugin.
 - Plugin adaptation code, unsupported configurations, new state ownership, and ongoing maintenance are reported as costs rather than hidden benchmark setup.
 - Raw measurements, environment details, pinned revisions, commands, and reproduction instructions are retained with every result, including neutral and negative results.
 
@@ -101,7 +101,7 @@ Vue and Svelte remain required case studies. Their baseline bound selects the re
 1. Study the execution model, including coordinator plus worker kernel, rather than limiting the verdict to the retained API.
 2. Use direct Rolldown for runtime, overhead, and defect evidence; use Vite 8 production builds for official Vue and Svelte plugin evidence.
 3. Treat one-worker isolation and multi-worker wall-time improvement as separate outcomes of equal interest.
-4. Keep production builds as the first performance target; record watch and HMR requirements now, then complete required repeated-build and watch-rebuild measurements after the initial build path is correct and before the final optimization verdict.
+4. Keep production builds as the current performance and correctness scope. Record watch, rebuild, and HMR risks now, but defer their runtime coverage and do not make them a gate for the production-build verdict.
 5. Start the required framework adaptation with Svelte, then use Vue to test state ownership and affinity. In parallel, admit at most one lower-state loader after unchanged profiling and the optional-case calculation.
 6. Keep framework `resolveId` and ordinary `load` paths as overhead controls. Do not promise a positive resolver case; conditional candidates proceed only when their missing project or baseline requirement is satisfied.
 7. Treat technical defects, plugin authoring changes, memory, and negative performance results as first-class outputs, not secondary notes.
