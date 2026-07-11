@@ -1,6 +1,6 @@
 # Production-Scale Parallel JavaScript Transform Goal
 
-Status: active since 2026-07-12. The finite [candidate-search manifest](./production-candidate-search.md) is frozen before deep screening. Cloudflare Docs failed the first admission rule because its production build uses Astro, Vite, and Rollup rather than direct Rolldown; Gutenberg is next in the ordered [candidate screening](./production-candidate-screening.md). The completed mechanism-scale research remains evidence, but it does not satisfy this goal.
+Status: active since 2026-07-12. The finite [candidate-search manifest](./production-candidate-search.md) is frozen before deep screening. Cloudflare Docs and Gutenberg failed the first admission rule because their production builds use Astro/Vite/Rollup and a multi-stage esbuild workflow respectively rather than direct Rolldown; Kibana is next in the ordered [candidate screening](./production-candidate-screening.md). The completed mechanism-scale research remains evidence, but it does not satisfy this goal.
 
 ## Outcome
 

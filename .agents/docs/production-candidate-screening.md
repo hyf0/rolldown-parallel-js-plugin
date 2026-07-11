@@ -1,6 +1,6 @@
 # Production Candidate Screening
 
-Status: active. The search universe and three-candidate order were frozen in commit `dc89184` before any candidate clone, installation, build, adaptation, or timing. Candidate 1 failed its first admission rule on pinned source evidence; candidate 2 is next. This is a bounded corpus screen, not a ParallelPlugin value verdict.
+Status: active. The search universe and three-candidate order were frozen in commit `dc89184` before any candidate clone, installation, build, adaptation, or timing. Candidates 1 and 2 failed their first admission rule on pinned source evidence; candidate 3 is next. This is a bounded corpus screen, not a ParallelPlugin value verdict.
 
 ## Screening protocol
 
@@ -43,9 +43,39 @@ A new direct-Rolldown fixture around the MDX compiler could measure a useful ker
 | 7. Relevant time is synchronous JavaScript rather than asynchronous I/O or native work | Not evaluated | No stage attribution was run. |
 | 8. Source, behavior, diagnostics, maps, and environment are reviewable | Not evaluated | Later rule after the decisive failure. |
 
+## Candidate 2: WordPress Gutenberg
+
+Disposition: rejected on 2026-07-12 at admission rule 1. No dependency installation, local build, adaptation, or local timing was performed.
+
+### Pin and source correction
+
+- Project: [`WordPress/gutenberg@eb24e81eb05de53abb7238a9e6b0b7882b4bd490`](https://github.com/WordPress/gutenberg/tree/eb24e81eb05de53abb7238a9e6b0b7882b4bd490), license GPL-2.0-or-later.
+- The complete pinned tree has 6,611 non-declaration JavaScript and TypeScript files. This remains a physical source count only; exact handler hits were not evaluated after rule 1 failed.
+- The preliminary manifest found a real [`@wordpress/scripts` webpack configuration](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/packages/scripts/config/webpack.config.js#L1-L26) whose JavaScript rule invokes [`babel-loader`](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/packages/scripts/config/webpack.config.js#L164-L199). Deep screening corrected the important inference: that reusable package configuration is not the pinned repository's root production build path.
+
+### First failed rule
+
+Rule 1 requires an unmodified ordinary production build that uses Rolldown directly on the pinned Node.js release and lasts 15–30 minutes. Direct Rolldown fails before duration needs evaluation:
+
+- The root [`build` script](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/package.json#L92-L97) invokes the private `@wordpress/build-scripts` workspace. Its orchestrator cleans outputs, runs every workspace's build script, builds TypeScript declarations and vendors, invokes `wp-build` in production mode, generates three block manifests, then runs every workspace's `build:wp` script. [Pinned orchestration](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/tools/build-scripts/build.mjs#L94-L208).
+- The production `wp-build` tool is [`@wordpress/build`](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/packages/wp-build/package.json#L1-L53), which declares and imports esbuild plus `esbuild-plugin-babel`, not Rolldown. Its implementation directly calls `esbuild.build(...)` for package, browser, route, widget, worker, CommonJS, and ESM outputs. [Pinned imports](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/packages/wp-build/lib/build.mjs#L1-L23), [representative build calls](https://github.com/WordPress/gutenberg/blob/eb24e81eb05de53abb7238a9e6b0b7882b4bd490/packages/wp-build/lib/build.mjs#L1445-L1512).
+- The lockfile contains a transitive `@rolldown/pluginutils` utility, but no Rolldown bundler or production Rolldown configuration participates in this command. A direct-Rolldown benchmark would require replacing the production build system and re-expressing multiple independent workspace and output steps; it would not be the unmodified ordinary build required by the gate.
+
+### Admission ledger
+
+| Admission rule | Result | Evidence or reason |
+| --- | --- | --- |
+| 1. Direct Rolldown on pinned Node.js and stable 15–30 minute ordinary baseline | **Fail** | The root production command is a multi-stage workspace orchestrator whose bundle work uses esbuild; it does not use Rolldown directly. Duration was not evaluated after this decisive failure. |
+| 2. One real project with original relationships and production plugin configuration | Not evaluated | Screening stopped at rule 1. |
+| 3. Required expensive JavaScript plugin or transform chain | Not evaluated | The Babel path exists, but its production reach and ownership were not evaluated. |
+| 4. Roughly 5,000 distinct project module IDs at the expensive handler boundary | Not evaluated | 6,611 source files are only a physical count; no handler-boundary instrumentation was run. |
+| 5. Critical-path share can mathematically reach a 2x complete-build result | Not evaluated | No ordinary wall baseline, blocking timeline, or replay bound was run. |
+| 6. Sustained ready transform width | Not evaluated | No timeline was run. |
+| 7. Relevant time is synchronous JavaScript rather than asynchronous I/O or native work | Not evaluated | No stage attribution was run; the active bundler is native esbuild. |
+| 8. Source, behavior, diagnostics, maps, and environment are reviewable | Not evaluated | Later rule after the decisive failure. |
+
 ## Remaining order
 
-1. WordPress Gutenberg at `eb24e81eb05de53abb7238a9e6b0b7882b4bd490`.
-2. Elastic Kibana at `60605e8006b0ffe337f5e5673ccdea4a28eafc5a`.
+1. Elastic Kibana at `60605e8006b0ffe337f5e5673ccdea4a28eafc5a`.
 
 No candidate is admitted, and no implementation work is authorized by the evidence so far.
