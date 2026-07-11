@@ -1,12 +1,12 @@
 # Vue and Svelte Plugin Case Notes
 
-Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope does not run Vite: the Vue case uses a transform-only adapter around `unplugin-vue/rolldown`, while the two completed Svelte cases use a prepared compiler kernel under direct Rolldown. Most Vue SFC compilation is in the official JavaScript compiler, while its TypeScript tail synchronously invokes the released native Oxc transform.
+Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit and completed Vue/Svelte mechanism cases as first-iteration background. They do not select the next production workload. The draft next iteration targets any required JavaScript transform or transform chain that passes the roughly 5,000-hit, 15–30 minute admission gate; Vue and Svelte remain controls rather than the product definition. [Production-scale goal](../.agents/docs/production-scale-goal.md)
 
 ## Archived integration finding
 
 Both official Vite plugins depend on Vite lifecycle and context beyond a direct Rolldown plugin object. The earlier notes remain useful for understanding state and compiler boundaries, but they no longer define the runtime or project harness. A direct-Rolldown Vue transform must state its supported behavior explicitly and must not claim parity with `@vitejs/plugin-vue`.
 
-## Current direct-Rolldown Vue case
+## First-iteration direct-Rolldown Vue case
 
 - Pin `unplugin-vue` 7.2.0 at [`7815bee8367c19c31df244c7ccb188ceedef3a16`](https://github.com/unplugin/unplugin-vue/tree/7815bee8367c19c31df244c7ccb188ceedef3a16), Vue and `@vue/compiler-sfc` 3.5.39 at [`c0606e91798c8dca4f33d101e1dd836d672592c1`](https://github.com/vuejs/core/tree/c0606e91798c8dca4f33d101e1dd836d672592c1), and [`cabinet-fe/icon@9cadad32c72d79424c75e3b6e56798f216bb0b06`](https://github.com/cabinet-fe/icon/tree/9cadad32c72d79424c75e3b6e56798f216bb0b06/packages/vue).
 - `unplugin-vue` exposes a real [Rolldown entry](https://github.com/unplugin/unplugin-vue/blob/7815bee8367c19c31df244c7ccb188ceedef3a16/src/rolldown.ts) and [direct Rolldown example](https://github.com/unplugin/unplugin-vue/blob/7815bee8367c19c31df244c7ccb188ceedef3a16/examples/rolldown/build.ts). It imports Vite helper modules internally, but the experiment invokes only Rolldown. Duplicated helper initialization and memory remain measured plugin costs.

@@ -1,6 +1,6 @@
-# Confirmed Research Direction
+# First-Iteration Confirmed Research Direction
 
-Direction confirmed by Yunfei on 2026-07-11. This record replaces the earlier provisional Phase 0 defaults.
+Direction confirmed by Yunfei on 2026-07-11 and completed by the evidence committed on that date. It remains the historical reason for the mechanism-scale sequence. Yunfei set a broader production-scale direction on 2026-07-12; all new runtime work is governed by the draft [production-scale goal](../.agents/docs/production-scale-goal.md), which is not active until the next `/goal` starts.
 
 ## Confirmed scope
 
@@ -49,7 +49,7 @@ Direction confirmed by Yunfei on 2026-07-11. This record replaces the earlier pr
 1. Completed: isolated worktree, pinned environment, build, unchanged no-op failure, byte-identical no-op and Babel controls, failure fixtures, two minimal runtime repairs, and explicit worker-count control.
 2. Completed: the release controlled transform matrix and instrumentation establish fixed cost, crossover, graph shape, payload, CPU, RSS, and main-loop behavior. [Controlled result](../experiments/core-transform/2026-07-11-controlled-release.md)
 3. Completed: the pinned `unplugin-vue/rolldown` transform case over 166 `cabinet-fe/icon` SFCs is negative at every worker count and attributes the result to import, initialization, per-call contention, CPU, and memory rather than graph width. [Vue result](../experiments/vue-transform/2026-07-11-vue-icon-results.md)
-4. Completed: the measured optimization ranking favors explicit worker count, pre-permit filtering, a coordinator/kernel boundary, and lazy placement before batching or broad whole-plugin support. [Verdict](./verdict.md#optimization-priorities)
+4. Completed: the measured optimization ranking favors explicit worker count, pre-permit filtering, a coordinator/kernel boundary, and lazy placement before batching or broad whole-plugin support. [Verdict](./verdict.md#first-iteration-optimization-priorities)
 5. Completed: isolated and graph-preserving Svelte cases bound the compiler-kernel value, and separate `resolveId` and `load` runs establish the remaining hook-specific conclusions. [Svelte graph result](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md), [hook result](../experiments/resolve-load/2026-07-11/README.md)
 
 ## Evidence rules

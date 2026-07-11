@@ -2,9 +2,17 @@
 
 This repository is the research workspace for determining when running JavaScript plugins on Node.js worker threads improves Rolldown builds, what changes plugin authors need to make, and which runtime overheads are worth optimizing.
 
-The direction review is complete. Experiments use Rolldown directly on the latest Node.js LTS line, start with the retained ParallelPlugin `transform` path, use Vue and Svelte compiler cases after the controlled cost model, then measure `resolveId` and `load` separately. Vite, watch, rebuild, and HMR are outside the research scope.
+The mechanism-scale iteration is complete. Its experiments use Rolldown directly on Node.js 24.18.0, start with the retained ParallelPlugin `transform` path, use Vue and Svelte compiler cases after the controlled cost model, then measure `resolveId` and `load` separately. Those results establish behavior and cost but do not answer the production-scale target clarified on 2026-07-12.
 
-## Questions
+## Draft next iteration
+
+The next `/goal` is drafted but not started. It targets a required user- or ecosystem-owned JavaScript transform that cannot reasonably be replaced wholesale with Rust, roughly 5,000 modules that actually execute its expensive handler, a repeated 15–30 minute ordinary direct-Rolldown build, and an end-to-end target of about 30→15 or 15→7–8 minutes. Vue and Svelte remain controls rather than the product definition. [Production-scale goal](./.agents/docs/production-scale-goal.md)
+
+The default placement model is a Rolldown-managed shared worker group that may host several plugins. A sustained heavy plugin may explicitly request an exclusive group containing one or several workers. Shared and exclusive comparisons use the same global CPU and memory budget. The iteration measures sustained per-worker service, CPU competition with Rust and native stages, ready work and load balance over time, RSS/JIT/cache/garbage-collection pressure, several ordered transforms in one worker, cache determinism, and worker or task failure semantics.
+
+No candidate measurement begins until Yunfei starts the next `/goal`. Once it starts, candidate screening and the ordinary long-running trace establish whether the workload and complete-build time-share gates pass; plugin adaptation, parallel implementation, and the full shared/exclusive matrix begin only after they do.
+
+## First-iteration questions
 
 - Can the retained direct-Rolldown ParallelPlugin `transform` path run correctly on the latest Node.js LTS release?
 - When does moving transform work off the Node.js main thread improve responsiveness without improving total build time?
@@ -15,7 +23,7 @@ The direction review is complete. Experiments use Rolldown directly on the lates
 - What different result does a prepared Svelte compiler kernel and a graph-preserving Svelte project subgraph add?
 - When do `resolveId` and `load` gain synchronous CPU throughput, and when do filters, state, reentrancy, payload, serial graphs, or already-asynchronous work make the worker model worse?
 
-## Starting point
+## First-iteration evidence and results
 
 Rolldown's experimental parallel JavaScript plugin implementation still exists. On Node.js 24.18.0, unchanged current main creates eight workers and then loses all of them after bootstrap, so the synthetic transform build fails. Research commit `75ba695d1` adds an explicit worker keepalive and restores byte-identical synthetic and Babel output; `8fe749827` separately fixes an initialization-error SIGABRT by awaiting and cleaning every worker. The retained design remains relevant: Rust already scans independent modules concurrently, while worker-owned callbacks can run synchronous JavaScript transforms outside the main Node.js environment.
 
@@ -32,6 +40,7 @@ The source audit and runtime probes also found compatibility blockers independen
 ## Repository map
 
 - [Project context](./.agents/docs/README.md) records the durable goal, research boundaries, and current plan.
+- [Draft production-scale goal](./.agents/docs/production-scale-goal.md) records the next iteration's required JavaScript workload, time and hit-count gates, shared and exclusive worker placement, sustained measurements, semantic requirements, and 2x success target.
 - [Current-state evidence](./research/current-state.md) pins the source revisions and distinguishes verified facts from open checks.
 - [Research dimensions](./.agents/docs/research-dimensions.md) keeps hook-specific value questions and technical defect discovery as equal workstreams.
 - [Current defect inventory](./research/defect-inventory.md) distinguishes source-proven gaps, source-inferred failure paths, and historical reports awaiting reproduction.
@@ -39,8 +48,8 @@ The source audit and runtime probes also found compatibility blockers independen
 - [Initial worker-count matrix](./experiments/core-transform/2026-07-11-initial-wall-matrix.md) retains exploratory debug-binding synthetic and Babel results with raw per-run data.
 - [Main-thread isolation measurement](./experiments/core-transform/2026-07-11-main-thread-isolation.md) separates one-worker event-loop availability from complete-build wall time with fresh-process samples and independently sampled peak RSS.
 - [Controlled transform release result](./experiments/core-transform/2026-07-11-controlled-release.md), [Vue result](./experiments/vue-transform/2026-07-11-vue-icon-results.md), [isolated Svelte upper bound](./experiments/svelte-transform/2026-07-11-svelte-results.md), [graph-preserving Svelte result](./experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md), and [controlled `resolveId`/`load` result](./experiments/resolve-load/2026-07-11/README.md) retain the formal evidence and raw data.
-- [Final verdict](./research/verdict.md) combines hook-specific value, plugin suitability, authoring requirements, defects, and ranked optimization work.
+- [Mechanism-scale verdict](./research/verdict.md) combines first-iteration hook-specific value, plugin suitability, authoring requirements, defects, and ranked optimization work while recording the production-scale evidence gap.
 - [Vue and Svelte plugin case notes](./research/plugin-case-notes.md) retain the earlier Vite-plugin source analysis as background; they are not the current runtime plan.
 - [`resolveId` and `load` candidate survey](./research/resolve-load-candidates.md) connects the controlled results to possible real-plugin cases and records why no clean whole-plugin resolver candidate was selected.
-- [Confirmed direction](./research/framing-review.md) records the current scope and execution order.
+- [First-iteration direction](./research/framing-review.md) records the completed 2026-07-11 scope and execution order.
 - Reproducible runtime evidence, benchmark data, and exact commands are retained under [`experiments`](./experiments/).

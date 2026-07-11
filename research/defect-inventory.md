@@ -2,7 +2,7 @@
 
 Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. This is a living source and runtime defect record. `Observed` means the behavior has a pinned reproduction in this repository. `Source-proven` means the behavior follows directly from current code or an explicit upstream statement. `Source-inferred` means the call graph contains a failure path that still needs reproduction. `Historical` means an earlier experiment reported the behavior and current reproduction is pending.
 
-The active runtime scope is the direct-Rolldown production-build transform path on the latest Node.js LTS release. Vite-specific, watch-only, rebuild-only, HMR, and other-Node-version defects remain recorded as background but are not active reproduction tasks or completion gates.
+The 2026-07-11 runtime scope was the direct-Rolldown production-build transform path on the latest Node.js LTS release and is complete. The draft next iteration adds sustained shared/exclusive worker placement, cache, memory, and failure checks for a 15–30 minute build, but is not active until the next `/goal`. Vite-specific, watch-only, rebuild-only, HMR, and other-Node-version defects remain recorded as background unless Yunfei expands that goal.
 
 ## D001: worker callbacks use the main-thread weak lifetime mode
 
@@ -118,8 +118,8 @@ The active runtime scope is the direct-Rolldown production-build transform path 
 - Status: source-proven.
 - Severity: medium for correctness, high for performance and resource predictability.
 - Behavior: [`initializeParallelPlugins`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/utils/initialize-parallel-plugins.ts#L25-L45) creates `min(os.availableParallelism(), 8)` workers and initializes every parallel plugin in every worker. A normal `generate` or `write` stops the previous workers before creating a new pool; watch keeps its pool until close.
-- Impact: lightweight plugins pay unnecessary startup and memory, heavy plugins can oversubscribe the Rust core, a single-worker isolation mode is unavailable, and repeated output builds cannot reuse compiler state.
-- Fix condition: worker count, isolation-only mode, plugin placement, reuse, and shutdown follow explicit policies validated against CPU, memory, and lifecycle measurements.
+- Impact: lightweight plugins pay unnecessary startup and memory, heavy plugins can oversubscribe the Rust core, one plugin's long tasks can consume shared capacity needed by another, a single-worker isolation mode is unavailable, and repeated output builds cannot reuse compiler state.
+- Fix condition: Rolldown owns one global CPU and memory budget; plugins use a managed shared worker group by default; a plugin can request an exclusive group containing one or several workers; worker count, per-plugin fairness, subset placement, reuse, failure effects, and shutdown follow explicit policies; and shared versus exclusive behavior is validated by the [production-scale goal](../.agents/docs/production-scale-goal.md).
 
 ## D015: bootstrap cleanup and post-bootstrap worker health have no explicit control path
 

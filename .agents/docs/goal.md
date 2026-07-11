@@ -1,5 +1,7 @@
 # Goal
 
+Status: completed mechanism-scale iteration. This record remains the scope and success criteria for the evidence committed through 2026-07-11. It must not be promoted into a production-scale investment verdict; the draft next iteration is [production-scale parallel JavaScript transform goal](./production-scale-goal.md).
+
 ## Outcome
 
 Produce an evidence-backed verdict on the value of Rolldown parallel JavaScript plugins: whether the current worker execution path can run correctly, when it keeps synchronous transform work off the Node.js main thread, when several workers shorten a complete Rolldown build, what overhead removes the benefit, and which runtime or plugin changes are worth making.

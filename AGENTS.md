@@ -1,10 +1,13 @@
 # Project-specific agent instructions
 
-- This project is research-first. Yunfei completed the initial direction review on 2026-07-11. Runtime and benchmark work may proceed only in the confirmed order: direct Rolldown, current ParallelPlugin `transform` flow, cost attribution, then the Vue case.
+- This project is research-first. The mechanism-scale iteration was completed on 2026-07-11. Its subsecond Vue and Svelte cases establish costs and behavior but do not answer the production target. The draft next iteration is defined in `.agents/docs/production-scale-goal.md` and must not begin until Yunfei starts the next `/goal`.
+- The production target is a direct-Rolldown build lasting 15–30 minutes with roughly 5,000 actual expensive hits in a required JavaScript transform or transform chain, aiming for a repeated 2x wall-time improvement. Physical module count, filter misses, artificial delay, an externalized main graph, or a Rust/native substitute do not satisfy it.
+- Worker placement is a Rolldown-managed policy: parallel plugins share a worker group by default, while a plugin may request an exclusive group containing one or several workers. All groups share one documented CPU and memory budget.
 - Separate two possible benefits in every analysis: keeping work off the Node.js main thread and reducing total build time through parallel execution.
 - Never infer value for a pure JavaScript plugin from a benchmark whose expensive work already runs in Rust or another native thread pool.
 - Keep technical defect discovery beside performance research. Record known and newly discovered defects with pinned evidence or an explicit unverified label; do not bury them in benchmark caveats.
 - Every performance claim must name the pinned source revisions, machine, Node.js version, worker count, corpus, cold or warm lifecycle, correctness check, and raw durable artifact.
+- Production-scale claims must also report absolute wall time, verified expensive transform hits, target-transform time share, ready-call width over time, worker placement, sustained per-worker service, CPU ownership, RSS over time, garbage-collection evidence, and the ordinary-to-parallel semantic comparison.
 - Treat a neutral or negative result as a valid outcome. Explain which cost or serial dependency consumed the expected gain instead of tuning the benchmark until it wins.
 - Preserve benchmark correctness before comparing speed: the same project must build successfully, plugin warnings and errors must remain meaningful, and outputs must be compared at the strongest practical level.
 

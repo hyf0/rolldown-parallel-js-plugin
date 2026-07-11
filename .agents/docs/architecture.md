@@ -35,6 +35,45 @@ The research must not collapse distinct designs into one "parallel" number:
 
 The controlled runtime comparison establishes models one through three. The Vue and Svelte adaptations then use model four as a measured research boundary without proposing a public API, because whole-plugin replication is not behavior-complete for either ecosystem plugin.
 
+## Worker placement for the next iteration
+
+The current implementation already uses one shared `WorkerManager`: every parallel plugin is initialized in every worker, and calls from all parallel plugins compete for the same permits. It has no placement configuration, dedicated capacity, per-plugin concurrency policy, or global resource decision beyond the hardware-derived worker count.
+
+The next iteration treats placement as a Rolldown-owned policy rather than assigning one worker to one plugin:
+
+```text
+Rolldown worker manager
+  -> shared group by default
+       -> plugin A instances
+       -> plugin B instances
+       -> plugin C instances
+  -> exclusive group requested by a sustained heavy plugin
+       -> one or several instances of plugin D
+  -> one global CPU and memory budget across Rust and every JS group
+```
+
+A shared group reduces the number of V8 isolates, can reuse module imports within each worker, and suits plugins whose work is intermittent or whose combined demand fits the pool. Sharing also creates interference: one long synchronous callback prevents other plugin callbacks in that worker from running, one plugin can occupy all group capacity, heap and garbage-collection pressure is combined, and a worker failure affects every plugin resident there. The scheduler therefore needs per-plugin queues or concurrency limits, measured fairness, and a rule for restoring or failing shared capacity.
+
+An exclusive group reserves one or several Rolldown-managed workers for one plugin. Exclusive is a placement and resource guarantee, not permission for the plugin to own worker lifecycle, and it does not make replicated closure state safe. It is appropriate only when sustained CPU, resident compiler memory, predictable throughput, failure isolation, or protection from another plugin's long tasks repays the reserved capacity. A requested explicit worker count remains constrained by the global process budget.
+
+Default sharing does not require every plugin to be loaded into every worker. A future manager may place a plugin on a subset of shared workers or load it after the first proven hit, but the resulting maximum concurrency and state model must be explicit. If Rolldown cannot honor an exclusive placement request, it must fail or apply a documented deterministic fallback rather than silently sharing.
+
+Placing several plugins in one worker is distinct from running their transforms as one request. The current hook driver still returns each plugin result through Rust before invoking the next plugin. A worker-side ordered pipeline could keep intermediate code and source maps inside one worker and reduce repeated conversion, but it must reproduce ordinary plugin order, null results, source-map chaining, warnings, errors, and plugin attribution. It is a separate execution model and must be measured against shared placement without pipeline fusion.
+
+## Sustained production-scale behavior
+
+The production target is not dominated by a few hundred milliseconds of worker startup. It requires evidence over a 15–30 minute build with roughly 5,000 actual expensive JavaScript transform hits. Seven behaviors determine whether the mechanism retains value at that duration:
+
+1. Per-worker transform service must be measured over time, including whether calls become slower after more workers are added, after JIT warmup, as caches grow, or during garbage collection.
+2. Worker count must share CPU with Rolldown's Rust work and any native compiler stages. The useful count is the one that shortens complete-build wall time under a global resource budget, not the one that maximizes isolated JavaScript activity.
+3. Ready transform width must be a time series rather than one maximum. Sustained width, worker utilization, task-duration distribution, and the last slow worker determine achievable parallelism and load balance.
+4. Compiler, dependency, JIT, and cache copies create long-lived RSS, garbage collection, and memory-bandwidth pressure. Peak RSS alone is insufficient; retained memory and service slowdown over the build must be correlated.
+5. Several high-frequency transforms may share one worker and execute in ordinary order for one module. Any attempt to avoid repeated Rust/JavaScript conversion must retain every intermediate code value, source-map chain, hook order, warning, and error attribution.
+6. A worker-local cache is safe only when hit or miss changes speed but never output, metadata, diagnostics, side effects, or ordering. Randomized assignment, worker count, repeated builds, and cache warmth must not change results.
+7. Worker crash and task failure must retain ordinary plugin, hook, module, message, location, frame, and stack information; reject affected queued and in-flight work; define whether a pure task may retry; and leave no permit, callback, worker, or partial state behind.
+
+The detailed admission gate, measurements, correctness requirements, and success criteria are in [production-scale goal](./production-scale-goal.md).
+
 ## Later adaptation options
 
 A general-purpose plugin object may not remain safe when identical copies run in several workers. If the current path or Vue case proves that whole-plugin replication is the limiting mechanism, classify state before choosing a replacement:
@@ -46,7 +85,7 @@ A general-purpose plugin object may not remain safe when identical copies run in
 
 These are possible responses to evidence, not the starting architecture or a proposed API. Preserve the current simpler design when it is correct and sufficiently fast.
 
-## Why Vue is second
+## Why Vue was second in the first iteration
 
 The first experiment uses a controlled JavaScript transform so the runtime path and its costs are observable without plugin integration variables. The second case uses the real `unplugin-vue/rolldown` transform path under Rolldown's API. A thin adapter exposes only `buildStart` and `transform`, applies the same declarative `.vue` filter and module type to ordinary and parallel variants, and keeps the unchanged full ordinary plugin as the correctness reference.
 
@@ -69,6 +108,7 @@ Each level answers a different question and must not be promoted into a stronger
 3. A direct-Rolldown Vue transform measures compiler initialization, diagnostics, output bytes, and realistic SFC work under the execution model; it disables source maps and makes no map claim.
 4. A pinned direct-Rolldown project graph measures complete fixture-build value, including Rust work, output generation, and contention; the shadcn-svelte registry subgraph supplies this level without claiming a full application.
 5. Separate direct-Rolldown `resolveId` and `load` fixtures establish hook-specific CPU, async, graph-shape, payload, state, and reentrancy conclusions without manufacturing a real-plugin win.
+6. A required JavaScript transform or transform chain with roughly 5,000 real expensive hits and a repeated 15–30 minute ordinary baseline is required before making a production-scale investment claim or a 2x wall-time claim.
 
 Technical quality is an equal evidence axis at every level. A faster variant is not viable if it changes output or source maps, loses metadata, changes diagnostics, leaks workers, deadlocks, or produces worker-count-dependent results.
 
@@ -84,3 +124,6 @@ A cold process includes worker creation, plugin import, compiler initialization,
 - Batch small hook calls when dispatch latency is material and hook ordering permits it.
 - Make lifecycle broadcast and reduction semantics explicit instead of duplicating work on every instance by default.
 - Measure memory and oversubscription before adding more workers because the Rust core is already concurrent.
+- Compare default shared placement with an explicit exclusive worker group under one global CPU and memory budget; do not infer that one plugin must own one worker.
+- Measure sustained per-worker service, ready width, RSS, garbage collection, cache growth, and failures over the full production build rather than extrapolating subsecond fixtures.
+- Compare several sequential transforms colocated in one worker with and without a combined worker-side pipeline only when repeated boundary conversion is measured as material.

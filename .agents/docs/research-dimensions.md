@@ -1,6 +1,6 @@
 # Research Dimensions
 
-Performance value and technical defects are parallel workstreams. The project must answer both before recommending a production direction.
+Performance value and technical defects are parallel workstreams. The mechanism-scale iteration answers them for its recorded fixtures. A production investment direction still requires the draft [production-scale goal](./production-scale-goal.md).
 
 Every hook result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
 
@@ -29,6 +29,42 @@ Already-asynchronous work is a strong negative case. An ordinary plugin overlaps
 A plugin can create state in `resolveId`, consume it in `load`, then attach metadata in `transform` for a later virtual module or output hook. Speeding one hook while distributing those calls among unrelated worker instances can break behavior. End-to-end attribution must therefore record both the time in each hook and the state edges between hooks.
 
 Classify every important state edge as immutable replicated configuration, worker-local cache, module-affine state, Rust-owned shared state, main-thread coordinator state, or globally reduced output. The classification must describe who creates the state, who consumes it, its invalidation lifetime, and whether ordering matters.
+
+## Production-scale transform dimensions
+
+The next iteration targets a required JavaScript transform or transform chain with roughly 5,000 actual expensive handler hits in a repeated 15–30 minute direct-Rolldown build. Vue and Svelte remain controls rather than the product definition. File count, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
+
+### Sustained service
+
+- Measure each worker's per-call service distribution throughout the build, not only aggregate time. Separate startup, JIT warmup, stable execution, cache growth, garbage collection, and late-build behavior, and report when adding workers makes every call slower.
+
+### CPU ownership
+
+- Attribute CPU over time among main-thread JavaScript, worker JavaScript, Rolldown Rust work, native stages, and the operating system. Compare worker counts under one process-wide CPU and memory budget so an exclusive group cannot manufacture a win by receiving more machine resources.
+
+### Ready work and balance
+
+- Record ready transform width, worker utilization, queue wait, task assignment, and task-duration distribution over time. One maximum outstanding value does not prove sustained parallelism, and one long final task can determine complete-build wall time after other workers become idle.
+
+### Long-lived memory cost
+
+- Record current, peak, and retained RSS, compiler and dependency copies, JIT and cache growth, garbage-collection pauses, and evidence of memory-bandwidth pressure. Correlate these with per-call slowdown rather than treating worker startup as the dominant cost of a 15–30 minute build.
+
+### Shared and exclusive placement
+
+- Compare the Rolldown-managed shared group with an explicitly exclusive worker group under the same global budget. Measure whether one long plugin blocks other plugins, whether shared workers reuse meaningful imports, how memory and garbage collection combine, how capacity is divided fairly, and which colocated plugins are affected by one worker failure.
+
+### Several plugins in one worker
+
+- Distinguish colocating plugin instances from executing several transforms in one combined request. A worker-side ordered pipeline must retain every intermediate code value, null result, source-map chain, hook order, metadata update, warning, error, and plugin identity before reduced boundary traffic can count as a gain.
+
+### Cache determinism
+
+- A worker-local cache may change speed only. Compare output, metadata, diagnostics, side effects, and ordering across worker counts, randomized assignment, repeated fresh runs, and cache warmth; move behavior-relevant state to a coordinator, shared graph, deterministic reduction, or explicit affinity.
+
+### Failure behavior
+
+- Exercise worker exit, crash, synchronous throw, rejected task, unresponsive task, queued cancellation, and shutdown in shared and exclusive groups. Preserve ordinary attribution, define which work fails, retry only proven-pure tasks, restore or reject capacity deterministically, and leave no permit, callback, worker, or partial state behind.
 
 ## Technical defect dimensions
 

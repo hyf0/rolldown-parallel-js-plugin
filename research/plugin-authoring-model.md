@@ -1,6 +1,6 @@
 # Parallel JavaScript Plugin Authoring Model
 
-Snapshot: 2026-07-11. This document describes what a JavaScript plugin must do to run safely and usefully in Rolldown's current replicated-worker model, and where that model cannot preserve an ordinary plugin contract. It is a research contract, not a proposed public API.
+Snapshot: first-iteration evidence through 2026-07-11, with the shared/exclusive placement direction added on 2026-07-12. This document describes what a JavaScript plugin must do to run safely and usefully in Rolldown's current replicated-worker model, and where that model cannot preserve an ordinary plugin contract. It is a research contract, not a proposed public API. Production-scale requirements are defined in the draft [next goal](../.agents/docs/production-scale-goal.md).
 
 ## The unit of parallelism
 
@@ -85,9 +85,9 @@ Output hash parity is not diagnostic parity. A safe production contract must pre
 
 Current parallel Vue errors lose ordinary structured plugin and hook attribution, complete module identity, compiler-specific fields, and worker stack information. The Svelte probes retain a relative filename, code, source frame, and position but lose the plugin label, complete module path, ordinary formatting, and worker stack; the graph probe does not expose a separate structured hook field in either form. Worker warnings are discarded by the no-op logger. Plugin authors cannot repair these gaps inside an ordinary hook return because current worker-local module metadata does not reliably reach the coordinator.
 
-## Worker-count policy
+## Worker placement and count policy
 
-The current default creates up to eight workers for every parallel plugin and initializes every plugin in every worker. Measurements show no universal best count:
+The current bundler creates one shared pool of up to eight workers and initializes every parallel plugin in every worker. All parallel plugins compete for that pool; there is no placement, reserved-capacity, or per-plugin concurrency configuration. Measurements show no universal best count:
 
 - One worker is useful for main-loop isolation but often slower in wall time.
 - Minimal fresh-build overhead rises with worker count before any real compiler is imported.
@@ -100,6 +100,18 @@ The current default creates up to eight workers for every parallel plugin and in
 - A serial dependency chain cannot use more than one worker regardless of hook cost.
 
 A usable policy therefore needs plugin or kernel identity, fresh versus reused lifecycle, estimated synchronous cost, observed ready concurrency, CPU competition with Rolldown and native addons, memory budget, and whether isolation without throughput is desired. Hardware concurrency alone is insufficient.
+
+The next-iteration placement model remains owned by Rolldown:
+
+- Parallel plugins use a managed shared worker group by default. Several plugins may reside in each worker, and Rolldown controls lifecycle, task routing, total worker count, CPU budget, and memory budget.
+- A plugin may request an exclusive worker group when sustained CPU, resident compiler memory, predictable capacity, protection from another plugin's long callbacks, or failure isolation justifies it. The group may contain one or several workers; exclusive does not mean one worker per plugin.
+- An explicit worker count is constrained by the process-wide budget. Exclusive placement must not receive more total CPU or memory than the shared comparison and call that extra capacity a plugin speedup.
+- Shared placement requires per-plugin fairness. A long synchronous hook in one worker prevents other JavaScript callbacks there from running, and one plugin must not occupy the entire group indefinitely while another has queued work.
+- A shared worker failure affects every plugin resident there. Rolldown must define which queued and in-flight tasks fail, how capacity is restored or the build is rejected, and how plugin attribution survives.
+- Exclusive placement changes resource and failure isolation but does not repair worker-local closure state, cross-hook metadata, hook ordering, or nondeterministic routing.
+- Default sharing need not load every plugin into every worker. Subset placement or lazy loading is allowed only when maximum concurrency, hook availability, state ownership, and deterministic failure are explicit.
+
+Colocating several plugins in one worker does not by itself remove the Rust/JavaScript boundary between hooks. A combined worker-side transform pipeline is a separate authoring contract: it must execute plugins in ordinary order, preserve null results and each intermediate source value, combine source maps correctly, retain plugin-specific warnings and errors, and expose state and metadata exactly as the ordinary chain does.
 
 ## Suitability checklist
 
@@ -126,9 +138,14 @@ Before using a performance result, compare ordinary and parallel forms with the 
 - exact matching handler calls and input and returned bytes;
 - filter misses, nulls, errors, and cancellations fully explained;
 - maximum handler and permit concurrency within the configured pool;
+- ready-call width, worker utilization, per-worker service, and task assignment over the complete build rather than one peak;
+- default shared placement and explicit exclusive placement under the same global CPU and memory budget;
+- current, peak, and retained RSS plus garbage-collection and cache-growth evidence for long builds;
 - compiler warnings and errors compared as structured records;
 - hook order and first-result behavior with neighboring ordinary plugins;
+- several colocated transforms and any combined worker-side pipeline compared for intermediate code, source-map chain, ordering, metadata, and attribution;
 - state created in one hook and consumed in another;
+- worker-local cache hits and misses proven behaviorally identical across count, assignment, repeated runs, and cache warmth;
 - worker initialization failure, in-flight throw or rejection, crash, and queued cancellation;
 - CPU, peak RSS, main-loop delay, pool initialization, implementation import, service, queue, and result conversion recorded separately.
 

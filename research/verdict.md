@@ -1,14 +1,22 @@
-# Parallel JavaScript Plugin Verdict
+# Parallel JavaScript Plugin Mechanism-Scale Verdict
 
-Snapshot: 2026-07-11. This verdict covers direct Rolldown production builds on Node.js 24.18.0. It does not cover Vite, watch, rebuild, development servers, HMR, cross-build pool reuse, or other Node.js versions.
+Snapshot: 2026-07-11, with a scope clarification added on 2026-07-12. This verdict covers the recorded direct-Rolldown mechanism, Vue, Svelte, `resolveId`, and `load` fixtures on Node.js 24.18.0. It does not prove value for a 15–30 minute build, roughly 5,000 expensive transform hits, Vite, watch, rebuild, development servers, HMR, cross-build pool reuse, or other Node.js versions.
 
 ## Recommendation
 
-Continue investment, but narrow the capability around explicit worker kernels rather than treating the current whole-plugin marker as a generally compatible plugin mode.
+Continue research and bounded architecture investment, but narrow the capability around explicit worker kernels rather than treating the current whole-plugin marker as a generally compatible plugin mode. A production investment decision remains open until the next iteration measures the intended minute-scale workload.
 
 The current design demonstrates two real values. A single worker can remove long synchronous plugin stalls from the Node.js main event loop even when the complete build becomes slower. Several workers can shorten a complete build when Rolldown exposes many independent calls and each call contains enough synchronous work to amortize pool startup, per-worker imports and JIT, scheduling, Node-API conversion, extra CPU, and memory. Neither value follows from the hook name or framework alone.
 
 The current implementation is not ready for production use. Unchanged current main loses its workers after bootstrap on the pinned Node.js LTS release. Research-only lifecycle repairs make experiments possible, but warnings are discarded, errors lose attribution, filters acquire permits before rejecting, worker routing fragments state, reentrant resolution can exhaust the pool, lifecycle and output semantics are incomplete, and eleven supported JavaScript hooks silently become no-ops. A public feature should expose a deliberately smaller contract and reject unsupported behavior rather than silently approximating an ordinary plugin.
+
+## Production-scale decision remains open
+
+Yunfei clarified the intended product target on 2026-07-12: a project must retain a user- or ecosystem-owned JavaScript transform rather than rewrite it in Rust; roughly 5,000 modules actually execute its expensive handler; the ordinary direct-Rolldown build lasts 15–30 minutes; and the desired complete-build result is about 30→15 or 15→7–8 minutes. Vue and Svelte are boundary cases, not the product definition.
+
+The measured real cases are orders of magnitude shorter and cannot settle that target. Their startup evidence also changes priority at production duration: removing a full 400 ms saves less than 0.05% of 15 minutes. The open decision depends on sustained per-worker service, worker and Rust CPU allocation, ready work over time, long-task balance, retained RSS, garbage collection, memory pressure, several-plugin execution, cache determinism, and worker or task failure semantics.
+
+The next comparison uses a Rolldown-managed shared worker group by default and an explicitly requested exclusive group for a sustained heavy plugin, both under the same global CPU and memory budget. Exclusive means a dedicated group containing one or several workers, not one worker per plugin. Colocating several plugins in shared workers remains distinct from executing their transforms as one combined worker request. The full admission and success gates are in the draft [production-scale goal](../.agents/docs/production-scale-goal.md), which is not active until the next `/goal` starts.
 
 ## What has value
 
@@ -115,7 +123,7 @@ The kernel must not rely on worker-local `this.warn`, JavaScript-side module met
 
 The complete authoring and verification rules are in [plugin authoring model](./plugin-authoring-model.md).
 
-## Optimization priorities
+## First-iteration optimization priorities
 
 Correctness repairs are prerequisites rather than optional performance optimizations: explicit worker ownership and shutdown, bootstrap and crash handling, structured diagnostics, truthful hook support, hook ordering, state ownership, and deterministic lifecycle semantics must come before production exposure.
 
@@ -131,6 +139,21 @@ After those gates, the performance work is ranked as follows:
 8. Consider batching short ready calls only after pre-permit filtering and worker selection are fixed. Expected impact: medium for narrowly identified call shapes; implementation cost: high because ordering, cancellation, errors, payload memory, and first-result semantics must remain exact.
 
 Cross-build pool reuse could remove startup and warmup cost, but it is outside this production-build-only scope because it changes invalidation and lifecycle requirements. It should not be used to explain the current fresh-build results.
+
+## Next-iteration priority order
+
+For the 15–30 minute target, preserve the first-iteration correctness prerequisites but measure and optimize in this order:
+
+1. Sustained per-worker transform throughput, including service slowdown as workers, JIT state, caches, garbage collection, and memory pressure accumulate.
+2. Worker count and placement under one CPU budget shared with Rolldown Rust work and native stages.
+3. Ready transform width, worker utilization, task-duration distribution, and long-task load balance over the full build.
+4. Current, peak, and retained RSS; compiler, dependency, JIT, and cache copies; garbage-collection pauses; and memory-bandwidth pressure.
+5. Default shared placement versus an explicit exclusive worker group, including whether one long plugin blocks another and which colocated plugins are affected by one worker failure.
+6. Several high-frequency JavaScript transforms in one worker, first as ordinary separate hook calls and then as an optional ordered worker-side pipeline that preserves intermediate code, source maps, hook order, and diagnostics.
+7. Worker-local cache determinism across worker count, assignment, repeated runs, and cache warmth.
+8. Worker exit and task failure behavior for queued and in-flight work, ordinary-equivalent attribution, pure-task retry, cleanup, and state consistency.
+
+Worker startup, pre-permit filtering, and lazy initialization remain useful for small or miss-heavy workloads but cannot deliver minute-scale savings when the accepted production workload actually hits the expensive transform roughly 5,000 times.
 
 ## Technical defects and compatibility boundary
 
@@ -156,3 +179,5 @@ Do not label a complete Vue, Svelte, or other ecosystem plugin parallel-safe mer
 The primary evidence is the [controlled transform report](../experiments/core-transform/2026-07-11-controlled-release.md), [Vue report](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [isolated Svelte report](../experiments/svelte-transform/2026-07-11-svelte-results.md), [graph-preserving Svelte report](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md), and [controlled `resolveId` and `load` report](../experiments/resolve-load/2026-07-11/README.md). Their raw reports retain Node.js version, host, source revisions, native binding and generated-distribution hashes where available, corpus manifests or generated-case definitions, worker counts, fresh-process samples, CPU, peak RSS, output hashes, and timing boundaries. Executable fixtures live on the pushed Rolldown research branches named by each report.
 
 The conclusions are specific to an Apple M3 Pro with 12 logical CPUs and 36 GiB memory, Node.js 24.18.0, the pinned Rolldown research repairs, direct production builds, and the recorded corpora. Exact crossover points and best worker counts must not be generalized beyond those conditions.
+
+The 2026-07-12 production-scale direction intentionally does not revise any historical measurement. It narrows what those measurements can support and defines the evidence still required before a minute-scale or 2x investment claim.

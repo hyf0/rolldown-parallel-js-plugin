@@ -1,8 +1,8 @@
 # Research Plan
 
-This is a live research sequence, not an implementation commitment. Replace it as evidence changes.
+This record separates the completed mechanism-scale sequence from the draft production-scale iteration. The next iteration is not an implementation commitment and must not start until Yunfei creates its `/goal`.
 
-## Confirmed order
+## Completed first-iteration order
 
 1. Use direct Rolldown on the latest Node.js LTS release.
 2. Run the retained ParallelPlugin `transform` path unchanged.
@@ -66,6 +66,46 @@ Status: complete. The [isolated Svelte result](../../experiments/svelte-transfor
 - Add a direct-Rolldown Svelte transform after Vue and preserve a reproducible ordinary, one-worker, and multi-worker comparison. Select its boundary and corpus from the earlier source audit, but do not run Vite.
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.
 - A negative core or Vue result may narrow the later matrices, but it does not remove the required Svelte experiment or separate hook conclusions.
+
+## Draft next iteration: required high-frequency JavaScript transform
+
+Status: not started. The complete scope, admission rules, execution models, seven sustained-operation questions, correctness gates, and success criteria are in [production-scale goal](./production-scale-goal.md). Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
+
+### Phase A: candidate admission
+
+- Find a representative direct-Rolldown build lasting 15–30 minutes with roughly 5,000 verified hits in an expensive required JavaScript transform or transform chain.
+- Use the latest Node.js LTS available when the next `/goal` starts and pin its exact patch; do not run a version matrix.
+- Reject physical module count, filter misses, cache bypasses, artificial delay, an externalized main graph, or a Rust/native substitute as evidence for the target.
+- Pin why the plugin must remain JavaScript: behavior, configuration, callbacks, ecosystem extensions, ownership, or maintenance cost.
+- Measure the ordinary target-transform time share and apply the stated overall-speedup formula before adapting the plugin. Reject a candidate that cannot mathematically reach a repeated 2x complete-build result.
+- If the primary candidate contains one plugin, select a second real JavaScript transform on the same pinned graph for the independent shared-placement, colocated-failure, and optional pipeline case. It must not inflate or contribute to the primary 2x baseline.
+
+### Phase B: ordinary production trace
+
+- Record target-transform hit, miss, and cache-path counts; per-call cost distribution; ready-call width over time; queue-free ordinary service; Node main-thread CPU; Rust and native CPU where observable; RSS over time; garbage collection; source and source-map bytes; warnings; errors; output; and shutdown.
+- Establish repeated absolute wall time and environmental variance before any worker change. The intended result is expressed as minutes, not only a ratio.
+- Prove that the expensive time is synchronous JavaScript on the critical path and that the machine has CPU capacity workers can use.
+
+### Phase C: worker execution and placement
+
+- Compare ordinary execution, one-worker isolation, the Rolldown-managed shared group, and an explicitly exclusive group containing one or several workers.
+- Use one global CPU and memory budget across shared groups, exclusive groups, Rolldown Rust work, and native compiler stages.
+- Record sustained per-worker service, ready width, utilization, task assignment, per-plugin queueing, long-task imbalance, CPU, RSS, garbage collection, and complete-build wall time for each worker count and placement.
+- When several high-frequency transforms exist, first measure ordinary separate hook crossings; compare same-worker placement and a combined worker-side ordered pipeline only if boundary conversion is material.
+- Keep the primary 2x comparison separate from a companion multi-plugin case when the accepted production workload contains only one target plugin.
+
+### Phase D: one-at-a-time sustained optimization
+
+- Change only a measured dominant cost: worker placement, worker count, load balance, long-lived compiler or cache memory, per-call conversion, several-plugin pipeline execution, or cache ownership.
+- Treat fresh worker startup as secondary for the 15–30 minute target unless the production trace contradicts the measured sub-0.05% bound.
+- Repeat the same pinned ordinary, shared, and exclusive cases after every change. Stop changes whose expected complete-build benefit is smaller than their implementation and maintenance cost.
+
+### Phase E: semantic and failure closure
+
+- Prove exact code, source-map, output-shape, plugin-order, warning, error, metadata, state, cache-determinism, cancellation, and shutdown behavior.
+- Inject worker exit, crash, synchronous throw, rejected task, and unresponsive task conditions with queued and in-flight work in shared and exclusive groups.
+- Define retry only for behaviorally pure tasks; otherwise fail with ordinary-equivalent attribution and no partial state or leaked capacity.
+- Finish with an updated investment verdict that either demonstrates repeated 30→15 or 15→7–8 minute behavior or names the measured reason the target is not achievable.
 
 ## Parallel defect track
 
