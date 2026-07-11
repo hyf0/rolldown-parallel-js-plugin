@@ -1,6 +1,6 @@
 # Production Candidate Screening
 
-Status: active. The search universe and three-candidate order were frozen in commit `dc89184` before any candidate clone, installation, build, adaptation, or timing. Candidates 1 and 2 failed their first admission rule on pinned source evidence; candidate 3 is next. This is a bounded corpus screen, not a ParallelPlugin value verdict.
+Status: complete. The search universe and three-candidate order were frozen in commit `dc89184` before any candidate clone, installation, build, adaptation, or timing. All three selected candidates failed their first admission rule on pinned source evidence. This is an inconclusive corpus result, not a ParallelPlugin value verdict.
 
 ## Screening protocol
 
@@ -74,8 +74,41 @@ Rule 1 requires an unmodified ordinary production build that uses Rolldown direc
 | 7. Relevant time is synchronous JavaScript rather than asynchronous I/O or native work | Not evaluated | No stage attribution was run; the active bundler is native esbuild. |
 | 8. Source, behavior, diagnostics, maps, and environment are reviewable | Not evaluated | Later rule after the decisive failure. |
 
-## Remaining order
+## Candidate 3: Elastic Kibana
 
-1. Elastic Kibana at `60605e8006b0ffe337f5e5673ccdea4a28eafc5a`.
+Disposition: rejected on 2026-07-12 at admission rule 1. No dependency installation, local build, adaptation, or local timing was performed.
 
-No candidate is admitted, and no implementation work is authorized by the evidence so far.
+### Pin and public evidence
+
+- Project: [`elastic/kibana@60605e8006b0ffe337f5e5673ccdea4a28eafc5a`](https://github.com/elastic/kibana/tree/60605e8006b0ffe337f5e5673ccdea4a28eafc5a), tri-licensed by file headers under Elastic License 2.0, GNU AGPLv3, or Server Side Public License v1 where applicable.
+- The truncated discovery tree already contained 32,416 non-declaration JavaScript and TypeScript paths. This remains a physical lower bound only; exact target-handler hits were not evaluated after rule 1 failed.
+- The root [`build` script and engines](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/package.json#L40-L77) pin Node.js `24.18.0` and invoke `node scripts/build --all-platforms`. Thus the Node patch matches this goal, but the production bundler does not.
+
+### First failed rule
+
+Rule 1 requires an unmodified ordinary production build that uses Rolldown directly on the pinned Node.js release and lasts 15–30 minutes. Direct Rolldown fails before duration needs evaluation:
+
+- The distributable builder chooses between a legacy optimizer and an opt-in Rspack transition. Without `KBN_USE_RSPACK`, it runs [`BuildKibanaPlatformPlugins`](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/src/dev/build/build_distributables.ts#L80-L100); with that environment variable, it runs `BuildRspackBundles`. The pinned Buildkite production step sets the Rspack variable only for a specifically labeled transition build and otherwise records the build type as legacy. [Pinned CI selection](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/.buildkite/scripts/steps/build_kibana.sh#L11-L40).
+- The default task imports and calls [`runOptimizer` from `@kbn/optimizer`](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/src/dev/build/tasks/build_kibana_platform_plugins.ts#L10-L43). That optimizer's production config imports webpack, constructs a webpack configuration per bundle, and applies [`babel-loader` to JavaScript and TypeScript](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/packages/kbn-optimizer/src/worker/webpack.config.ts#L10-L45) with the [Babel rule](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/packages/kbn-optimizer/src/worker/webpack.config.ts#L245-L256).
+- The optional transition path invokes Rspack, not Rolldown. The separately discovered [`kbn-babel-transform` synchronous Babel helper](https://github.com/elastic/kibana/blob/60605e8006b0ffe337f5e5673ccdea4a28eafc5a/src/platform/packages/private/kbn-babel-transform/sync_transform.js#L10-L37) is real, but the optimizer does not import that helper; its production transform path calls `babel-loader` directly. Neither path makes the webpack/Rspack production unit a direct-Rolldown build.
+
+Porting the optimizer and its bundle orchestration to Rolldown could be a future migration project, but it would replace the production build system before measuring ParallelPlugin. That is outside this admission gate and cannot be used as the unmodified ordinary baseline.
+
+### Admission ledger
+
+| Admission rule | Result | Evidence or reason |
+| --- | --- | --- |
+| 1. Direct Rolldown on pinned Node.js and stable 15–30 minute ordinary baseline | **Fail** | Node.js is exactly 24.18.0, but the default production optimizer is webpack and the opt-in transition is Rspack; neither uses Rolldown directly. Duration was not evaluated after this decisive failure. |
+| 2. One real project with original relationships and production plugin configuration | Not evaluated | Screening stopped at rule 1. |
+| 3. Required expensive JavaScript plugin or transform chain | Not evaluated | Babel is present in the optimizer, but retained-JavaScript ownership was not admitted. |
+| 4. Roughly 5,000 distinct project module IDs at the expensive handler boundary | Not evaluated | The 32,416-path discovery count is a truncated-tree physical lower bound; no handler-boundary instrumentation was run. |
+| 5. Critical-path share can mathematically reach a 2x complete-build result | Not evaluated | No ordinary wall baseline, blocking timeline, or replay bound was run. |
+| 6. Sustained ready transform width | Not evaluated | No timeline was run. |
+| 7. Relevant time is synchronous JavaScript rather than asynchronous I/O or native work | Not evaluated | No stage attribution was run. |
+| 8. Source, behavior, diagnostics, maps, and environment are reviewable | Not evaluated | Later rule after the decisive failure. |
+
+## Bounded screening result
+
+No selected candidate uses Rolldown directly in its unmodified production build. Cloudflare Docs uses Astro/Vite/Rollup, Gutenberg uses a multi-stage esbuild workflow, and Kibana uses webpack by default with an opt-in Rspack transition. All later rules are not evaluated for all candidates, no candidate is admitted, and no implementation, adaptation, ordinary timing, or parallel matrix follows from this corpus.
+
+The terminal result is `inconclusive corpus`: the predeclared public search universe did not supply the workload required to answer the production-scale ParallelPlugin value question. It does not show that ParallelPlugin lacks value, and the mechanism-scale evidence remains unchanged.

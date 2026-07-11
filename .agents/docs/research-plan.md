@@ -69,7 +69,7 @@ Status: complete. The [isolated Svelte result](../../experiments/svelte-transfor
 
 ## Active production-scale iteration: required high-frequency JavaScript transform
 
-Status: Phase A active. The finite [candidate-search manifest](./production-candidate-search.md) is frozen with Cloudflare Docs, Gutenberg, and Kibana as the only deep-screen candidates. Cloudflare Docs and Gutenberg failed rule 1 because their production builds are Astro/Vite/Rollup and a multi-stage esbuild workflow rather than direct Rolldown; the [admission ledger](./production-candidate-screening.md) marks every later rule not evaluated, and Kibana is next. Implementation and parallel matrices remain unstarted and gated on admission. Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
+Status: Phase A complete with an inconclusive corpus result. The finite [candidate-search manifest](./production-candidate-search.md) is frozen with Cloudflare Docs, Gutenberg, and Kibana as the only deep-screen candidates. All three failed rule 1 because their production builds are Astro/Vite/Rollup, a multi-stage esbuild workflow, and webpack or Rspack rather than direct Rolldown. The [admission ledger](./production-candidate-screening.md) marks every later rule not evaluated. Phases B through F did not start because no candidate was admitted. Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
 
 ### Phase A: candidate admission
 
