@@ -4,16 +4,24 @@ This is a live research sequence, not an implementation commitment. Replace it a
 
 ## Phase 0: framing and evidence baseline
 
-- Verify the current implementation and history, including whether the worker lifecycle works on supported Node.js versions.
+- Verify the current implementation and history from pinned source, and separate source-proven behavior from historical runtime reports that still need reproduction.
 - Record which hooks, plugin context methods, metadata paths, options, and output plugins are supported rather than assuming the ordinary plugin contract carries over.
 - Establish `resolveId`, `load`, and `transform` as separate performance workloads, with their own call counts, hit or miss distributions, state dependencies, and correctness checks.
 - Start a technical defect inventory covering known current failures and defects discovered by source audit or reproduction; do not hide defects inside benchmark notes.
 - Audit the old prototype and the unmerged native-bridge benchmark branch, preserving useful measurements while marking the claims they cannot support.
+- Inspect the current Vue and Svelte plugins, map their hook and state edges, and identify candidate projects without selecting fixtures before profiling.
+- Treat Vue and Svelte's cheap `resolveId` and ordinary `load` paths as valid overhead controls. If source and baseline profiles confirm that they contain no useful positive workload, select an additional real resolver or loader case instead of adding artificial work to these plugins.
+- Present the tradeoffs and a provisional recommendation for using Vite's Rolldown-powered production build for real-plugin evidence while using Rolldown directly for runtime overhead experiments.
+- Present whole-plugin replication, a coordinator plus worker kernel, and a comparison of both as alternative real-plugin targets; make the selection at the framing review.
 - Review this goal and architecture framing with Yunfei before writing a harness or adapter.
 
-## Phase 1: current cost surface
+Phase 0 is source and design research only. Do not restore the prototype, write a harness, or run performance experiments before the review gate.
 
-- Reproduce the current implementation on pinned Rolldown and Node.js revisions before changing it.
+## Phase 1: runtime viability and current cost surface
+
+- Reproduce the weak-callback failure and the separate worker-event-loop lifetime failure on pinned Rolldown revisions across the supported Node 20, 22, and 24 lines before choosing a restoration path.
+- Use the smallest explicit lifecycle workaround only to make research possible; do not treat a keepalive timer or a successful first callback as a production lifecycle design.
+- Establish behavior fixtures for hook order, missing hooks, plugin-context methods, metadata, diagnostics, repeated builds, shutdown, and worker failure before trusting timing results.
 - Measure startup separately from steady state across worker counts, module counts, hook durations, payload sizes, and one or several parallel plugins.
 - For `resolveId`, vary call volume, hit position in the ordered plugin chain, filesystem or package-resolution work, recursive `this.resolve`, and cache warmth.
 - For `load`, vary virtual versus filesystem-backed modules, synchronous JavaScript CPU or I/O work, async I/O, returned payload size, watch dependencies, and cache warmth.
@@ -21,6 +29,7 @@ This is a live research sequence, not an implementation commitment. Replace it a
 - Include one-worker mode to isolate off-main-thread value from multi-worker throughput.
 - Capture queue wait, service time, total wall time, Node.js event-loop availability, CPU, and peak memory.
 - Check whether Rust worker pools and Node.js workers compete for the same cores and whether fewer workers outperform the current cap.
+- Keep four lifecycle measurements separate: a fresh process and first build, another build with warm operating-system caches but newly created workers, a watch rebuild that reuses workers, and any custom reused-worker harness.
 
 ## Phase 2: pure JavaScript compiler bounds
 
@@ -34,15 +43,18 @@ This is a live research sequence, not an implementation commitment. Replace it a
 - Keep configuration, preprocessing integrations, HMR, and global coordination on the main side unless evidence shows they can move safely.
 - Define how compiled CSS metadata, diagnostics, dependencies, and dynamic compile options cross the boundary.
 - Adapt Vue next to test descriptor ownership, virtual submodule loads, plugin context use, and module-affine scheduling.
+- Measure and document the plugin changes required by each adaptation, including duplicated logic, new state ownership, serialization rules, behavior fixtures, and maintenance obligations.
 - Add behavior fixtures before performance comparisons, including compiler errors, source maps, CSS, SSR or client mode, custom preprocessors, and repeated builds where applicable.
 - Add targeted `resolveId` and `load` fixtures from the adapted plugins instead of assuming their cost is negligible beside compilation.
+- Keep a real resolver or loader case separate if Vue and Svelte only provide negative controls, so a negative framework-plugin result is not generalized to every `resolveId` or `load` workload.
 
 ## Phase 4: real application builds
 
 - Select projects only after a baseline profile shows that the target plugin consumes a material share of the build; popularity alone is not a selection criterion.
 - Prefer pinned projects with many independently compilable SFCs, reproducible installs, successful Rolldown-powered builds, and outputs that can be compared.
+- Include at least one project that represents a normal application shape; a generated flat import list may locate a crossover but cannot be the real-project result.
 - Compare the ordinary plugin, one-worker isolation, and several worker counts on the same build.
-- Report cold build, warm reused-worker build, plugin share, end-to-end speedup, main-thread availability, CPU, memory, and correctness together.
+- Report fresh-process build, repeated build with current worker recreation, watch or explicit reused-worker build, plugin share, end-to-end speedup, main-thread availability, CPU, memory, and correctness together.
 - Attribute improvements by hook so a total speedup cannot be incorrectly assigned to `transform` when resolution or loading changed.
 - If no representative project has enough plugin cost to expose headroom, record that as a limit on the feature's practical value.
 
@@ -59,3 +71,4 @@ This is a live research sequence, not an implementation commitment. Replace it a
 - Test worker startup and shutdown, build failure, cancellation, repeated `generate` or `write`, watch rebuild, worker crash, plugin initialization failure, nested `this.resolve` or `this.load`, and several parallel plugins sharing the pool.
 - Compare outputs, diagnostics, hook order, and plugin-visible state across worker counts and repeated runs to catch races and worker-dependent behavior.
 - Treat defects caused by the plugin-authoring contract separately from defects in Rolldown's runtime so the recommended fix lands at the right boundary.
+- Require source-inferred deadlocks and lifecycle failures to gain a minimal reproduction before they are called observed defects; preserve the source reasoning if reproduction disproves or narrows it.
