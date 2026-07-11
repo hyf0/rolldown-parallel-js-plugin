@@ -19,6 +19,7 @@ One worker is useful when the goal is keeping the host process responsive or all
 - The controlled one-millisecond transform becomes about 9.9% slower in wall time, from 3968 ms to 4362 ms, while maximum event-loop delay falls from 1025 ms to 2.44 ms and output remains identical.
 - The 166-SFC Vue case reaches only 0.83x paired build speed with one worker, while maximum event-loop delay falls from 183 ms to 4.59 ms.
 - The 1,340-SFC Svelte case reaches 0.90x paired build speed with one worker, while maximum event-loop delay falls from 1108 ms to 2.91 ms.
+- The graph-preserving 425-module Svelte subgraph reaches 0.86x paired build speed with one worker, while median per-run maximum event-loop delay falls from 315 ms to 9.72 ms.
 
 This value matters only when another main-thread activity exists to use the released time. A command-line build with no concurrent JavaScript consumer may prefer ordinary execution when wall time is the only objective.
 
@@ -48,6 +49,7 @@ The controlled case establishes the mechanism, while Vue and Svelte show opposit
 | Vue, 166 real SFCs | 316 ms | worker-2, 362 ms | 0.91x | all counts lose; worker-8 reaches about 2244 ms user CPU and 462 MiB RSS; output matches but errors degrade |
 | Isolated Svelte fan-out, 24 real SFC sources | 213 ms | worker-2, 232 ms | 0.90x | every tested count loses |
 | Isolated Svelte fan-out, 1,340 real SFC sources | 2054 ms | worker-4, 1509 ms | 1.36x | user CPU rises from 3008 ms to 5689 ms and RSS from 748 MiB to 983 MiB; code and maps match but warnings and errors do not |
+| Graph-preserving shadcn-svelte registry subgraph, 425 local modules and 354 matching transforms | 596 ms | worker-4, 541 ms | 1.117x | all 15 pairs win, but user CPU rises from 913 ms to 2591 ms and RSS from 307 MiB to 666 MiB; worker-8 loses; code and maps match but errors degrade |
 
 ### Why Vue loses
 
@@ -57,7 +59,9 @@ All 166 transforms are ready together, so graph width is not the limit. The corp
 
 The isolated Svelte case uses a much narrower module-local compiler kernel and 1,340 real component sources with about 1.84 seconds of aggregate ordinary handler work. A synthetic fan-out entry makes every SFC a root, maximum outstanding wrappers reaches 1,340, and active handler count reaches every configured worker. Four workers amortize their compiler imports and pool startup. Beyond four, per-call compilation slows from 2.32 ms at four workers to 4.79 ms at eight and 6.75 ms at twelve, while CPU and memory continue growing. The 24-component negative control and the 256-component near-crossover show that the positive full result comes from scale and task cost, not the framework name.
 
-This is not a complete official Svelte-plugin or representative-project result. Every import reached from inside an SFC is externalized, and the case excludes preprocessing, dynamic options, virtual CSS, cross-hook metadata, SvelteKit, and Vite. It proves an upper bound for the prepared compiler-kernel boundary. A graph-preserving shadcn registry UI subgraph is required before the final Svelte project conclusion.
+The graph-preserving case closes that evidence gap without manufacturing width. It passes 56 real shadcn-svelte registry barrels directly to Rolldown and follows every reached project-local edge across 425 modules, including 350 component compiles and four TypeScript rune-module adaptations. Four workers reduce median wall from 596.4 ms to 540.8 ms, win all 15 paired rounds at a 1.117x paired median, and reduce median per-run maximum event-loop delay from 314.6 ms to 9.9 ms. The gain costs 2.84x user CPU and 2.17x peak RSS, while eight workers lose because compiler and TypeScript import, duplicated memory, and per-call contention outrun the extra slots.
+
+Together the cases establish a ceiling and a realistic subgraph result. The isolated 1.36x does not survive unchanged on the smaller real graph, but the graph still shows a repeatable complete-fixture wall reduction. Neither is a complete official Svelte plugin or application: preprocessing, dynamic options, virtual CSS, cross-hook metadata, SvelteKit, and Vite are excluded, and error or warning parity still fails. [Isolated result](../experiments/svelte-transform/2026-07-11-svelte-results.md), [graph-preserving result](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md)
 
 ## `resolveId` conclusion
 
@@ -85,10 +89,10 @@ The measured costs are additive in mechanism but overlap on the critical path, s
 | --- | --- | --- |
 | Fresh pool and minimal plugin | Near-empty build adds about 47–50 ms for one to four workers, 65 ms for eight, and 98 ms for twelve | Small or low-hit plugins should not eagerly create a large pool |
 | Minimal worker memory | About 12 MiB RSS per worker before a real compiler | Worker count must be a resource decision, not only a latency decision |
-| Implementation import and JIT | Vue imports roughly 72–118 ms per worker; Svelte imports roughly 120–386 ms per worker as contention rises | A thin hook wrapper is insufficient if its transitive implementation remains heavy |
-| Replicated compiler and caches | Vue peak RSS rises to 462 MiB at eight workers; Svelte reaches 1341 MiB at eight and 1800 MiB at twelve | Whole-plugin replication can make memory the limiting resource |
+| Implementation import and JIT | Vue imports roughly 72–118 ms per worker; isolated Svelte imports roughly 120–386 ms; graph Svelte imports roughly 206 ms at one worker and 333 ms per worker at eight | A thin hook wrapper is insufficient if its transitive implementation remains heavy |
+| Replicated compiler and caches | Vue peak RSS rises to 462 MiB at eight workers; isolated Svelte reaches 1341 MiB at eight and 1800 MiB at twelve; graph Svelte reaches 1076 MiB at eight | Whole-plugin replication can make memory the limiting resource |
 | Permit queue and selection | Hundreds of calls can be outstanding; native filter misses still acquire permits | Evaluate known filters before pool scheduling and do not sum concurrent waits as wall time |
-| Hook service under contention | Svelte handler time rises from 1.37 ms ordinary to 6.75 ms at twelve workers | More slots can reduce throughput when each call slows enough |
+| Hook service under contention | Isolated Svelte handler time rises from 1.37 ms ordinary to 6.75 ms at twelve workers; graph Svelte component service rises from 0.80 ms ordinary to 3.24 ms at eight | More slots can reduce throughput when each call slows enough |
 | Node-API conversion and result processing | Large source and result payloads increase permit-held time, but measured intervals also include handler and scheduling | Reduce payload only after attribution; current data is not a pure serialization benchmark |
 | Rust and native-addon contention | Vue's native Oxc tail and Rolldown share CPU with workers | A JavaScript plugin that calls native code is not automatically a good worker target |
 | State and diagnostic repair | Metadata, logs, errors, lifecycle, affinity, and reduction need extra communication | Correctness work is part of the architecture cost, not a benchmark afterthought |
@@ -149,6 +153,6 @@ Do not label a complete Vue, Svelte, or other ecosystem plugin parallel-safe mer
 
 ## Evidence and reproducibility
 
-The primary evidence is the [controlled transform report](../experiments/core-transform/2026-07-11-controlled-release.md), [Vue report](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [isolated Svelte report](../experiments/svelte-transform/2026-07-11-svelte-results.md), and [controlled `resolveId` and `load` report](../experiments/resolve-load/2026-07-11/README.md). Their raw reports retain Node.js version, host, source revisions, native binding hashes, corpus manifests or generated-case definitions, worker counts, fresh-process samples, CPU, peak RSS, output hashes, and timing boundaries. Executable fixtures live on the pushed Rolldown research branches named by each report.
+The primary evidence is the [controlled transform report](../experiments/core-transform/2026-07-11-controlled-release.md), [Vue report](../experiments/vue-transform/2026-07-11-vue-icon-results.md), [isolated Svelte report](../experiments/svelte-transform/2026-07-11-svelte-results.md), [graph-preserving Svelte report](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md), and [controlled `resolveId` and `load` report](../experiments/resolve-load/2026-07-11/README.md). Their raw reports retain Node.js version, host, source revisions, native binding and generated-distribution hashes where available, corpus manifests or generated-case definitions, worker counts, fresh-process samples, CPU, peak RSS, output hashes, and timing boundaries. Executable fixtures live on the pushed Rolldown research branches named by each report.
 
 The conclusions are specific to an Apple M3 Pro with 12 logical CPUs and 36 GiB memory, Node.js 24.18.0, the pinned Rolldown research repairs, direct production builds, and the recorded corpora. Exact crossover points and best worker counts must not be generalized beyond those conditions.

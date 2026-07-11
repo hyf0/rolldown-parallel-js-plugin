@@ -33,7 +33,7 @@ The research must not collapse distinct designs into one "parallel" number:
 4. An adapted plugin can keep a main-thread coordinator and move only an explicit worker kernel. This is a later comparison only when the current whole-plugin path exposes a measured state or authoring limit.
 5. Native or built-in execution is an alternative architecture and a possible performance bound. It must remain a separate result because it does not measure pure JavaScript plugin parallelization.
 
-The immediate comparison stops at models one through three. The research must first establish what the retained ParallelPlugin itself does before designing a more general replacement.
+The controlled runtime comparison establishes models one through three. The Vue and Svelte adaptations then use model four as a measured research boundary without proposing a public API, because whole-plugin replication is not behavior-complete for either ecosystem plugin.
 
 ## Later adaptation options
 
@@ -56,7 +56,9 @@ The measured 166-SFC result shows why a hook shell is not a worker kernel: all t
 
 The isolated Svelte comparison supplies the positive real-compiler-kernel case that Vue did not. The same direct-Rolldown architecture loses for 24 components, crosses into a small gain at 256 components, and reaches a 1.36x paired median speedup at four workers for 1,340 independent real SFC sources. Four workers also use about 89% more user CPU and 235 MiB more peak RSS; eight and twelve add resources while reducing the wall benefit. This establishes that framework identity and file count are not sufficient selectors: total compiler work, ready width, import and JIT cost, payload, and contention determine the result.
 
-The narrowed Svelte kernel is intentionally more parallel-friendly than a complete integration. It excludes preprocessing, dynamic callbacks, virtual CSS, and cross-hook metadata, and the corpus uses a wide synthetic entry with every SFC dependency externalized. Exact code and map parity passes, while warning and error parity fails. It is an upper-bound prepared-kernel result, not representative-project evidence. A separate graph-preserving shadcn registry UI subgraph is required before the Svelte phase is complete; a production integration still needs a coordinator/kernel split that returns structured diagnostics and module metadata explicitly.
+The narrowed Svelte kernel is intentionally more parallel-friendly than a complete integration. It excludes preprocessing, dynamic callbacks, virtual CSS, and cross-hook metadata, and the corpus uses a wide synthetic entry with every SFC dependency externalized. Exact code and map parity passes, while warning and error parity fails. It is an upper-bound prepared-kernel result rather than representative-project evidence.
+
+The completed graph-preserving Svelte case follows 425 project-local modules from 56 real shadcn-svelte registry barrels and keeps only explicit package boundaries external. Four workers reduce median wall from 596.4 ms to 540.8 ms with a 1.117x paired median speedup and 15 of 15 paired wins, but user CPU grows 2.84x and peak RSS 2.17x; eight workers lose. Median per-run maximum event-loop delay falls from 314.6 ms to 9.9 ms. This is representative project-subgraph evidence, not a full application or official-plugin result, and it still requires a coordinator/kernel split that returns structured diagnostics and module metadata explicitly. [Graph-preserving Svelte result](../../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md)
 
 ## Evidence levels
 
@@ -64,9 +66,9 @@ Each level answers a different question and must not be promoted into a stronger
 
 1. The unchanged existing example or test establishes whether the retained path can execute at all on the latest Node.js LTS release.
 2. A controlled direct-Rolldown transform fixture measures startup, dispatch, payload, scheduling, isolation, and crossover without claiming real-plugin value.
-3. A direct-Rolldown Vue transform measures whether compiler initialization, source maps, diagnostics, and realistic SFC work survive the execution model.
-4. A pinned direct-Rolldown application graph measures end-to-end build value, including Rust work, output generation, and contention.
-5. The direct-Rolldown Svelte case supplies a larger real-compiler comparison after Vue; separate `resolveId` and `load` evidence then completes the hook-specific conclusions.
+3. A direct-Rolldown Vue transform measures compiler initialization, diagnostics, output bytes, and realistic SFC work under the execution model; it disables source maps and makes no map claim.
+4. A pinned direct-Rolldown project graph measures complete fixture-build value, including Rust work, output generation, and contention; the shadcn-svelte registry subgraph supplies this level without claiming a full application.
+5. Separate direct-Rolldown `resolveId` and `load` fixtures establish hook-specific CPU, async, graph-shape, payload, state, and reentrancy conclusions without manufacturing a real-plugin win.
 
 Technical quality is an equal evidence axis at every level. A faster variant is not viable if it changes output or source maps, loses metadata, changes diagnostics, leaks workers, deadlocks, or produces worker-count-dependent results.
 

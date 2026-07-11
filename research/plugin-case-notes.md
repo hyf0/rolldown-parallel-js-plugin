@@ -1,6 +1,6 @@
 # Vue and Svelte Plugin Case Notes
 
-Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope no longer runs Vite: the second case uses a transform-only adapter around `unplugin-vue/rolldown`. Most SFC compilation is in the official JavaScript compiler, while the TypeScript tail synchronously invokes Vite's native Oxc transform. Svelte is a required later transform case after Vue.
+Snapshot date: 2026-07-11. These notes retain the earlier official Vite-plugin source audit as background. The confirmed experiment scope does not run Vite: the Vue case uses a transform-only adapter around `unplugin-vue/rolldown`, while the two completed Svelte cases use a prepared compiler kernel under direct Rolldown. Most Vue SFC compilation is in the official JavaScript compiler, while its TypeScript tail synchronously invokes the released native Oxc transform.
 
 ## Archived integration finding
 
@@ -135,6 +135,8 @@ For `N` normal Svelte component transforms, `P` preprocessed transforms, `S` uni
 Keep configuration, preprocessing, dynamic option evaluation, warning policy, virtual-CSS resolve/load, custom loading, HMR/watch state, optimizer and inspector behavior, and plugin API on the coordinator. Move a prepared `svelte.compile` task that receives plain code, ID, environment, scalar options, and combined input map, then returns plain JavaScript, CSS, maps, dependencies, metadata, and normalized diagnostics.
 
 The isolated direct-Rolldown case tests this prepared compiler boundary with 1,340 pinned real component sources and no Vite runtime. Four workers reach a 1.36x paired median speedup, while 24 components lose at every tested count and worker-8 and worker-12 are worse than worker-4. Exact code and source-map parity passes. Diagnostic parity does not: worker warnings disappear, and compile errors lose plugin, hook, complete module path, and ordinary error structure. The synthetic entry makes every SFC a root and externalizes all SFC dependencies, so this is an upper bound rather than a project-graph result. The corpus has no styles, so virtual-CSS metadata remains an explicit untested integration blocker rather than being hidden behind the positive transform number. [Formal result](../experiments/svelte-transform/2026-07-11-svelte-results.md)
+
+The graph-preserving direct-Rolldown case uses the same upstream commit and passes 56 real registry UI barrels directly to Rolldown. Its external policy keeps relative, absolute, and `$lib` IDs internal, unresolved aliases throw, and every formal run matches the exact 425-module local graph, including 350 component compiles and four TypeScript rune-module adaptations. Four workers win all 15 paired rounds at a 1.117x paired median speedup, while using 2.84x ordinary user CPU and 2.17x peak RSS; worker-8 loses. Exact graph, code, maps, output shape, and empty logs match, but an invalid-component error still loses the plugin label, full path, and ordinary formatting. This is representative project-subgraph evidence, not a full official plugin or application build. [Formal graph result](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md)
 
 ### Archived Vite candidate builds and fixtures
 

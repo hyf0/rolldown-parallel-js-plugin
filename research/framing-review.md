@@ -44,13 +44,13 @@ Direction confirmed by Yunfei on 2026-07-11. This record replaces the earlier pr
 - Vue compiler initialization and duplicated compiler state can move the crossover upward. A correct negative Vue result is evidence against broad product investment.
 - Whole-plugin replication may be sufficient for stateless transform kernels. Coordinator, affinity, or shared-state designs should be introduced only when the current path or Vue case proves why they are necessary.
 
-## Experiment sequence and status
+## Experiment sequence and final status
 
 1. Completed: isolated worktree, pinned environment, build, unchanged no-op failure, byte-identical no-op and Babel controls, failure fixtures, two minimal runtime repairs, and explicit worker-count control.
-2. Active: build the controlled transform crossover matrix and add the instrumentation required to explain it.
-3. Next: implement the pinned `unplugin-vue/rolldown` transform case on the 166-SFC `cabinet-fe/icon` corpus.
-4. Then optimize the dominant measured cost and repeat the same cases.
-5. Complete the direct-Rolldown Svelte transform case, then the separate `resolveId` and `load` evidence required for the final hook-specific conclusions.
+2. Completed: the release controlled transform matrix and instrumentation establish fixed cost, crossover, graph shape, payload, CPU, RSS, and main-loop behavior. [Controlled result](../experiments/core-transform/2026-07-11-controlled-release.md)
+3. Completed: the pinned `unplugin-vue/rolldown` transform case over 166 `cabinet-fe/icon` SFCs is negative at every worker count and attributes the result to import, initialization, per-call contention, CPU, and memory rather than graph width. [Vue result](../experiments/vue-transform/2026-07-11-vue-icon-results.md)
+4. Completed: the measured optimization ranking favors explicit worker count, pre-permit filtering, a coordinator/kernel boundary, and lazy placement before batching or broad whole-plugin support. [Verdict](./verdict.md#optimization-priorities)
+5. Completed: isolated and graph-preserving Svelte cases bound the compiler-kernel value, and separate `resolveId` and `load` runs establish the remaining hook-specific conclusions. [Svelte graph result](../experiments/svelte-transform/2026-07-11-svelte-registry-graph-results.md), [hook result](../experiments/resolve-load/2026-07-11/README.md)
 
 ## Evidence rules
 

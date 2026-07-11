@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "timestamp": "2026-07-11T16:27:57.370Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "nodeArtifact": {
+    "bytes": 120965360,
+    "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+  },
+  "rolldownCommit": "1074399c2e3b0858388e5a7dee586388c76c82f6",
+  "rolldownWorktreeStatus": "",
+  "nativeBinding": {
+    "path": "packages/rolldown/src/rolldown-binding.darwin-arm64.node",
+    "bytes": 16311136,
+    "sha256": "d5dfc108c1267f08555dd4652f785bca40ad053fc573996bf1799ee714dddee1",
+    "sourceCommit": "54fd0e24112505443044a4bba5c41d1f4d9ba2aa"
+  },
+  "rolldownDistribution": {
+    "directory": "packages/rolldown/dist",
+    "files": 46,
+    "bytes": 17095127,
+    "aggregateSha256": "a32bf0f04334178874504f1b7bae36e86cbaba465d9d915768214d03ca6d2342"
+  },
+  "graphWarnings": {
+    "ordinary": [],
+    "worker": [],
+    "sameLogs": true,
+    "outputCodeHash": "b7a593e16e164ff622b1410de0d9ad386a10dbc4649292e06ba852edf0072078",
+    "outputMapHash": "69b9b4dfc3e750e395ad99e56e14d986df793300425e3c2e731cf757fb784d00"
+  },
+  "invalidReachedSvelte": {
+    "ordinary": {
+      "variant": "ordinary",
+      "success": false,
+      "logs": [],
+      "error": {
+        "name": "Error",
+        "message": "Build failed with 1 error:\n\n[plugin svelte-registry-graph-transform] <graph-error-fixture>/docs/src/lib/registry/ui/broken/broken.svelte\nCompileError: Unexpected block closing tag\nhttps://svelte.dev/e/block_unexpected_close\n1: {#if true}<p>broken{/each}\n                       ^\n2: ",
+        "stack": "Error: Build failed with 1 error:\n\n[plugin svelte-registry-graph-transform] <graph-error-fixture>/docs/src/lib/registry/ui/broken/broken.svelte\nCompileError: Unexpected block closing tag\nhttps://svelte.dev/e/block_unexpected_close\n1: {#if true}<p>broken{/each}\n                       ^\n2: \n    at aggregateBindingErrorsIntoJsError (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/error-Cjd7ARLK.mjs:48:18)\n    at unwrapBindingResult (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/error-Cjd7ARLK.mjs:18:128)\n    at #build (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/rolldown-build-B8eE09ux.mjs:3370:34)\n    at async file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/examples/par-plugin/cases/svelte-registry-graph/run-error-case.mjs:70:3"
+      },
+      "telemetry": {
+        "aliasRequests": 0,
+        "aliasResolutions": 0,
+        "nodeNextResolutions": 0,
+        "relativeNodeNextRequests": 0,
+        "relativeNodeNextResolutions": 0
+      }
+    },
+    "worker": {
+      "variant": "worker-2",
+      "success": false,
+      "logs": [],
+      "error": {
+        "name": "Error",
+        "message": "Build failed with 1 error:\n\nError: block_unexpected_close: Unexpected block closing tag\nhttps://svelte.dev/e/block_unexpected_close\ndocs/src/lib/registry/ui/broken/broken.svelte:1:20\n1: {#if true}<p>broken{/each}\n                       ^\n2: \n",
+        "stack": "Error: Build failed with 1 error:\n\nError: block_unexpected_close: Unexpected block closing tag\nhttps://svelte.dev/e/block_unexpected_close\ndocs/src/lib/registry/ui/broken/broken.svelte:1:20\n1: {#if true}<p>broken{/each}\n                       ^\n2: \n\n    at aggregateBindingErrorsIntoJsError (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/error-Cjd7ARLK.mjs:48:18)\n    at unwrapBindingResult (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/error-Cjd7ARLK.mjs:18:128)\n    at #build (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-svelte-case/packages/rolldown/dist/shared/rolldown-build-B8eE09ux.mjs:3370:34)"
+      },
+      "telemetry": {
+        "aliasRequests": 0,
+        "aliasResolutions": 0,
+        "nodeNextResolutions": 0,
+        "relativeNodeNextRequests": 0,
+        "relativeNodeNextResolutions": 0
+      }
+    },
+    "sameError": false
+  }
+}

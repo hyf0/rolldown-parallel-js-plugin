@@ -6,7 +6,7 @@ Snapshot: 2026-07-11. This document describes what a JavaScript plugin must do t
 
 Rolldown does not split one hook call across workers. Concurrent Rust module tasks invoke independent hook calls; each call acquires one worker permit and runs the complete hook on one plugin instance in that worker's V8 isolate. A plugin gains throughput only when several calls are ready together and each call contains enough synchronous work to repay pool startup, implementation import, scheduling, Node-API conversion, return conversion, extra CPU, and memory.
 
-One worker is a separate mode with a separate value: it moves synchronous JavaScript off the main Node.js event loop but cannot add hook throughput. The release synthetic, Vue, and Svelte results all show large main-loop responsiveness improvements even when one-worker total build wall time regresses.
+One worker is a separate mode with a separate value: it moves synchronous JavaScript off the main Node.js event loop but cannot add hook throughput. The release synthetic, Vue, isolated Svelte, and graph-preserving Svelte results all show large main-loop responsiveness improvements even when one-worker total build wall time regresses.
 
 ## Required worker entry
 
@@ -52,7 +52,7 @@ The strongest current candidate is a module-local synchronous kernel:
 - It does not move already-asynchronous work into an exclusive permit merely to call it parallel. An ordinary event loop can overlap many pending Promises in one plugin instance; the current worker pool caps them at its worker count.
 - It treats cancellation and worker exit as explicit failures and can be retried only when the hook is pure and duplicate side effects are impossible.
 
-The controlled transform kernel satisfies this model. The narrowed Vue whole-SFC adapter satisfies output determinism for its style-free, virtual-module-free corpus, but still loses ordinary compiler-error structure and imports too much code per worker. The Svelte kernel tests the same model with a larger real compiler corpus and separately records warning and error incompatibility.
+The controlled transform kernel satisfies this model. The narrowed Vue whole-SFC adapter satisfies output determinism for its style-free, virtual-module-free corpus, but still loses ordinary compiler-error structure and imports too much code per worker. The isolated Svelte kernel tests the same model with a larger real compiler corpus and separately records warning and error incompatibility. The graph-preserving Svelte case shows that the kernel can still shorten a representative project-subgraph build, but its 1.117x four-worker gain costs 2.84x user CPU and 2.17x peak RSS and remains far below the 1.36x isolated ceiling.
 
 ## Lifecycle and global hooks
 
@@ -83,7 +83,7 @@ Output hash parity is not diagnostic parity. A safe production contract must pre
 - initialization, in-flight, queued, cancellation, and worker-exit context;
 - clean termination of every peer after failure.
 
-Current parallel Vue and Svelte compiler errors lose ordinary structured plugin and hook attribution, complete module identity, compiler-specific fields, and worker stack information. The Svelte case retains a relative filename and position, while the Vue case loses even that structured location. Worker warnings are discarded by the no-op logger. Plugin authors cannot repair these gaps inside an ordinary hook return because current worker-local module metadata does not reliably reach the coordinator.
+Current parallel Vue errors lose ordinary structured plugin and hook attribution, complete module identity, compiler-specific fields, and worker stack information. The Svelte probes retain a relative filename, code, source frame, and position but lose the plugin label, complete module path, ordinary formatting, and worker stack; the graph probe does not expose a separate structured hook field in either form. Worker warnings are discarded by the no-op logger. Plugin authors cannot repair these gaps inside an ordinary hook return because current worker-local module metadata does not reliably reach the coordinator.
 
 ## Worker-count policy
 
@@ -95,6 +95,7 @@ The current default creates up to eight workers for every parallel plugin and in
 - Babel is best around four workers in the supporting corpus, while eight consumes more CPU and is slower.
 - The 166-SFC Vue case regresses even at two workers and becomes much worse at eight.
 - The isolated 24-SFC Svelte fixture regresses at every tested worker count, while the synthetic 1,340-SFC kernel case is best at four workers and degrades at eight and twelve despite filling every slot. Its project dependencies are externalized, so it is not representative-graph evidence.
+- The graph-preserving 425-module Svelte registry subgraph is also best at four workers, where it wins all 15 paired rounds at 1.117x. Two workers provide a smaller 1.064x; one and eight workers lose every pair. Four workers consume 2.84x ordinary user CPU and 2.17x peak RSS, so the scheduler must weigh resource cost as well as wall time.
 - CPU-heavy wide `resolveId` and `load` improve through eight workers in the controlled case, while one worker regresses but removes the main-loop stall. Cheap, serial, payload-only, and already-asynchronous versions lose; async worker-1 is about 126 times slower than ordinary because a pending Promise holds its permit.
 - A serial dependency chain cannot use more than one worker regardless of hook cost.
 

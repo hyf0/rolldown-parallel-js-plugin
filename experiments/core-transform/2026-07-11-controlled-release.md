@@ -134,4 +134,4 @@ The complete compatibility surface and source-backed risks remain in the [defect
 
 ## Reproduction
 
-Build the optimized binding with Node.js 24.18.0, then run the committed matrices from `examples/par-plugin/cases/controlled-transform` on the Rolldown research branch. Each runner accepts a raw output path, and `summarize-matrix.mjs` derives the committed summaries. The fixture [README](https://github.com/hyf0/rolldown/tree/research/parallel-js-plugin-core-transform/examples/par-plugin/cases/controlled-transform) defines every timer, counter, correctness gate, and boundary.
+Build the optimized binding with Node.js 24.18.0, then run the committed matrices from `examples/par-plugin/cases/controlled-transform` on the Rolldown research branch. Each runner accepts a raw output path, and `summarize-matrix.mjs` derives the committed summaries. The fixture [README](https://github.com/rolldown/rolldown/tree/0aa600b5721b852cdc4095c7122a929a8cb4a798/examples/par-plugin/cases/controlled-transform) defines every timer, counter, correctness gate, and boundary.
