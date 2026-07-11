@@ -4,19 +4,19 @@ Snapshot: 2026-07-11, with a scope clarification added on 2026-07-12. This verdi
 
 ## Recommendation
 
-Continue research and bounded architecture investment, but narrow the capability around explicit worker kernels rather than treating the current whole-plugin marker as a generally compatible plugin mode. A production investment decision remains open until the next iteration measures the intended minute-scale workload.
+Continue research and bounded architecture investment, but narrow the capability around explicit worker kernels rather than treating the current whole-plugin marker as a generally compatible plugin mode. A production investment decision remains open because the later bounded candidate screen found no admissible minute-scale direct-Rolldown workload; it added no performance result. [Production-scale verdict](./production-scale-verdict.md)
 
 The current design demonstrates two real values. A single worker can remove long synchronous plugin stalls from the Node.js main event loop even when the complete build becomes slower. Several workers can shorten a complete build when Rolldown exposes many independent calls and each call contains enough synchronous work to amortize pool startup, per-worker imports and JIT, scheduling, Node-API conversion, extra CPU, and memory. Neither value follows from the hook name or framework alone.
 
 The current implementation is not ready for production use. Unchanged current main loses its workers after bootstrap on the pinned Node.js LTS release. Research-only lifecycle repairs make experiments possible, but warnings are discarded, errors lose attribution, filters acquire permits before rejecting, worker routing fragments state, reentrant resolution can exhaust the pool, lifecycle and output semantics are incomplete, and eleven supported JavaScript hooks silently become no-ops. A public feature should expose a deliberately smaller contract and reject unsupported behavior rather than silently approximating an ordinary plugin.
 
-## Production-scale decision remains open
+## Production-scale decision remains open after the bounded corpus screen
 
 Yunfei clarified the intended product target on 2026-07-12: a project must retain a user- or ecosystem-owned JavaScript transform rather than rewrite it in Rust; roughly 5,000 modules actually execute its expensive handler; the ordinary direct-Rolldown build lasts 15–30 minutes; and the desired complete-build result is about 30→15 or 15→7–8 minutes. Vue and Svelte are boundary cases, not the product definition.
 
 The measured real cases are orders of magnitude shorter and cannot settle that target. Their startup evidence also changes priority at production duration: removing a full 400 ms saves less than 0.05% of 15 minutes. The open decision depends on sustained per-worker service, worker and Rust CPU allocation, ready work over time, long-task balance, retained RSS, garbage collection, memory pressure, several-plugin execution, cache determinism, and worker or task failure semantics.
 
-The next comparison uses a Rolldown-managed shared worker group by default and an explicitly requested exclusive group for a sustained heavy plugin, both under the same global CPU and memory budget. Exclusive means a dedicated group containing one or several workers, not one worker per plugin. Colocating several plugins in shared workers remains distinct from executing their transforms as one combined worker request. The full admission and success gates are in the active [production-scale goal](../.agents/docs/production-scale-goal.md); implementation remains gated on candidate admission.
+The intended comparison uses a Rolldown-managed shared worker group by default and an explicitly requested exclusive group for a sustained heavy plugin, both under the same global CPU and memory budget. Exclusive means a dedicated group containing one or several workers, not one worker per plugin. Colocating several plugins in shared workers remains distinct from executing their transforms as one combined worker request. The full admission and success gates are in the completed [production-scale goal](../.agents/docs/production-scale-goal.md). All three frozen candidates failed rule 1, so none of these placements was implemented or measured at production scale.
 
 ## What has value
 

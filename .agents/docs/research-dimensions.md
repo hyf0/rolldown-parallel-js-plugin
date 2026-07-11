@@ -32,7 +32,7 @@ Classify every important state edge as immutable replicated configuration, worke
 
 ## Production-scale transform dimensions
 
-The next iteration targets one real project or monorepo whose original graph and production configuration send roughly 5,000 distinct project module IDs through a required expensive JavaScript transform or transform chain in a repeated 15–30 minute direct-Rolldown build. Vue and Svelte remain controls rather than the product definition. Duplicate files, joined unrelated repositories, manufactured outputs, file count without handler execution, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
+The production-scale protocol targeted one real project or monorepo whose original graph and production configuration send roughly 5,000 distinct project module IDs through a required expensive JavaScript transform or transform chain in a repeated 15–30 minute direct-Rolldown build. Its bounded corpus supplied no candidate past rule 1, so these dimensions remain unanswered production requirements rather than measured results. Vue and Svelte remain controls rather than the product definition. Duplicate files, joined unrelated repositories, manufactured outputs, file count without handler execution, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
 
 ### Sustained service
 

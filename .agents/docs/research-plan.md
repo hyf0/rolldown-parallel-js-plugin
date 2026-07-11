@@ -1,6 +1,6 @@
 # Research Plan
 
-This record separates the completed mechanism-scale sequence from the active production-scale iteration. Yunfei started its `/goal` on 2026-07-12; candidate screening is active, while implementation remains gated on admission.
+This record separates the completed mechanism-scale sequence from the completed production-scale candidate iteration. Yunfei started its `/goal` on 2026-07-12; all three candidates failed rule 1, so the terminal outcome is an inconclusive corpus and implementation never opened.
 
 ## Completed first-iteration order
 
@@ -67,7 +67,7 @@ Status: complete. The [isolated Svelte result](../../experiments/svelte-transfor
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.
 - A negative core or Vue result may narrow the later matrices, but it does not remove the required Svelte experiment or separate hook conclusions.
 
-## Active production-scale iteration: required high-frequency JavaScript transform
+## Completed production-scale candidate iteration: required high-frequency JavaScript transform
 
 Status: Phase A complete with an inconclusive corpus result. The finite [candidate-search manifest](./production-candidate-search.md) is frozen with Cloudflare Docs, Gutenberg, and Kibana as the only deep-screen candidates. All three failed rule 1 because their production builds are Astro/Vite/Rollup, a multi-stage esbuild workflow, and webpack or Rspack rather than direct Rolldown. The [admission ledger](./production-candidate-screening.md) marks every later rule not evaluated. Phases B through F did not start because no candidate was admitted. Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
 

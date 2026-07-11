@@ -1,6 +1,6 @@
 # Goal
 
-Status: completed mechanism-scale iteration. This record remains the scope and success criteria for the evidence committed through 2026-07-11. It must not be promoted into a production-scale investment verdict; the active next iteration is [production-scale parallel JavaScript transform goal](./production-scale-goal.md).
+Status: completed mechanism-scale iteration. This record remains the scope and success criteria for the evidence committed through 2026-07-11. It must not be promoted into a production-scale investment verdict; the later [production-scale parallel JavaScript transform goal](./production-scale-goal.md) ended with an inconclusive corpus and added no performance claim.
 
 ## Outcome
 

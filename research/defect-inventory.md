@@ -2,7 +2,7 @@
 
 Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. This is a living source and runtime defect record. `Observed` means the behavior has a pinned reproduction in this repository. `Source-proven` means the behavior follows directly from current code or an explicit upstream statement. `Source-inferred` means the call graph contains a failure path that still needs reproduction. `Historical` means an earlier experiment reported the behavior and current reproduction is pending.
 
-The 2026-07-11 runtime scope was the direct-Rolldown production-build transform path on the latest Node.js LTS release and is complete. The production-scale `/goal` started on 2026-07-12 with candidate admission; sustained shared/exclusive worker placement, cache, memory, and failure checks begin only if a 15–30 minute candidate passes that gate. Vite-specific, watch-only, rebuild-only, HMR, and other-Node-version defects remain background and outside the active goal.
+The 2026-07-11 runtime scope was the direct-Rolldown production-build transform path on the latest Node.js LTS release and is complete. The production-scale `/goal` ended on 2026-07-12 with no admitted candidate, so it added no sustained shared/exclusive placement, cache, memory, failure, or defect evidence. Vite-specific, watch-only, rebuild-only, HMR, and other-Node-version defects remain background and outside the completed goal.
 
 ## D001: worker callbacks use the main-thread weak lifetime mode
 

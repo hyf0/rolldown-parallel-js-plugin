@@ -1,6 +1,6 @@
 # Production Candidate Screening
 
-Status: complete. The search universe and three-candidate order were frozen in commit `dc89184` before any candidate clone, installation, build, adaptation, or timing. All three selected candidates failed their first admission rule on pinned source evidence. This is an inconclusive corpus result, not a ParallelPlugin value verdict.
+Status: complete. The search universe and three-candidate order were frozen in commit `dc89184` before any research clone, installation, local build, adaptation, or timing run. All three selected candidates failed their first admission rule on pinned source evidence. This is an inconclusive corpus result, not a ParallelPlugin value verdict. [Terminal synthesis](../../research/production-scale-verdict.md)
 
 ## Screening protocol
 
@@ -109,6 +109,43 @@ Porting the optimizer and its bundle orchestration to Rolldown could be a future
 
 ## Bounded screening result
 
-No selected candidate uses Rolldown directly in its unmodified production build. Cloudflare Docs uses Astro/Vite/Rollup, Gutenberg uses a multi-stage esbuild workflow, and Kibana uses webpack by default with an opt-in Rspack transition. All later rules are not evaluated for all candidates, no candidate is admitted, and no implementation, adaptation, ordinary timing, or parallel matrix follows from this corpus.
+No selected candidate uses Rolldown directly in its unmodified production build. Cloudflare Docs uses Astro/Vite/Rollup, Gutenberg uses a multi-stage esbuild workflow, and Kibana uses webpack by default with an opt-in Rspack transition. All later rules are not evaluated for all candidates, no candidate is admitted, and no research timing, instrumentation, implementation, adaptation, or parallel matrix follows from this corpus.
 
 The terminal result is `inconclusive corpus`: the predeclared public search universe did not supply the workload required to answer the production-scale ParallelPlugin value question. It does not show that ParallelPlugin lacks value, and the mechanism-scale evidence remains unchanged.
+
+## Source-screen reproduction
+
+These commands reproduce the local source pins and decisive rule-1 evidence without installing or building a candidate. Use separate empty directories for each clone.
+
+```bash
+git clone --filter=blob:none --no-checkout https://github.com/cloudflare/cloudflare-docs.git cloudflare-docs
+git -C cloudflare-docs fetch --depth=1 origin 2b08a67a41da1a521aecbcf465893abae1e9a6df
+git -C cloudflare-docs checkout --detach FETCH_HEAD
+git -C cloudflare-docs rev-parse HEAD
+find cloudflare-docs/src/content/docs -type f -name '*.mdx' | LC_ALL=C sort -u | wc -l
+git -C cloudflare-docs grep -nE 'astro build|"astro": "6\.4\.7"|"@astrojs/mdx": "6\.0\.3"' 2b08a67a41da1a521aecbcf465893abae1e9a6df -- package.json
+gh api repos/cloudflare/cloudflare-docs/actions/runs/29160281389 --jq '{head_sha,status,conclusion,html_url}'
+gh api repos/cloudflare/cloudflare-docs/actions/runs/29160281389/jobs --jq '.jobs[] | {id,name,steps:[.steps[] | select(.name=="Build") | {started_at,completed_at,conclusion}]}'
+
+git clone --filter=blob:none --no-checkout https://github.com/WordPress/gutenberg.git gutenberg
+git -C gutenberg fetch --depth=1 origin eb24e81eb05de53abb7238a9e6b0b7882b4bd490
+git -C gutenberg checkout --detach FETCH_HEAD
+git -C gutenberg rev-parse HEAD
+git -C gutenberg ls-tree -r --name-only HEAD | awk '/\.(js|jsx|ts|tsx)$/ && !/\.d\.ts$/' | wc -l
+git -C gutenberg grep -nE '@wordpress/build-scripts|wp-build|esbuild' eb24e81eb05de53abb7238a9e6b0b7882b4bd490 -- package.json tools/build-scripts/build.mjs packages/wp-build/package.json packages/wp-build/lib/build.mjs
+
+git clone --filter=blob:none --no-checkout https://github.com/elastic/kibana.git kibana
+git -C kibana fetch --depth=1 origin 60605e8006b0ffe337f5e5673ccdea4a28eafc5a
+git -C kibana checkout --detach FETCH_HEAD
+git -C kibana rev-parse HEAD
+git -C kibana grep -nE '24\.18\.0|KBN_USE_RSPACK|BuildKibanaPlatformPlugins|babel-loader|from .webpack.' 60605e8006b0ffe337f5e5673ccdea4a28eafc5a -- package.json .buildkite/scripts/steps/build_kibana.sh src/dev/build/build_distributables.ts src/dev/build/tasks/build_kibana_platform_plugins.ts packages/kbn-optimizer/src/worker/webpack.config.ts
+```
+
+The exact Astro and MDX implementation pins can be inspected without package installation:
+
+```bash
+git clone --filter=blob:none --no-checkout https://github.com/withastro/astro.git astro-source
+git -C astro-source fetch --depth=1 origin 910e121ad33c481dcfb4b313abd7d8ff370ee347 0b879fbbaa0c8494835dab6f5c781b1c0cb36eac
+git -C astro-source show 910e121ad33c481dcfb4b313abd7d8ff370ee347:packages/astro/src/core/build/static-build.ts
+git -C astro-source show 0b879fbbaa0c8494835dab6f5c781b1c0cb36eac:packages/integrations/mdx/src/vite-plugin-mdx.ts
+```

@@ -46,11 +46,11 @@ Evaluate worker placements at the least invasive adaptation form that preserves 
 
 The controlled first-iteration runtime evidence covers ordinary, one-worker, and the current replicated whole-plugin pool. Vue and Svelte then use the coordinator/kernel boundary without proposing a public API because whole-plugin replication is not behavior-complete for either ecosystem plugin. The production-scale iteration adds plugin-owned placement whenever the same kernel can run there; without that baseline, a positive result proves JavaScript worker value but not the additional value of Rolldown ownership.
 
-## Worker placement for the next iteration
+## Worker placement for a qualifying production workload
 
 The current implementation already uses one shared `WorkerManager`: every parallel plugin is initialized in every worker, and calls from all parallel plugins compete for the same permits. It has no placement configuration, dedicated capacity, per-plugin concurrency policy, or global resource decision beyond the hardware-derived worker count.
 
-The next iteration treats placement as a Rolldown-owned policy rather than assigning one worker to one plugin:
+The production protocol treats placement as a Rolldown-owned policy rather than assigning one worker to one plugin. No candidate passed admission, so this remains an unimplemented research model:
 
 ```text
 Rolldown worker manager
