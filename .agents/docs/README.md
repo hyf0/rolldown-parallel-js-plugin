@@ -7,3 +7,4 @@
 - For source-backed facts about Rolldown's current implementation, its history, and the current Vue and Svelte plugins, read [current-state evidence](../../research/current-state.md).
 - For source-proven, source-inferred, and historical runtime defects with explicit verification status, read the [current defect inventory](../../research/defect-inventory.md).
 - For hook maps, state and serialization constraints, provisional worker boundaries, correctness fixtures, and real-project candidates for Vue and Svelte, read [plugin case notes](../../research/plugin-case-notes.md).
+- For the source-only screen of real `resolveId` and `load` candidates, controls, rejections, and admission checks, read [`resolveId` and `load` candidates](../../research/resolve-load-candidates.md).

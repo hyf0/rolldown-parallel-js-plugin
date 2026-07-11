@@ -56,6 +56,15 @@ The parallel JavaScript plugin implementation has not been deleted. Current main
 
 The complete source-derived hook maps, serialization constraints, worker-boundary hypotheses, correctness fixtures, and candidate project pool are in [Vue and Svelte plugin case notes](./plugin-case-notes.md).
 
+## Additional `resolveId` and `load` candidate screen
+
+- No current `resolveId` plugin has yet qualified as a clean positive JavaScript-worker case. Vite's production resolver and tsconfig-path support now run through Rolldown's native resolver, while current `vite-tsconfig-paths` delegates per-import work to `oxc-resolver`. NativeScript platform-file probing and a direct Rolldown Yarn PnP plugin remain provisional synchronous candidates, but the former still needs a Vite 8 project match and the latter still needs a substantial independent consumer plus a native baseline.
+- `@rollup/plugin-node-resolve` remains the strongest real resolver to profile and the most useful semantics case, but it mixes async filesystem work with JavaScript resolution, recursively calls `this.resolve` with custom receipts, exposes instance-local package information, and owns several caches. The current whole-plugin replication model cannot run it faithfully.
+- The source survey found three credible `load` hypotheses in current Vite 8 projects: high-volume `vite-plugin-svgr` on ZenML Dashboard, lower-state `vite-svg-loader` on `vue-pure-admin`, and cache-heavy `unplugin-icons` on the same Vue project. SVGR's Vite 8 path also invokes synchronous native Oxc and therefore needs stage-level attribution.
+- All three loader sources perform their match check inside a JavaScript function hook. Unplugin's `loadInclude` is also wrapped inside JavaScript rather than converted into a native Rolldown filter. A coordinator-side or declarative filter before worker dispatch is a common authoring requirement, and its standalone gain must be separated from worker value.
+
+Pinned sources, static project inventories, rejection reasons, and post-review admission checks are in the [`resolveId` and `load` candidate survey](./resolve-load-candidates.md).
+
 ## Checks after the framing review
 
 - Reproduce the known weak-callback failure and the separate Node.js 24 worker keepalive failure on supported Node.js versions before deciding the smallest viable restoration path.

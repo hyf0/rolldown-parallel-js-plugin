@@ -31,16 +31,16 @@ Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. Thi
 - Status: source-proven.
 - Severity: high because behavior can change silently in otherwise valid plugin configurations.
 - Behavior: worker-side `JsPlugin` values contain each hook's `pre` or `post` metadata, but `ParallelJsPlugin` does not forward any `*_meta` method. The plugin driver therefore orders the wrapper as a normal plugin.
-- Impact: parallelizing a plugin can change its order relative to other plugins even when hook code and results are otherwise identical.
+- Impact: parallelizing a plugin can change its Rolldown hook order relative to other plugins even when hook code and results are otherwise identical. This is separate from Vite's plugin-level `enforce` classification in D005.
 - Fix condition: ordering metadata is available before the driver computes hook order, is consistent across instances, and behavior fixtures prove parity with the ordinary plugin.
 
 ## D005: JavaScript-side and Vite lifecycle hooks are absent
 
 - Status: source-proven.
 - Severity: blocker for whole-plugin Vue or Svelte adaptation.
-- Behavior: [`getObjectPlugins`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/plugin/plugin-driver.ts#L71-L83) removes parallel markers before Rolldown calls `options`, `outputOptions`, and `onLog`. The marker is not a Vite plugin instance, so Vite lifecycle hooks and plugin `api` have no worker invocation path.
-- Impact: an official Vue or Svelte plugin cannot be converted by replacing its object with the current marker while preserving configuration and ecosystem behavior.
-- Fix condition: the supported contract names the main-thread coordinator surface and worker surface, and unsupported hooks fail explicitly.
+- Behavior: [`getObjectPlugins`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/plugin/plugin-driver.ts#L71-L83) removes parallel markers before Rolldown calls `options`, `outputOptions`, and `onLog`. The marker is not a Vite plugin instance, so Vite lifecycle hooks and plugin `api` have no worker invocation path. It also exposes only `_parallel`, not Vite-level `enforce`, so [Vite sorts](https://github.com/vitejs/vite/blob/32c29780404c353f5a7c5ba4d06fc5e676741714/packages/vite/src/node/plugins/index.ts#L75-L121) a replacement marker as a normal user plugin rather than preserving `pre` or `post` placement.
+- Impact: an official Vue or Svelte plugin cannot be converted by replacing its object with the current marker while preserving configuration and ecosystem behavior. For `vite-plugin-svgr` and `vite-svg-loader`, losing `enforce: 'pre'` places the marker after Vite's asset plugin, which can claim the SVG ID before the worker loader.
+- Fix condition: the supported contract names the main-thread coordinator surface and worker surface, a Vite-visible shell preserves lifecycle, `enforce`, and plugin position where required, and unsupported hooks fail explicitly.
 
 ## D006: each plugin instance receives incomplete and isolated context data
 
@@ -137,3 +137,11 @@ Snapshot: Rolldown `21d7b32827045e377a82c3cb681dafa51c244883` on 2026-07-11. Thi
 - Behavior: watch keeps the worker pool alive, but each worker's `PluginContextData` is independent. The [`invalidateJsSideCache`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/packages/rolldown/src/utils/bindingify-input-options.ts#L92-L109) callback passed to Rust is bound to the main-thread `PluginContextData`, so its `clear()` cannot clear worker-local `loadModulePromiseMap` or `renderedChunkMeta` state.
 - Impact: a reused worker can retain JavaScript-side context state across invalidations that the ordinary main-thread plugin path would clear; plugin closure caches add further adapter-specific invalidation requirements.
 - Fix condition: every reused worker receives build and module invalidation events with defined ordering, and watch fixtures prove that worker-local and coordinator state matches ordinary-plugin rebuild behavior.
+
+## D018: native hook filters run after worker-pool acquisition
+
+- Status: source-proven.
+- Severity: workload-dependent performance defect; high when a hook has many fast misses or several parallel plugins share the pool.
+- Behavior: [`ParallelJsPlugin::load`](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/parallel_js_plugin.rs#L112-L120), `resolve_id`, and `transform` call `run_single` and acquire a worker permit before the selected [`JsPlugin` evaluates its filter](https://github.com/rolldown/rolldown/blob/21d7b32827045e377a82c3cb681dafa51c244883/crates/rolldown_binding/src/options/plugin/js_plugin.rs#L200-L220). A rejected call avoids the Node callback but still enters pool scheduling.
+- Impact: miss-heavy plugins can queue behind the shared worker pool and briefly occupy permits even when a Rust-side filter has enough information to reject them. Real hits can wait behind work that should never select a worker, and adding a native filter does not remove this queueing cost under the wrapper.
+- Fix condition: wrapper-visible hook usage and filters reject calls before permit acquisition, ordinary and parallel variants use equivalent filters, and measurements prove that filter-only gains are not attributed to worker execution.

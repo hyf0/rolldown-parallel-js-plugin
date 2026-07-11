@@ -11,6 +11,7 @@ This is a live research sequence, not an implementation commitment. Replace it a
 - Audit the old prototype and the unmerged native-bridge benchmark branch, preserving useful measurements while marking the claims they cannot support.
 - Inspect the current Vue and Svelte plugins, map their hook and state edges, and identify candidate projects without selecting fixtures before profiling.
 - Treat Vue and Svelte's cheap `resolveId` and ordinary `load` paths as valid overhead controls. If source and baseline profiles confirm that they contain no useful positive workload, select an additional real resolver or loader case instead of adding artificial work to these plugins.
+- Screen current resolver and loader candidates by where their work actually runs. Keep Vite native resolution, Oxc, async filesystem waits, image native addons, and existing worker pools separate from JavaScript CPU rather than crediting all hook time to Node workers.
 - Present the tradeoffs and a provisional recommendation for using Vite's Rolldown-powered production build for real-plugin evidence while using Rolldown directly for runtime overhead experiments.
 - Present whole-plugin replication, a coordinator plus worker kernel, and a comparison of both as alternative real-plugin targets; make the selection at the framing review.
 - Review this goal and architecture framing with Yunfei before writing a harness or adapter.
@@ -39,6 +40,8 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 
 ## Phase 3: real plugin adaptation
 
+- Admit loader adaptations only after unchanged profiles prove useful headroom. Prefer one lower-state JavaScript case such as `vite-svg-loader`; use high-volume `vite-plugin-svgr` only with Oxc time separated, and use `unplugin-icons` to test cache replication or affinity only if its own baseline qualifies.
+- Give ordinary and worker variants the same declarative or coordinator-side hook filter. Report the filter-only change separately so skipping misses is not misattributed to worker execution.
 - Start provisionally with the Svelte compile subplugin because its current task split provides a smaller semantic surface.
 - Keep configuration, preprocessing integrations, HMR, and global coordination on the main side unless evidence shows they can move safely.
 - Define how compiled CSS metadata, diagnostics, dependencies, and dynamic compile options cross the boundary.
@@ -47,6 +50,8 @@ Phase 0 is source and design research only. Do not restore the prototype, write 
 - Add behavior fixtures before performance comparisons, including compiler errors, source maps, CSS, SSR or client mode, custom preprocessors, and repeated builds where applicable.
 - Add targeted `resolveId` and `load` fixtures from the adapted plugins instead of assuming their cost is negligible beside compilation.
 - Keep a real resolver or loader case separate if Vue and Svelte only provide negative controls, so a negative framework-plugin result is not generalized to every `resolveId` or `load` workload.
+- Treat `@rollup/plugin-node-resolve` first as a coordinator, reentrancy, custom-option, and cache-lifecycle case. Promote a package-resolution worker kernel to a value experiment only after its baseline isolates material JavaScript CPU from async filesystem wait.
+- Profile the low-state NativeScript platform resolver only after pairing it with a parity-checked Vite 8 project; compare early filtering, caching, and native extension resolution with workers. Admit the direct Rolldown Yarn PnP resolver only after finding a substantial independent consumer and retaining Rolldown's built-in PnP path as the baseline.
 
 ## Phase 4: real application builds
 

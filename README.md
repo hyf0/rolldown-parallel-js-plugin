@@ -27,4 +27,5 @@ The source audit also found compatibility blockers independent of speed: missing
 - [Research dimensions](./.agents/docs/research-dimensions.md) keeps hook-specific value questions and technical defect discovery as equal workstreams.
 - [Current defect inventory](./research/defect-inventory.md) distinguishes source-proven gaps, source-inferred failure paths, and historical reports awaiting reproduction.
 - [Vue and Svelte plugin case notes](./research/plugin-case-notes.md) map real hook and state flows, provisional worker boundaries, correctness fixtures, and candidate projects.
+- [`resolveId` and `load` candidate survey](./research/resolve-load-candidates.md) screens real candidates, overhead controls, and misleading native or I/O-heavy workloads before any adaptation is written.
 - Reproducible benchmark harnesses, fixtures, and result artifacts will be added only after the research framing is reviewed.
