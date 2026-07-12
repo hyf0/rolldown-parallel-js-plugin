@@ -1,8 +1,18 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import nodePath from 'node:path';
+import { tmpdir } from 'node:os';
 import { verifySourceBindings } from './evidence-artifacts.mjs';
 import { buildFixedPolicyEvidence } from './evidence-builder.mjs';
+import { createControlledVueHarnessSnapshot } from './create-controlled-vue-harness-snapshot.mjs';
 import {
   CURRENT_PROTOCOL_REVISION,
   EVIDENCE_REQUIRED_BUILDER_SOURCES,
@@ -12,6 +22,7 @@ import {
 } from './evaluator.mjs';
 import {
   deriveControlledPolicyEvidence,
+  deriveControlledMechanicalCrossover,
   deriveControlledResourceCrossover,
   deriveIndependentPolicyEvidence,
   deriveRepeatedPolicySummary,
@@ -36,6 +47,30 @@ const BUILDER_SOURCE_HASHES = Object.freeze({
     '21f5dc5a5dfc667b3aa2f7ed5a39d0c98563ee61cfe513a8350ffb5cfab02b4f',
 });
 const COMMIT = 'b'.repeat(40);
+const controlledRepository = createThreeCommitControlledRepository();
+const controlledAdmissionSnapshot = createControlledVueHarnessSnapshot(
+  controlledRepository.path,
+  controlledRepository.admissionCommit,
+);
+const controlledCorrectnessSnapshot = createControlledVueHarnessSnapshot(
+  controlledRepository.path,
+  controlledRepository.correctnessCommit,
+);
+const controlledWallSnapshot = createControlledVueHarnessSnapshot(
+  controlledRepository.path,
+  controlledRepository.wallCommit,
+);
+assert.deepEqual(
+  controlledAdmissionSnapshot.harnessSourceManifest,
+  controlledCorrectnessSnapshot.harnessSourceManifest,
+);
+assert.deepEqual(
+  controlledCorrectnessSnapshot.harnessSourceManifest,
+  controlledWallSnapshot.harnessSourceManifest,
+);
+process.on('exit', () =>
+  rmSync(controlledRepository.path, { recursive: true, force: true }),
+);
 const LIFECYCLE_BASELINE = Object.freeze({
   kind: 'lifecycle-corrected-baseline',
   sourceCommit: 'b144106882fe244b19b738fc0acf3ffa07c7c9f3',
@@ -114,38 +149,11 @@ addSource('machine', 'machine-topology', {
   ],
 });
 
-const controlledHarnessBlobs = [
-  controlledHarnessBlob(
-    'examples/par-plugin/cases/vue-scale/run-matrix.mjs',
-    'export const runMatrix = true;\n',
-  ),
-  controlledHarnessBlob(
-    'examples/par-plugin/cases/vue-scale/summarize-matrix.mjs',
-    'export const summarizeMatrix = true;\n',
-  ),
-].sort((left, right) =>
-  Buffer.from(left.path).compare(Buffer.from(right.path)),
-);
-const harnessSourceManifest = createHarnessManifest(
-  controlledHarnessBlobs.map(({ path, kind, bytes, sha256 }) => ({
-    path,
-    kind,
-    bytes,
-    sha256,
-  })),
-);
-const controlledHarnessSnapshotSha = addSource(
+const harnessSourceManifest = controlledWallSnapshot.harnessSourceManifest;
+addSource(
   'controlled-harness-source-snapshot',
   'vue-controlled-harness-source-snapshot',
-  {
-    schema: 1,
-    kind: 'vue-controlled-harness-source-snapshot',
-    repository: 'github.com/rolldown/rolldown',
-    commit: COMMIT,
-    gitObjectFormat: 'sha1',
-    harnessSourceManifest,
-    blobs: controlledHarnessBlobs,
-  },
+  controlledWallSnapshot,
 );
 const controlledAdmissionRawSha = addSource(
   'controlled-admission-raw',
@@ -156,7 +164,10 @@ const controlledAdmissionRawSha = addSource(
     measurementClass: 'untimed compile admission; not performance evidence',
     harnessSourceManifest,
     runtime: controlledRuntime(),
-    fixture: { worktreeStatus: '', commit: COMMIT },
+    fixture: {
+      worktreeStatus: '',
+      commit: controlledRepository.admissionCommit,
+    },
     executionEnvironment: { inheritedNodeOptions: null },
     audits: [
       {
@@ -182,6 +193,8 @@ const controlledAdmissionPointerSha = addSource(
     'vue-scale-admission-evidence-pointer',
     'untimed compile admission; not performance evidence',
     controlledAdmissionRawSha,
+    controlledRepository.admissionCommit,
+    records.get('controlled-admission-raw').bytes,
   ),
   [{ sourceId: 'controlled-admission-raw', sha256Pointer: '/raw/sha256' }],
 );
@@ -196,7 +209,10 @@ const controlledCorrectnessRawSha = addSource(
     matrix: { lane: 'correctness-smoke' },
     harnessSourceManifest,
     runtime: controlledRuntime(),
-    fixture: { worktreeStatus: '', commit: COMMIT },
+    fixture: {
+      worktreeStatus: '',
+      commit: controlledRepository.correctnessCommit,
+    },
     executionEnvironment: { inheritedNodeOptions: null },
     runs: [{ variant: 'ordinary', measurementClass: 'correctness-only' }],
   },
@@ -208,6 +224,8 @@ const controlledCorrectnessPointerSha = addSource(
     'vue-scale-correctness-evidence-pointer',
     'untimed correctness; not performance evidence',
     controlledCorrectnessRawSha,
+    controlledRepository.correctnessCommit,
+    records.get('controlled-correctness-raw').bytes,
   ),
   [{ sourceId: 'controlled-correctness-raw', sha256Pointer: '/raw/sha256' }],
 );
@@ -232,7 +250,7 @@ const controlledRaw = {
   },
   harnessSourceManifest,
   runtime: controlledRuntime(),
-  fixture: { worktreeStatus: '', commit: COMMIT },
+  fixture: { worktreeStatus: '', commit: controlledRepository.wallCommit },
   evidence: {
     admission: { pointerSha256: controlledAdmissionPointerSha },
     correctness: { pointerSha256: controlledCorrectnessPointerSha },
@@ -268,15 +286,35 @@ const controlledSummary = {
   sourceReportSha256: controlledRawSha,
   runtime: structuredClone(controlledRaw.runtime),
   fixture: structuredClone(controlledRaw.fixture),
-  mechanicalCrossover: {
-    status: 'confirmed',
-    crossover: { componentCount: 1024, confirmedByComponentCount: 2048 },
-  },
+  mechanicalCrossover: deriveControlledMechanicalCrossover(controlledRaw),
   resourceAcceptableCrossover: deriveControlledResourceCrossover(controlledRaw),
   additionalConfirmationMatrix: null,
   scaleSummaries: controlledSummaries,
   policyEvidence: controlledPolicyEvidence,
 };
+for (const [label, scales, positiveScales, expectedStatus] of [
+  ['left', [32, 128, 5000], [32, 128, 5000], 'left-censored'],
+  ['no-crossover', [4096, 5000], [], 'not-observed-through-maximum'],
+  ['right-boundary', [4096, 5000], [5000], 'right-boundary-unconfirmed'],
+  [
+    'non-monotonic',
+    [512, 1024, 2048, 5000],
+    [1024],
+    'inconsistent-repeated-direction',
+  ],
+]) {
+  const outcomeRaw = controlledOutcomeRaw(scales, new Set(positiveScales));
+  assert.equal(
+    deriveControlledResourceCrossover(outcomeRaw).status,
+    expectedStatus,
+    label,
+  );
+  assert.equal(
+    deriveControlledMechanicalCrossover(outcomeRaw).status,
+    expectedStatus,
+    label,
+  );
+}
 addSource(
   'controlled-summary',
   'vue-controlled-confirmation-summary',
@@ -345,6 +383,12 @@ const independentScreenRaw = independentRaw(
   'independent-vue-wall-screen',
   correctnessManifestSha,
 );
+for (const run of independentScreenRaw.runs.filter(
+  ({ projectId, variant }) =>
+    projectId === 'floating-vue' && variant !== 'ordinary',
+)) {
+  run.totalCpuMs = 30;
+}
 const independentScreenRawSha = addSource(
   'independent-screen-raw',
   'vue-independent-screen-raw',
@@ -383,6 +427,8 @@ const independentConfirmRaw = independentRaw(
     },
   },
 );
+independentConfirmRaw.matrix.cases[0].screenSelectionStatus =
+  'no-resource-envelope-worker';
 const independentConfirmRawSha = addSource(
   'independent-confirmation-raw',
   'vue-independent-confirmation-raw',
@@ -1040,6 +1086,7 @@ const result = evaluateFixedWorkerPolicies(evidence, {
   sourceBindingsVerified: true,
 });
 assert.equal(result.formalCoveragePassed, true);
+assert.deepEqual(result.studyOutcomes, evidence.studyOutcomes);
 assert.equal(
   result.localFixedPolicyGate.passed,
   true,
@@ -1066,6 +1113,163 @@ assert.deepEqual(
     .poolEnvironment,
   BASELINE_POOLS,
 );
+assert.deepEqual(evidence.studyOutcomes.independentVue.projects[0], {
+  projectId: 'floating-vue',
+  reachedSfcCount: 4,
+  screenSelectionStatus: 'no-resource-envelope-worker',
+  selectedScreenWorkerCount: 4,
+});
+assert.deepEqual(independentConfirmRaw.matrix.cases[0].variants, [
+  'ordinary',
+  'worker-3',
+  'worker-4',
+  'worker-5',
+  'worker-8',
+]);
+
+const noCrossoverControlledInputs =
+  noCrossoverControlledBuildInputs(buildInputs);
+const noCrossoverControlledEvidence = buildFixedPolicyEvidence(
+  noCrossoverControlledInputs,
+);
+verifySourceBindings(
+  noCrossoverControlledEvidence,
+  noCrossoverControlledEvidence.sourceReports.map(
+    ({ id }) => noCrossoverControlledInputs.sourceDocuments.get(id).document,
+  ),
+);
+const noCrossoverControlledResult = evaluateFixedWorkerPolicies(
+  noCrossoverControlledEvidence,
+  { sourceBindingsVerified: true },
+);
+assert.equal(
+  noCrossoverControlledEvidence.studyOutcomes.controlledVue.resourceStatus,
+  'not-observed-through-maximum',
+);
+for (const candidate of Object.values(noCrossoverControlledResult.candidates)) {
+  assert.equal(
+    candidate.results.filter(({ family }) => family === 'vue-controlled')
+      .length,
+    CONTROLLED_SCALES.length,
+  );
+}
+
+const rightCensoredInputs = terminalMdxBuildInputs(buildInputs, 'right');
+const rightCensoredEvidence = buildFixedPolicyEvidence(rightCensoredInputs);
+validateEvidence(rightCensoredEvidence);
+verifySourceBindings(
+  rightCensoredEvidence,
+  rightCensoredEvidence.sourceReports.map(
+    ({ id }) => rightCensoredInputs.sourceDocuments.get(id).document,
+  ),
+);
+const rightCensoredResult = evaluateFixedWorkerPolicies(rightCensoredEvidence, {
+  sourceBindingsVerified: true,
+});
+assert.equal(
+  rightCensoredEvidence.studyOutcomes.mdx.resourceStatus,
+  'right-censored',
+);
+assert.equal(
+  rightCensoredEvidence.studyOutcomes.mdx.allocationStatus,
+  'not-applicable',
+);
+assert.equal(
+  rightCensoredEvidence.studyOutcomes.mdx.quotaStatus,
+  'not-applicable',
+);
+for (const candidate of Object.values(rightCensoredResult.candidates)) {
+  assert.equal(
+    candidate.results.filter(({ family }) => family === 'mdx').length,
+    rightCensoredEvidence.studyOutcomes.mdx.repeatedScales.length,
+  );
+}
+const unavailableNegativeCases = [
+  [
+    'unavailable-stage',
+    (inputs) =>
+      (inputs.sourceDocuments.get(
+        'mdx-right-allocation-unavailable',
+      ).document.stage = 'quota-unavailable'),
+    /frozen unavailable MDX allocation-unavailable/,
+  ],
+  [
+    'unavailable-resource-status',
+    (inputs) =>
+      (inputs.sourceDocuments.get(
+        'mdx-right-quota-unavailable',
+      ).document.resourceStatus = 'exact'),
+    /frozen unavailable MDX quota-unavailable/,
+  ],
+  [
+    'unavailable-crossover-link',
+    (inputs) =>
+      (inputs.sourceDocuments.get(
+        'mdx-right-quota-unavailable',
+      ).document.crossoverArtifactSha256 = 'f'.repeat(64)),
+    /does not bind mdx-right-crossover/,
+  ],
+  [
+    'negative-curve-omits-repeated-scale',
+    (inputs) => {
+      const index = inputs.plan.cases.findIndex(
+        ({ id }) => id === 'mdx-right-curve-4096',
+      );
+      inputs.plan.cases.splice(index, 1);
+    },
+    /must evaluate every repeated mdx scale/,
+  ],
+];
+for (const [label, mutate, expected] of unavailableNegativeCases) {
+  const inputs = cloneBuildInputs(rightCensoredInputs);
+  mutate(inputs);
+  assert.throws(() => buildFixedPolicyEvidence(inputs), expected, label);
+}
+
+const additionalMdxTerminalScenarios = [];
+for (const [scenario, expectedStatus] of [
+  ['interval', 'interval-censored-before-screen-interval'],
+  ['nonMonotonic', 'non-monotonic-repeated-evidence'],
+]) {
+  let inputs;
+  try {
+    inputs = terminalMdxBuildInputs(buildInputs, scenario);
+  } catch (error) {
+    if (
+      scenario === 'nonMonotonic' &&
+      /reverses from positive to negative/.test(error.message)
+    ) {
+      additionalMdxTerminalScenarios.push({
+        scenario,
+        evaluated: false,
+        requiresIntegratedProducer: true,
+      });
+      continue;
+    }
+    throw error;
+  }
+  const scenarioEvidence = buildFixedPolicyEvidence(inputs);
+  verifySourceBindings(
+    scenarioEvidence,
+    scenarioEvidence.sourceReports.map(
+      ({ id }) => inputs.sourceDocuments.get(id).document,
+    ),
+  );
+  const scenarioResult = evaluateFixedWorkerPolicies(scenarioEvidence, {
+    sourceBindingsVerified: true,
+  });
+  assert.equal(
+    scenarioEvidence.studyOutcomes.mdx.resourceStatus,
+    expectedStatus,
+  );
+  for (const candidate of Object.values(scenarioResult.candidates)) {
+    assert.equal(
+      candidate.results.filter(({ family }) => family === 'mdx').length,
+      scenarioEvidence.studyOutcomes.mdx.repeatedScales.length,
+    );
+  }
+  additionalMdxTerminalScenarios.push({ scenario, evaluated: true });
+}
 
 const terminalEvidence = terminalBoundaryEvidence(evidence);
 validateEvidence(terminalEvidence);
@@ -1206,7 +1410,64 @@ const negativePlans = [
         'controlled-summary',
       ).document.resourceAcceptableCrossover.crossover.selectedWorker =
         'worker-8'),
-    /controlled Vue resource crossover and formal roles differ from raw repeated runs/,
+    /controlled Vue crossover and formal roles differ from raw repeated runs/,
+  ],
+  [
+    'forged-controlled-mechanical-crossover',
+    () => {},
+    (documents) =>
+      (documents.get(
+        'controlled-summary',
+      ).document.mechanicalCrossover.crossover.selectedWorker = 'worker-8'),
+    /controlled Vue crossover and formal roles differ from raw repeated runs/,
+  ],
+  [
+    'controlled-pointer-crosses-phase-commit',
+    () => {},
+    (documents) =>
+      (documents.get('controlled-admission-pointer').document.fixtureCommit =
+        controlledRepository.wallCommit),
+    /pointer does not strictly bind its raw report/,
+  ],
+  [
+    'controlled-pointer-forges-raw-bytes',
+    () => {},
+    (documents) =>
+      (documents.get('controlled-admission-pointer').document.raw.bytes += 1),
+    /pointer does not strictly bind its raw report/,
+  ],
+  [
+    'controlled-phase-manifest-drift',
+    () => {},
+    (documents) => {
+      const admission = documents.get('controlled-admission-raw').document;
+      const pointer = documents.get('controlled-admission-pointer').document;
+      const entries = structuredClone(admission.harnessSourceManifest.entries);
+      entries.at(-1).sha256 = 'f'.repeat(64);
+      admission.harnessSourceManifest = createHarnessManifest(entries);
+      pointer.harnessSourceManifest = {
+        files: admission.harnessSourceManifest.files,
+        bytes: admission.harnessSourceManifest.bytes,
+        aggregateSha256: admission.harnessSourceManifest.aggregateSha256,
+      };
+    },
+    /admission\/correctness\/wall evidence does not bind one harness manifest/,
+  ],
+  [
+    'controlled-wall-summary-crosses-commit',
+    () => {},
+    (documents) =>
+      (documents.get('controlled-summary').document.fixture.commit =
+        controlledRepository.correctnessCommit),
+    /summary differs from its exact raw provenance/,
+  ],
+  [
+    'controlled-snapshot-crosses-wall-commit',
+    () => {},
+    (documents) =>
+      (documents.get('controlled-harness-source-snapshot').document.commit =
+        controlledRepository.correctnessCommit),
+    /not a committed controlled Vue harness snapshot|manifest does not bind the committed source snapshot/,
   ],
   [
     'truncated-controlled-raw-grid',
@@ -1232,6 +1493,25 @@ const negativePlans = [
         'independent-confirmation-raw',
       ).document.matrix.cases[0].selectedScreenWorkerCount = 5),
     /confirmation is not the screen-selected best plus adjacent workers/,
+  ],
+  [
+    'forged-independent-screen-selection-status',
+    () => {},
+    (documents) =>
+      (documents.get(
+        'independent-confirmation-raw',
+      ).document.matrix.cases[0].screenSelectionStatus =
+        'resource-envelope-eligible'),
+    /confirmation is not the screen-selected best plus adjacent workers/,
+  ],
+  [
+    'independent-screen-output-mismatch-is-not-fallback',
+    () => {},
+    (documents) =>
+      (documents.get(
+        'independent-screen-raw',
+      ).document.runs[1].canonicalEvidenceSha256 = 'f'.repeat(64)),
+    /not an admitted independent Vue independent-vue-wall-screen report/,
   ],
   [
     'forged-mdx-baseline-decision',
@@ -1502,7 +1782,45 @@ const negativePlans = [
         };
       }
     },
-    /controlled Vue harness manifest does not bind the committed source snapshot/,
+    /harness manifest is not derived from its committed source blobs|controlled Vue harness manifest does not bind the committed source snapshot/,
+  ],
+  [
+    'controlled-harness-omission-despite-rehashed-chain',
+    () => {},
+    (documents) => {
+      const snapshot = documents.get(
+        'controlled-harness-source-snapshot',
+      ).document;
+      const omittedPath = 'examples/par-plugin/parallel-vue-plugin/index.mjs';
+      snapshot.blobs = snapshot.blobs.filter(
+        ({ path }) => path !== omittedPath,
+      );
+      const omittedManifest = createHarnessManifest(
+        snapshot.harnessSourceManifest.entries.filter(
+          ({ path }) => path !== omittedPath,
+        ),
+      );
+      snapshot.harnessSourceManifest = structuredClone(omittedManifest);
+      for (const id of [
+        'controlled-admission-raw',
+        'controlled-correctness-raw',
+        'controlled-confirmation-raw',
+      ]) {
+        documents.get(id).document.harnessSourceManifest =
+          structuredClone(omittedManifest);
+      }
+      for (const id of [
+        'controlled-admission-pointer',
+        'controlled-correctness-pointer',
+      ]) {
+        documents.get(id).document.harnessSourceManifest = {
+          files: omittedManifest.files,
+          bytes: omittedManifest.bytes,
+          aggregateSha256: omittedManifest.aggregateSha256,
+        };
+      }
+    },
+    /harness manifest is not derived from its committed source blobs/,
   ],
   [
     'missing-controlled-harness-snapshot',
@@ -1547,7 +1865,7 @@ const negativePlans = [
       const snapshot = documents.get(
         'controlled-harness-source-snapshot',
       ).document;
-      const blobs = controlledHarnessBlobs.map((blob, index) =>
+      const blobs = controlledWallSnapshot.blobs.map((blob, index) =>
         controlledHarnessBlob(blob.path, `forged source ${index}\n`),
       );
       snapshot.blobs = blobs;
@@ -1560,7 +1878,7 @@ const negativePlans = [
         })),
       );
     },
-    /controlled Vue harness manifest does not bind the committed source snapshot/,
+    /harness manifest is not derived from its committed source blobs|controlled Vue harness manifest does not bind the committed source snapshot/,
   ],
   [
     'forged-independent-correctness-content-address',
@@ -1681,9 +1999,15 @@ console.log(
       passingCandidates: result.localFixedPolicyGate.passingCandidates,
       terminalBoundaryCases: terminalEvidence.cases.length,
       terminalBoundaryEvaluatedOnce: true,
+      threeControlledPhaseCommits: true,
+      controlledNoCrossoverEvaluated: true,
+      mdxRightCensoredEvaluated: true,
+      additionalMdxTerminalScenarios,
+      independentNoResourceFallbackEvaluated: true,
     },
     rejected: [
       ...negativePlans.map(([label]) => label),
+      ...unavailableNegativeCases.map(([label]) => label),
       'small-median-over-3-percent',
       'small-bootstrap-over-5-percent',
       'non-small-resource-ineligible',
@@ -1694,19 +2018,85 @@ console.log(
   }),
 );
 
-function controlledPointer(kind, measurementClass, rawSha256) {
+function createThreeCommitControlledRepository() {
+  const path = mkdtempSync(
+    nodePath.join(tmpdir(), 'controlled-vue-harness-snapshot-'),
+  );
+  const git = (...arguments_) =>
+    execFileSync('git', ['-C', path, ...arguments_], {
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        GIT_AUTHOR_DATE: '2026-07-12T00:00:00Z',
+        GIT_COMMITTER_DATE: '2026-07-12T00:00:00Z',
+      },
+    }).trim();
+  const write = (relativePath, content) => {
+    const target = nodePath.join(path, relativePath);
+    mkdirSync(nodePath.dirname(target), { recursive: true });
+    writeFileSync(target, content);
+  };
+  git('init', '--quiet');
+  git('remote', 'add', 'origin', 'https://github.com/rolldown/rolldown.git');
+  git('config', 'user.name', 'Fixture');
+  git('config', 'user.email', 'fixture@example.com');
+  write(
+    'examples/par-plugin/cases/vue-scale/run-matrix.mjs',
+    'export const runMatrix = true;\n',
+  );
+  write(
+    'examples/par-plugin/cases/vue-scale/summarize-matrix.mjs',
+    'export const summarizeMatrix = true;\n',
+  );
+  write(
+    'examples/par-plugin/parallel-vue-plugin/index.mjs',
+    'export const parallelVuePlugin = true;\n',
+  );
+  write('examples/par-plugin/package.json', '{"private":true}\n');
+  write('pnpm-lock.yaml', 'lockfileVersion: 9\n');
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'admission harness');
+  const admissionCommit = git('rev-parse', 'HEAD');
+  write(
+    'examples/par-plugin/cases/vue-scale/evidence/admission.json',
+    '{"passed":true}\n',
+  );
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'correctness evidence');
+  const correctnessCommit = git('rev-parse', 'HEAD');
+  write(
+    'examples/par-plugin/cases/vue-scale/evidence/correctness.json',
+    '{"passed":true}\n',
+  );
+  git('add', '.');
+  git('commit', '--quiet', '-m', 'wall evidence');
+  const wallCommit = git('rev-parse', 'HEAD');
+  assert.equal(
+    new Set([admissionCommit, correctnessCommit, wallCommit]).size,
+    3,
+  );
+  return { path, admissionCommit, correctnessCommit, wallCommit };
+}
+
+function controlledPointer(
+  kind,
+  measurementClass,
+  rawSha256,
+  fixtureCommit,
+  rawBytes,
+) {
   return {
     schema: 2,
     kind,
     passed: true,
     measurementClass,
-    raw: { path: 'raw/report.json', bytes: 1, sha256: rawSha256 },
+    raw: { path: 'raw/report.json', bytes: rawBytes, sha256: rawSha256 },
     harnessSourceManifest: {
       files: harnessSourceManifest.files,
       bytes: harnessSourceManifest.bytes,
       aggregateSha256: harnessSourceManifest.aggregateSha256,
     },
-    fixtureCommit: COMMIT,
+    fixtureCommit,
   };
 }
 
@@ -1726,9 +2116,11 @@ function controlledScaleSummary(componentCount, block) {
   }));
   return {
     componentCount,
-    selectedResourceWorker: `worker-${oracleWorkerCount}`,
-    selectedResourceWorkerCount: oracleWorkerCount,
-    resourceEligible: true,
+    selectedResourceWorker:
+      oracleWorkerCount === 0 ? null : `worker-${oracleWorkerCount}`,
+    selectedResourceWorkerCount:
+      oracleWorkerCount === 0 ? null : oracleWorkerCount,
+    resourceEligible: oracleWorkerCount > 0,
     variants,
   };
 }
@@ -1752,6 +2144,9 @@ function independentRaw(lane, manifestSha256, screenEvidence) {
         ],
     repeats: confirmation ? 15 : 1,
     rotationOffset,
+    screenSelectionStatus: confirmation
+      ? 'resource-envelope-eligible'
+      : undefined,
     selectedScreenWorkerCount: confirmation ? 4 : undefined,
     screenBelowTwoSeconds: confirmation ? true : undefined,
   }));
@@ -2433,6 +2828,25 @@ function controlledRuns(definitions) {
   );
 }
 
+function controlledOutcomeRaw(scales, positiveScales) {
+  const definitions = scales.map((componentCount, rotationOffset) => ({
+    name: `controlled-outcome-${componentCount}`,
+    componentCount,
+    variants: ['ordinary', 'worker-4', 'worker-8'],
+    repeats: 10,
+    rotationOffset,
+  }));
+  const runs = controlledRuns(definitions);
+  for (const run of runs) {
+    if (run.variant === 'ordinary') continue;
+    const workerCount = Number(run.variant.slice('worker-'.length));
+    run.totalElapsedMs = positiveScales.has(run.componentCount)
+      ? 50 + workerCount / 10
+      : 104 + workerCount / 10;
+  }
+  return { matrix: { cases: definitions }, runs };
+}
+
 function timedRun() {
   return {
     totalElapsedMs: 10,
@@ -2597,15 +3011,230 @@ function roleForMdxScale(scale) {
   ).get(scale);
 }
 
+function noCrossoverControlledBuildInputs(source) {
+  const inputs = cloneBuildInputs(source);
+  const raw = inputs.sourceDocuments.get(
+    'controlled-confirmation-raw',
+  ).document;
+  for (const run of raw.runs) {
+    if (run.variant === 'ordinary') continue;
+    const workerCount = Number(run.variant.slice('worker-'.length));
+    run.totalElapsedMs = 102 + workerCount / 100;
+  }
+  const policyEvidence = deriveControlledPolicyEvidence(raw);
+  const summary = inputs.sourceDocuments.get('controlled-summary').document;
+  summary.policyEvidence = policyEvidence;
+  summary.scaleSummaries = CONTROLLED_SCALES.map((componentCount) =>
+    controlledScaleSummary(
+      componentCount,
+      policyEvidence.byScale[String(componentCount)],
+    ),
+  );
+  summary.mechanicalCrossover = deriveControlledMechanicalCrossover(raw);
+  summary.resourceAcceptableCrossover = deriveControlledResourceCrossover(raw);
+  for (const definition of inputs.plan.cases.filter(
+    ({ family, study }) => family === 'vue-controlled' && study === 'baseline',
+  )) {
+    const scale = Number(definition.policyEvidencePointer.split('/').at(-1));
+    definition.scaleRole = 'curve-point';
+    definition.scaleRoles =
+      scale === 5000 ? ['curve-point', 'full'] : ['curve-point'];
+  }
+  return inputs;
+}
+
+function terminalMdxBuildInputs(source, scenario) {
+  const configuration = {
+    right: {
+      prefix: 'right',
+      baseSpeedup: () => 0.99,
+      confirmationSpeedup: () => 0.99,
+      expectedStatus: 'right-censored',
+    },
+    interval: {
+      prefix: 'interval',
+      baseSpeedup: (scale) => (scale >= 1024 ? 1.2 : 0.95),
+      confirmationSpeedup: () => 1.2,
+      expectedStatus: 'interval-censored-before-screen-interval',
+    },
+    nonMonotonic: {
+      prefix: 'non-monotonic',
+      baseSpeedup: (scale) => (scale >= 1024 ? 1.2 : 0.95),
+      confirmationSpeedup: (scale) =>
+        scale === 1024 || scale === 9157 ? 1.2 : 0.95,
+      expectedStatus: 'non-monotonic-repeated-evidence',
+    },
+  }[scenario];
+  if (!configuration) {
+    throw new Error(`unknown terminal MDX scenario ${scenario}`);
+  }
+  const { prefix, baseSpeedup, confirmationSpeedup, expectedStatus } =
+    configuration;
+  const baseId = `mdx-${prefix}-base`;
+  const confirmationId = `mdx-${prefix}-confirmation`;
+  const crossoverId = `mdx-${prefix}-crossover`;
+  const allocationId = `mdx-${prefix}-allocation-unavailable`;
+  const quotaId = `mdx-${prefix}-quota-unavailable`;
+  const sourceDocuments = new Map();
+  const retainedSources = source.plan.sources.filter(
+    ({ sourceType }) =>
+      !sourceType.startsWith('mdx-') && sourceType !== 'cpulimit-calibration',
+  );
+  for (const definition of retainedSources) {
+    sourceDocuments.set(
+      definition.id,
+      structuredClone(source.sourceDocuments.get(definition.id)),
+    );
+  }
+  const sources = structuredClone(retainedSources);
+  const add = (id, sourceType, document, links = []) => {
+    const serialized = JSON.stringify(document);
+    const sha256 = createHash('sha256').update(serialized).digest('hex');
+    const path = `reports/sha256/${sha256}.json`;
+    sourceDocuments.set(id, {
+      path,
+      sha256,
+      bytes: Buffer.byteLength(serialized),
+      document,
+    });
+    sources.push({ id, sourceType, path, assertions: [], links });
+    return sha256;
+  };
+
+  const baseRaw = mdxScalePerformanceReport(
+    mdxBaseScreenMatrix(),
+    new Map(MDX_BASE_SCALES.map((scale) => [scale, baseSpeedup(scale)])),
+  );
+  const baseSha256 = add(baseId, 'mdx-performance-raw', baseRaw);
+  const baseRecord = {
+    path: sourceDocuments.get(baseId).path,
+    sha256: baseSha256,
+    report: baseRaw,
+  };
+  const initial = planScaleFollowup({
+    screenRecord: baseRecord,
+    manifest: MDX_SCALE_MANIFEST,
+  });
+  const confirmationRaw = mdxScalePerformanceReport(
+    initial.matrix,
+    new Map(
+      initial.matrix.cases.map(({ selectionScale }) => [
+        selectionScale,
+        confirmationSpeedup(selectionScale),
+      ]),
+    ),
+  );
+  const confirmationSha256 = add(
+    confirmationId,
+    'mdx-performance-raw',
+    confirmationRaw,
+    [
+      {
+        sourceId: baseId,
+        sha256Pointer: '/matrix/followup/screenArtifactSha256',
+      },
+    ],
+  );
+  const confirmationRecord = {
+    path: sourceDocuments.get(confirmationId).path,
+    sha256: confirmationSha256,
+    report: confirmationRaw,
+  };
+  const complete = planScaleFollowup({
+    screenRecord: baseRecord,
+    followupRecords: [confirmationRecord],
+    manifest: MDX_SCALE_MANIFEST,
+  });
+  assert.equal(complete.status, 'complete');
+  assert.equal(complete.decision.resource.status, expectedStatus);
+  const crossoverSha256 = add(crossoverId, 'mdx-crossover-complete', complete, [
+    {
+      sourceId: confirmationId,
+      sha256Pointer: '/consumedArtifactSha256/0',
+    },
+  ]);
+  for (const [id, sourceType, stage] of [
+    [allocationId, 'mdx-allocation-complete', 'allocation-unavailable'],
+    [quotaId, 'mdx-quota-complete', 'quota-unavailable'],
+  ]) {
+    add(
+      id,
+      sourceType,
+      {
+        schema: 1,
+        status: 'unavailable',
+        applicability: 'not-applicable',
+        stage,
+        reason: 'resource-crossover-not-exact',
+        crossoverArtifactSha256: crossoverSha256,
+        resourceStatus: complete.decision.resource.status,
+      },
+      [
+        {
+          sourceId: crossoverId,
+          sha256Pointer: '/crossoverArtifactSha256',
+        },
+      ],
+    );
+  }
+
+  const cases = structuredClone(
+    source.plan.cases.filter(({ family }) => family !== 'mdx'),
+  );
+  for (const [index, point] of complete.decision.points.entries()) {
+    cases.push({
+      id: `mdx-${prefix}-curve-${point.scale}`,
+      family: 'mdx',
+      study: 'baseline',
+      scaleRole: 'curve-point',
+      scaleRoles:
+        point.scale === 9157 ? ['curve-point', 'full'] : ['curve-point'],
+      sourceId: crossoverId,
+      scaleValuePointer: `/decision/points/${index}/scale`,
+      policyEvidencePointer: `/decision/policyEvidenceByScale/${point.scale}`,
+      policyEvidenceSchemaPointer: `/decision/policyEvidenceByScale/${point.scale}/schema`,
+      oracleWorkerCountPointer: `/decision/policyEvidenceByScale/${point.scale}/selectedOracleWorkerCount`,
+      poolEnvironmentSourceId: confirmationId,
+      poolEnvironmentPointer: '/matrix/poolEnvironment',
+    });
+  }
+  return {
+    ...source,
+    plan: { ...structuredClone(source.plan), sources, cases },
+    sourceDocuments,
+  };
+}
+
 function cloneRecords(value) {
   return new Map(
     [...value].map(([id, record]) => [id, structuredClone(record)]),
   );
 }
 
+function cloneBuildInputs(value) {
+  return {
+    ...value,
+    plan: structuredClone(value.plan),
+    sourceDocuments: cloneRecords(value.sourceDocuments),
+  };
+}
+
 function terminalBoundaryEvidence(source) {
   const value = structuredClone(source);
   for (const family of ['vue-controlled', 'mdx']) {
+    const outcome =
+      family === 'vue-controlled'
+        ? value.studyOutcomes.controlledVue
+        : value.studyOutcomes.mdx;
+    const removedScale = value.cases.find(
+      (entry) =>
+        entry.study === 'baseline' &&
+        entry.family === family &&
+        entry.scaleRole === 'crossover-confirm',
+    ).scaleValue;
+    outcome.repeatedScales = outcome.repeatedScales.filter(
+      (scale) => scale !== removedScale,
+    );
     value.cases = value.cases.filter(
       (entry) =>
         !(

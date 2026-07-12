@@ -99,6 +99,39 @@ const MDX_CROSSOVER_STAGES = new Set([
   'refinement-screen',
   'refinement-confirmation',
 ]);
+const CONTROLLED_TERMINAL_CROSSOVER_STATUSES = new Set([
+  'confirmed',
+  'left-censored',
+  'not-observed-through-maximum',
+  'right-boundary-unconfirmed',
+  'inconsistent-repeated-direction',
+]);
+const MDX_TERMINAL_CROSSOVER_STATUSES = new Set([
+  'exact',
+  'left-censored',
+  'interval-censored-before-screen-interval',
+  'right-censored',
+  'interval-censored-after-screen-interval',
+  'non-monotonic-or-unbounded',
+  'non-monotonic-repeated-evidence',
+  'right-edge-censored',
+]);
+const CONTROLLED_FROZEN_SCALES = Object.freeze([
+  32, 128, 256, 512, 1024, 2048, 4096, 5000,
+]);
+const CONTROLLED_HARNESS_ROOTS = Object.freeze([
+  'examples/par-plugin/cases/vue-scale',
+  'examples/par-plugin/parallel-vue-plugin',
+]);
+const CONTROLLED_HARNESS_EXPLICIT_FILES = Object.freeze([
+  'examples/par-plugin/package.json',
+  'pnpm-lock.yaml',
+]);
+const CONTROLLED_HARNESS_IGNORED_DIRECTORIES = new Set([
+  '.corpus',
+  '.results',
+  'evidence',
+]);
 const MDX_POLICY_STAGES = Object.freeze([
   'allocation-tokio-screen',
   'allocation-tokio-confirmation',
@@ -174,6 +207,61 @@ export function validateFormalSourceContracts(sources, builderSources) {
     }
   }
   validateCrossSourceContracts(sources);
+}
+
+export function deriveFormalStudyOutcomes(sources) {
+  const exactlyOne = (type) => {
+    const selected = sources.filter(({ sourceType }) => sourceType === type);
+    if (selected.length !== 1) {
+      throw new Error(`formal outcomes require exactly one ${type}`);
+    }
+    return selected[0].document;
+  };
+  const controlled = exactlyOne('vue-controlled-confirmation-summary');
+  const independent = exactlyOne('vue-independent-confirmation-raw');
+  const mdx = exactlyOne('mdx-crossover-complete');
+  const allocation = exactlyOne('mdx-allocation-complete');
+  const quota = exactlyOne('mdx-quota-complete');
+  const controlledRepeatedScales =
+    controlled.resourceAcceptableCrossover.status === 'confirmed'
+      ? [...new Set(Object.values(controlledRoleScales(controlled)))].sort(
+          (left, right) => left - right,
+        )
+      : controlled.scaleSummaries
+          .map(({ componentCount }) => componentCount)
+          .sort((left, right) => left - right);
+  const mdxRepeatedScales =
+    mdx.decision.resource.status === 'exact'
+      ? [...new Set(Object.values(mdxRoleScales(mdx)))].sort(
+          (left, right) => left - right,
+        )
+      : mdx.decision.points
+          .map(({ scale }) => scale)
+          .sort((left, right) => left - right);
+  return {
+    schema: 1,
+    controlledVue: {
+      mechanicalStatus: controlled.mechanicalCrossover.status,
+      resourceStatus: controlled.resourceAcceptableCrossover.status,
+      repeatedScales: controlledRepeatedScales,
+    },
+    independentVue: {
+      projects: independent.matrix.cases.map((definition) => ({
+        projectId: definition.projectId,
+        reachedSfcCount: definition.reachedSfcCount,
+        screenSelectionStatus: definition.screenSelectionStatus,
+        selectedScreenWorkerCount: definition.selectedScreenWorkerCount,
+      })),
+    },
+    mdx: {
+      mechanicalStatus: mdx.decision.mechanical.status,
+      resourceStatus: mdx.decision.resource.status,
+      repeatedScales: mdxRepeatedScales,
+      allocationStatus:
+        allocation.status === 'complete' ? 'complete' : 'not-applicable',
+      quotaStatus: quota.status === 'complete' ? 'complete' : 'not-applicable',
+    },
+  };
 }
 
 function validateFormalSource(source, context) {
@@ -284,6 +372,17 @@ function validateFormalSource(source, context) {
       validateMdxPolicyLineage(value, context.requireLink);
       return;
     case 'mdx-allocation-complete':
+      if (value?.status === 'unavailable') {
+        validateUnavailableMdxOutcome(
+          value,
+          source.id,
+          'allocation-unavailable',
+        );
+        context.requireLink('/crossoverArtifactSha256', [
+          'mdx-crossover-complete',
+        ]);
+        return;
+      }
       validateMdxAllocationComplete(value, source.id);
       for (
         let index = 0;
@@ -304,6 +403,13 @@ function validateFormalSource(source, context) {
       validateCpulimitCalibration(value, source.id, context.sourceHashByPath);
       return;
     case 'mdx-quota-complete':
+      if (value?.status === 'unavailable') {
+        validateUnavailableMdxOutcome(value, source.id, 'quota-unavailable');
+        context.requireLink('/crossoverArtifactSha256', [
+          'mdx-crossover-complete',
+        ]);
+        return;
+      }
       validateMdxQuotaComplete(value, source.id);
       for (
         let index = 0;
@@ -350,8 +456,12 @@ function validateControlledHarnessSourceSnapshot(value, label) {
     value?.schema !== 1 ||
     value.kind !== 'vue-controlled-harness-source-snapshot' ||
     value.repository !== 'github.com/rolldown/rolldown' ||
-    !COMMIT.test(value.commit ?? '') ||
+    !/^[a-f0-9]{40}$/.test(value.commit ?? '') ||
     value.gitObjectFormat !== 'sha1' ||
+    value.gitCommitObject?.oid !== value.commit ||
+    typeof value.gitCommitObject?.contentBase64 !== 'string' ||
+    !Array.isArray(value.gitTreeObjects) ||
+    value.gitTreeObjects.length === 0 ||
     !Array.isArray(value.blobs) ||
     value.blobs.length === 0
   ) {
@@ -359,11 +469,13 @@ function validateControlledHarnessSourceSnapshot(value, label) {
       `${label} is not a committed controlled Vue harness snapshot`,
     );
   }
+  const treeEntries = deriveControlledHarnessGitTreeEntries(value, label);
   const entries = [];
   for (const [index, blob] of value.blobs.entries()) {
     if (
       typeof blob.path !== 'string' ||
       blob.path.length === 0 ||
+      !controlledHarnessPathIncluded(blob.path) ||
       !['file', 'symlink'].includes(blob.kind) ||
       typeof blob.contentBase64 !== 'string' ||
       !/^[A-Za-z0-9+/]*={0,2}$/.test(blob.contentBase64)
@@ -397,6 +509,20 @@ function validateControlledHarnessSourceSnapshot(value, label) {
   );
   if (
     new Set(entries.map(({ path }) => path)).size !== entries.length ||
+    !isDeepStrictEqual(
+      value.blobs.map(({ path, kind, gitBlobOid }) => ({
+        path,
+        kind,
+        gitBlobOid,
+      })),
+      treeEntries,
+    ) ||
+    CONTROLLED_HARNESS_EXPLICIT_FILES.some(
+      (requiredPath) => !entries.some(({ path }) => path === requiredPath),
+    ) ||
+    CONTROLLED_HARNESS_ROOTS.some(
+      (root) => !entries.some(({ path }) => path.startsWith(`${root}/`)),
+    ) ||
     !isDeepStrictEqual(entries, sorted) ||
     !isDeepStrictEqual(value.harnessSourceManifest?.entries, entries) ||
     !validHarnessManifest(value.harnessSourceManifest) ||
@@ -413,6 +539,177 @@ function validateControlledHarnessSourceSnapshot(value, label) {
       `${label} harness manifest is not derived from its committed source blobs`,
     );
   }
+}
+
+function controlledHarnessPathIncluded(path) {
+  const inScope =
+    CONTROLLED_HARNESS_ROOTS.some(
+      (root) => path === root || path.startsWith(`${root}/`),
+    ) || CONTROLLED_HARNESS_EXPLICIT_FILES.includes(path);
+  return (
+    inScope &&
+    !path
+      .split('/')
+      .some((component) =>
+        CONTROLLED_HARNESS_IGNORED_DIRECTORIES.has(component),
+      )
+  );
+}
+
+function deriveControlledHarnessGitTreeEntries(value, label) {
+  const commitContent = decodeCanonicalBase64(
+    value.gitCommitObject.contentBase64,
+    `${label} commit object`,
+  );
+  if (gitObjectOid('commit', commitContent) !== value.commit) {
+    throw new Error(`${label} commit object does not match its Git OID`);
+  }
+  const rootTreeOid = /^tree ([a-f0-9]{40})\n/.exec(
+    commitContent.toString('utf8'),
+  )?.[1];
+  if (!rootTreeOid) {
+    throw new Error(`${label} commit object has no SHA-1 root tree`);
+  }
+  const treeObjects = new Map();
+  for (const [index, object] of value.gitTreeObjects.entries()) {
+    if (
+      !/^[a-f0-9]{40}$/.test(object?.oid ?? '') ||
+      typeof object?.contentBase64 !== 'string' ||
+      treeObjects.has(object.oid)
+    ) {
+      throw new Error(`${label} tree proof ${index} is malformed`);
+    }
+    const content = decodeCanonicalBase64(
+      object.contentBase64,
+      `${label} tree object ${object.oid}`,
+    );
+    if (gitObjectOid('tree', content) !== object.oid) {
+      throw new Error(`${label} tree object ${object.oid} has a forged OID`);
+    }
+    treeObjects.set(object.oid, content);
+  }
+  const sortedOids = [...treeObjects.keys()].sort((left, right) =>
+    Buffer.from(left).compare(Buffer.from(right)),
+  );
+  if (
+    !isDeepStrictEqual(
+      value.gitTreeObjects.map(({ oid }) => oid),
+      sortedOids,
+    )
+  ) {
+    throw new Error(`${label} tree proof is not canonically ordered`);
+  }
+
+  const visited = new Set();
+  const result = [];
+  const walk = (treeOid, prefix, ancestors) => {
+    if (ancestors.has(treeOid)) {
+      throw new Error(`${label} tree proof contains a recursive cycle`);
+    }
+    const content = treeObjects.get(treeOid);
+    if (!content) {
+      throw new Error(`${label} tree proof omits required tree ${treeOid}`);
+    }
+    visited.add(treeOid);
+    const nextAncestors = new Set(ancestors).add(treeOid);
+    for (const entry of parseGitTreeObject(content, label)) {
+      const path = prefix ? `${prefix}/${entry.name}` : entry.name;
+      if (entry.mode === '40000') {
+        if (shouldTraverseControlledHarnessDirectory(path)) {
+          walk(entry.oid, path, nextAncestors);
+        }
+        continue;
+      }
+      if (!controlledHarnessPathIncluded(path)) continue;
+      if (!['100644', '100755', '120000'].includes(entry.mode)) {
+        throw new Error(
+          `${label} harness tree has unsupported mode ${entry.mode} at ${path}`,
+        );
+      }
+      result.push({
+        path,
+        kind: entry.mode === '120000' ? 'symlink' : 'file',
+        gitBlobOid: entry.oid,
+      });
+    }
+  };
+  walk(rootTreeOid, '', new Set());
+  if (visited.size !== treeObjects.size) {
+    throw new Error(`${label} tree proof contains unused tree objects`);
+  }
+  return result.sort((left, right) =>
+    Buffer.from(left.path).compare(Buffer.from(right.path)),
+  );
+}
+
+function parseGitTreeObject(content, label) {
+  const entries = [];
+  let offset = 0;
+  while (offset < content.length) {
+    const space = content.indexOf(0x20, offset);
+    const nul = content.indexOf(0, space + 1);
+    if (space < 0 || nul < 0 || nul + 21 > content.length) {
+      throw new Error(`${label} contains an invalid Git tree object`);
+    }
+    const mode = content.subarray(offset, space).toString('ascii');
+    const nameBytes = content.subarray(space + 1, nul);
+    const name = nameBytes.toString('utf8');
+    if (
+      name.length === 0 ||
+      name.includes('/') ||
+      !Buffer.from(name).equals(nameBytes)
+    ) {
+      throw new Error(`${label} Git tree contains an invalid UTF-8 name`);
+    }
+    entries.push({
+      mode,
+      name,
+      oid: content.subarray(nul + 1, nul + 21).toString('hex'),
+    });
+    offset = nul + 21;
+  }
+  return entries;
+}
+
+function shouldTraverseControlledHarnessDirectory(path) {
+  if (
+    path
+      .split('/')
+      .some((component) =>
+        CONTROLLED_HARNESS_IGNORED_DIRECTORIES.has(component),
+      )
+  ) {
+    return false;
+  }
+  return (
+    CONTROLLED_HARNESS_ROOTS.some(
+      (root) =>
+        root === path ||
+        root.startsWith(`${path}/`) ||
+        path.startsWith(`${root}/`),
+    ) ||
+    CONTROLLED_HARNESS_EXPLICIT_FILES.some((file) =>
+      file.startsWith(`${path}/`),
+    )
+  );
+}
+
+function decodeCanonicalBase64(value, label) {
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(value)) {
+    throw new Error(`${label} is not canonical base64`);
+  }
+  const content = Buffer.from(value, 'base64');
+  if (content.toString('base64') !== value) {
+    throw new Error(`${label} is not canonical base64`);
+  }
+  return content;
+}
+
+function gitObjectOid(type, content) {
+  return createHash('sha1')
+    .update(`${type} ${content.length}\0`)
+    .update(content)
+    .digest('hex');
 }
 
 function validateControlledAdmissionRaw(value, label) {
@@ -518,22 +815,39 @@ function validateControlledConfirmationSummary(value, label) {
   if (
     value?.schema !== 1 ||
     !HASH.test(value.sourceReportSha256 ?? '') ||
-    value.mechanicalCrossover?.status !== 'confirmed' ||
-    value.resourceAcceptableCrossover?.status !== 'confirmed' ||
+    !CONTROLLED_TERMINAL_CROSSOVER_STATUSES.has(
+      value.mechanicalCrossover?.status,
+    ) ||
+    !CONTROLLED_TERMINAL_CROSSOVER_STATUSES.has(
+      value.resourceAcceptableCrossover?.status,
+    ) ||
     !validControlledRuntime(value.runtime) ||
     value.additionalConfirmationMatrix !== null ||
     value.policyEvidence?.schema !== 1 ||
     value.policyEvidence.jsonPointerBase !== '/policyEvidence/byScale' ||
     !Array.isArray(value.scaleSummaries) ||
-    value.scaleSummaries.length < 4
+    value.scaleSummaries.length < 2
   ) {
     throw new Error(
       `${label} is not a completed controlled Vue confirmation summary`,
     );
   }
-  const roleScales = controlledRoleScales(value);
-  if (roleScales.full !== 5000) {
+  const scales = value.scaleSummaries.map(
+    ({ componentCount }) => componentCount,
+  );
+  if (
+    new Set(scales).size !== scales.length ||
+    !scales.includes(5000) ||
+    scales.some(
+      (scale) =>
+        !Number.isSafeInteger(scale) ||
+        !CONTROLLED_FROZEN_SCALES.includes(scale),
+    )
+  ) {
     throw new Error(`${label} does not retain the frozen 5,000-SFC endpoint`);
+  }
+  if (value.resourceAcceptableCrossover.status === 'confirmed') {
+    controlledRoleScales(value);
   }
   for (const summary of value.scaleSummaries) {
     const policy =
@@ -583,7 +897,21 @@ function validateIndependentRaw(value, label, lane) {
     !HASH.test(value.harness?.sourceManifestSha256 ?? '') ||
     !validIndependentCorrectnessReference(value.correctnessEvidence) ||
     !Array.isArray(value.runs) ||
-    value.runs.length === 0
+    value.runs.length === 0 ||
+    INDEPENDENT_PROJECTS.some(({ projectId }) => {
+      const expected =
+        value.correctnessEvidence.projectCanonicalEvidenceSha256?.[projectId];
+      const observed = new Set(
+        value.runs
+          .filter((run) => run.projectId === projectId)
+          .map(({ canonicalEvidenceSha256 }) => canonicalEvidenceSha256),
+      );
+      return (
+        !HASH.test(expected ?? '') ||
+        observed.size !== 1 ||
+        !observed.has(expected)
+      );
+    })
   ) {
     throw new Error(
       `${label} is not an admitted independent Vue ${lane} report`,
@@ -704,29 +1032,62 @@ function validateMdxCrossoverComplete(value, label) {
     value.status !== 'complete' ||
     value.stage !== 'crossover-complete' ||
     value.decision?.schema !== 1 ||
-    value.decision.mechanical?.status !== 'exact' ||
-    value.decision.resource?.status !== 'exact' ||
+    !MDX_TERMINAL_CROSSOVER_STATUSES.has(value.decision.mechanical?.status) ||
+    !MDX_TERMINAL_CROSSOVER_STATUSES.has(value.decision.resource?.status) ||
     !Array.isArray(value.decision.points) ||
-    value.decision.points.length < 4 ||
+    value.decision.points.length < 2 ||
     !Array.isArray(value.consumedArtifactSha256) ||
     value.consumedArtifactSha256.length === 0 ||
     value.consumedArtifactSha256.some((digest) => !HASH.test(digest))
   ) {
     throw new Error(
-      `${label} is not an exact completed MDX crossover decision`,
+      `${label} is not a terminal completed MDX crossover decision`,
     );
   }
-  const roles = mdxRoleScales(value);
-  if (roles.full !== 9157)
-    throw new Error(`${label} omits the frozen 9,157-MDX endpoint`);
-  const scales = new Set(value.decision.points.map(({ scale }) => scale));
-  for (const scale of Object.values(roles)) {
-    if (
-      !scales.has(scale) ||
-      !value.decision.policyEvidenceByScale?.[String(scale)]
-    ) {
-      throw new Error(`${label} lacks repeated evidence for MDX ${scale}`);
+  const scales = value.decision.points.map(({ scale }) => scale);
+  if (
+    new Set(scales).size !== scales.length ||
+    !scales.includes(9157) ||
+    scales.some(
+      (scale) =>
+        !Number.isSafeInteger(scale) ||
+        scale <= 0 ||
+        !value.decision.policyEvidenceByScale?.[String(scale)],
+    )
+  ) {
+    throw new Error(`${label} lacks complete repeated MDX policy evidence`);
+  }
+  if (value.decision.resource.status === 'exact') {
+    const roles = mdxRoleScales(value);
+    for (const scale of Object.values(roles)) {
+      if (!scales.includes(scale)) {
+        throw new Error(`${label} lacks repeated evidence for MDX ${scale}`);
+      }
     }
+  }
+}
+
+function validateUnavailableMdxOutcome(value, label, stage) {
+  if (
+    !isDeepStrictEqual(Object.keys(value ?? {}).sort(), [
+      'applicability',
+      'crossoverArtifactSha256',
+      'reason',
+      'resourceStatus',
+      'schema',
+      'stage',
+      'status',
+    ]) ||
+    value.schema !== 1 ||
+    value.status !== 'unavailable' ||
+    value.applicability !== 'not-applicable' ||
+    value.stage !== stage ||
+    value.reason !== 'resource-crossover-not-exact' ||
+    !HASH.test(value.crossoverArtifactSha256 ?? '') ||
+    !MDX_TERMINAL_CROSSOVER_STATUSES.has(value.resourceStatus) ||
+    value.resourceStatus === 'exact'
+  ) {
+    throw new Error(`${label} is not the frozen unavailable MDX ${stage}`);
   }
 }
 
@@ -1184,10 +1545,14 @@ function validateCrossSourceContracts(sources) {
   }
   if (
     controlledSummary.document.sourceReportSha256 !== controlledRaw.sha256 ||
-    controlledSummary.document.runtime?.runtimePin?.sourceCommit !==
-      controlledRaw.document.runtime?.runtimePin?.sourceCommit ||
-    controlledSummary.document.fixture?.commit !==
-      controlledRaw.document.fixture?.commit
+    !isDeepStrictEqual(
+      controlledSummary.document.runtime,
+      controlledRaw.document.runtime,
+    ) ||
+    !isDeepStrictEqual(
+      controlledSummary.document.fixture,
+      controlledRaw.document.fixture,
+    )
   ) {
     throw new Error(
       'controlled Vue summary differs from its exact raw provenance',
@@ -1198,29 +1563,30 @@ function validateCrossSourceContracts(sources) {
       !isDeepStrictEqual(
         source.document.harnessSourceManifest,
         controlledRaw.document.harnessSourceManifest,
-      ) ||
-      source.document.fixture?.commit !== controlledRaw.document.fixture.commit
+      )
     ) {
       throw new Error(
-        'controlled Vue admission/correctness/wall evidence does not bind one clean harness commit',
+        'controlled Vue admission/correctness/wall evidence does not bind one harness manifest',
       );
     }
   }
-  for (const source of [
-    controlledAdmissionPointer,
-    controlledCorrectnessPointer,
+  for (const [pointer, raw] of [
+    [controlledAdmissionPointer, controlledAdmissionRaw],
+    [controlledCorrectnessPointer, controlledCorrectnessRaw],
   ]) {
     if (
-      source.document.harnessSourceManifest.aggregateSha256 !==
-        controlledRaw.document.harnessSourceManifest.aggregateSha256 ||
-      source.document.harnessSourceManifest.files !==
-        controlledRaw.document.harnessSourceManifest.files ||
-      source.document.harnessSourceManifest.bytes !==
-        controlledRaw.document.harnessSourceManifest.bytes ||
-      source.document.fixtureCommit !== controlledRaw.document.fixture.commit
+      pointer.document.harnessSourceManifest.aggregateSha256 !==
+        raw.document.harnessSourceManifest.aggregateSha256 ||
+      pointer.document.harnessSourceManifest.files !==
+        raw.document.harnessSourceManifest.files ||
+      pointer.document.harnessSourceManifest.bytes !==
+        raw.document.harnessSourceManifest.bytes ||
+      pointer.document.fixtureCommit !== raw.document.fixture.commit ||
+      pointer.document.raw.sha256 !== raw.sha256 ||
+      pointer.document.raw.bytes !== raw.bytes
     ) {
       throw new Error(
-        'controlled Vue pointer does not bind the wall report harness and fixture commit',
+        'controlled Vue pointer does not strictly bind its raw report',
       );
     }
   }
@@ -1240,14 +1606,21 @@ function validateCrossSourceContracts(sources) {
   const controlledResourceCrossover = deriveControlledResourceCrossover(
     controlledRaw.document,
   );
+  const controlledMechanicalCrossover = deriveControlledMechanicalCrossover(
+    controlledRaw.document,
+  );
   if (
+    !isDeepStrictEqual(
+      controlledSummary.document.mechanicalCrossover,
+      controlledMechanicalCrossover,
+    ) ||
     !isDeepStrictEqual(
       controlledSummary.document.resourceAcceptableCrossover,
       controlledResourceCrossover,
     )
   ) {
     throw new Error(
-      'controlled Vue resource crossover and formal roles differ from raw repeated runs',
+      'controlled Vue crossover and formal roles differ from raw repeated runs',
     );
   }
   const independentRaw = exactlyOne('vue-independent-confirmation-raw');
@@ -1341,8 +1714,34 @@ function validateCrossSourceContracts(sources) {
   const crossover = exactlyOne('mdx-crossover-complete');
   validateMdxCrossoverArtifacts(crossover, sources);
   const allocation = exactlyOne('mdx-allocation-complete');
-  validateMdxAllocationArtifacts(allocation, sources);
   const quota = exactlyOne('mdx-quota-complete');
+  if (crossover.document.decision.resource.status !== 'exact') {
+    for (const [source, stage] of [
+      [allocation, 'allocation-unavailable'],
+      [quota, 'quota-unavailable'],
+    ]) {
+      if (
+        source.document.crossoverArtifactSha256 !== crossover.sha256 ||
+        source.document.resourceStatus !==
+          crossover.document.decision.resource.status ||
+        source.document.stage !== stage
+      ) {
+        throw new Error(
+          `${stage} does not bind the same non-exact MDX terminal crossover`,
+        );
+      }
+    }
+    if (
+      (byType.get('mdx-policy-raw') ?? []).length > 0 ||
+      (byType.get('cpulimit-calibration') ?? []).length > 0
+    ) {
+      throw new Error(
+        'non-exact MDX crossover must not carry inapplicable allocation or quota timing',
+      );
+    }
+    return;
+  }
+  validateMdxAllocationArtifacts(allocation, sources);
   validateMdxQuotaArtifacts(quota, sources);
   validateEmbeddedCrossoverAgainstComplete(
     allocation.document.crossover,
@@ -1467,14 +1866,18 @@ function validateIndependentScreenConfirmation(screen, confirmation) {
         run.pagingDelta.swapouts === 0 &&
         run.canonicalEvidenceSha256 === ordinary.canonicalEvidenceSha256,
     );
-    const best = [...eligible].sort(
+    const workerRuns = runs.filter(({ variant }) => variant !== 'ordinary');
+    const screenSelectionStatus =
+      eligible.length > 0
+        ? 'resource-envelope-eligible'
+        : 'no-resource-envelope-worker';
+    const best = [...(eligible.length > 0 ? eligible : workerRuns)].sort(
       (left, right) =>
         left.timeRealMs - right.timeRealMs ||
         Number(left.variant.slice('worker-'.length)) -
           Number(right.variant.slice('worker-'.length)),
     )[0];
-    if (!best)
-      throw new Error(`${screenCase.projectId} screen has no eligible worker`);
+    if (!best) throw new Error(`${screenCase.projectId} screen has no worker`);
     const workerCount = Number(best.variant.slice('worker-'.length));
     const expectedVariants = independentConfirmationVariants(workerCount);
     const expectedRepeats =
@@ -1484,6 +1887,7 @@ function validateIndependentScreenConfirmation(screen, confirmation) {
     );
     if (
       !definition ||
+      definition.screenSelectionStatus !== screenSelectionStatus ||
       definition.selectedScreenWorkerCount !== workerCount ||
       definition.screenBelowTwoSeconds !== (expectedRepeats === 15) ||
       definition.repeats !== expectedRepeats ||
@@ -1563,7 +1967,11 @@ function validateMdxCrossoverArtifacts(complete, sources) {
       );
     }
   }
-  for (const scale of Object.values(mdxRoleScales(complete.document))) {
+  const requiredScales =
+    complete.document.decision.resource.status === 'exact'
+      ? Object.values(mdxRoleScales(complete.document))
+      : complete.document.decision.points.map(({ scale }) => scale);
+  for (const scale of requiredScales) {
     if (!repeatedPoints.has(scale)) {
       throw new Error(
         `completed MDX crossover lacks a confirmation raw report at ${scale}`,
@@ -2202,7 +2610,15 @@ export function assertFormalCaseContract(definition, source, scaleValue) {
 
 function formalScaleRoles(source, definition, scaleValue) {
   if (source.sourceType === 'vue-controlled-confirmation-summary') {
-    return rolesForScale(controlledRoleScales(source.document), scaleValue);
+    return source.document.resourceAcceptableCrossover.status === 'confirmed'
+      ? rolesForScale(controlledRoleScales(source.document), scaleValue)
+      : curveRolesForScale(
+          source.document.scaleSummaries.map(
+            ({ componentCount }) => componentCount,
+          ),
+          scaleValue,
+          5000,
+        );
   }
   if (source.sourceType === 'vue-independent-confirmation-summary') {
     const project = source.document.projectSummaries.find(
@@ -2220,7 +2636,13 @@ function formalScaleRoles(source, definition, scaleValue) {
     return [role];
   }
   if (source.sourceType === 'mdx-crossover-complete') {
-    return rolesForScale(mdxRoleScales(source.document), scaleValue);
+    return source.document.decision.resource.status === 'exact'
+      ? rolesForScale(mdxRoleScales(source.document), scaleValue)
+      : curveRolesForScale(
+          source.document.decision.points.map(({ scale }) => scale),
+          scaleValue,
+          9157,
+        );
   }
   if (
     source.sourceType === 'mdx-allocation-complete' ||
@@ -2314,6 +2736,13 @@ function rolesForScale(roles, scale) {
     );
   }
   return names;
+}
+
+function curveRolesForScale(scales, scale, fullScale) {
+  if (!scales.includes(scale)) {
+    throw new Error(`scale ${scale} is not a repeated source-computed point`);
+  }
+  return scale === fullScale ? ['curve-point', 'full'] : ['curve-point'];
 }
 
 function policyMatchesControlledSummary(policy, summary) {
@@ -2948,33 +3377,199 @@ export function deriveControlledPolicyEvidence(raw) {
 
 export function deriveControlledResourceCrossover(raw) {
   const policy = deriveControlledPolicyEvidence(raw);
-  const points = Object.entries(policy.byScale)
+  const summaries = Object.entries(policy.byScale)
     .map(([scale, evidence]) => ({
-      scale: Number(scale),
-      oracle: evidence.variants.ordinary.selectedOracleCount,
+      componentCount: Number(scale),
+      resourceEligible: evidence.variants.ordinary.selectedOracleCount > 0,
+      selectedWorkerCount: evidence.variants.ordinary.selectedOracleCount,
     }))
-    .sort((left, right) => left.scale - right.scale);
-  for (let index = 1; index < points.length - 1; index++) {
-    if (
-      points[index - 1].oracle === 0 &&
-      points[index].oracle > 0 &&
-      points[index + 1].oracle > 0
-    ) {
+    .sort((left, right) => left.componentCount - right.componentCount);
+  const resolution = resolveControlledCrossover(summaries, 'resourceEligible');
+  if (!resolution.crossover?.componentCount) return resolution;
+  const selected = summaries.find(
+    ({ componentCount }) =>
+      componentCount === resolution.crossover.componentCount,
+  );
+  return {
+    ...resolution,
+    crossover: {
+      ...resolution.crossover,
+      selectedWorker:
+        selected?.selectedWorkerCount > 0
+          ? `worker-${selected.selectedWorkerCount}`
+          : null,
+    },
+  };
+}
+
+export function deriveControlledMechanicalCrossover(raw) {
+  const summaries = raw.matrix.cases
+    .map((definition) => {
+      const runs = raw.runs.filter(
+        ({ componentCount }) => componentCount === definition.componentCount,
+      );
+      const ordinaryByIndex = new Map(
+        runs
+          .filter(({ variant }) => variant === 'ordinary')
+          .map((run) => [run.index, run]),
+      );
+      const workers = definition.variants
+        .filter((variant) => variant !== 'ordinary')
+        .map((variant) => {
+          const selected = runs.filter((run) => run.variant === variant);
+          const walls = selected.map(({ totalElapsedMs }) => totalElapsedMs);
+          const speedups = selected.map(
+            (run) =>
+              ordinaryByIndex.get(run.index).totalElapsedMs /
+              run.totalElapsedMs,
+          );
+          return {
+            variant,
+            workerCount: Number(variant.slice('worker-'.length)),
+            wallMedianMs: median(walls),
+            wallMedianBootstrap95: bootstrapMedianInterval(
+              walls,
+              `${definition.componentCount}/${variant}/wall`,
+            ),
+            mechanicalGain:
+              bootstrapMedianInterval(
+                speedups,
+                `${definition.componentCount}/${variant}/speedup`,
+              ).lower > 1,
+          };
+        });
+      const selected = selectControlledWorker(workers);
       return {
-        status: 'confirmed',
-        crossover: {
-          componentCount: points[index].scale,
-          confirmedByComponentCount: points[index + 1].scale,
-          selectedWorker: `worker-${points[index].oracle}`,
-        },
+        componentCount: definition.componentCount,
+        mechanicalGain: selected.mechanicalGain,
+        selectedWorker: selected.variant,
+      };
+    })
+    .sort((left, right) => left.componentCount - right.componentCount);
+  const resolution = resolveControlledCrossover(summaries, 'mechanicalGain');
+  if (!resolution.crossover?.componentCount) return resolution;
+  const selected = summaries.find(
+    ({ componentCount }) =>
+      componentCount === resolution.crossover.componentCount,
+  );
+  return {
+    ...resolution,
+    crossover: {
+      ...resolution.crossover,
+      selectedWorker: selected?.selectedWorker ?? null,
+    },
+  };
+}
+
+function resolveControlledCrossover(summaries, field) {
+  const ordered = [...CONTROLLED_FROZEN_SCALES];
+  const byScale = new Map(
+    summaries.map((summary) => [summary.componentCount, summary]),
+  );
+  let observedPositive = false;
+  for (const summary of summaries) {
+    if (summary[field]) observedPositive = true;
+    else if (observedPositive) {
+      return {
+        status: 'inconsistent-repeated-direction',
+        crossover: null,
+        additionalScales: [],
+        repeatScales: summaries.map(({ componentCount }) => componentCount),
+        reason: `repeated ${field} changes from positive back to negative`,
+      };
+    }
+  }
+
+  let candidateIndex = -1;
+  for (let index = 0; index < ordered.length - 1; index++) {
+    if (
+      byScale.get(ordered[index])?.[field] &&
+      byScale.get(ordered[index + 1])?.[field]
+    ) {
+      candidateIndex = index;
+      break;
+    }
+  }
+  if (candidateIndex !== -1) {
+    while (candidateIndex > 0) {
+      const previousScale = ordered[candidateIndex - 1];
+      const previous = byScale.get(previousScale);
+      if (!previous) {
+        return {
+          status: 'additional-confirmation-required',
+          crossover: null,
+          additionalScales: [previousScale],
+          repeatScales: [],
+          reason: `the immediately smaller frozen scale before ${ordered[candidateIndex]} was not repeated`,
+        };
+      }
+      if (!previous[field]) {
+        return {
+          status: 'confirmed',
+          crossover: {
+            componentCount: ordered[candidateIndex],
+            confirmedByComponentCount: ordered[candidateIndex + 1],
+          },
+          additionalScales: [],
+          repeatScales: [],
+        };
+      }
+      candidateIndex--;
+    }
+    return {
+      status: 'left-censored',
+      crossover: {
+        atOrBelowComponentCount: ordered[0],
+        confirmedByComponentCount: ordered[1],
+      },
+      additionalScales: [],
+      repeatScales: [],
+    };
+  }
+
+  const firstPositive = summaries.find((summary) => summary[field]);
+  if (!firstPositive) {
+    if (byScale.get(ordered.at(-1))?.[field] === false) {
+      return {
+        status: 'not-observed-through-maximum',
+        crossover: null,
         additionalScales: [],
         repeatScales: [],
       };
     }
+    return {
+      status: 'additional-confirmation-required',
+      crossover: null,
+      additionalScales: [ordered.at(-1)],
+      repeatScales: [],
+      reason: 'the maximum frozen scale has not been repeated',
+    };
   }
-  throw new Error(
-    'controlled Vue raw runs do not establish an exact repeated resource crossover',
-  );
+  const index = ordered.indexOf(firstPositive.componentCount);
+  if (index === ordered.length - 1) {
+    return {
+      status: 'right-boundary-unconfirmed',
+      crossover: null,
+      additionalScales: [],
+      repeatScales: [],
+      reason:
+        'a gain observed only at the maximum scale has no larger frozen point for confirmation',
+    };
+  }
+  const additionalScales = [];
+  if (index > 0 && !byScale.has(ordered[index - 1])) {
+    additionalScales.push(ordered[index - 1]);
+  }
+  if (!byScale.has(ordered[index + 1])) {
+    additionalScales.push(ordered[index + 1]);
+  }
+  return {
+    status: 'additional-confirmation-required',
+    crossover: null,
+    additionalScales,
+    repeatScales: [],
+    reason: `the positive result at ${firstPositive.componentCount} lacks an actual-adjacent frozen confirmation boundary`,
+  };
 }
 
 export function deriveIndependentPolicyEvidence(raw) {

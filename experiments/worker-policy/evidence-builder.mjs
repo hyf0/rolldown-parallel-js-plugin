@@ -8,6 +8,7 @@ import {
 import {
   FORMAL_SOURCE_TYPES,
   assertFormalCaseContract,
+  deriveFormalStudyOutcomes,
   normalizeFormalPoolEnvironment,
   validateFormalSourceContracts,
 } from './formal-source-contracts.mjs';
@@ -57,6 +58,9 @@ export function buildFixedPolicyEvidence({
     .map((definition) =>
       normalizeCase(definition, sources, sourceIndexById, plan.formalCoverage),
     );
+  const studyOutcomes = plan.formalCoverage
+    ? deriveFormalStudyOutcomes(sources)
+    : null;
   requireReachableSources(sources, machine.sourceReportIndex, cases);
   const evidence = {
     schemaVersion: 2,
@@ -79,6 +83,7 @@ export function buildFixedPolicyEvidence({
         workerSafetyCap: 8,
       },
     },
+    studyOutcomes,
     sourceReports: sources.map(({ document: _document, ...source }) => source),
     machine,
     cases,
@@ -470,7 +475,11 @@ function requireReachableSources(sources, machineIndex, cases) {
   const reachable = new Set([
     machineIndex,
     ...sources.flatMap((source, index) =>
-      source.sourceType === 'vue-controlled-harness-source-snapshot'
+      [
+        'vue-controlled-harness-source-snapshot',
+        'mdx-allocation-complete',
+        'mdx-quota-complete',
+      ].includes(source.sourceType)
         ? [index]
         : [],
     ),

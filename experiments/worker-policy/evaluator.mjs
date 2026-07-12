@@ -21,6 +21,7 @@ const REQUIRED_PROTOCOL_DOCUMENTS = Object.freeze([
 const REQUIRED_BUILDER_SOURCES = Object.freeze([
   'experiments/worker-policy/build-fixed-policy-evidence.mjs',
   'experiments/worker-policy/capture-machine-topology.mjs',
+  'experiments/worker-policy/create-controlled-vue-harness-snapshot.mjs',
   'experiments/worker-policy/evaluate-fixed-policy.mjs',
   'experiments/worker-policy/evaluator.mjs',
   'experiments/worker-policy/evidence-artifacts.mjs',
@@ -53,6 +54,7 @@ const CASE_FAMILIES = new Set([
 ]);
 const SCALE_ROLES = new Set([
   'small-negative',
+  'curve-point',
   'crossover-lower',
   'crossover',
   'crossover-confirm',
@@ -118,6 +120,7 @@ export function evaluateFixedWorkerPolicies(
     repository: evidence.repository,
     protocolDocuments: evidence.protocolDocuments,
     candidatePolicy: evidence.candidatePolicy,
+    studyOutcomes: evidence.studyOutcomes,
     sourceReports: evidence.sourceReports,
     machine: evidence.machine,
     cases,
@@ -295,6 +298,7 @@ export function validateEvidence(value) {
     !validRepositoryRecord(value.repository) ||
     !validProtocolDocuments(value.protocolDocuments) ||
     !validCandidatePolicy(value.candidatePolicy) ||
+    !validStudyOutcomes(value.studyOutcomes, value.formalCoverage) ||
     !validMachine(value.machine) ||
     !Array.isArray(value.sourceReports) ||
     value.sourceReports.length === 0 ||
@@ -337,7 +341,7 @@ export function validateEvidence(value) {
     sourcePolicyBindings.add(key);
   }
   if (value.formalCoverage) {
-    validateFormalCoverage(value.cases);
+    validateFormalCoverage(value.cases, value.studyOutcomes);
     if (
       value.machine.availableParallelism !== 12 ||
       value.machine.workerSafetyCap !== 8 ||
@@ -473,7 +477,7 @@ function validateVariant(variant, caseId) {
   }
 }
 
-function validateFormalCoverage(cases) {
+function validateFormalCoverage(cases, outcomes) {
   const has = (predicate) => cases.some(predicate);
   const exactOne = (predicate, label) => {
     if (cases.filter(predicate).length !== 1) {
@@ -482,13 +486,47 @@ function validateFormalCoverage(cases) {
       );
     }
   };
-  for (const role of [
-    'crossover-lower',
-    'crossover',
-    'crossover-confirm',
-    'full',
+  for (const [family, outcome, exactStatus] of [
+    ['vue-controlled', outcomes.controlledVue, 'confirmed'],
+    ['mdx', outcomes.mdx, 'exact'],
   ]) {
-    for (const family of ['vue-controlled', 'mdx']) {
+    const baseline = cases.filter(
+      (value) =>
+        value.study === 'baseline' &&
+        value.family === family &&
+        value.cpuRatePercent === null,
+    );
+    const scales = [
+      ...new Set(baseline.map(({ scaleValue }) => scaleValue)),
+    ].sort((left, right) => left - right);
+    if (JSON.stringify(scales) !== JSON.stringify(outcome.repeatedScales)) {
+      throw new Error(
+        `formal fixed-policy evidence must evaluate every repeated ${family} scale`,
+      );
+    }
+    if (outcome.resourceStatus !== exactStatus) {
+      const fullScale = family === 'vue-controlled' ? 5000 : 9157;
+      if (
+        baseline.some(({ scaleValue, scaleRoles }) => {
+          const expectedRoles =
+            scaleValue === fullScale
+              ? ['curve-point', 'full']
+              : ['curve-point'];
+          return JSON.stringify(scaleRoles) !== JSON.stringify(expectedRoles);
+        })
+      ) {
+        throw new Error(
+          `formal fixed-policy evidence requires the complete non-exact ${family} curve`,
+        );
+      }
+      continue;
+    }
+    for (const role of [
+      'crossover-lower',
+      'crossover',
+      'crossover-confirm',
+      'full',
+    ]) {
       exactOne(
         (value) =>
           value.study === 'baseline' &&
@@ -552,17 +590,29 @@ function validateFormalCoverage(cases) {
       'independent Vue evidence does not match the frozen 4/166/546 SFC bands',
     );
   }
-  validateRoleScaleAgreement(cases);
-  validateAllocationCoverage(
-    cases,
-    'allocation-tokio-confirmation',
-    'ROLLDOWN_WORKER_THREADS',
-  );
-  validateAllocationCoverage(
-    cases,
-    'allocation-rayon-confirmation',
-    'RAYON_NUM_THREADS',
-  );
+  validateRoleScaleAgreement(cases, outcomes);
+  const mdxExact = outcomes.mdx.resourceStatus === 'exact';
+  if (mdxExact) {
+    validateAllocationCoverage(
+      cases,
+      'allocation-tokio-confirmation',
+      'ROLLDOWN_WORKER_THREADS',
+    );
+    validateAllocationCoverage(
+      cases,
+      'allocation-rayon-confirmation',
+      'RAYON_NUM_THREADS',
+    );
+  } else if (
+    cases.some(({ study }) => study !== 'baseline') ||
+    outcomes.mdx.allocationStatus !== 'not-applicable' ||
+    outcomes.mdx.quotaStatus !== 'not-applicable'
+  ) {
+    throw new Error(
+      'non-exact MDX crossover cannot claim allocation or quota policy cases',
+    );
+  }
+  if (!mdxExact) return;
   for (const cpuRatePercent of [400, 800, 1200]) {
     for (const scaleRole of ['crossover', 'full']) {
       exactOne(
@@ -592,8 +642,13 @@ function validateFormalCoverage(cases) {
   }
 }
 
-function validateRoleScaleAgreement(cases) {
+function validateRoleScaleAgreement(cases, outcomes) {
   for (const family of ['vue-controlled', 'mdx']) {
+    const exact =
+      family === 'vue-controlled'
+        ? outcomes.controlledVue.resourceStatus === 'confirmed'
+        : outcomes.mdx.resourceStatus === 'exact';
+    if (!exact) continue;
     const baseline = cases.filter(
       (value) => value.study === 'baseline' && value.family === family,
     );
@@ -674,6 +729,80 @@ function validateAllocationCoverage(cases, study, poolKey) {
       );
     }
   }
+}
+
+function validStudyOutcomes(value, formalCoverage) {
+  if (!formalCoverage) return value === null;
+  const controlledStatuses = new Set([
+    'confirmed',
+    'left-censored',
+    'not-observed-through-maximum',
+    'right-boundary-unconfirmed',
+    'inconsistent-repeated-direction',
+  ]);
+  const mdxStatuses = new Set([
+    'exact',
+    'left-censored',
+    'interval-censored-before-screen-interval',
+    'right-censored',
+    'interval-censored-after-screen-interval',
+    'non-monotonic-or-unbounded',
+    'non-monotonic-repeated-evidence',
+    'right-edge-censored',
+  ]);
+  if (
+    value?.schema !== 1 ||
+    !controlledStatuses.has(value.controlledVue?.mechanicalStatus) ||
+    !controlledStatuses.has(value.controlledVue?.resourceStatus) ||
+    !validRepeatedScales(value.controlledVue?.repeatedScales, 5000) ||
+    !mdxStatuses.has(value.mdx?.mechanicalStatus) ||
+    !mdxStatuses.has(value.mdx?.resourceStatus) ||
+    !validRepeatedScales(value.mdx?.repeatedScales, 9157) ||
+    !Array.isArray(value.independentVue?.projects) ||
+    value.independentVue.projects.length !== 3
+  ) {
+    return false;
+  }
+  const expectedProjects = [
+    ['floating-vue', 4],
+    ['cabinet-icon', 166],
+    ['directus-amendment-candidate', 546],
+  ];
+  if (
+    value.independentVue.projects.some(
+      (project, index) =>
+        project.projectId !== expectedProjects[index][0] ||
+        project.reachedSfcCount !== expectedProjects[index][1] ||
+        !['resource-envelope-eligible', 'no-resource-envelope-worker'].includes(
+          project.screenSelectionStatus,
+        ) ||
+        !Number.isSafeInteger(project.selectedScreenWorkerCount) ||
+        project.selectedScreenWorkerCount < 1 ||
+        project.selectedScreenWorkerCount > 8,
+    )
+  ) {
+    return false;
+  }
+  const mdxExact = value.mdx.resourceStatus === 'exact';
+  return mdxExact
+    ? value.mdx.allocationStatus === 'complete' &&
+        value.mdx.quotaStatus === 'complete'
+    : value.mdx.allocationStatus === 'not-applicable' &&
+        value.mdx.quotaStatus === 'not-applicable';
+}
+
+function validRepeatedScales(value, fullScale) {
+  return (
+    Array.isArray(value) &&
+    value.length >= 2 &&
+    value.includes(fullScale) &&
+    value.every(
+      (scale, index) =>
+        Number.isSafeInteger(scale) &&
+        scale > 0 &&
+        (index === 0 || scale > value[index - 1]),
+    )
+  );
 }
 
 function isDeepPoolEnvironment(left, right) {
