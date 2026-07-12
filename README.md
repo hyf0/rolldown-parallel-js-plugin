@@ -14,7 +14,7 @@ The result also identifies production blockers. Current ParallelPlugin observabl
 
 The historical three-candidate source screen remains preserved. Its Cloudflare disposition is superseded; Gutenberg and Kibana have not been reopened.
 
-The next performance iteration is local-only and precedes another large-project adaptation. It builds the required Vue and MDX scale curves over actual expensive-handler hits, adds Svelte as a follow-up if feasible, measures every eligible worker count around each optimum, instruments Cloudflare's four-to-eight regression, separates generic worker startup from repeated plugin factory work, and validates whether machine limits plus build-local workload signals can select a safe default. Project size and CPU count alone are not selectors. [Live crossover and worker-policy record](./.agents/docs/scale-crossover-worker-policy.md)
+The next performance iteration is local-only and precedes another large-project adaptation. It builds the required Vue and MDX scale curves over actual expensive-handler hits, adds Svelte as a follow-up if feasible, measures every eligible worker count around each optimum, instruments Cloudflare's four-to-eight regression, separates generic worker startup from repeated plugin factory work, and validates whether machine limits plus build-local workload signals can select a safe default. Project size and CPU count alone are not selectors. The [live crossover and worker-policy record](./.agents/docs/scale-crossover-worker-policy.md) defines the questions, and the [frozen execution protocol](./.agents/docs/scale-crossover-frozen-protocol.md) fixes the pre-timing corpora, host gates, matrices, metrics, and acceptance thresholds.
 
 ## First-iteration questions
 

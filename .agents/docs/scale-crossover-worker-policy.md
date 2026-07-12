@@ -1,6 +1,6 @@
 # Scale Crossover, Worker Selection, and Initialization
 
-Status: planning record for the next local-only performance iteration, requested by Yunfei on 2026-07-12. This record changes the research plan but does not authorize an implementation claim. The next work first maps Vue and MDX across workload scales, explains higher-worker regressions, tests whether worker count can be selected automatically, and separates generic worker startup from repeated plugin initialization. Svelte is the follow-up curve if the primary cases finish cleanly. CI timing, Vite as the comparison runtime, watch, rebuild, development servers, HMR, and cross-build worker reuse remain excluded.
+Status: planning record for the next local-only performance iteration, requested by Yunfei on 2026-07-12. The exact corpora, grids, thresholds, host gates, statistics, and semantic requirements are now fixed in the [frozen execution protocol](./scale-crossover-frozen-protocol.md) before new timing or implementation changes. The next work first maps Vue and MDX across workload scales, explains higher-worker regressions, tests whether worker count can be selected automatically, and separates generic worker startup from repeated plugin initialization. Svelte is the follow-up curve if the primary cases finish cleanly. CI timing, Vite as the comparison runtime, watch, rebuild, development servers, HMR, and cross-build worker reuse remain excluded.
 
 ## Product question
 
