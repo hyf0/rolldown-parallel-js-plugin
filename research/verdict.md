@@ -1,6 +1,10 @@
 # Parallel JavaScript Plugin Verdict
 
-Snapshot: 2026-07-12. This verdict covers the direct-Rolldown mechanism, Vue, Svelte, `resolveId`, `load`, and the 9,157-transform Cloudflare MDX stage on Node.js 24.18.0. It does not prove a 2x complete 15–30 minute build, Vite integration, watch, rebuild, development servers, HMR, cross-build pool reuse, or other Node.js versions.
+Snapshot: 2026-07-13. This verdict covers the direct-Rolldown mechanism, Vue, Svelte, `resolveId`, `load`, and the 9,157-transform Cloudflare MDX stage on Node.js 24.18.0. It does not prove a 2x complete 15–30 minute build, Vite integration, watch, rebuild, development servers, HMR, cross-build pool reuse, or other Node.js versions.
+
+The scale, worker-selection, and initialization follow-up has completed its frozen protocols, harnesses, runtime attribution, and refreshed correctness evidence, but it has not produced formal wall-time data. Controlled Vue, independent Vue, MDX, and generic initialization all stop before the first child because the predeclared local-host gate rejects the current uptime and swap. Consequently this snapshot makes no new claim about the Vue or MDX crossover, the best worker count, Cloudflare's worker-four to worker-eight regression, quota behavior, a default automatic policy, or repeated initialization duration. Existing numbers below remain the earlier mechanism-scale and noisy-host evidence until the restarted quiet-host matrices replace or confirm them.
+
+The initialization work does settle two mechanism questions without wall timing. Cloudflare's approximately 1.997-second pool-ready interval is not a generic two-second worker tax because ordinary factory/configuration already took approximately 1.842 seconds in the prior single pair. New instrumentation keeps generic worker creation, runtime and binding import, implementation import, plugin factory/configuration, bindingification, native registration, first/all ready, CPU endpoints, and whole-process RSS separate. It also falsifies the hypothesis that every Node worker constructs another 18-thread Rust runtime: the `module_init` path is a dynamic-library constructor and current direct runs emit one process-level record. These facts rank future hypotheses but do not quantify their repeated wall benefit.
 
 ## Recommendation
 
