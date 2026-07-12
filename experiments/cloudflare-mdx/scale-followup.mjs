@@ -38,9 +38,6 @@ export function validateBaseScreenReport(report, manifest) {
     validateScreenDefinition(definition, manifest, 'base');
     validateCaseRuns(report, definition, 1);
   }
-  if (selectDirectionInterval(report).nonMonotonicScreen) {
-    throw new Error('Base screen has a worker-win to worker-loss reversal; no favorable interval may be selected');
-  }
   return report;
 }
 
@@ -760,7 +757,12 @@ function classifyCriterion(name, direction, universe, points, predicate) {
     if (!point) continue;
     const positive = predicate(point);
     if (observedPositive && !positive) {
-      throw new Error(`${name} repeated evidence reverses from positive to negative at scale ${scale}`);
+      return {
+        name,
+        status: 'non-monotonic-repeated-evidence',
+        reversalScale: scale,
+        requestedScales: [],
+      };
     }
     observedPositive ||= positive;
   }

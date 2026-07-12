@@ -16,7 +16,7 @@ import {
   requirePassedScaleCorrectnessGate,
 } from './correctness-gate.mjs';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   EXPECTED_COMPILER_ENVIRONMENT,
   requirePinnedCompilerEnvironment,
 } from './environment-provenance.mjs';
@@ -35,7 +35,7 @@ const compilerEnvironment = await requirePinnedCompilerEnvironment(projectRoot);
 if (JSON.stringify(compilerEnvironment) !== JSON.stringify(EXPECTED_COMPILER_ENVIRONMENT)) {
   throw new Error('Compiler environment no longer matches the frozen package and lockfile pins');
 }
-const harnessSourceManifest = await captureHarnessSourceManifest();
+const harnessSourceManifest = await captureCorrectnessHarnessSourceManifest();
 if (
   harnessSourceManifest.sourceCount < 1 ||
   !/^[a-f0-9]{64}$/.test(harnessSourceManifest.selectionSha256) ||

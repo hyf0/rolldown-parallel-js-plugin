@@ -165,24 +165,44 @@ expectRejected('screen-output-drift', () => {
   report.runs.find((run) => run.selection.scale === 512 && run.variant === 'worker-4').normalizedOutputHash = 'f'.repeat(64);
   validateBaseScreenReport(report, manifest);
 });
-expectRejected('non-monotonic-base-screen', () => {
-  const report = structuredClone(baseScreen);
-  for (const run of report.runs.filter(
-    (candidate) => candidate.selection.scale === 2_048 && candidate.variant !== 'ordinary',
-  )) {
-    run.totalElapsedMs = 1_200 + Number(run.variant.slice('worker-'.length));
-  }
-  validateBaseScreenReport(report, manifest);
+const nonMonotonicBaseScreen = structuredClone(baseScreen);
+for (const run of nonMonotonicBaseScreen.runs.filter(
+  (candidate) => candidate.selection.scale === 2_048 && candidate.variant !== 'ordinary',
+)) {
+  run.totalElapsedMs = 1_200 + Number(run.variant.slice('worker-'.length));
+}
+validateBaseScreenReport(nonMonotonicBaseScreen, manifest);
+const nonMonotonicScreenPlan = planScaleFollowup({
+  screenRecord: {
+    path: '/synthetic/non-monotonic-base-screen.json',
+    sha256: '9'.repeat(64),
+    report: nonMonotonicBaseScreen,
+  },
+  manifest,
 });
-expectRejected('non-monotonic-repeated-direction', () => {
+if (
+  nonMonotonicScreenPlan.status !== 'matrix-required' ||
+  nonMonotonicScreenPlan.direction.nonMonotonicScreen !== true
+) {
+  throw new Error('Non-monotonic one-shot screen did not remain eligible for repeated confirmation');
+}
+const nonMonotonicRepeated = (() => {
   const record = structuredClone(initialRecord);
   for (const run of record.report.runs.filter(
     (candidate) => candidate.selection.scale === 2_048 && candidate.variant !== 'ordinary',
   )) {
     run.totalElapsedMs = 1_200;
   }
-  planScaleFollowup({ screenRecord, followupRecords: [record], manifest });
-});
+  return planScaleFollowup({ screenRecord, followupRecords: [record], manifest });
+})();
+if (
+  nonMonotonicRepeated.status !== 'complete' ||
+  nonMonotonicRepeated.decision.mechanical.status !== 'non-monotonic-repeated-evidence' ||
+  nonMonotonicRepeated.decision.resource.status !== 'non-monotonic-repeated-evidence' ||
+  nonMonotonicRepeated.decision.mechanical.reversalScale !== 2_048
+) {
+  throw new Error('Repeated non-monotonic evidence was not retained as a terminal result');
+}
 expectRejected('followup-chain-hash', () => {
   const record = structuredClone(refinement768Screen);
   record.report.matrix.followup.consumedArtifactSha256 = [];
@@ -219,6 +239,8 @@ console.log(
       exactResourceCrossover: complete.decision.resource.scale,
       fixedPolicyEvidenceScales: Object.keys(complete.decision.policyEvidenceByScale),
       bootstrap: complete.decision.bootstrap,
+      nonMonotonicScreenConfirmation: nonMonotonicScreenPlan.stage,
+      nonMonotonicRepeatedTerminal: nonMonotonicRepeated.decision.mechanical.status,
     },
     rejected,
   }),

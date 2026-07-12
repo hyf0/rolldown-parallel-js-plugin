@@ -108,6 +108,22 @@ assertRejected(
     }),
   'instrumented profile using an unpinned attribution artifact',
 );
+assertRejected(
+  () =>
+    normalizeRuntimeProfile({
+      ...attribution,
+      bindingBytes: attribution.bindingBytes + 1,
+    }),
+  'instrumented profile using an unpinned binding size',
+);
+assertRejected(
+  () =>
+    normalizeRuntimeProfile({
+      ...attribution,
+      packageEntrySha256: '4'.repeat(64),
+    }),
+  'instrumented profile using an unpinned package entry',
+);
 
 console.log(
   JSON.stringify({

@@ -10,7 +10,7 @@ import {
 import { normalizeRuntimeProfile, validateRuntimeLane } from './runtime-profile.mjs';
 import { assertChildCaptureComplete, CHILD_MAX_BUFFER_BYTES } from './child-buffer-policy.mjs';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   requirePinnedCompilerEnvironment,
 } from './environment-provenance.mjs';
 
@@ -70,7 +70,7 @@ if (activeCiMarkers.length > 0) {
 }
 
 const compilerEnvironment = await requirePinnedCompilerEnvironment(config.projectRoot);
-const harnessSourceManifest = await captureHarnessSourceManifest();
+const harnessSourceManifest = await captureCorrectnessHarnessSourceManifest();
 const runs = config.variants.map((variant) =>
   runVariant({ ...config, variant, measurementMode: 'correctness-only' }),
 );

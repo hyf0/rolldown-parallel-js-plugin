@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import nodePath from 'node:path';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   EXPECTED_COMPILER_ENVIRONMENT,
   requirePinnedCompilerEnvironment,
 } from './environment-provenance.mjs';
@@ -96,7 +96,7 @@ export async function createValidationContext(fullCorpus, semantic) {
     throw new Error('The full scale manifest is not reproducible from the pinned project source');
   }
   const compilerEnvironment = await requirePinnedCompilerEnvironment(projectRoots[0]);
-  const harnessSourceManifest = await captureHarnessSourceManifest();
+  const harnessSourceManifest = await captureCorrectnessHarnessSourceManifest();
   return {
     projectRoot: projectRoots[0],
     manifest,

@@ -1,0 +1,1016 @@
+{
+  "schema": 1,
+  "measurementClass": "correctness-only",
+  "timingEligible": false,
+  "node": "v24.18.0",
+  "runtime": {
+    "kind": "lifecycle-corrected-baseline",
+    "sourceCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "nativeBindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distributionSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45"
+  },
+  "configuredPools": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
+  "matrixSha256": "3d7b23f5a9877ff381378c073062c940dde69e69166bbb131bf5020af1006bfe",
+  "goldenSha256": "38a49f3da01e3589b0aa960628a546b70fbb29787149e2f3b954c8557d47b54b",
+  "projectAdmissions": {
+    "floating-vue": "accepted",
+    "cabinet-icon": "accepted",
+    "primevue": "accepted",
+    "gitlab": "rejected",
+    "vben": "rejected"
+  },
+  "harness": {
+    "commit": "48ae2fafdf408c4cf9b0bd7d0d77e6d292a0ddb0",
+    "clean": true,
+    "statusSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sourceFileCount": 28,
+    "sourceManifestSha256": "1db65308e5212128aadb4fc7a8851ed5bc45c4b99c675b0de87358cbe6da7035"
+  },
+  "adapterToolchain": {
+    "kind": "independent Vue adapter toolchain provenance",
+    "node": {
+      "version": "v24.18.0",
+      "bytes": 120965360,
+      "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+    },
+    "installation": {
+      "files": [
+        {
+          "path": "examples/par-plugin/package.json",
+          "bytes": 1033,
+          "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+        },
+        {
+          "path": "node_modules/.pnpm/lock.yaml",
+          "bytes": 553161,
+          "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+        },
+        {
+          "path": "package.json",
+          "bytes": 1277,
+          "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+        },
+        {
+          "path": "pnpm-lock.yaml",
+          "bytes": 553161,
+          "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+        },
+        {
+          "path": "pnpm-workspace.yaml",
+          "bytes": 3390,
+          "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+        }
+      ],
+      "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+    },
+    "modulesMetadata": {
+      "packageManager": "pnpm@11.9.0",
+      "layoutVersion": 5,
+      "nodeLinker": "isolated",
+      "virtualStoreDir": ".pnpm",
+      "included": {
+        "dependencies": true,
+        "devDependencies": true,
+        "optionalDependencies": true
+      }
+    },
+    "unpluginVue": {
+      "version": "7.2.0",
+      "packageJsonBytes": 2436,
+      "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+      "entrypoint": {
+        "path": "dist/rolldown.mjs",
+        "bytes": 400,
+        "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+      },
+      "tree": {
+        "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+        "files": 23,
+        "bytes": 56484,
+        "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+      }
+    },
+    "source": {
+      "files": [
+        {
+          "path": "impl.js",
+          "bytes": 5791,
+          "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+        },
+        {
+          "path": "index.js",
+          "bytes": 186,
+          "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+        },
+        {
+          "path": "metrics.js",
+          "bytes": 3745,
+          "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+        }
+      ],
+      "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+    }
+  },
+  "projectAdapterProvenance": {
+    "floating-vue": {
+      "kind": "independent Vue adapter toolchain provenance",
+      "node": {
+        "version": "v24.18.0",
+        "bytes": 120965360,
+        "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+      },
+      "installation": {
+        "files": [
+          {
+            "path": "examples/par-plugin/package.json",
+            "bytes": 1033,
+            "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+          },
+          {
+            "path": "node_modules/.pnpm/lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "package.json",
+            "bytes": 1277,
+            "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+          },
+          {
+            "path": "pnpm-lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "bytes": 3390,
+            "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+          }
+        ],
+        "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+      },
+      "modulesMetadata": {
+        "packageManager": "pnpm@11.9.0",
+        "layoutVersion": 5,
+        "nodeLinker": "isolated",
+        "virtualStoreDir": ".pnpm",
+        "included": {
+          "dependencies": true,
+          "devDependencies": true,
+          "optionalDependencies": true
+        }
+      },
+      "unpluginVue": {
+        "version": "7.2.0",
+        "packageJsonBytes": 2436,
+        "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+        "entrypoint": {
+          "path": "dist/rolldown.mjs",
+          "bytes": 400,
+          "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+        },
+        "tree": {
+          "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+          "files": 23,
+          "bytes": 56484,
+          "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "impl.js",
+            "bytes": 5791,
+            "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+          },
+          {
+            "path": "index.js",
+            "bytes": 186,
+            "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+          },
+          {
+            "path": "metrics.js",
+            "bytes": 3745,
+            "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+          }
+        ],
+        "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+      },
+      "projectId": "floating-vue",
+      "compilerSfc": {
+        "resolutionSource": "adapter-explicit-option",
+        "request": "vue/compiler-sfc",
+        "nodeWrapperPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 2769,
+          "packageJsonSha256": "a47a52a49abb476476237bfb7a6337fee5976d516bb5df1cf1354fd3b5eff288",
+          "entrypoint": {
+            "path": "compiler-sfc/index.js",
+            "bytes": 75,
+            "sha256": "a2226c3eedb827ce90fabd18413c8b6d4008a99269f403f86f160b733c546970"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 37,
+            "bytes": 2503852,
+            "sha256": "e1ba4d4381c254c8b47390d12767d977724277d3640de21d024fb0e6b3665ab4"
+          }
+        },
+        "compilerPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 1710,
+          "packageJsonSha256": "3ebcadb08b31e9207a7c5a2073e4ae33daa94bba601fc1c88634b63c1dba0b73",
+          "entrypoint": {
+            "path": "dist/compiler-sfc.cjs.js",
+            "bytes": 886681,
+            "sha256": "36048750a63359f1b062627946a2ca59d91f729af225f9da09fe84ac4917526b"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 6,
+            "bytes": 2622623,
+            "sha256": "47016522990cc6394c590d9c3a0f837da39ff0a7ee22d2d7b4b1f25b6345d640"
+          }
+        }
+      }
+    },
+    "cabinet-icon": {
+      "kind": "independent Vue adapter toolchain provenance",
+      "node": {
+        "version": "v24.18.0",
+        "bytes": 120965360,
+        "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+      },
+      "installation": {
+        "files": [
+          {
+            "path": "examples/par-plugin/package.json",
+            "bytes": 1033,
+            "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+          },
+          {
+            "path": "node_modules/.pnpm/lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "package.json",
+            "bytes": 1277,
+            "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+          },
+          {
+            "path": "pnpm-lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "bytes": 3390,
+            "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+          }
+        ],
+        "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+      },
+      "modulesMetadata": {
+        "packageManager": "pnpm@11.9.0",
+        "layoutVersion": 5,
+        "nodeLinker": "isolated",
+        "virtualStoreDir": ".pnpm",
+        "included": {
+          "dependencies": true,
+          "devDependencies": true,
+          "optionalDependencies": true
+        }
+      },
+      "unpluginVue": {
+        "version": "7.2.0",
+        "packageJsonBytes": 2436,
+        "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+        "entrypoint": {
+          "path": "dist/rolldown.mjs",
+          "bytes": 400,
+          "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+        },
+        "tree": {
+          "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+          "files": 23,
+          "bytes": 56484,
+          "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "impl.js",
+            "bytes": 5791,
+            "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+          },
+          {
+            "path": "index.js",
+            "bytes": 186,
+            "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+          },
+          {
+            "path": "metrics.js",
+            "bytes": 3745,
+            "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+          }
+        ],
+        "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+      },
+      "projectId": "cabinet-icon",
+      "compilerSfc": {
+        "resolutionSource": "adapter-explicit-option",
+        "request": "vue/compiler-sfc",
+        "nodeWrapperPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 2769,
+          "packageJsonSha256": "a47a52a49abb476476237bfb7a6337fee5976d516bb5df1cf1354fd3b5eff288",
+          "entrypoint": {
+            "path": "compiler-sfc/index.js",
+            "bytes": 75,
+            "sha256": "a2226c3eedb827ce90fabd18413c8b6d4008a99269f403f86f160b733c546970"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 37,
+            "bytes": 2503852,
+            "sha256": "e1ba4d4381c254c8b47390d12767d977724277d3640de21d024fb0e6b3665ab4"
+          }
+        },
+        "compilerPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 1710,
+          "packageJsonSha256": "3ebcadb08b31e9207a7c5a2073e4ae33daa94bba601fc1c88634b63c1dba0b73",
+          "entrypoint": {
+            "path": "dist/compiler-sfc.cjs.js",
+            "bytes": 886681,
+            "sha256": "36048750a63359f1b062627946a2ca59d91f729af225f9da09fe84ac4917526b"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 6,
+            "bytes": 2622623,
+            "sha256": "47016522990cc6394c590d9c3a0f837da39ff0a7ee22d2d7b4b1f25b6345d640"
+          }
+        }
+      }
+    },
+    "primevue": {
+      "kind": "independent Vue adapter toolchain provenance",
+      "node": {
+        "version": "v24.18.0",
+        "bytes": 120965360,
+        "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+      },
+      "installation": {
+        "files": [
+          {
+            "path": "examples/par-plugin/package.json",
+            "bytes": 1033,
+            "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+          },
+          {
+            "path": "node_modules/.pnpm/lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "package.json",
+            "bytes": 1277,
+            "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+          },
+          {
+            "path": "pnpm-lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "bytes": 3390,
+            "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+          }
+        ],
+        "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+      },
+      "modulesMetadata": {
+        "packageManager": "pnpm@11.9.0",
+        "layoutVersion": 5,
+        "nodeLinker": "isolated",
+        "virtualStoreDir": ".pnpm",
+        "included": {
+          "dependencies": true,
+          "devDependencies": true,
+          "optionalDependencies": true
+        }
+      },
+      "unpluginVue": {
+        "version": "7.2.0",
+        "packageJsonBytes": 2436,
+        "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+        "entrypoint": {
+          "path": "dist/rolldown.mjs",
+          "bytes": 400,
+          "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+        },
+        "tree": {
+          "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+          "files": 23,
+          "bytes": 56484,
+          "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "impl.js",
+            "bytes": 5791,
+            "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+          },
+          {
+            "path": "index.js",
+            "bytes": 186,
+            "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+          },
+          {
+            "path": "metrics.js",
+            "bytes": 3745,
+            "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+          }
+        ],
+        "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+      },
+      "projectId": "primevue",
+      "compilerSfc": {
+        "resolutionSource": "adapter-explicit-option",
+        "request": "vue/compiler-sfc",
+        "nodeWrapperPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 2769,
+          "packageJsonSha256": "a47a52a49abb476476237bfb7a6337fee5976d516bb5df1cf1354fd3b5eff288",
+          "entrypoint": {
+            "path": "compiler-sfc/index.js",
+            "bytes": 75,
+            "sha256": "a2226c3eedb827ce90fabd18413c8b6d4008a99269f403f86f160b733c546970"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 37,
+            "bytes": 2503852,
+            "sha256": "e1ba4d4381c254c8b47390d12767d977724277d3640de21d024fb0e6b3665ab4"
+          }
+        },
+        "compilerPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 1710,
+          "packageJsonSha256": "3ebcadb08b31e9207a7c5a2073e4ae33daa94bba601fc1c88634b63c1dba0b73",
+          "entrypoint": {
+            "path": "dist/compiler-sfc.cjs.js",
+            "bytes": 886681,
+            "sha256": "36048750a63359f1b062627946a2ca59d91f729af225f9da09fe84ac4917526b"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 6,
+            "bytes": 2622623,
+            "sha256": "47016522990cc6394c590d9c3a0f837da39ff0a7ee22d2d7b4b1f25b6345d640"
+          }
+        }
+      }
+    },
+    "gitlab": {
+      "kind": "independent Vue adapter toolchain provenance",
+      "node": {
+        "version": "v24.18.0",
+        "bytes": 120965360,
+        "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+      },
+      "installation": {
+        "files": [
+          {
+            "path": "examples/par-plugin/package.json",
+            "bytes": 1033,
+            "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+          },
+          {
+            "path": "node_modules/.pnpm/lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "package.json",
+            "bytes": 1277,
+            "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+          },
+          {
+            "path": "pnpm-lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "bytes": 3390,
+            "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+          }
+        ],
+        "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+      },
+      "modulesMetadata": {
+        "packageManager": "pnpm@11.9.0",
+        "layoutVersion": 5,
+        "nodeLinker": "isolated",
+        "virtualStoreDir": ".pnpm",
+        "included": {
+          "dependencies": true,
+          "devDependencies": true,
+          "optionalDependencies": true
+        }
+      },
+      "unpluginVue": {
+        "version": "7.2.0",
+        "packageJsonBytes": 2436,
+        "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+        "entrypoint": {
+          "path": "dist/rolldown.mjs",
+          "bytes": 400,
+          "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+        },
+        "tree": {
+          "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+          "files": 23,
+          "bytes": 56484,
+          "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "impl.js",
+            "bytes": 5791,
+            "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+          },
+          {
+            "path": "index.js",
+            "bytes": 186,
+            "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+          },
+          {
+            "path": "metrics.js",
+            "bytes": 3745,
+            "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+          }
+        ],
+        "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+      },
+      "projectId": "gitlab",
+      "compilerSfc": {
+        "resolutionSource": "adapter-explicit-option",
+        "request": "vue/compiler-sfc",
+        "nodeWrapperPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 2769,
+          "packageJsonSha256": "a47a52a49abb476476237bfb7a6337fee5976d516bb5df1cf1354fd3b5eff288",
+          "entrypoint": {
+            "path": "compiler-sfc/index.js",
+            "bytes": 75,
+            "sha256": "a2226c3eedb827ce90fabd18413c8b6d4008a99269f403f86f160b733c546970"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 37,
+            "bytes": 2503852,
+            "sha256": "e1ba4d4381c254c8b47390d12767d977724277d3640de21d024fb0e6b3665ab4"
+          }
+        },
+        "compilerPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 1710,
+          "packageJsonSha256": "3ebcadb08b31e9207a7c5a2073e4ae33daa94bba601fc1c88634b63c1dba0b73",
+          "entrypoint": {
+            "path": "dist/compiler-sfc.cjs.js",
+            "bytes": 886681,
+            "sha256": "36048750a63359f1b062627946a2ca59d91f729af225f9da09fe84ac4917526b"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 6,
+            "bytes": 2622623,
+            "sha256": "47016522990cc6394c590d9c3a0f837da39ff0a7ee22d2d7b4b1f25b6345d640"
+          }
+        }
+      }
+    },
+    "vben": {
+      "kind": "independent Vue adapter toolchain provenance",
+      "node": {
+        "version": "v24.18.0",
+        "bytes": 120965360,
+        "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+      },
+      "installation": {
+        "files": [
+          {
+            "path": "examples/par-plugin/package.json",
+            "bytes": 1033,
+            "sha256": "164755bc240c737a95f9704add2eb64ae4c246195a0d0f2e8f28da68d77c7262"
+          },
+          {
+            "path": "node_modules/.pnpm/lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "package.json",
+            "bytes": 1277,
+            "sha256": "a56f43a5c1df0cf52223d60e288a265354889dc01fa7126b9a80a56893b21fc7"
+          },
+          {
+            "path": "pnpm-lock.yaml",
+            "bytes": 553161,
+            "sha256": "2cc3710e028dd31f108d5ac993aca4205bddf126099b6d474a2321f8c2ba170a"
+          },
+          {
+            "path": "pnpm-workspace.yaml",
+            "bytes": 3390,
+            "sha256": "a003e5867870bfdb4bcf76331db32d01ecc1a0153d97ee1703dd401b48cc1540"
+          }
+        ],
+        "manifestSha256": "ba88330c03e9323b6abfea68d484312f37cbabbedd117441ed3b67c8e2e2c522"
+      },
+      "modulesMetadata": {
+        "packageManager": "pnpm@11.9.0",
+        "layoutVersion": 5,
+        "nodeLinker": "isolated",
+        "virtualStoreDir": ".pnpm",
+        "included": {
+          "dependencies": true,
+          "devDependencies": true,
+          "optionalDependencies": true
+        }
+      },
+      "unpluginVue": {
+        "version": "7.2.0",
+        "packageJsonBytes": 2436,
+        "packageJsonSha256": "e5e394d8ace1faccb05048e3c9da899aab57ec39f92dc5ec6ab46ea684690815",
+        "entrypoint": {
+          "path": "dist/rolldown.mjs",
+          "bytes": 400,
+          "sha256": "cf2382afdc0bc12df208f49b879cfbc9c350beda4b76c85b95ca8a7e0fc69374"
+        },
+        "tree": {
+          "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+          "files": 23,
+          "bytes": 56484,
+          "sha256": "92cc413985d0b7731e9e3de77d5a30057671065199ca13662cc5bb2578e37a4c"
+        }
+      },
+      "source": {
+        "files": [
+          {
+            "path": "impl.js",
+            "bytes": 5791,
+            "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+          },
+          {
+            "path": "index.js",
+            "bytes": 186,
+            "sha256": "ef39534320c3b94c4d9198172e685ef2a71364b583287f4d89616c2877ca04ec"
+          },
+          {
+            "path": "metrics.js",
+            "bytes": 3745,
+            "sha256": "6c35e162306082cb1bdf89cdf82e845e99223f111577a05fd411d4cd7d9be2b6"
+          }
+        ],
+        "manifestSha256": "44e5c6521cd61df04982f7b1eb9315ace528f561a196164345bdd6e1d694dff2"
+      },
+      "projectId": "vben",
+      "compilerSfc": {
+        "resolutionSource": "adapter-explicit-option",
+        "request": "vue/compiler-sfc",
+        "nodeWrapperPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 2769,
+          "packageJsonSha256": "a47a52a49abb476476237bfb7a6337fee5976d516bb5df1cf1354fd3b5eff288",
+          "entrypoint": {
+            "path": "compiler-sfc/index.js",
+            "bytes": 75,
+            "sha256": "a2226c3eedb827ce90fabd18413c8b6d4008a99269f403f86f160b733c546970"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 37,
+            "bytes": 2503852,
+            "sha256": "e1ba4d4381c254c8b47390d12767d977724277d3640de21d024fb0e6b3665ab4"
+          }
+        },
+        "compilerPackage": {
+          "version": "3.5.39",
+          "packageJsonBytes": 1710,
+          "packageJsonSha256": "3ebcadb08b31e9207a7c5a2073e4ae33daa94bba601fc1c88634b63c1dba0b73",
+          "entrypoint": {
+            "path": "dist/compiler-sfc.cjs.js",
+            "bytes": 886681,
+            "sha256": "36048750a63359f1b062627946a2ca59d91f729af225f9da09fe84ac4917526b"
+          },
+          "tree": {
+            "algorithm": "SHA-256 over every UTF-8-sorted package-payload regular file excluding package-local node_modules: relative path + NUL + bytes + NUL + content SHA-256 + LF",
+            "files": 6,
+            "bytes": 2622623,
+            "sha256": "47016522990cc6394c590d9c3a0f837da39ff0a7ee22d2d7b4b1f25b6345d640"
+          }
+        }
+      }
+    }
+  },
+  "executionEnvironment": {
+    "inheritedNodeOptions": null,
+    "childNodeOptions": null,
+    "childLoaderArgument": "--import /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-crossover/examples/par-plugin/cases/vue-projects/register-loader.mjs"
+  },
+  "runs": [
+    {
+      "projectId": "floating-vue",
+      "variant": "ordinary",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "e0da3a34f23f0e916507493b0346aba401c16643782f54aef1b80f6cb1ba9f6d"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "ordinary",
+      "repeat": 1,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "e0da3a34f23f0e916507493b0346aba401c16643782f54aef1b80f6cb1ba9f6d"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "worker-1",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "e0da3a34f23f0e916507493b0346aba401c16643782f54aef1b80f6cb1ba9f6d"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "worker-4",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "e0da3a34f23f0e916507493b0346aba401c16643782f54aef1b80f6cb1ba9f6d"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "ordinary",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "ad028341228f17895b28afd46bd2814bdffa2be11a922582db9273ebadf6c238"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "ordinary",
+      "repeat": 1,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "ad028341228f17895b28afd46bd2814bdffa2be11a922582db9273ebadf6c238"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "worker-1",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "ad028341228f17895b28afd46bd2814bdffa2be11a922582db9273ebadf6c238"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "worker-4",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "ad028341228f17895b28afd46bd2814bdffa2be11a922582db9273ebadf6c238"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "ordinary",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "4b766f3c80314f13670f5bfca56d55d3e1df8a814b59dddad7b82c70dfc7a5e0"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "ordinary",
+      "repeat": 1,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "4b766f3c80314f13670f5bfca56d55d3e1df8a814b59dddad7b82c70dfc7a5e0"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "worker-1",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "4b766f3c80314f13670f5bfca56d55d3e1df8a814b59dddad7b82c70dfc7a5e0"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "worker-4",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "accepted",
+      "canonicalEvidenceSha256": "4b766f3c80314f13670f5bfca56d55d3e1df8a814b59dddad7b82c70dfc7a5e0"
+    },
+    {
+      "projectId": "gitlab",
+      "variant": "ordinary",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "not-run",
+      "admissionStatus": "rejected",
+      "canonicalEvidenceSha256": "07393d7eeeda8a41497951730c39bb8005561d76cbeb353848ae8c9ef5e5bc4e"
+    },
+    {
+      "projectId": "vben",
+      "variant": "ordinary",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "rejected",
+      "canonicalEvidenceSha256": "35ee5cedeae7911268820e0fbeb46fadd3027e102c25bddc0361b94a1e7de697"
+    },
+    {
+      "projectId": "vben",
+      "variant": "ordinary",
+      "repeat": 1,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "rejected",
+      "canonicalEvidenceSha256": "35ee5cedeae7911268820e0fbeb46fadd3027e102c25bddc0361b94a1e7de697"
+    },
+    {
+      "projectId": "vben",
+      "variant": "worker-1",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "rejected",
+      "canonicalEvidenceSha256": "35ee5cedeae7911268820e0fbeb46fadd3027e102c25bddc0361b94a1e7de697"
+    },
+    {
+      "projectId": "vben",
+      "variant": "worker-4",
+      "repeat": 0,
+      "exitCode": 0,
+      "executionStatus": "completed",
+      "admissionStatus": "rejected",
+      "canonicalEvidenceSha256": "35ee5cedeae7911268820e0fbeb46fadd3027e102c25bddc0361b94a1e7de697"
+    }
+  ],
+  "durableEligible": true,
+  "canonicalSummarySha256": "4e35d091c3775768690ca43214ee937e28abdf5d2417d40f41b16550970b97c7",
+  "artifactRunHashes": [
+    {
+      "projectId": "floating-vue",
+      "variant": "ordinary",
+      "repeat": 0,
+      "stdoutSha256": "c93e239e28fabe7950b764c28c46818229c58d874c0cbdca6755345bde814e52",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "ordinary",
+      "repeat": 1,
+      "stdoutSha256": "c93e239e28fabe7950b764c28c46818229c58d874c0cbdca6755345bde814e52",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "worker-1",
+      "repeat": 0,
+      "stdoutSha256": "27712e0c2544f16d7ca2dea2fd666d4a29a505bd10db548071bebaef719aac84",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "floating-vue",
+      "variant": "worker-4",
+      "repeat": 0,
+      "stdoutSha256": "eb417b9c187ab625229d74ab836b62849f4ceb0d4231fcc4de15d31874eaeaad",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "ordinary",
+      "repeat": 0,
+      "stdoutSha256": "80c661907b0db8e06b76710d2a26575c09b8eaab6a664171ca958fe2c251223b",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "ordinary",
+      "repeat": 1,
+      "stdoutSha256": "80c661907b0db8e06b76710d2a26575c09b8eaab6a664171ca958fe2c251223b",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "worker-1",
+      "repeat": 0,
+      "stdoutSha256": "81e24a5a99d7a7ffabf28e1a082e9817b4e7c7ed622e82bb55c003d04214a88d",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "cabinet-icon",
+      "variant": "worker-4",
+      "repeat": 0,
+      "stdoutSha256": "272d8290d83600b12bad360d28f6db585f342a33ac91b30fcb4854ddd0596ac3",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "ordinary",
+      "repeat": 0,
+      "stdoutSha256": "37bf06bb0d374473ce1daeebbf1dbec26cab599d92a4d5bacef086200a458faa",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "ordinary",
+      "repeat": 1,
+      "stdoutSha256": "37bf06bb0d374473ce1daeebbf1dbec26cab599d92a4d5bacef086200a458faa",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "worker-1",
+      "repeat": 0,
+      "stdoutSha256": "fc040925c8edc53473f3dce0288eab2c0e63021fb9f1a26db45e81b5d1301299",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "primevue",
+      "variant": "worker-4",
+      "repeat": 0,
+      "stdoutSha256": "57d3f0236a950151ecba03de1f43eaea4af5e4d9b4e0eebbfbc657beede40485",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "gitlab",
+      "variant": "ordinary",
+      "repeat": 0,
+      "stdoutSha256": "02fc0889d57b2001a9fa5ff708ad4b129a843b0ef56f9eb075e262102e9957dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "vben",
+      "variant": "ordinary",
+      "repeat": 0,
+      "stdoutSha256": "4577121eac1247de333396de7858a6c47338b007b83387ea0feff2c6dc32e169",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "vben",
+      "variant": "ordinary",
+      "repeat": 1,
+      "stdoutSha256": "4577121eac1247de333396de7858a6c47338b007b83387ea0feff2c6dc32e169",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "vben",
+      "variant": "worker-1",
+      "repeat": 0,
+      "stdoutSha256": "2d586d4cd2fccf194ba957a48de0dddd845fce0b7e2e1b6bbfc15ac641dde6dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "projectId": "vben",
+      "variant": "worker-4",
+      "repeat": 0,
+      "stdoutSha256": "111361152051575af24e889c485ab2260519fe699e237bad4e4297e6dd521d20",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "rawArtifactSha256": "9863e24f549a185001d7864362b212c1a8676cf7832d5dfdb8fb6053f280172a",
+  "rawHashScope": "SHA-256 of the exact uncommitted raw JSON artifact bytes; timestamps and host fields mean a later run has a different raw hash.",
+  "canonicalHashScope": "SHA-256 of outcome and normalized correctness evidence. Regenerate only from a clean committed harness and retain the raw artifact beside this summary."
+}

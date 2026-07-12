@@ -31,7 +31,8 @@ const NATIVE_STAGE_RELATIONSHIPS = Object.freeze({
 const PROCESS_METRICS_SCOPE = Object.freeze({
   cpuUsage: 'whole process, including JS workers and native threads',
   mainThreadCpuUsage: 'current Node.js thread only',
-  memoryUsage: 'whole process; RSS is not assigned to an isolate or worker',
+  memoryUsage:
+    'RSS is whole process; other process.memoryUsage fields follow current-thread/isolate semantics and are not worker ownership',
   heapStatistics: 'current V8 isolate only',
   eventLoopUtilization: 'current Node.js event loop only; this is not CPU time',
   gc: 'GC performance entries observed in this isolate after its metrics observer started',
@@ -49,22 +50,34 @@ const LAUNCHER_PROCESS_SCOPE = Object.freeze({
 const LIFECYCLE_RSS_SCOPE = 'whole process; the before/after delta is not worker ownership';
 const LIFECYCLE_SNAPSHOT_SCOPE = 'whole process; RSS is not attributed to an isolate or worker';
 const LIFECYCLE_PROCESS_SCOPE = Object.freeze({
+  endpoints:
+    'every resource read occurs synchronously between captureStartedAt and captureFinishedAt; Node.js does not expose each exact counter-read instant',
   cpuUsage: 'whole process, including JS workers and native threads',
-  memoryUsage: 'whole process; RSS is not assigned to a worker',
+  memoryUsage:
+    'RSS is whole process; other process.memoryUsage fields follow main-thread/isolate semantics; RSS is not assigned to a worker',
   heapStatistics: 'main V8 isolate only',
   eventLoopUtilization: 'Node.js main event loop only; this is not CPU time',
 });
 const WORKER_LOCAL_SCOPE = Object.freeze({
   cpuUsage: 'whole process; not this worker',
   threadCpuUsage: 'this Node.js worker thread',
-  memoryUsage: 'whole process; RSS is not this worker',
+  memoryUsage:
+    'RSS is whole process; other process.memoryUsage fields follow worker-thread semantics; RSS is not this worker',
   heapStatistics: 'this worker V8 isolate',
   eventLoopUtilization: 'this worker event loop; this is not CPU time',
   gc: 'GC performance entries observed in this worker after launcher instrumentation started',
 });
 const CPU_WINDOW_CLASS = 'asynchronous-bracketing-diagnostic; not exact CPU attribution';
 const CPU_WINDOW_SCOPE =
-  'process and main-thread deltas share exact process snapshot endpoints; worker CPU reads have different asynchronous endpoints, so they are reported independently and are never subtracted into a claimed Rust/native residual';
+  'process and main-thread counters are read within synchronous process-snapshot capture bounds; worker CPU reads have different asynchronous bounds, so they are reported independently and are never subtracted into a claimed Rust/native residual';
+const PROCESS_CPU_WINDOW_CLASS =
+  'synchronous snapshot-bracketed cumulative-counter difference; exact CPU counter read instants are not exposed';
+const PROCESS_CPU_WINDOW_SCOPE =
+  'process CPU includes all JavaScript workers and native threads; main-thread CPU covers the parent Node.js thread; neither delta is plugin or native ownership';
+const WORKER_STAGE_WINDOW_CLASS =
+  'synchronous bracketing resource snapshots; the resource delta contains the wall stage plus the two boundary-capture gaps and is not an exact wall-stage CPU or RSS attribution';
+const POST_CLOSE_SNAPSHOT_SCOPE =
+  'whole process across worker termination, native bundler close, and parent GC requests; RSS is not worker, plugin, factory, or isolate ownership';
 const RSS_OWNERSHIP = 'whole child process; never worker or V8-isolate ownership';
 const INIT_CPU_SAMPLE_CLASS =
   'cumulative worker-thread CPU since an unknown point between constructor start and online, read asynchronously during the ready capture interval';
@@ -74,15 +87,34 @@ const TERM_CPU_SAMPLE_CLASS =
   'worker-thread CPU difference between two asynchronously completed capture intervals';
 const TERM_CPU_RELATION =
   'the worker CPU interval is contained by the outer process window and contains the inner process window; it is neither an exact match for either process window nor exact plugin attribution';
+const ATTRIBUTION_RUNTIME_ARTIFACT = Object.freeze({
+  binding: Object.freeze({
+    bytes: ATTRIBUTION_RUNTIME_PROFILE.bindingBytes,
+    sha256: ATTRIBUTION_RUNTIME_PROFILE.bindingSha256,
+  }),
+  distribution: Object.freeze({
+    files: ATTRIBUTION_RUNTIME_PROFILE.distFiles,
+    bytes: ATTRIBUTION_RUNTIME_PROFILE.distBytes,
+    sha256: ATTRIBUTION_RUNTIME_PROFILE.distSha256,
+  }),
+  packageEntry: Object.freeze({
+    path: 'dist/index.mjs',
+    bytes: ATTRIBUTION_RUNTIME_PROFILE.packageEntryBytes,
+    sha256: ATTRIBUTION_RUNTIME_PROFILE.packageEntrySha256,
+  }),
+});
 
 export function validateAttributionMatrix(matrix) {
   if (
     matrix?.executionScope !== 'local-only' ||
     matrix.evidenceKind !== 'attribution' ||
+    matrix.executionEnabled !== true ||
     typeof matrix.correctnessGate !== 'string' ||
     matrix.correctnessGate.length === 0
   ) {
-    throw new Error('Attribution matrix must be local-only, explicitly attributed, and gated');
+    throw new Error(
+      'Attribution matrix must be enabled, local-only, explicitly attributed, and gated',
+    );
   }
   if (!same(normalizeRuntimeProfile(matrix.runtimeProfile), ATTRIBUTION_RUNTIME_PROFILE)) {
     throw new Error('Attribution matrix does not use the exact frozen attribution runtime');
@@ -162,6 +194,10 @@ export function validateAttributionReport(report, { correctnessOracle } = {}) {
   }
   if (!correctnessOracle) throw new Error('Attribution validation requires the pinned correctness oracle');
   for (const run of report.runs) validateAttributionRun(run, correctnessOracle);
+  const initializationComparison = deriveAttributionComparison(report.runs);
+  if (!same(report.initializationComparison, initializationComparison)) {
+    throw new Error('Attribution initialization comparison is absent or not derived from raw runs');
+  }
   for (const field of [
     'transformedEntryCount',
     'selection',
@@ -193,10 +229,12 @@ export function validateAttributionRun(run, correctnessOracle) {
     run.selection?.scale !== ATTRIBUTION_SCALE ||
     run.selection?.prefixSha256 !== ATTRIBUTION_PREFIX_SHA256 ||
     !same(normalizeRuntimeProfile(run.runtimeProfile), ATTRIBUTION_RUNTIME_PROFILE) ||
+    !same(run.runtimeArtifact, ATTRIBUTION_RUNTIME_ARTIFACT) ||
     !same(
       normalizePoolEnvironment(run.poolEnvironment),
       normalizePoolEnvironment(BASELINE_POOL_ENVIRONMENT),
-    )
+    ) ||
+    !positive(run.mainPluginConstructionElapsedMs)
   ) {
     throw new Error(`${run.variant} changed attribution inputs or provenance`);
   }
@@ -210,9 +248,14 @@ export function validateAttributionRun(run, correctnessOracle) {
     createBundlerOptionsMetrics: run.createBundlerOptionsMetrics,
     nativePluginRegistrationMetrics: run.nativePluginRegistrationMetrics,
     lifecycleMetrics: run.lifecycleMetrics,
+    postCloseMetrics: run.postCloseMetrics,
   });
   if (workerCount === 0) {
-    if ((run.rustMetrics ?? []).length !== 0 || (run.lifecycleMetrics ?? []).length !== 0) {
+    if (
+      (run.rustMetrics ?? []).length !== 0 ||
+      (run.lifecycleMetrics ?? []).length !== 0 ||
+      (run.postCloseMetrics ?? []).length !== 0
+    ) {
       throw new Error('Ordinary attribution unexpectedly emitted worker metrics');
     }
   } else {
@@ -233,6 +276,7 @@ export function validateAttributionInitializationRecords({
   createBundlerOptionsMetrics,
   nativePluginRegistrationMetrics,
   lifecycleMetrics,
+  postCloseMetrics,
 }) {
   if (!Number.isSafeInteger(workerCount) || workerCount < 0) {
     throw new Error(`Invalid initialization worker count: ${workerCount}`);
@@ -251,11 +295,22 @@ export function validateAttributionInitializationRecords({
   const lifecycle = workerCount
     ? validateLifecycle(lifecycleMetrics, workerCount, createBundlerOptions.metricsId)
     : undefined;
-  if (!workerCount && (lifecycleMetrics ?? []).length !== 0) {
+  const postClose = workerCount
+    ? validatePostClose(
+        postCloseMetrics,
+        workerCount,
+        createBundlerOptions.metricsId,
+        lifecycle.termination,
+      )
+    : undefined;
+  if (
+    !workerCount &&
+    ((lifecycleMetrics ?? []).length !== 0 || (postCloseMetrics ?? []).length !== 0)
+  ) {
     throw new Error('Ordinary initialization unexpectedly emitted worker lifecycle metrics');
   }
   validatePluginIndexCorrelation(createBundlerOptions, nativeRegistration, lifecycle);
-  return { createBundlerOptions, nativeRegistration, lifecycle };
+  return { createBundlerOptions, nativeRegistration, lifecycle, postClose };
 }
 
 export function deriveAttributionSummary(run) {
@@ -272,11 +327,12 @@ export function deriveAttributionSummary(run) {
   const termination = (run.lifecycleMetrics ?? []).find(
     ({ kind }) => kind === 'rolldown_parallel_plugin_termination_metrics',
   );
+  const postClose = run.postCloseMetrics?.[0];
   const rust = run.rustMetrics?.[0];
   const widths = rust?.timeline?.timeWeightedWidths;
   const completion = rust?.timeline?.completionRateInputs;
   return {
-    schema: 2,
+    schema: 4,
     workerCount,
     cpuMicros: {
       process: processCpu,
@@ -288,6 +344,7 @@ export function deriveAttributionSummary(run) {
         ? {
             initialization: summarizeCpuWindow(initialization.cpuWindows),
             lifetimeThroughPreTerminationSnapshot: summarizeCpuWindow(termination.cpuWindows),
+            postClose: postClose.cpuWindow,
             interpretation:
               'worker CPU samples have asynchronous bounded endpoints; they are diagnostics and are never subtracted from either process interval to claim a Rust/native residual',
           }
@@ -327,6 +384,7 @@ export function deriveAttributionSummary(run) {
               runtimeScope: termination.rssScope,
               ownership: RSS_OWNERSHIP,
             },
+            postClose: postClose.rss,
           }
         : null,
     },
@@ -338,6 +396,22 @@ export function deriveAttributionSummary(run) {
     },
     initialization: {
       metricsId: createBundlerOptions.metricsId,
+      pluginConstruction: {
+        mainThreadElapsedMs: run.mainPluginConstructionElapsedMs,
+        mainThreadRole:
+          workerCount === 0
+            ? 'ordinary plugin construction including the one real MDX kernel factory'
+            : 'parallel proxy construction on the main thread; real MDX kernel factories run in workers',
+        javascriptFactory: {
+          calls: run.metrics.factoryCalls,
+          elapsedMsTotal: run.metrics.initializationMsTotal,
+          elapsedMsMax: run.metrics.initializationMsMax,
+          role:
+            workerCount === 0
+              ? 'one ordinary main-isolate MDX kernel factory'
+              : 'one real MDX kernel factory in each worker isolate',
+        },
+      },
       createBundlerOptions: {
         elapsedMs: durationBetween(
           createBundlerOptions.timeline.createBundlerOptionsStartedAt,
@@ -365,6 +439,7 @@ export function deriveAttributionSummary(run) {
         createBundlerOptionsMetricsId: createBundlerOptions.metricsId,
         nativeRegistrationMetricsId: nativeRegistration.metricsId,
         lifecycleMetricsId: initialization?.metricsId ?? null,
+        postCloseMetricsId: postClose?.metricsId ?? null,
         pluginIndexes: createBundlerOptions.pluginBinding.map(({ pluginIndex }) => pluginIndex),
         rustTransformMetricsIdentity:
           'the Rust transform record has no metricsId; this fresh process requires exactly one such record and correlates it by the sole worker lane plus exact module and worker-index bijections',
@@ -392,12 +467,29 @@ export function deriveAttributionSummary(run) {
           ({ threadNumber }) => threadNumber === worker.threadNumber,
         ),
       },
-      heapAtReady: worker.resourcesAtPoolReady.snapshot.heapStatistics,
-      heapBeforeTermination: worker.resourcesBeforeTermination.snapshot.heapStatistics,
-      eventLoopUtilizationBeforeTermination:
-        worker.resourcesBeforeTermination.snapshot.eventLoopUtilization,
-      gc: worker.workerLocalBeforeTermination.gc,
+      resourcesAtPoolReady: worker.resourcesAtPoolReady,
+      resourcesBeforeTermination: worker.resourcesBeforeTermination,
+      workerLocalBeforeTermination: worker.workerLocalBeforeTermination,
     })),
+    lifecycleProcessSnapshots: initialization
+      ? {
+          initialization: summarizeLifecycleProcessSnapshots(initialization.processSnapshots),
+          termination: summarizeLifecycleProcessSnapshots(termination.processSnapshots),
+        }
+      : null,
+    postClose: postClose
+      ? {
+          metricsId: postClose.metricsId,
+          workerCount: postClose.workerCount,
+          pluginCount: postClose.pluginCount,
+          parallelPluginIndexes: postClose.parallelPluginIndexes,
+          parentGc: postClose.parentGc,
+          processSnapshots: summarizeLifecycleProcessSnapshots(postClose.processSnapshots),
+          cpuWindow: postClose.cpuWindow,
+          rss: postClose.rss,
+          isolationLimits: postClose.isolationLimits,
+        }
+      : null,
     throughput: rust
       ? {
           rustCompletedCallsPerSecond:
@@ -422,19 +514,104 @@ export function deriveAttributionSummary(run) {
   };
 }
 
+export function deriveAttributionComparison(runs) {
+  if (
+    !Array.isArray(runs) ||
+    runs.length !== ATTRIBUTION_VARIANTS.length ||
+    !same(runs.map(({ variant }) => variant), ATTRIBUTION_VARIANTS)
+  ) {
+    throw new Error('Initialization comparison requires the frozen ordinary/worker-4/worker-8 order');
+  }
+  const ordinary = runs[0];
+  const ordinaryFactoryMs = ordinary.metrics.initializationMsMax;
+  return {
+    schema: 1,
+    ordinary: {
+      mainPluginConstructionElapsedMs: ordinary.mainPluginConstructionElapsedMs,
+      factoryCalls: ordinary.metrics.factoryCalls,
+      factoryElapsedMsTotal: ordinary.metrics.initializationMsTotal,
+      factoryElapsedMsMax: ordinaryFactoryMs,
+    },
+    workerPools: runs.slice(1).map((run) => {
+      const pool = run.attributionSummary.initialization.workerPool;
+      return {
+        workerCount: run.attributionSummary.workerCount,
+        mainProxyConstructionElapsedMs: run.mainPluginConstructionElapsedMs,
+        factoryCalls: run.metrics.factoryCalls,
+        factoryElapsedMsTotal: run.metrics.initializationMsTotal,
+        factoryElapsedMsMax: run.metrics.initializationMsMax,
+        poolInitializationElapsedMs: pool.elapsedMs,
+        firstReadyMs: pool.readiness.firstReadyMs,
+        allReadyMs: pool.readiness.allReadyMs,
+        readySkewMs: pool.readiness.readySkewMs,
+        criticalStageMaximaMs: pool.criticalStageMaximaMs,
+        deltasVsOrdinaryFactoryMs: {
+          maximumWorkerFactory: run.metrics.initializationMsMax - ordinaryFactoryMs,
+          firstReady: pool.readiness.firstReadyMs - ordinaryFactoryMs,
+          allReady: pool.readiness.allReadyMs - ordinaryFactoryMs,
+        },
+      };
+    }),
+    interpretation:
+      'ordinary factory time is compared directly with worker-local factory maxima and main-observed worker readiness; stage maxima are parallel critical-worker observations and must not be summed into a wall total',
+  };
+}
+
 function summarizeWorkerPoolInitialization(initialization) {
+  const poolStartMs =
+    initialization.processSnapshots.beforeWorkerPool.capturedAt.monotonicMs;
+  const readyEventMs = initialization.workers.map(
+    ({ mainTimeline }) => mainTimeline.readyMessageAt.monotonicMs,
+  );
+  const firstReadyEventMs = Math.min(...readyEventMs);
+  const allReadyEventMs = Math.max(...readyEventMs);
+  const plugins = initialization.workers.flatMap(({ workerBootstrap }) => workerBootstrap.plugins);
   return {
     elapsedMs: initialization.poolInitializationMs,
+    readiness: {
+      origin: 'main beforeWorkerPool process snapshot',
+      poolStartMonotonicMs: poolStartMs,
+      firstReadyMs: firstReadyEventMs - poolStartMs,
+      allReadyMs: allReadyEventMs - poolStartMs,
+      readySkewMs: allReadyEventMs - firstReadyEventMs,
+    },
+    criticalStageMaximaMs: {
+      launcherEntryThroughRegistration: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.measuredBootstrapMs,
+        ),
+      ),
+      runtimeAndBindingImport: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.launcher.stages.runtimeAndBindingImport.durationMs,
+        ),
+      ),
+      metricsRuntimeImport: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.launcher.stages.metricsRuntimeImport.durationMs,
+        ),
+      ),
+      implementationImport: Math.max(...plugins.map(({ implementationImportMs }) => implementationImportMs)),
+      factory: Math.max(...plugins.map(({ factoryMs }) => factoryMs)),
+      bindingifyPlugin: Math.max(...plugins.map(({ bindingifyMs }) => bindingifyMs)),
+      registerPlugins: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.registerPluginsMs,
+        ),
+      ),
+    },
     cpuWindow: summarizeCpuWindow(initialization.cpuWindows),
     workers: initialization.workers.map(({ threadNumber, mainReadyMs, workerBootstrap }) => ({
       threadNumber,
       mainReadyMs,
       launcher: {
+        scope: workerBootstrap.launcher.scope,
         elapsedMs: durationBetween(
           workerBootstrap.timeline.launcherEntryAt,
           workerBootstrap.timeline.runtimeAndBindingImportFinishedAt,
         ),
         stages: stageDurations(workerBootstrap.launcher.stages),
+        resources: workerBootstrap.launcher.resources,
       },
       bootstrap: {
         launcherEntryThroughRegistrationMs: workerBootstrap.measuredBootstrapMs,
@@ -454,17 +631,48 @@ function summarizeWorkerPoolInitialization(initialization) {
             workerBootstrap.timeline.readyAt,
           ),
         },
+        registrationStage: workerBootstrap.registrationStage,
+        registrationResources: workerBootstrap.registrationResources,
+        workerLocalBeforePluginInitialization:
+          workerBootstrap.workerLocalBeforePluginInitialization,
+        workerLocalAtReady: workerBootstrap.workerLocalAtReady,
+        isolationLimits: workerBootstrap.isolationLimits,
         plugins: workerBootstrap.plugins.map((plugin) => ({
           pluginIndex: plugin.pluginIndex,
           implementationImportMs: plugin.implementationImportMs,
           factoryMs: plugin.factoryMs,
           bindingifyMs: plugin.bindingifyMs,
+          stages: plugin.stages,
+          resourceBoundaries: plugin.resourceBoundaries,
+          resourceWindows: plugin.resourceWindows,
         })),
       },
     })),
     nesting:
       'launcher stages are contained by launcherEntryThroughRegistrationMs; plugin import, factory, bindingification, and registration are bootstrap sub-stages and must not be added to the launcher total as independent elapsed time',
   };
+}
+
+function summarizeLifecycleProcessSnapshots(processSnapshots) {
+  return Object.fromEntries(
+    Object.entries(processSnapshots).map(([name, snapshot]) => [
+      name,
+      name === 'scope'
+        ? snapshot
+        : {
+            capturedAt: snapshot.capturedAt,
+            captureStartedAt: snapshot.captureStartedAt,
+            captureFinishedAt: snapshot.captureFinishedAt,
+            scope: snapshot.scope,
+            processCpuUsageMicros: snapshot.processCpuUsageMicros,
+            mainThreadCpuUsageMicros: snapshot.mainThreadCpuUsageMicros,
+            processMemoryUsageBytes: snapshot.processMemoryUsageBytes,
+            mainIsolateHeapStatistics: snapshot.mainIsolateHeapStatistics,
+            mainEventLoopUtilization: snapshot.mainEventLoopUtilization,
+            mainIsolateGc: snapshot.mainIsolateGc,
+          },
+    ]),
+  );
 }
 
 function summarizeCpuWindow(cpuWindows) {
@@ -829,6 +1037,10 @@ function validateJsMetrics(metrics, expectedWorkers) {
   if (
     metrics?.schema !== 2 ||
     metrics.factoryCalls !== expectedWorkers ||
+    !positive(metrics.initializationMsTotal) ||
+    !positive(metrics.initializationMsMax) ||
+    metrics.initializationMsTotal < metrics.initializationMsMax ||
+    metrics.initializationMsTotal > expectedWorkers * metrics.initializationMsMax + 1e-6 ||
     metrics.handlerCalls !== ATTRIBUTION_SCALE ||
     metrics.distinctHandlerIds !== ATTRIBUTION_SCALE ||
     metrics.active !== 0 ||
@@ -890,6 +1102,25 @@ function validateLifecycle(records, workerCount, metricsId) {
     ['initialization', initialization],
     ['termination', termination],
   ]) {
+    assertExactKeys(
+      record,
+      [
+        'kind',
+        'version',
+        'metricsId',
+        'workerCount',
+        'pluginCount',
+        'parallelPluginIndexes',
+        label === 'initialization' ? 'poolInitializationMs' : 'poolTerminationMs',
+        'rssBeforeBytes',
+        'rssAfterBytes',
+        'rssScope',
+        'processSnapshots',
+        'cpuWindows',
+        'workers',
+      ],
+      `worker ${label} lifecycle record`,
+    );
     if (
       record.version !== 1 ||
       record.metricsId !== metricsId ||
@@ -943,6 +1174,17 @@ function validateLifecycle(records, workerCount, metricsId) {
   );
   const initWorkers = new Map();
   for (const worker of initialization.workers) {
+    assertExactKeys(
+      worker,
+      [
+        'threadNumber',
+        'mainReadyMs',
+        'mainTimeline',
+        'workerBootstrap',
+        'resourcesAtPoolReady',
+      ],
+      `worker ${worker.threadNumber} initialization lifecycle`,
+    );
     if (
       !positive(worker.mainReadyMs) ||
       !worker.mainTimeline ||
@@ -984,9 +1226,9 @@ function validateLifecycle(records, workerCount, metricsId) {
     );
     if (
       resourcesAtPoolReady.startedAt.monotonicMs <
-        initSnapshots.get('allWorkersReady').capturedAt.monotonicMs ||
+        initSnapshots.get('allWorkersReady').captureFinishedAt.monotonicMs ||
       resourcesAtPoolReady.finishedAt.monotonicMs >
-        initSnapshots.get('resourceBaselineBeforeBuild').capturedAt.monotonicMs
+        initSnapshots.get('resourceBaselineBeforeBuild').captureStartedAt.monotonicMs
     ) {
       throw new Error(`Worker ${worker.threadNumber} pool-ready capture is outside lifecycle snapshots`);
     }
@@ -999,6 +1241,16 @@ function validateLifecycle(records, workerCount, metricsId) {
   }
   const termWorkers = new Map();
   for (const worker of termination.workers) {
+    assertExactKeys(
+      worker,
+      [
+        'threadNumber',
+        'resourcesAtPoolReady',
+        'resourcesBeforeTermination',
+        'workerLocalBeforeTermination',
+      ],
+      `worker ${worker.threadNumber} termination lifecycle`,
+    );
     const initialized = initWorkers.get(worker.threadNumber);
     if (!initialized || !same(worker.resourcesAtPoolReady, initialized.raw.resourcesAtPoolReady)) {
       throw new Error(`Worker ${worker.threadNumber} changed its pool-ready baseline`);
@@ -1015,9 +1267,9 @@ function validateLifecycle(records, workerCount, metricsId) {
     );
     if (
       resourcesBeforeTermination.startedAt.monotonicMs <
-        termSnapshots.get('beforeWorkerSnapshots').capturedAt.monotonicMs ||
+        termSnapshots.get('beforeWorkerSnapshots').captureFinishedAt.monotonicMs ||
       resourcesBeforeTermination.finishedAt.monotonicMs >
-        termSnapshots.get('afterWorkerSnapshots').capturedAt.monotonicMs
+        termSnapshots.get('afterWorkerSnapshots').captureStartedAt.monotonicMs
     ) {
       throw new Error(`Worker ${worker.threadNumber} pre-termination capture is outside lifecycle snapshots`);
     }
@@ -1050,6 +1302,146 @@ function validateLifecycle(records, workerCount, metricsId) {
   return { initialization, termination };
 }
 
+function validatePostClose(records, workerCount, metricsId, termination) {
+  const report = only(records, `worker-${workerCount} post-close metrics record`);
+  assertExactKeys(
+    report,
+    [
+      'kind',
+      'version',
+      'metricsId',
+      'workerCount',
+      'pluginCount',
+      'parallelPluginIndexes',
+      'parentGc',
+      'processSnapshots',
+      'cpuWindow',
+      'rss',
+      'isolationLimits',
+    ],
+    `worker-${workerCount} post-close metrics`,
+  );
+  if (
+    report.kind !== 'rolldown_parallel_plugin_post_close_metrics' ||
+    report.version !== 1 ||
+    report.metricsId !== metricsId ||
+    report.workerCount !== workerCount ||
+    report.pluginCount !== 1 ||
+    !same(report.parallelPluginIndexes, [0])
+  ) {
+    throw new Error(`worker-${workerCount} post-close metrics header is invalid`);
+  }
+  assertExactKeys(
+    report.parentGc,
+    ['requestedPasses', 'available', 'executedPasses'],
+    `worker-${workerCount} post-close parent GC`,
+  );
+  if (
+    report.parentGc.requestedPasses !== 2 ||
+    report.parentGc.available !== true ||
+    report.parentGc.executedPasses !== 2
+  ) {
+    throw new Error(`worker-${workerCount} post-close requires two exposed parent GC passes`);
+  }
+  const snapshotNames = [
+    'afterTermination',
+    'afterBundlerCloseBeforeParentGc',
+    'parentPostGc',
+  ];
+  assertExactKeys(
+    report.processSnapshots,
+    ['scope', ...snapshotNames],
+    `worker-${workerCount} post-close process snapshots`,
+  );
+  if (report.processSnapshots.scope !== POST_CLOSE_SNAPSHOT_SCOPE) {
+    throw new Error(`worker-${workerCount} post-close RSS ownership scope changed`);
+  }
+  const snapshots = new Map();
+  let previousCaptureFinishedAt = -Infinity;
+  let clockOrigin;
+  for (const name of snapshotNames) {
+    const snapshot = validateLifecycleProcessSnapshot(
+      report.processSnapshots[name],
+      `worker-${workerCount} post-close ${name}`,
+    );
+    clockOrigin ??= timestampClockOrigin(snapshot.capturedAt);
+    assertTimestampClockOrigin(
+      snapshot.capturedAt,
+      clockOrigin,
+      `worker-${workerCount} post-close ${name}`,
+    );
+    if (snapshot.captureStartedAt.monotonicMs < previousCaptureFinishedAt) {
+      throw new Error(`worker-${workerCount} post-close snapshots regress at ${name}`);
+    }
+    previousCaptureFinishedAt = snapshot.captureFinishedAt.monotonicMs;
+    snapshots.set(name, snapshot);
+  }
+  if (!same(snapshots.get('afterTermination').raw, termination.processSnapshots.afterTermination)) {
+    throw new Error(`worker-${workerCount} post-close changed the termination baseline`);
+  }
+  const cpuWindow = validateCpuProcessWindow(
+    report.cpuWindow,
+    `worker-${workerCount} post-close CPU window`,
+  );
+  const start = snapshots.get('afterTermination');
+  const finish = snapshots.get('parentPostGc');
+  if (
+    !sameTimestamp(cpuWindow.startedAt, start.capturedAt) ||
+    !sameTimestamp(cpuWindow.finishedAt, finish.capturedAt) ||
+    !sameTimestamp(cpuWindow.startBounds.latestAt, start.captureFinishedAt) ||
+    !sameTimestamp(cpuWindow.endBounds.latestAt, finish.captureFinishedAt) ||
+    !same(
+      cpuWindow.processCpuDeltaMicros,
+      subtractCpuUsage(finish.processCpuUsageMicros, start.processCpuUsageMicros),
+    ) ||
+    !same(
+      cpuWindow.mainThreadCpuDeltaMicros,
+      subtractCpuUsage(finish.mainThreadCpuUsageMicros, start.mainThreadCpuUsageMicros),
+    )
+  ) {
+    throw new Error(`worker-${workerCount} post-close CPU endpoints or deltas are inconsistent`);
+  }
+  assertExactKeys(
+    report.rss,
+    [
+      'afterTerminationBytes',
+      'afterBundlerCloseBeforeParentGcBytes',
+      'parentPostGcRetainedBytes',
+      'parentPostGcDeltaFromAfterTerminationBytes',
+      'scope',
+    ],
+    `worker-${workerCount} post-close RSS`,
+  );
+  const afterTerminationBytes = start.processMemoryUsageBytes.rss;
+  const beforeGcBytes = snapshots.get(
+    'afterBundlerCloseBeforeParentGc',
+  ).processMemoryUsageBytes.rss;
+  const postGcBytes = finish.processMemoryUsageBytes.rss;
+  if (
+    report.rss.afterTerminationBytes !== afterTerminationBytes ||
+    report.rss.afterBundlerCloseBeforeParentGcBytes !== beforeGcBytes ||
+    report.rss.parentPostGcRetainedBytes !== postGcBytes ||
+    report.rss.parentPostGcDeltaFromAfterTerminationBytes !==
+      postGcBytes - afterTerminationBytes ||
+    report.rss.scope !==
+      'signed whole-process observations across termination, native close, and parent GC; shared and allocator-retained pages mean the delta is never ownership'
+  ) {
+    throw new Error(`worker-${workerCount} post-close RSS values or scope are inconsistent`);
+  }
+  if (
+    !Array.isArray(report.isolationLimits) ||
+    report.isolationLimits.length !== 3 ||
+    !report.isolationLimits.some((value) => value.includes('unavailable GC is recorded')) ||
+    !report.isolationLimits.some((value) => value.includes('cannot assign retained memory')) ||
+    !report.isolationLimits.some((value) =>
+      value.includes('does not expose their exact read instants'),
+    )
+  ) {
+    throw new Error(`worker-${workerCount} post-close isolation limits are incomplete`);
+  }
+  return report;
+}
+
 function validateCpuWindow(
   cpu,
   label,
@@ -1062,6 +1454,20 @@ function validateCpuWindow(
   const expectedPhase = needsInner
     ? 'lifetime-through-pre-termination-snapshot'
     : 'initialization';
+  assertExactKeys(
+    cpu,
+    [
+      'measurementClass',
+      'phase',
+      'outerProcessWindow',
+      ...(needsInner ? ['innerProcessWindow'] : []),
+      'workerSamples',
+      'summedObservedWorkerThreadCpuMicros',
+      'completeWorkerCoverage',
+      'scope',
+    ],
+    label,
+  );
   if (
     cpu?.measurementClass !== CPU_WINDOW_CLASS ||
     cpu.phase !== expectedPhase ||
@@ -1079,26 +1485,64 @@ function validateCpuWindow(
   if (!needsInner && cpu.innerProcessWindow !== undefined) {
     throw new Error(`${label} unexpectedly has an inner window`);
   }
-  const expectedOuterStart = lifecycleSnapshots.get(
+  const expectedOuterStartSnapshot = lifecycleSnapshots.get(
     needsInner ? 'allWorkersReady' : 'beforeWorkerPool',
-  ).capturedAt;
-  const expectedOuterFinish = lifecycleSnapshots.get(
+  );
+  const expectedOuterFinishSnapshot = lifecycleSnapshots.get(
     needsInner ? 'afterWorkerSnapshots' : 'resourceBaselineBeforeBuild',
-  ).capturedAt;
+  );
+  const expectedInnerStartSnapshot = needsInner
+    ? lifecycleSnapshots.get('resourceBaselineBeforeBuild')
+    : undefined;
+  const expectedInnerFinishSnapshot = needsInner
+    ? lifecycleSnapshots.get('beforeWorkerSnapshots')
+    : undefined;
   if (
-    !sameTimestamp(outer.startedAt, expectedOuterStart) ||
-    !sameTimestamp(outer.finishedAt, expectedOuterFinish) ||
+    !sameTimestamp(outer.startedAt, expectedOuterStartSnapshot.capturedAt) ||
+    !sameTimestamp(outer.finishedAt, expectedOuterFinishSnapshot.capturedAt) ||
+    !sameTimestamp(outer.startBounds.latestAt, expectedOuterStartSnapshot.captureFinishedAt) ||
+    !sameTimestamp(outer.endBounds.latestAt, expectedOuterFinishSnapshot.captureFinishedAt) ||
+    !same(
+      outer.processCpuDeltaMicros,
+      subtractCpuUsage(
+        expectedOuterFinishSnapshot.processCpuUsageMicros,
+        expectedOuterStartSnapshot.processCpuUsageMicros,
+      ),
+    ) ||
+    !same(
+      outer.mainThreadCpuDeltaMicros,
+      subtractCpuUsage(
+        expectedOuterFinishSnapshot.mainThreadCpuUsageMicros,
+        expectedOuterStartSnapshot.mainThreadCpuUsageMicros,
+      ),
+    ) ||
     (inner &&
       (!sameTimestamp(
         inner.startedAt,
-        lifecycleSnapshots.get('resourceBaselineBeforeBuild').capturedAt,
+        expectedInnerStartSnapshot.capturedAt,
       ) ||
         !sameTimestamp(
           inner.finishedAt,
-          lifecycleSnapshots.get('beforeWorkerSnapshots').capturedAt,
+          expectedInnerFinishSnapshot.capturedAt,
+        ) ||
+        !sameTimestamp(inner.startBounds.latestAt, expectedInnerStartSnapshot.captureFinishedAt) ||
+        !sameTimestamp(inner.endBounds.latestAt, expectedInnerFinishSnapshot.captureFinishedAt) ||
+        !same(
+          inner.processCpuDeltaMicros,
+          subtractCpuUsage(
+            expectedInnerFinishSnapshot.processCpuUsageMicros,
+            expectedInnerStartSnapshot.processCpuUsageMicros,
+          ),
+        ) ||
+        !same(
+          inner.mainThreadCpuDeltaMicros,
+          subtractCpuUsage(
+            expectedInnerFinishSnapshot.mainThreadCpuUsageMicros,
+            expectedInnerStartSnapshot.mainThreadCpuUsageMicros,
+          ),
         )))
   ) {
-    throw new Error(`${label} process windows do not match lifecycle snapshots`);
+    throw new Error(`${label} process windows do not match lifecycle snapshots or counter deltas`);
   }
   if (
     inner &&
@@ -1111,6 +1555,19 @@ function validateCpuWindow(
   const seen = new Set();
   const sum = { user: 0, system: 0 };
   for (const sample of cpu.workerSamples) {
+    assertExactKeys(
+      sample,
+      [
+        'threadNumber',
+        'ok',
+        'measurementClass',
+        'relationToProcessWindows',
+        'startBounds',
+        'endBounds',
+        'cpuDeltaMicros',
+      ],
+      `${label} worker sample`,
+    );
     const initialized = initializationWorkers.get(sample.threadNumber);
     const terminated = terminationWorkers?.get(sample.threadNumber);
     if (
@@ -1138,12 +1595,12 @@ function validateCpuWindow(
       assertTimestampClockOrigin(timestamp, mainClockOrigin, `${label} worker ${name}`);
     }
     if (
-      startBounds.earliestAt.monotonicMs < outer.startedAt.monotonicMs ||
-      endBounds.latestAt.monotonicMs > outer.finishedAt.monotonicMs ||
+      startBounds.earliestAt.monotonicMs < outer.startBounds.latestAt.monotonicMs ||
+      endBounds.latestAt.monotonicMs > outer.endBounds.earliestAt.monotonicMs ||
       endBounds.earliestAt.monotonicMs < startBounds.latestAt.monotonicMs ||
       (inner &&
-        (startBounds.latestAt.monotonicMs > inner.startedAt.monotonicMs ||
-          endBounds.earliestAt.monotonicMs < inner.finishedAt.monotonicMs))
+        (startBounds.latestAt.monotonicMs > inner.startBounds.earliestAt.monotonicMs ||
+          endBounds.earliestAt.monotonicMs < inner.endBounds.latestAt.monotonicMs))
     ) {
       throw new Error(`${label} worker CPU bounds violate their declared process windows`);
     }
@@ -1204,7 +1661,7 @@ function validateLifecycleProcessSnapshots(processSnapshots, label) {
         ];
   assertExactKeys(processSnapshots, ['scope', ...names], `${label} lifecycle process snapshots`);
   const validated = new Map();
-  let previous = -Infinity;
+  let previousCaptureFinishedAt = -Infinity;
   let clockOrigin;
   for (const name of names) {
     const snapshot = validateLifecycleProcessSnapshot(
@@ -1213,20 +1670,50 @@ function validateLifecycleProcessSnapshots(processSnapshots, label) {
     );
     clockOrigin ??= timestampClockOrigin(snapshot.capturedAt);
     assertTimestampClockOrigin(snapshot.capturedAt, clockOrigin, `${label} lifecycle ${name}`);
-    if (snapshot.capturedAt.monotonicMs < previous) {
+    if (snapshot.captureStartedAt.monotonicMs < previousCaptureFinishedAt) {
       throw new Error(`${label} lifecycle process snapshots regress at ${name}`);
     }
-    previous = snapshot.capturedAt.monotonicMs;
+    previousCaptureFinishedAt = snapshot.captureFinishedAt.monotonicMs;
     validated.set(name, snapshot);
   }
   return validated;
 }
 
 function validateLifecycleProcessSnapshot(snapshot, label) {
+  assertExactKeys(
+    snapshot,
+    [
+      'capturedAt',
+      'captureStartedAt',
+      'captureFinishedAt',
+      'scope',
+      'processCpuUsageMicros',
+      'mainThreadCpuUsageMicros',
+      'processResourceUsage',
+      'processMemoryUsageBytes',
+      'mainIsolateHeapStatistics',
+      'mainEventLoopUtilization',
+      'mainIsolateGc',
+    ],
+    label,
+  );
   if (!sameObject(snapshot?.scope, LIFECYCLE_PROCESS_SCOPE)) {
     throw new Error(`${label} whole-process RSS scope changed`);
   }
   const capturedAt = validateTimestamp(snapshot.capturedAt, `${label} capture`);
+  const captureStartedAt = validateTimestamp(snapshot.captureStartedAt, `${label} capture start`);
+  const captureFinishedAt = validateTimestamp(snapshot.captureFinishedAt, `${label} capture finish`);
+  if (
+    !sameTimestamp(capturedAt, captureStartedAt) ||
+    captureFinishedAt.monotonicMs < captureStartedAt.monotonicMs
+  ) {
+    throw new Error(`${label} capture bounds are invalid`);
+  }
+  assertTimestampClockOrigin(
+    captureFinishedAt,
+    timestampClockOrigin(captureStartedAt),
+    `${label} capture finish`,
+  );
   validateCpu(snapshot.processCpuUsageMicros, `${label} process CPU`);
   validateCpu(snapshot.mainThreadCpuUsageMicros, `${label} main CPU`);
   if (
@@ -1238,7 +1725,15 @@ function validateLifecycleProcessSnapshot(snapshot, label) {
     throw new Error(`${label} process resource snapshot is incomplete`);
   }
   validateGc(snapshot.mainIsolateGc, `${label} main GC`);
-  return { raw: snapshot, capturedAt };
+  return {
+    raw: snapshot,
+    capturedAt,
+    captureStartedAt,
+    captureFinishedAt,
+    processCpuUsageMicros: snapshot.processCpuUsageMicros,
+    mainThreadCpuUsageMicros: snapshot.mainThreadCpuUsageMicros,
+    processMemoryUsageBytes: snapshot.processMemoryUsageBytes,
+  };
 }
 
 function validateMainWorkerTimeline(timeline, mainReadyMs, clockOrigin, snapshots, threadNumber) {
@@ -1279,6 +1774,18 @@ function validateMainWorkerTimeline(timeline, mainReadyMs, clockOrigin, snapshot
 }
 
 function validateWorkerResource(resource, label, clockOrigin) {
+  assertExactKeys(resource, ['ok', 'snapshot'], label);
+  assertExactKeys(
+    resource?.snapshot,
+    [
+      'captureStartedAt',
+      'captureFinishedAt',
+      'cpuUsageMicros',
+      'heapStatistics',
+      'eventLoopUtilization',
+    ],
+    `${label} snapshot`,
+  );
   if (
     resource?.ok !== true ||
     !resource.snapshot?.captureStartedAt ||
@@ -1308,7 +1815,33 @@ function validateWorkerResource(resource, label, clockOrigin) {
 }
 
 function validateWorkerBootstrap(bootstrap, threadNumber) {
+  assertExactKeys(
+    bootstrap,
+    [
+      'kind',
+      'version',
+      'metricsId',
+      'threadNumber',
+      'clockAlignment',
+      'launcher',
+      'timeline',
+      'measuredBootstrapMs',
+      'registerPluginsMs',
+      'registrationStage',
+      'registrationResources',
+      'plugins',
+      'workerLocalBeforePluginInitialization',
+      'workerLocalAtReady',
+      'isolationLimits',
+    ],
+    `worker ${threadNumber} bootstrap`,
+  );
   const launcher = bootstrap.launcher;
+  assertExactKeys(
+    launcher,
+    ['kind', 'version', 'metricsId', 'scope', 'timeline', 'stages', 'resources'],
+    `worker ${threadNumber} launcher`,
+  );
   if (launcher.scope !== LAUNCHER_SCOPE) {
     throw new Error(`Worker ${threadNumber} launcher scope changed`);
   }
@@ -1391,10 +1924,14 @@ function validateWorkerBootstrap(bootstrap, threadNumber) {
     !bootstrap.workerLocalBeforePluginInitialization ||
     !bootstrap.workerLocalAtReady ||
     !Array.isArray(bootstrap.isolationLimits) ||
-    bootstrap.isolationLimits.length !== 3 ||
+    bootstrap.isolationLimits.length !== 5 ||
     !bootstrap.isolationLimits.includes(
       'process RSS is shared by the main isolate, every worker isolate, native addon state, and runtime threads; it is not worker ownership',
-    )
+    ) ||
+    !bootstrap.isolationLimits.some((value) =>
+      value.includes('only current-worker thread CPU and isolate heap/GC have worker-local scope'),
+    ) ||
+    !bootstrap.isolationLimits.some((value) => value.includes('boundary-capture gaps'))
   ) {
     throw new Error(`Worker ${threadNumber} bootstrap aggregate is incomplete`);
   }
@@ -1463,7 +2000,31 @@ function validateWorkerBootstrap(bootstrap, threadNumber) {
       throw new Error(`Worker ${threadNumber} launcher/bootstrap clocks disagree`);
     }
   }
+  const registrationStage = validateStage(
+    bootstrap.registrationStage,
+    `worker ${threadNumber} registration`,
+  );
+  if (
+    !sameTimestamp(registrationStage.startedAt, timeline.registerStartedAt) ||
+    !sameTimestamp(registrationStage.finishedAt, timeline.registerFinishedAt)
+  ) {
+    throw new Error(`Worker ${threadNumber} registration stage disagrees with its timeline`);
+  }
   const plugin = bootstrap.plugins[0];
+  assertExactKeys(
+    plugin,
+    [
+      'pluginIndex',
+      'implementationImportMs',
+      'factoryMs',
+      'bindingifyMs',
+      'timeline',
+      'stages',
+      'resourceBoundaries',
+      'resourceWindows',
+    ],
+    `worker ${threadNumber} bootstrap plugin`,
+  );
   if (
     plugin.pluginIndex !== 0 ||
     !nonNegative(plugin.implementationImportMs) ||
@@ -1524,6 +2085,95 @@ function validateWorkerBootstrap(bootstrap, threadNumber) {
       throw new Error(`Worker ${threadNumber} ${name} stage endpoints disagree`);
     }
   }
+  const boundaryNames = [
+    'beforeImplementationImport',
+    'afterImplementationImportBeforeFactory',
+    'afterFactoryBeforeBindingification',
+    'afterBindingificationBeforeRegistration',
+  ];
+  assertExactKeys(
+    plugin.resourceBoundaries,
+    boundaryNames,
+    `worker ${threadNumber} plugin resource boundaries`,
+  );
+  const resourceBoundaries = new Map(
+    boundaryNames.map((name) => [
+      name,
+      validateWorkerStageResourceSnapshot(
+        plugin.resourceBoundaries[name],
+        clock.workerTimeOriginEpochMs,
+        `worker ${threadNumber} plugin ${name}`,
+      ),
+    ]),
+  );
+  const resourceWindowDefinitions = [
+    [
+      'implementationImport',
+      'beforeImplementationImport',
+      'afterImplementationImportBeforeFactory',
+    ],
+    ['factory', 'afterImplementationImportBeforeFactory', 'afterFactoryBeforeBindingification'],
+    [
+      'bindingifyPlugin',
+      'afterFactoryBeforeBindingification',
+      'afterBindingificationBeforeRegistration',
+    ],
+  ];
+  assertExactKeys(
+    plugin.resourceWindows,
+    resourceWindowDefinitions.map(([name]) => name),
+    `worker ${threadNumber} plugin resource windows`,
+  );
+  for (const [name, beforeName, afterName] of resourceWindowDefinitions) {
+    validateWorkerStageResourceWindow(
+      plugin.resourceWindows[name],
+      plugin.stages[name],
+      clock.workerTimeOriginEpochMs,
+      beforeName,
+      afterName,
+      resourceBoundaries.get(beforeName),
+      resourceBoundaries.get(afterName),
+      `worker ${threadNumber} plugin ${name} resources`,
+    );
+  }
+  const firstPluginBoundary = resourceBoundaries.get('beforeImplementationImport');
+  const lastPluginBoundary = resourceBoundaries.get('afterBindingificationBeforeRegistration');
+  if (
+    firstPluginBoundary.captureStartedAt.monotonicMs < timeline.bootstrapStartedAt.monotonicMs ||
+    lastPluginBoundary.captureFinishedAt.monotonicMs > timeline.registerStartedAt.monotonicMs
+  ) {
+    throw new Error(`Worker ${threadNumber} plugin resource boundaries are outside bootstrap`);
+  }
+  assertExactKeys(
+    bootstrap.registrationResources,
+    ['boundaries', 'window'],
+    `worker ${threadNumber} registration resources`,
+  );
+  assertExactKeys(
+    bootstrap.registrationResources.boundaries,
+    ['beforeRegistration', 'afterRegistration'],
+    `worker ${threadNumber} registration resource boundaries`,
+  );
+  const beforeRegistration = validateWorkerStageResourceSnapshot(
+    bootstrap.registrationResources.boundaries.beforeRegistration,
+    clock.workerTimeOriginEpochMs,
+    `worker ${threadNumber} before registration`,
+  );
+  const afterRegistration = validateWorkerStageResourceSnapshot(
+    bootstrap.registrationResources.boundaries.afterRegistration,
+    clock.workerTimeOriginEpochMs,
+    `worker ${threadNumber} after registration`,
+  );
+  validateWorkerStageResourceWindow(
+    bootstrap.registrationResources.window,
+    bootstrap.registrationStage,
+    clock.workerTimeOriginEpochMs,
+    'beforeRegistration',
+    'afterRegistration',
+    beforeRegistration,
+    afterRegistration,
+    `worker ${threadNumber} registration resources`,
+  );
   const workerLocalBefore = validateWorkerLocalMetrics(
     bootstrap.workerLocalBeforePluginInitialization,
     `worker ${threadNumber} local before plugin initialization`,
@@ -1547,7 +2197,12 @@ function validateWorkerBootstrap(bootstrap, threadNumber) {
     workerLocalBefore.capturedAt.monotonicMs > pluginTimeline[0].monotonicMs ||
     workerLocalReady.capturedAt.monotonicMs < timeline.registerFinishedAt.monotonicMs ||
     workerLocalReady.capturedAt.monotonicMs > timeline.readyAt.monotonicMs ||
-    workerLocalReady.capturedAt.monotonicMs < workerLocalBefore.capturedAt.monotonicMs
+    workerLocalReady.capturedAt.monotonicMs < workerLocalBefore.capturedAt.monotonicMs ||
+    beforeRegistration.captureStartedAt.monotonicMs <
+      lastPluginBoundary.captureFinishedAt.monotonicMs ||
+    beforeRegistration.captureFinishedAt.monotonicMs > timeline.registerStartedAt.monotonicMs ||
+    afterRegistration.captureStartedAt.monotonicMs < timeline.registerFinishedAt.monotonicMs ||
+    afterRegistration.captureFinishedAt.monotonicMs > workerLocalReady.capturedAt.monotonicMs
   ) {
     throw new Error(`Worker ${threadNumber} local resource snapshots are outside bootstrap`);
   }
@@ -1556,6 +2211,175 @@ function validateWorkerBootstrap(bootstrap, threadNumber) {
     readyAt: timeline.readyAt,
     mainTimeOriginEpochMs: clock.mainTimeOriginEpochMs,
   };
+}
+
+function validateWorkerStageResourceSnapshot(snapshot, clockOrigin, label) {
+  assertExactKeys(
+    snapshot,
+    [
+      'captureStartedAt',
+      'captureFinishedAt',
+      'scope',
+      'processCpuUsageMicros',
+      'workerThreadCpuUsageMicros',
+      'processResourceUsage',
+      'processMemoryUsageBytes',
+      'isolateHeapStatistics',
+      'isolateEventLoopUtilization',
+      'isolateGc',
+    ],
+    label,
+  );
+  const captureStartedAt = validateTimestamp(snapshot.captureStartedAt, `${label} capture start`);
+  const captureFinishedAt = validateTimestamp(
+    snapshot.captureFinishedAt,
+    `${label} capture finish`,
+  );
+  assertTimestampClockOrigin(captureStartedAt, clockOrigin, `${label} capture start`);
+  assertTimestampClockOrigin(captureFinishedAt, clockOrigin, `${label} capture finish`);
+  if (captureFinishedAt.monotonicMs < captureStartedAt.monotonicMs) {
+    throw new Error(`${label} capture timeline regresses`);
+  }
+  validateCpu(snapshot.processCpuUsageMicros, `${label} process CPU`);
+  validateCpu(snapshot.workerThreadCpuUsageMicros, `${label} worker-thread CPU`);
+  if (
+    !isRecord(snapshot.processResourceUsage) ||
+    !positive(snapshot.processMemoryUsageBytes?.rss) ||
+    !positive(snapshot.isolateHeapStatistics?.heap_size_limit) ||
+    !nonNegative(snapshot.isolateHeapStatistics?.used_heap_size) ||
+    !isRecord(snapshot.isolateEventLoopUtilization)
+  ) {
+    throw new Error(`${label} resource snapshot is incomplete`);
+  }
+  validateGc(snapshot.isolateGc, `${label} isolate GC`);
+  const scopeNames = [
+    'processCpuUsage',
+    'workerThreadCpuUsage',
+    'processMemoryUsage',
+    'isolateHeapStatistics',
+    'isolateEventLoopUtilization',
+    'isolateGc',
+  ];
+  assertExactKeys(snapshot.scope, scopeNames, `${label} scope`);
+  if (
+    scopeNames.some((name) => typeof snapshot.scope[name] !== 'string') ||
+    !snapshot.scope.processMemoryUsage.includes(
+      'none is worker, plugin, factory, or isolate ownership',
+    )
+  ) {
+    throw new Error(`${label} resource ownership scope is incomplete`);
+  }
+  return {
+    captureStartedAt,
+    captureFinishedAt,
+    processCpuUsageMicros: snapshot.processCpuUsageMicros,
+    workerThreadCpuUsageMicros: snapshot.workerThreadCpuUsageMicros,
+    processMemoryUsageBytes: snapshot.processMemoryUsageBytes,
+    isolateHeapStatistics: snapshot.isolateHeapStatistics,
+    isolateGc: snapshot.isolateGc,
+  };
+}
+
+function validateWorkerStageResourceWindow(
+  window,
+  expectedWallStage,
+  clockOrigin,
+  expectedBeforeBoundary,
+  expectedAfterBoundary,
+  before,
+  after,
+  label,
+) {
+  assertExactKeys(
+    window,
+    ['measurementClass', 'wallStage', 'boundaryRefs', 'deltas', 'scope'],
+    label,
+  );
+  if (window.measurementClass !== WORKER_STAGE_WINDOW_CLASS) {
+    throw new Error(`${label} measurement class is invalid`);
+  }
+  const wallStage = validateStage(window.wallStage, `${label} wall stage`);
+  if (
+    !sameTimestamp(wallStage.startedAt, expectedWallStage.startedAt) ||
+    !sameTimestamp(wallStage.finishedAt, expectedWallStage.finishedAt) ||
+    wallStage.durationMs !== expectedWallStage.durationMs
+  ) {
+    throw new Error(`${label} does not match its wall stage`);
+  }
+  assertTimestampClockOrigin(wallStage.startedAt, clockOrigin, `${label} wall start`);
+  assertTimestampClockOrigin(wallStage.finishedAt, clockOrigin, `${label} wall finish`);
+  assertExactKeys(window.boundaryRefs, ['before', 'after'], `${label} boundary references`);
+  if (
+    window.boundaryRefs.before !== expectedBeforeBoundary ||
+    window.boundaryRefs.after !== expectedAfterBoundary
+  ) {
+    throw new Error(`${label} boundary references are invalid`);
+  }
+  if (
+    before.captureFinishedAt.monotonicMs > wallStage.startedAt.monotonicMs ||
+    after.captureStartedAt.monotonicMs < wallStage.finishedAt.monotonicMs ||
+    after.captureStartedAt.monotonicMs < before.captureFinishedAt.monotonicMs
+  ) {
+    throw new Error(`${label} resource snapshots do not bracket the wall stage`);
+  }
+  const expectedDeltas = {
+    processCpuUsageMicros: subtractCpuUsage(
+      after.processCpuUsageMicros,
+      before.processCpuUsageMicros,
+    ),
+    workerThreadCpuUsageMicros: subtractCpuUsage(
+      after.workerThreadCpuUsageMicros,
+      before.workerThreadCpuUsageMicros,
+    ),
+    processRssBytes:
+      after.processMemoryUsageBytes.rss - before.processMemoryUsageBytes.rss,
+    isolateUsedHeapSizeBytes:
+      after.isolateHeapStatistics.used_heap_size -
+      before.isolateHeapStatistics.used_heap_size,
+    isolateGcCount: after.isolateGc.count - before.isolateGc.count,
+    isolateGcDurationMs: after.isolateGc.durationMs - before.isolateGc.durationMs,
+  };
+  assertExactKeys(
+    window.deltas,
+    [
+      'processCpuUsageMicros',
+      'workerThreadCpuUsageMicros',
+      'processRssBytes',
+      'isolateUsedHeapSizeBytes',
+      'isolateGcCount',
+      'isolateGcDurationMs',
+    ],
+    `${label} deltas`,
+  );
+  validateCpu(window.deltas.processCpuUsageMicros, `${label} process CPU delta`);
+  validateCpu(window.deltas.workerThreadCpuUsageMicros, `${label} worker CPU delta`);
+  if (
+    !Number.isFinite(window.deltas.processRssBytes) ||
+    !Number.isFinite(window.deltas.isolateUsedHeapSizeBytes) ||
+    !Number.isSafeInteger(window.deltas.isolateGcCount) ||
+    window.deltas.isolateGcCount < 0 ||
+    !nonNegative(window.deltas.isolateGcDurationMs) ||
+    !same(window.deltas, expectedDeltas)
+  ) {
+    throw new Error(`${label} resource deltas are inconsistent`);
+  }
+  const scopeNames = [
+    'endpoints',
+    'processCpuUsage',
+    'workerThreadCpuUsage',
+    'processRss',
+    'isolateHeapAndGc',
+  ];
+  assertExactKeys(window.scope, scopeNames, `${label} scope`);
+  if (
+    scopeNames.some((name) => typeof window.scope[name] !== 'string') ||
+    !window.scope.endpoints.includes('before capture finishes before the wall stage starts') ||
+    !window.scope.processCpuUsage.includes('not plugin ownership') ||
+    !window.scope.processRss.includes('prevent worker, plugin, factory, or stage ownership') ||
+    !window.scope.isolateHeapAndGc.includes('prevent plugin, factory, or stage ownership')
+  ) {
+    throw new Error(`${label} endpoint or ownership limitation is missing`);
+  }
 }
 
 function validateOrderedStages(start, finish, stages, names, label) {
@@ -1603,6 +2427,7 @@ function validateTimestamp(timestamp, label) {
 }
 
 function validateTimestampBounds(bounds, label) {
+  assertExactKeys(bounds, ['earliestAt', 'latestAt', 'meaning'], label);
   const earliest = validateTimestamp(bounds?.earliestAt, `${label} earliest`);
   const latest = validateTimestamp(bounds?.latestAt, `${label} latest`);
   if (latest.monotonicMs < earliest.monotonicMs || typeof bounds?.meaning !== 'string') {
@@ -1612,17 +2437,87 @@ function validateTimestampBounds(bounds, label) {
 }
 
 function validateCpuProcessWindow(window, label) {
+  assertExactKeys(
+    window,
+    [
+      'measurementClass',
+      'startedAt',
+      'finishedAt',
+      'captureBounds',
+      'processCpuDeltaMicros',
+      'mainThreadCpuDeltaMicros',
+      'scope',
+    ],
+    label,
+  );
+  if (
+    window.measurementClass !== PROCESS_CPU_WINDOW_CLASS ||
+    window.scope !== PROCESS_CPU_WINDOW_SCOPE
+  ) {
+    throw new Error(`${label} endpoint or ownership scope is invalid`);
+  }
   const startedAt = validateTimestamp(window?.startedAt, `${label} start`);
   const finishedAt = validateTimestamp(window?.finishedAt, `${label} finish`);
   if (finishedAt.monotonicMs < startedAt.monotonicMs) {
     throw new Error(`${label} regresses`);
   }
+  assertTimestampClockOrigin(finishedAt, timestampClockOrigin(startedAt), `${label} finish`);
   validateCpu(window.processCpuDeltaMicros, `${label} process CPU`);
   validateCpu(window.mainThreadCpuDeltaMicros, `${label} main CPU`);
-  return { startedAt, finishedAt };
+  assertExactKeys(window.captureBounds, ['start', 'end'], `${label} capture bounds`);
+  const startBounds = validateTimestampBounds(
+    window.captureBounds.start,
+    `${label} start capture bounds`,
+  );
+  const endBounds = validateTimestampBounds(
+    window.captureBounds.end,
+    `${label} end capture bounds`,
+  );
+  if (
+    startBounds.meaning !== 'the start CPU counters are read synchronously within this interval' ||
+    endBounds.meaning !== 'the end CPU counters are read synchronously within this interval' ||
+    !sameTimestamp(startedAt, startBounds.earliestAt) ||
+    !sameTimestamp(finishedAt, endBounds.earliestAt) ||
+    endBounds.earliestAt.monotonicMs < startBounds.latestAt.monotonicMs
+  ) {
+    throw new Error(`${label} capture bounds do not match its labeled endpoints`);
+  }
+  assertTimestampClockOrigin(
+    startBounds.latestAt,
+    timestampClockOrigin(startBounds.earliestAt),
+    `${label} start capture finish`,
+  );
+  assertTimestampClockOrigin(
+    endBounds.latestAt,
+    timestampClockOrigin(endBounds.earliestAt),
+    `${label} end capture finish`,
+  );
+  return {
+    startedAt,
+    finishedAt,
+    startBounds,
+    endBounds,
+    processCpuDeltaMicros: window.processCpuDeltaMicros,
+    mainThreadCpuDeltaMicros: window.mainThreadCpuDeltaMicros,
+  };
 }
 
 function validateProcessMetricsSnapshot(snapshot, label, expectedScope) {
+  assertExactKeys(
+    snapshot,
+    [
+      'capturedAt',
+      'scope',
+      'processCpuUsageMicros',
+      'mainThreadCpuUsageMicros',
+      'processResourceUsage',
+      'processMemoryUsageBytes',
+      'isolateHeapStatistics',
+      'isolateEventLoopUtilization',
+      'isolateGc',
+    ],
+    label,
+  );
   if (!sameObject(snapshot?.scope, expectedScope)) {
     throw new Error(`${label} whole-process RSS/isolate scope changed`);
   }
@@ -1642,6 +2537,20 @@ function validateProcessMetricsSnapshot(snapshot, label, expectedScope) {
 }
 
 function validateWorkerLocalMetrics(snapshot, label) {
+  assertExactKeys(
+    snapshot,
+    [
+      'capturedAt',
+      'scope',
+      'processCpuUsageMicros',
+      'threadCpuUsageMicros',
+      'processMemoryUsageBytes',
+      'heapStatistics',
+      'eventLoopUtilization',
+      'gc',
+    ],
+    label,
+  );
   if (!sameObject(snapshot?.scope, WORKER_LOCAL_SCOPE)) {
     throw new Error(`${label} whole-process RSS/worker-isolate scope changed`);
   }

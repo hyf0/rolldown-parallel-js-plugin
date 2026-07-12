@@ -16,9 +16,14 @@ export const LIFECYCLE_FIXED_RUNTIME_PROFILE = Object.freeze({
 
 export const ATTRIBUTION_RUNTIME_PROFILE = Object.freeze({
   kind: 'instrumented-attribution',
-  rolldownCommit: '41833e1294e5f80efdf90067fe3766b31b58435d',
-  bindingSha256: '2db2fd322eb0e0e57f5ff0a618e52ddac7acf64754cfcd90aa36345917cea711',
-  distSha256: '7931dffb49a5e7e0fb7470a7850242d8f50726ced7f4e56792f68012405083c6',
+  rolldownCommit: '76a971de8ce66e031b7d19637d13742fe4662594',
+  bindingSha256: '6d6fc6e94b30b7b39b4c6d116b38bbecca2907ecc183c99a25a1a67e1cce1fce',
+  distSha256: '3e4b174ad36807430da1b5b7db3f294a47909962511531b370f421fe00d83fbd',
+  bindingBytes: 16_360_800,
+  distFiles: 49,
+  distBytes: 17_240_063,
+  packageEntrySha256: 'ecbce9a6cfc187db4d2c818d2500f52372b15b66022358f69c8e578c1dcbb2bc',
+  packageEntryBytes: 1_642,
 });
 
 export function normalizeRuntimeProfile(value) {
@@ -44,6 +49,26 @@ export function normalizeRuntimeProfile(value) {
     bindingSha256: value.bindingSha256,
     distSha256: value.distSha256,
   };
+  if (value.kind === 'instrumented-attribution') {
+    for (const field of [
+      'bindingBytes',
+      'distFiles',
+      'distBytes',
+      'packageEntryBytes',
+    ]) {
+      if (!Number.isSafeInteger(value[field]) || value[field] <= 0) {
+        throw new Error(`runtimeProfile.${field} is not pinned`);
+      }
+    }
+    if (!/^[a-f0-9]{64}$/.test(value.packageEntrySha256 ?? '')) {
+      throw new Error('runtimeProfile.packageEntrySha256 is not pinned');
+    }
+    normalized.bindingBytes = value.bindingBytes;
+    normalized.distFiles = value.distFiles;
+    normalized.distBytes = value.distBytes;
+    normalized.packageEntrySha256 = value.packageEntrySha256;
+    normalized.packageEntryBytes = value.packageEntryBytes;
+  }
   if (
     value.kind === 'historical-0aa-artifact' &&
     JSON.stringify(normalized) !== JSON.stringify(HISTORICAL_RUNTIME_PROFILE)
@@ -91,7 +116,7 @@ export function normalizeRuntimeProfile(value) {
     JSON.stringify(normalized) !== JSON.stringify(ATTRIBUTION_RUNTIME_PROFILE)
   ) {
     throw new Error(
-      'instrumented-attribution must use the frozen 41833e1/2db2fd/7931df artifact',
+      'instrumented-attribution must use the frozen 76a971d/6d6fc6/3e4b17 artifact',
     );
   }
   const allowedFields = [
@@ -99,6 +124,15 @@ export function normalizeRuntimeProfile(value) {
     'rolldownCommit',
     'bindingSha256',
     'distSha256',
+    ...(value.kind === 'instrumented-attribution'
+      ? [
+          'bindingBytes',
+          'distFiles',
+          'distBytes',
+          'packageEntrySha256',
+          'packageEntryBytes',
+        ]
+      : []),
     ...(value.kind === 'lifecycle-fixed-baseline' ? ['baseCommit', 'changeScope'] : []),
   ];
   const unknown = Object.keys(value).filter((key) => !allowedFields.includes(key));

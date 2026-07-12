@@ -12,7 +12,7 @@ import {
   validateRuntimeLane,
 } from './runtime-profile.mjs';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   requirePinnedCompilerEnvironment,
 } from './environment-provenance.mjs';
 
@@ -29,7 +29,7 @@ const manifest = await loadScaleManifest();
 const runtimeProfile = validateConfig(config, manifest);
 const poolEnvironment = normalizePoolEnvironment(config.poolEnvironment);
 const compilerEnvironment = await requirePinnedCompilerEnvironment(config.projectRoot);
-const harnessSourceManifest = await captureHarnessSourceManifest();
+const harnessSourceManifest = await captureCorrectnessHarnessSourceManifest();
 const diagnosticFixturePath = nodePath.resolve(
   import.meta.dirname,
   '../..',
