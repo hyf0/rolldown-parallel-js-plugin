@@ -63,7 +63,7 @@ export function buildFixedPolicyEvidence({
     : null;
   requireReachableSources(sources, machine.sourceReportIndex, cases);
   const evidence = {
-    schemaVersion: 2,
+    schemaVersion: 3,
     kind: 'rolldown-fixed-worker-policy-evidence',
     protocol: CURRENT_PROTOCOL_REVISION,
     formalCoverage: plan.formalCoverage,

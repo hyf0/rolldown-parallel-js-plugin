@@ -2,7 +2,7 @@
 
 This directory evaluates the two fixed startup policies frozen before scale timing: four JavaScript workers and `min(availableParallelism, 8)`, which selects eight on the local 12-CPU M3 Pro. The evaluator does not fit either count from benchmark results. Every case is therefore held out from candidate fitting, although crossover locations and confirmation cases are still selected mechanically by the frozen experiment protocol rather than by an independent test corpus.
 
-The current protocol identity is `scale-crossover-v1-amended-7`. A formal evidence file records the committed bytes and SHA-256 of the frozen protocol plus Amendments 1 through 7, the committed build plan, every source report, and the source commit. The evaluator rejects Amendment 4 evidence, dirty or untracked source reports, a source commit that is not an ancestor of the evidence commit, or a report whose current bytes differ from its recorded commit.
+The current protocol identity is `scale-crossover-v1-amended-8`. A formal evidence file records the committed bytes and SHA-256 of the frozen protocol plus Amendments 1 through 8, the committed build plan, every source report, and the source commit. The evaluator rejects stale protocol evidence, dirty or untracked source reports, a source commit that is not an ancestor of the evidence commit, or a report whose current bytes differ from its recorded commit.
 
 ## Evidence construction
 

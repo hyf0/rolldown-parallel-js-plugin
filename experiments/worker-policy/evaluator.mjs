@@ -1,6 +1,6 @@
 import { FORMAL_SOURCE_TYPES } from './formal-source-contracts.mjs';
 
-export const CURRENT_PROTOCOL_REVISION = 'scale-crossover-v1-amended-7';
+export const CURRENT_PROTOCOL_REVISION = 'scale-crossover-v1-amended-8';
 
 export const POLICY_GATES = Object.freeze({
   maximumWallRegretRatio: 1.05,
@@ -13,7 +13,7 @@ export const POLICY_GATES = Object.freeze({
 const REQUIRED_PROTOCOL_DOCUMENTS = Object.freeze([
   '.agents/docs/scale-crossover-frozen-protocol.md',
   ...Array.from(
-    { length: 7 },
+    { length: 8 },
     (_value, index) =>
       `.agents/docs/scale-crossover-protocol-amendment-${index + 1}.md`,
   ),
@@ -113,7 +113,7 @@ export function evaluateFixedWorkerPolicies(
     .filter(({ passed }) => passed)
     .map(({ name, workerCount }) => ({ name, workerCount }));
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     kind: 'rolldown-fixed-worker-policy-evaluation',
     protocol: evidence.protocol,
     gates: POLICY_GATES,
@@ -291,7 +291,7 @@ function evaluateCandidate(name, workerCount, cases) {
 
 export function validateEvidence(value) {
   if (
-    value?.schemaVersion !== 2 ||
+    value?.schemaVersion !== 3 ||
     value.kind !== 'rolldown-fixed-worker-policy-evidence' ||
     value.protocol !== CURRENT_PROTOCOL_REVISION ||
     typeof value.formalCoverage !== 'boolean' ||
