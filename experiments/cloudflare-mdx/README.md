@@ -30,17 +30,19 @@ This graph profile always uses `RUN_LINK_CHECK=false`, and every result records 
 
 The graph runner defaults to `instrumentation:false`, and the full wall profile requires it. JavaScript counters and Rolldown worker metrics are intentionally absent from those wall samples. Managed worker instrumentation is not implemented and is rejected rather than silently changing the comparison.
 
-Run the checked five-entry ordinary/managed-2/worker-2 smoke:
+Run the lifecycle-fixed 32-source ordinary/managed-2/worker-2 graph correctness lane. The earlier five-entry config and artifact remain historical provenance rather than a new executable default:
 
 ```bash
-node experiments/cloudflare-mdx/run-graph-smoke.mjs experiments/cloudflare-mdx/graph-smoke-config.json experiments/cloudflare-mdx/data/2026-07-12-graph-smoke.raw.json
+node experiments/cloudflare-mdx/run-graph-smoke.mjs \
+  experiments/cloudflare-mdx/scale-graph-smoke-config.json \
+  experiments/cloudflare-mdx/data/scale-v1-32-lifecycle-fixed-graph-correctness.raw.json
 ```
 
 The completed one-shot 9,157-entry graph result is `data/2026-07-12-graph-full-scan.raw.json`. It reaches 11,105 server-side modules, 26,357 static edges, and zero unresolved local edges, with graph, boundary, and normalized-output parity. Raw generated-output differences are localized to the recorded multipart boundary; raw module-code hashes also differ, but their cause was not diff-localized and no module-code parity claim is made. ParallelPlugin loses MDX metadata. Its timing is a single sample and is not a performance conclusion.
 
 The first local five-block attempt was interrupted during the fourth block when the already swap-heavy host entered severe memory thrashing. No partial timing report was written, and the abort record is explicitly benchmark-ineligible. Re-run only after restarting the local host.
 
-Run the local-only five-block graph matrix with the pinned Node binary. The runner refuses active CI markers, rotates the three variants, waits 15 seconds between processes, records host page and swap counters, and reports host-policy violations instead of hiding them:
+`graph-formal-matrix.json` is now a disabled post-screen template rather than an executable worker-four assumption. After the scale screen and repeated fixed-count selection finish, populate both its confirmed crossover point and selected worker count. The enabled matrix must contain exactly the confirmed crossover and full 9,157-source prefixes, with ordinary, plugin-managed, and Rolldown-managed placement at that count for ten rotated blocks per point. The runner validates exact prefix hashes and all 20 blocks; the summarizer rejects missing cases, variants, blocks, or any of the expected 60 runs. It also consumes the passed correctness gate, refuses active CI markers, and enforces the frozen host policy.
 
 ```bash
 node experiments/cloudflare-mdx/run-graph-matrix.mjs \
@@ -55,15 +57,74 @@ node experiments/cloudflare-mdx/summarize-graph-matrix.mjs \
 
 - Cloudflare Docs: `2b08a67a41da1a521aecbcf465893abae1e9a6df`.
 - Node.js: `v24.18.0`.
-- Rolldown research runtime: `research/parallel-js-plugin-core-transform` at `0aa600b5721b852cdc4095c7122a929a8cb4a798`.
-- Binding SHA-256: `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`.
-- The runtime contains research-only worker keepalive, initialization cleanup, worker-count control, and transform instrumentation. It is not unchanged Rolldown main.
+- Historical Rolldown research runtime: `research/parallel-js-plugin-core-transform` at `0aa600b5721b852cdc4095c7122a929a8cb4a798`.
+- Historical binding SHA-256: `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`; dist SHA-256: `e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc`.
+- This historical runtime contains the research worker-count and transform instrumentation but still unrefs the parent worker too early. It is retained for source provenance and historical correctness replay, not as the next formal baseline.
+- Lifecycle-fixed scale baseline: `b144106882fe244b19b738fc0acf3ffa07c7c9f3`; binding SHA-256 `7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7`; dist SHA-256 `1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45` over 17,095,091 bytes.
+
+## Frozen scale harness
+
+Scale evidence uses the committed [`cloudflare-mdx-scale-v1` manifest](./data/cloudflare-mdx-scale-v1.json), never the earlier lexicographic `limit`. The manifest starts with the compatibility source, stratifies the remaining 9,156 sources by collection, parsed fenced-code feature class, and equal-count byte band, orders paths inside each stratum by a seeded SHA-256, and uses deterministic deficit round robin across collections and strata. It records every source hash plus frozen base/refinement prefix hashes and summaries. The 32-source prefix therefore contains 23 docs, five partials, three changelog entries, and the compatibility anchor rather than 32 changelog entries.
+
+Regenerate the manifest from the clean pinned Cloudflare checkout, then verify byte-for-byte reproducibility, prefix hashes, source hashes, matrix definitions, and the rare-syntax sentinel without running a build:
+
+```bash
+node experiments/cloudflare-mdx/prepare-scale-manifest.mjs \
+  /Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build
+node experiments/cloudflare-mdx/verify-scale-harness.mjs \
+  /Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build
+```
+
+The execution definitions are:
+
+- `scale-smoke-matrix.json`: correctness-only 32-source ordinary/worker timeline admission.
+- `scale-full-correctness-matrix.json`: the separate required full-corpus exact-once and deterministic-output admission, with two fresh ordinary and worker-four runs. Each run retains exact per-source hit/worker records and aggregate worker/map counters. Correctness runners launch Node directly without `/usr/bin/time` and emit no timestamps, durations, CPU, RSS, host samples, or timeline fields. The adapter's 9,157 null maps and zero non-null maps are an explicit product capability failure under protocol amendment 2, not a map-parity pass.
+- `scale-correctness-gate.json`: remains blocked until lifecycle-fixed full-corpus and semantic artifacts exist and are pinned by SHA-256.
+
+The correctness counter mode does not call `performance.now`, `process.hrtime`, CPU/RSS APIs, or host samplers. It records only exact identity, hit, worker, map-result, and completion-state counters; clock and duration columns are exclusive to attribution reports.
+- `scale-base-screen-matrix.json`: one uninstrumented, no-warmup rotated screen of ordinary and worker counts one through eight at every base scale. It remains disabled until the correctness gate passes.
+- `scale-refinement-matrix.json`: a deliberately non-executable catalog. Populate it only with points inside the first direction-changing base interval.
+- `scale-graph-smoke-config.json`: the 32-source server-graph correctness lane.
+- `scale-semantic-sentinel.json`: executable correctness-only coverage for the existing graph smoke, all six playground sources, fixed docs/partials Mermaid sources, and the invalid diagnostic fixture. It retains structured diagnostic differences as product failures.
+
+Configuration can be checked without launching Rolldown:
+
+```bash
+node experiments/cloudflare-mdx/run-matrix.mjs --check-config \
+  experiments/cloudflare-mdx/scale-base-screen-matrix.json
+node experiments/cloudflare-mdx/run-graph-smoke.mjs --check-config \
+  experiments/cloudflare-mdx/scale-graph-smoke-config.json
+node experiments/cloudflare-mdx/run-semantic-sentinel.mjs --check-config \
+  experiments/cloudflare-mdx/scale-semantic-sentinel.json
+node experiments/cloudflare-mdx/verify-correctness-gate.mjs
+```
+
+Run the two untimed lifecycle-fixed admission artifacts before any performance matrix:
+
+```bash
+node experiments/cloudflare-mdx/run-matrix.mjs \
+  experiments/cloudflare-mdx/scale-full-correctness-matrix.json \
+  experiments/cloudflare-mdx/data/scale-v1-9157-lifecycle-fixed-correctness.raw.json
+node experiments/cloudflare-mdx/run-semantic-sentinel.mjs \
+  experiments/cloudflare-mdx/scale-semantic-sentinel.json \
+  experiments/cloudflare-mdx/data/scale-v1-semantic-lifecycle-fixed-correctness.raw.json
+```
+
+Both are correctness-only and emit no build wall, CPU, `/usr/bin/time`, or peak-RSS evidence. After they pass, pin their SHA-256 values in `scale-correctness-gate.json`, change that gate to `passed`, re-run its verifier, and only then enable the base screen.
+
+Every new runner child pins and records `ROLLDOWN_WORKER_THREADS=18`, `RAYON_NUM_THREADS=12`, and `ROLLDOWN_MAX_BLOCKING_THREADS=4`. Performance matrices additionally refuse active CI, require AC power, low-power mode off, no thermal/performance warning, no competing study build/test/indexer process, uptime at most 24 hours, starting swap at most 512 MiB, one-minute load at most 2.0, summed process CPU at most 150%, and `memory_pressure -Q` free percentage at least 50%. Transient load/CPU/memory failures are retried every ten seconds for at most five minutes; the other starting failures abort immediately. A child with any pageout or swapout delta aborts the matrix. The pre-restart host remains ineligible for performance evidence; manifest/configuration checks and explicitly untimed correctness admission may run, but their resource observations cannot be promoted to timing claims.
+
+Correctness admission additionally pins Node `v24.18.0`, the `pnpm@11.12.0` recorded in the installed layout, the project package/lock/workspace files, the installed pnpm layout, and the resolved Astro/MDX/compiler/tsx versions and package-tree hashes. Each correctness artifact embeds a complete hash manifest of the executable MDX harness sources and frozen input files; the gate regenerates both environment and harness provenance instead of depending on an uncreated future commit.
+
+Instrumented cases allocate five shared 64-bit columns per selected ID: exact hit count, service duration, worker index, process-wide monotonic kernel start, and kernel end. Each isolate also records a `performance.timeOrigin + performance.now()` epoch bracket around one `process.hrtime.bigint()` sample, including uncertainty, so JavaScript intervals can be aligned with Rust/lifecycle clocks without relying on the application-patched `Date`. The result retains every start/end nanosecond timestamp and derives concurrency, per-worker busy intervals, idle gaps, final completion, and the last-start-to-last-completion tail. Instrumented child capture is explicitly 64 MiB and `ENOBUFS` aborts instead of accepting a truncated trace. `verify-metrics-timeline.mjs` checks a two-worker overlap, epoch brackets, and that the uninstrumented wall lane bypasses the metrics wrapper. Instrumentation remains forbidden in wall matrices.
+
+Runtime provenance is a separate frozen axis. Commit `0aa600b5721b852cdc4095c7122a929a8cb4a798`, binding SHA-256 `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`, and dist SHA-256 `e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc` remain classified `historical-0aa-artifact`: a fresh no-timer direct build reproduces the parent `Worker.unref()` code-13 early exit, while harness or plugin timers can accidentally keep it alive. Historical correctness success therefore makes no lifecycle claim. Runnable scale wall and correctness matrices now pin `lifecycle-fixed-baseline` commit `b144106882fe244b19b738fc0acf3ffa07c7c9f3`, binding `7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7`, and dist `1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45`; its sole runtime change from 0aa removes the early parent-worker unref behavior. The base screen remains blocked on lifecycle-fixed correctness; refinement additionally remains blocked until the base screen identifies the first direction-changing interval. A future Rust lifecycle/timeline lane must separately declare `instrumented-attribution`, pin another distinct commit/binding/dist set, enable both JavaScript and Rust instrumentation, and classify itself only as attribution. The runner rejects the historical artifact as performance or lifecycle evidence and rejects an instrumented build used with metrics off as wall or correctness baseline evidence; `verify-runtime-profile.mjs` exercises these gates.
 
 ## Commands
 
 Install the candidate's frozen dependencies in its isolated worktree, then restore any package-manager metadata written by the installer before recording provenance. Run all samples with the pinned Node binary and a clean candidate tree.
 
-Generate the immutable corpus and runtime manifest:
+Generate the legacy full-corpus inventory and runtime manifest. This does not define scale prefixes:
 
 ```bash
 node experiments/cloudflare-mdx/prepare-manifest.mjs \
@@ -71,27 +132,11 @@ node experiments/cloudflare-mdx/prepare-manifest.mjs \
   /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown
 ```
 
-Run one ordinary full-corpus process:
-
-```bash
-node --expose-gc experiments/cloudflare-mdx/run-case.mjs '{"projectRoot":"/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build","rolldownPackageRoot":"/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown","variant":"ordinary","corpus":"production-mdx","limit":0,"instrumentation":false}'
-```
-
-Run a four-worker process:
-
-```bash
-ROLLDOWN_PARALLEL_PLUGIN_WORKERS=4 node --expose-gc experiments/cloudflare-mdx/run-case.mjs '{"projectRoot":"/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build","rolldownPackageRoot":"/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown","variant":"worker-4","corpus":"production-mdx","limit":0,"instrumentation":false}'
-```
-
-Run the checked smoke matrix and write a raw artifact:
-
-```bash
-node experiments/cloudflare-mdx/run-matrix.mjs experiments/cloudflare-mdx/smoke-matrix.json experiments/cloudflare-mdx/data/smoke.raw.json
-```
+The old direct historical commands and unclassified `smoke-matrix.json` are intentionally rejected by the new runners. The `0aa/deec/e303` triple may be executed only by an explicitly classified, untimed `historical-replay`; retained historical artifacts remain the default source for those observations. New correctness uses the lifecycle-fixed matrices above, and new performance cannot execute until the correctness gate passes.
 
 Reproduce the original Astro MDX handler count only after verifying that `node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js` has SHA-256 `35c1e5496f3ea29671bdad54e607aec07280e3fcf5cd4a162e52484d32f2e932`. Apply `astro-mdx-counter.patch` to that installed file, run `run-astro-reference.mjs <candidate-root> <empty-output-dir> default mdx-counter`, then reverse the patch and verify the original hash again. The runner accepts only the recorded original or instrumented hash and marks the counter run ineligible for benchmark conclusions.
 
-`run-case.mjs` deletes `ASTRO_PERFORMANCE_BENCHMARK`, `BUILD_TARGET`, and `RUN_LINK_CHECK`, sets `NODE_ENV=production`, changes cwd before workers start, and uses the candidate's own pinned dependencies. It does not record or clear `CI`; the recorded ten-block matrix was launched locally, and the newer graph matrix runner explicitly refuses active CI markers. Uninstrumented wall runs leave both JavaScript and Rust metrics disabled. Instrumented runs set `instrumentation: true`; the matrix enables Rust metrics only for worker variants.
+`run-case.mjs` deletes `ASTRO_PERFORMANCE_BENCHMARK`, `BUILD_TARGET`, and `RUN_LINK_CHECK`, sets `NODE_ENV=production`, changes cwd before workers start, and uses the candidate's own pinned dependencies. It requires an explicit evidence kind and runtime profile. Direct case execution still does not enforce the local host gate; scale evidence must use `run-matrix.mjs`, which refuses unclassified matrices, consumes the correctness gate, refuses active CI markers, clears them from children, pins every pool environment value, and performs admission before each measured child. Uninstrumented wall runs leave both JavaScript and Rust metrics disabled. Instrumented runs set `instrumentation: true`; the matrix enables Rust metrics only for worker variants.
 
 ## Reproducibility limitations
 

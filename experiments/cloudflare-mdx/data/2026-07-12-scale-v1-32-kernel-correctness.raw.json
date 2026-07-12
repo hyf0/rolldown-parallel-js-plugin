@@ -1,0 +1,1978 @@
+{
+  "schema": 1,
+  "evidenceKind": "correctness-only",
+  "measurementFieldsPresent": false,
+  "timingEligible": false,
+  "reclassification": {
+    "kind": "historical-0aa-artifact",
+    "recordedKind": "unchanged-baseline",
+    "protocolAmendment": ".agents/docs/scale-crossover-protocol-amendment-1.md",
+    "lifecycleClaimEligible": false,
+    "timingEligible": false
+  },
+  "executionScope": "local-only",
+  "startedAt": "2026-07-12T11:47:59.538Z",
+  "finishedAt": "2026-07-12T11:48:41.184Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "runner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-matrix.mjs",
+    "sha256": "2845196ed7f732bb74559fc1a5a4bb73e10afc1ca255c6e554bb38a097ae1f46"
+  },
+  "caseRunner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-case.mjs",
+    "sha256": "7645f827738eb9377f4c09f2442a479142c5b0a2c74895b214ebe9cc02360c04"
+  },
+  "environment": {
+    "parentCiMarkers": {
+      "CI": null,
+      "GITHUB_ACTIONS": null,
+      "BUILDKITE": null,
+      "CIRCLECI": null,
+      "TF_BUILD": null,
+      "JENKINS_URL": null
+    },
+    "childCiMarkersCleared": [
+      "CI",
+      "GITHUB_ACTIONS",
+      "BUILDKITE",
+      "CIRCLECI",
+      "TF_BUILD",
+      "JENKINS_URL"
+    ],
+    "parentRunLinkCheck": null,
+    "parentPoolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": null,
+      "RAYON_NUM_THREADS": null,
+      "ROLLDOWN_MAX_BLOCKING_THREADS": null
+    },
+    "childPoolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "runtimeProfile": {
+      "kind": "unchanged-baseline",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+    },
+    "childInputRunLinkCheck": null,
+    "runCaseProfilePolicy": {
+      "default": false,
+      "ci-link-check": true
+    }
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664,
+    "atStart": {
+      "at": "2026-07-12T11:47:59.539Z",
+      "loadAverage": [
+        23.5302734375,
+        19.49267578125,
+        16.75048828125
+      ],
+      "freeMemoryBytes": 3493478400,
+      "uptimeSeconds": 1543793,
+      "power": {
+        "available": true,
+        "source": "AC Power",
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+      },
+      "lowPowerMode": {
+        "available": true,
+        "enabled": false,
+        "value": 0,
+        "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, 懒猫微服, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+      },
+      "thermal": {
+        "available": true,
+        "noThermalWarning": true,
+        "noPerformanceWarning": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      },
+      "memoryPressure": {
+        "available": true,
+        "freePercentage": 63,
+        "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 63%"
+      },
+      "swapUsage": {
+        "available": true,
+        "raw": "total = 22528.00M  used = 20681.06M  free = 1846.94M  (encrypted)",
+        "totalBytes": 23622320128,
+        "usedBytes": 21685663170.56,
+        "freeBytes": 1936656957.44
+      },
+      "virtualMemoryCounters": {
+        "pageins": 527869755,
+        "pageouts": 2205386,
+        "swapins": 27008505,
+        "swapouts": 33498012,
+        "compressions": 1520732572,
+        "decompressions": 1270898068
+      },
+      "totalProcessCpuPercent": 929,
+      "competingStudyProcesses": [
+        {
+          "pid": 9034,
+          "ppid": 89710,
+          "cpuPercent": 82.6,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 62117,
+          "ppid": 62112,
+          "cpuPercent": 59.1,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 68979,
+          "ppid": 22741,
+          "cpuPercent": 66.1,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 88919,
+          "ppid": 88528,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        },
+        {
+          "pid": 88941,
+          "ppid": 88919,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        }
+      ]
+    },
+    "atFinish": {
+      "at": "2026-07-12T11:48:41.184Z",
+      "loadAverage": [
+        22.33349609375,
+        19.90380859375,
+        17.052734375
+      ],
+      "freeMemoryBytes": 2685337600,
+      "uptimeSeconds": 1543835,
+      "power": {
+        "available": true,
+        "source": "AC Power",
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+      },
+      "lowPowerMode": {
+        "available": true,
+        "enabled": false,
+        "value": 0,
+        "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+      },
+      "thermal": {
+        "available": true,
+        "noThermalWarning": true,
+        "noPerformanceWarning": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      },
+      "memoryPressure": {
+        "available": true,
+        "freePercentage": 62,
+        "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+      },
+      "swapUsage": {
+        "available": true,
+        "raw": "total = 21504.00M  used = 20665.12M  free = 838.88M  (encrypted)",
+        "totalBytes": 22548578304,
+        "usedBytes": 21668948869.12,
+        "freeBytes": 879629434.88
+      },
+      "virtualMemoryCounters": {
+        "pageins": 527927080,
+        "pageouts": 2205386,
+        "swapins": 27022668,
+        "swapouts": 33511593,
+        "compressions": 1520732572,
+        "decompressions": 1270901709
+      },
+      "totalProcessCpuPercent": 523.5999999999999,
+      "competingStudyProcesses": [
+        {
+          "pid": 62117,
+          "ppid": 62112,
+          "cpuPercent": 2.8,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 68979,
+          "ppid": 22741,
+          "cpuPercent": 3,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 73939,
+          "ppid": 89710,
+          "cpuPercent": 94.9,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 88919,
+          "ppid": 88528,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        },
+        {
+          "pid": 88941,
+          "ppid": 88919,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        },
+        {
+          "pid": 89536,
+          "ppid": 87850,
+          "cpuPercent": 140.6,
+          "kind": "javascript-tool"
+        }
+      ]
+    }
+  },
+  "matrix": {
+    "executionScope": "local-only",
+    "evidenceKind": "correctness-only",
+    "runtimeProfile": {
+      "kind": "unchanged-baseline",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+    },
+    "poolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "cases": [
+      {
+        "name": "cloudflare-mdx-scale-v1-32-correctness",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "cloudflare-mdx-scale-v1",
+        "buildProfile": "default",
+        "selectionScale": 32,
+        "selectionPrefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "instrumentation": true,
+        "rustInstrumentation": false,
+        "measurementMode": "correctness-only",
+        "variants": [
+          "ordinary",
+          "worker-2"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "hostAdmissionAttempts": [],
+  "hostPolicyViolations": [],
+  "validationErrors": [],
+  "rawOutputDifferences": [],
+  "runs": [
+    {
+      "name": "cloudflare-mdx-scale-v1-32-correctness",
+      "index": 0,
+      "sequence": 0,
+      "hostBefore": {
+        "at": "2026-07-12T11:47:59.740Z",
+        "loadAverage": [
+          23.5302734375,
+          19.49267578125,
+          16.75048828125
+        ],
+        "freeMemoryBytes": 3366584320,
+        "uptimeSeconds": 1543793,
+        "power": {
+          "available": true,
+          "source": "AC Power",
+          "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+        },
+        "lowPowerMode": {
+          "available": true,
+          "enabled": false,
+          "value": 0,
+          "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, 懒猫微服, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+        },
+        "thermal": {
+          "available": true,
+          "noThermalWarning": true,
+          "noPerformanceWarning": true,
+          "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+        },
+        "memoryPressure": {
+          "available": true,
+          "freePercentage": 62,
+          "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+        },
+        "swapUsage": {
+          "available": true,
+          "raw": "total = 22528.00M  used = 20681.06M  free = 1846.94M  (encrypted)",
+          "totalBytes": 23622320128,
+          "usedBytes": 21685663170.56,
+          "freeBytes": 1936656957.44
+        },
+        "virtualMemoryCounters": {
+          "pageins": 527869790,
+          "pageouts": 2205386,
+          "swapins": 27010864,
+          "swapouts": 33500367,
+          "compressions": 1520732572,
+          "decompressions": 1270898074
+        },
+        "totalProcessCpuPercent": 919.5999999999999,
+        "competingStudyProcesses": [
+          {
+            "pid": 9034,
+            "ppid": 89710,
+            "cpuPercent": 83.5,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 62117,
+            "ppid": 62112,
+            "cpuPercent": 52.3,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 68979,
+            "ppid": 22741,
+            "cpuPercent": 62.3,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 88919,
+            "ppid": 88528,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          },
+          {
+            "pid": 88941,
+            "ppid": 88919,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          }
+        ]
+      },
+      "hostAfter": {
+        "at": "2026-07-12T11:48:17.325Z",
+        "loadAverage": [
+          24.8916015625,
+          20.12451171875,
+          17.04345703125
+        ],
+        "freeMemoryBytes": 4709810176,
+        "uptimeSeconds": 1543811,
+        "power": {
+          "available": true,
+          "source": "AC Power",
+          "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+        },
+        "lowPowerMode": {
+          "available": true,
+          "enabled": false,
+          "value": 0,
+          "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+        },
+        "thermal": {
+          "available": true,
+          "noThermalWarning": true,
+          "noPerformanceWarning": true,
+          "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+        },
+        "memoryPressure": {
+          "available": true,
+          "freePercentage": 63,
+          "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 63%"
+        },
+        "swapUsage": {
+          "available": true,
+          "raw": "total = 21504.00M  used = 20673.12M  free = 830.88M  (encrypted)",
+          "totalBytes": 22548578304,
+          "usedBytes": 21677337477.12,
+          "freeBytes": 871240826.88
+        },
+        "virtualMemoryCounters": {
+          "pageins": 527888757,
+          "pageouts": 2205386,
+          "swapins": 27022258,
+          "swapouts": 33511593,
+          "compressions": 1520732572,
+          "decompressions": 1270898825
+        },
+        "totalProcessCpuPercent": 730,
+        "competingStudyProcesses": [
+          {
+            "pid": 62117,
+            "ppid": 62112,
+            "cpuPercent": 42.3,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 68979,
+            "ppid": 22741,
+            "cpuPercent": 62.4,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 73939,
+            "ppid": 89710,
+            "cpuPercent": 76.6,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 88919,
+            "ppid": 88528,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          },
+          {
+            "pid": 88941,
+            "ppid": 88919,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          }
+        ]
+      },
+      "hostDeltas": {
+        "virtualMemoryCounters": {
+          "pageins": 18967,
+          "pageouts": 0,
+          "swapins": 11394,
+          "swapouts": 11226,
+          "compressions": 0,
+          "decompressions": 751
+        },
+        "swapUsedBytes": -8325693.440002441
+      },
+      "hostPolicyViolations": [],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "selection": {
+        "algorithm": "cloudflare-mdx-scale-v1",
+        "scale": 32,
+        "prefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "prefixSummary": {
+          "bytes": 95272,
+          "collections": {
+            "changelog": 3,
+            "compatibility": 1,
+            "docs": 23,
+            "partials": 5
+          },
+          "featureClasses": {
+            "fence-0": 21,
+            "fence-1": 3,
+            "fence-2-4": 4,
+            "fence-5+": 4
+          },
+          "fencedBlocks": 63,
+          "languages": {
+            "bash": 9,
+            "hcl": 2,
+            "html": 3,
+            "js": 1,
+            "sh": 16,
+            "swift": 2,
+            "terraform": 1,
+            "toml": 2,
+            "ts": 1,
+            "tsx": 3,
+            "txt": 5,
+            "typescript": 18
+          },
+          "lines": 2310,
+          "sources": 32
+        },
+        "manifestFullSelectionSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673"
+      },
+      "buildProfile": "default",
+      "effectiveRunLinkCheck": false,
+      "limit": 0,
+      "instrumentation": true,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "poolEnvironment": {
+        "ROLLDOWN_WORKER_THREADS": "18",
+        "RAYON_NUM_THREADS": "12",
+        "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+      },
+      "runtimeProfile": {
+        "kind": "unchanged-baseline",
+        "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+        "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+        "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+      },
+      "finalRssBytes": 536330240,
+      "outputBytes": 518850,
+      "outputChunks": 32,
+      "outputHash": "a2f8ecd6cc54df744e98bcd4bfd29266864a2d92251f2d36f8d0206675a71c93",
+      "normalizedOutputBytes": 518850,
+      "normalizedOutputHash": "a2f8ecd6cc54df744e98bcd4bfd29266864a2d92251f2d36f8d0206675a71c93",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "metrics": {
+        "schema": 2,
+        "factoryCalls": 1,
+        "workerMask": "1",
+        "initializationMsTotal": 8452.330708,
+        "initializationMsMax": 8452.330708,
+        "handlerCalls": 32,
+        "inputBytes": 95272,
+        "outputBytes": 521272,
+        "serviceMsTotal": 13596.633373,
+        "serviceMsMax": 1538.649375,
+        "active": 0,
+        "maxActive": 13,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 32,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "kernelClock": "process.hrtime.bigint monotonic nanoseconds shared across Node worker threads",
+        "perEntryColumns": [
+          "hits",
+          "serviceNanoseconds",
+          "workerIndexPlusOne",
+          "kernelStartMonotonicNanoseconds",
+          "kernelEndMonotonicNanoseconds"
+        ],
+        "kernelTimeline": {
+          "completedEntries": 32,
+          "originNs": "1543816249463541",
+          "firstStartNs": "1543816249463541",
+          "lastStartNs": "1543816986676625",
+          "lastEndNs": "1543818257052750",
+          "spanMs": 2007.589209,
+          "lastStartToLastEndMs": 1270.376125,
+          "maxConcurrent": 13,
+          "perWorker": [
+            {
+              "worker": 0,
+              "calls": 32,
+              "busyMs": 2006.827958,
+              "serviceElapsedMsTotal": 13596.633373,
+              "overlapMs": 11589.805415,
+              "idleGapMs": 0.761251,
+              "maxIdleGapMs": 0.295834,
+              "firstStartOffsetMs": 0,
+              "lastStartOffsetMs": 737.213084,
+              "lastEndOffsetMs": 2007.589209,
+              "finalEntryId": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/sandbox/guides/mount-buckets.mdx"
+            }
+          ]
+        },
+        "timelineEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/compatibility-flags/nodejs-compat.mdx",
+            "hits": 1,
+            "serviceMs": 11.805833,
+            "worker": 0,
+            "kernelStartNs": "1543816895940125",
+            "kernelEndNs": "1543816907745958"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/vpc.mdx",
+            "hits": 1,
+            "serviceMs": 3.526833,
+            "worker": 0,
+            "kernelStartNs": "1543816883538208",
+            "kernelEndNs": "1543816887065041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ddos-protection/change-log/http/2023-11-13-emergency.mdx",
+            "hits": 1,
+            "serviceMs": 6.899083,
+            "worker": 0,
+            "kernelStartNs": "1543816850359500",
+            "kernelEndNs": "1543816857258583"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/turnstile/privacy-policy.mdx",
+            "hits": 1,
+            "serviceMs": 3.769542,
+            "worker": 0,
+            "kernelStartNs": "1543816965923166",
+            "kernelEndNs": "1543816969692708"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/support/troubleshooting/http-status-codes/4xx-client-error/error-499.mdx",
+            "hits": 1,
+            "serviceMs": 10.662709,
+            "worker": 0,
+            "kernelStartNs": "1543816916635541",
+            "kernelEndNs": "1543816927298250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/analytics/account-and-zone-analytics/status-codes.mdx",
+            "hits": 1,
+            "serviceMs": 28.416584,
+            "worker": 0,
+            "kernelStartNs": "1543816936905916",
+            "kernelEndNs": "1543816965322500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/kv/2025-01-27-kv-increased-namespaces-limits.mdx",
+            "hits": 1,
+            "serviceMs": 255.098125,
+            "worker": 0,
+            "kernelStartNs": "1543816249463541",
+            "kernelEndNs": "1543816504561666"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/core/rtk-viewer-count.mdx",
+            "hits": 1,
+            "serviceMs": 1099.574541,
+            "worker": 0,
+            "kernelStartNs": "1543816878490875",
+            "kernelEndNs": "1543817978065416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall.mdx",
+            "hits": 1,
+            "serviceMs": 1048.310209,
+            "worker": 0,
+            "kernelStartNs": "1543816927588416",
+            "kernelEndNs": "1543817975898625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/ios/meeting-view-controller.mdx",
+            "hits": 1,
+            "serviceMs": 848.466,
+            "worker": 0,
+            "kernelStartNs": "1543816887174916",
+            "kernelEndNs": "1543817735640916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/workers/wrangler-commands/runtime-types.mdx",
+            "hits": 1,
+            "serviceMs": 3.643333,
+            "worker": 0,
+            "kernelStartNs": "1543816857360458",
+            "kernelEndNs": "1543816861003791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/tools/codemode/browser.mdx",
+            "hits": 1,
+            "serviceMs": 1145.725667,
+            "worker": 0,
+            "kernelStartNs": "1543816971648916",
+            "kernelEndNs": "1543818117374583"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/bindings/queues.mdx",
+            "hits": 1,
+            "serviceMs": 2.800208,
+            "worker": 0,
+            "kernelStartNs": "1543816913724125",
+            "kernelEndNs": "1543816916524333"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/learning-paths/secure-internet-traffic/understand-policies/indicator-feeds.mdx",
+            "hits": 1,
+            "serviceMs": 5.751417,
+            "worker": 0,
+            "kernelStartNs": "1543816907852708",
+            "kernelEndNs": "1543816913604125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/cloudflare-wan/2025-11-06-connector-designate-wan-link-breakout.mdx",
+            "hits": 1,
+            "serviceMs": 3.113291,
+            "worker": 0,
+            "kernelStartNs": "1543816986676625",
+            "kernelEndNs": "1543816989789916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/bots/additional-configurations/static-resources.mdx",
+            "hits": 1,
+            "serviceMs": 19.741458,
+            "worker": 0,
+            "kernelStartNs": "1543816578595000",
+            "kernelEndNs": "1543816598336458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/client-side-security/detection/monitor-connections-scripts.mdx",
+            "hits": 1,
+            "serviceMs": 69.051416,
+            "worker": 0,
+            "kernelStartNs": "1543816509247750",
+            "kernelEndNs": "1543816578299166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/warp/enroll-ios-android.mdx",
+            "hits": 1,
+            "serviceMs": 6.750458,
+            "worker": 0,
+            "kernelStartNs": "1543816709091625",
+            "kernelEndNs": "1543816715842083"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/secrets-store.mdx",
+            "hits": 1,
+            "serviceMs": 1508.202875,
+            "worker": 0,
+            "kernelStartNs": "1543816675549166",
+            "kernelEndNs": "1543818183752041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/logs/faq/504-origin-status-0.mdx",
+            "hits": 1,
+            "serviceMs": 1525.896125,
+            "worker": 0,
+            "kernelStartNs": "1543816598486000",
+            "kernelEndNs": "1543818124382125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/terraform/tutorial/use-load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 1506.947708,
+            "worker": 0,
+            "kernelStartNs": "1543816689788083",
+            "kernelEndNs": "1543818196735791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/sandbox/guides/mount-buckets.mdx",
+            "hits": 1,
+            "serviceMs": 1538.649375,
+            "worker": 0,
+            "kernelStartNs": "1543816718403375",
+            "kernelEndNs": "1543818257052750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/gateway/extended-email.mdx",
+            "hits": 1,
+            "serviceMs": 9.42275,
+            "worker": 0,
+            "kernelStartNs": "1543816791983291",
+            "kernelEndNs": "1543816801406041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/local-development/vite-plugin.mdx",
+            "hits": 1,
+            "serviceMs": 2.306958,
+            "worker": 0,
+            "kernelStartNs": "1543816715981458",
+            "kernelEndNs": "1543816718288416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/networks/connectors/cloudflare-wan/configuration/third-party/google.mdx",
+            "hits": 1,
+            "serviceMs": 5.004,
+            "worker": 0,
+            "kernelStartNs": "1543816833684250",
+            "kernelEndNs": "1543816838688250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/ai-crawl-control/2025-10-21-track-robots-txt.mdx",
+            "hits": 1,
+            "serviceMs": 9.860708,
+            "worker": 0,
+            "kernelStartNs": "1543816817094833",
+            "kernelEndNs": "1543816826955541"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/use-cases/performance/load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 14.955083,
+            "worker": 0,
+            "kernelStartNs": "1543816801529833",
+            "kernelEndNs": "1543816816484916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agent-setup/cursor.mdx",
+            "hits": 1,
+            "serviceMs": 707.282292,
+            "worker": 0,
+            "kernelStartNs": "1543816861113333",
+            "kernelEndNs": "1543817568395625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/handlers/index.mdx",
+            "hits": 1,
+            "serviceMs": 740.754167,
+            "worker": 0,
+            "kernelStartNs": "1543816827699333",
+            "kernelEndNs": "1543817568453500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/waf/detections/leaked-credentials-enable-terraform.mdx",
+            "hits": 1,
+            "serviceMs": 720.348916,
+            "worker": 0,
+            "kernelStartNs": "1543816848138875",
+            "kernelEndNs": "1543817568487791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/email-security/email-configuration/lists/block-list.mdx",
+            "hits": 1,
+            "serviceMs": 729.5255,
+            "worker": 0,
+            "kernelStartNs": "1543816838758500",
+            "kernelEndNs": "1543817568284000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-for-platforms/cloudflare-for-saas/api-reference.mdx",
+            "hits": 1,
+            "serviceMs": 4.370209,
+            "worker": 0,
+            "kernelStartNs": "1543816504753416",
+            "kernelEndNs": "1543816509123625"
+          }
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/sandbox/guides/mount-buckets.mdx",
+            "hits": 1,
+            "serviceMs": 1538.649375,
+            "worker": 0,
+            "kernelStartNs": "1543816718403375",
+            "kernelEndNs": "1543818257052750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/logs/faq/504-origin-status-0.mdx",
+            "hits": 1,
+            "serviceMs": 1525.896125,
+            "worker": 0,
+            "kernelStartNs": "1543816598486000",
+            "kernelEndNs": "1543818124382125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/secrets-store.mdx",
+            "hits": 1,
+            "serviceMs": 1508.202875,
+            "worker": 0,
+            "kernelStartNs": "1543816675549166",
+            "kernelEndNs": "1543818183752041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/terraform/tutorial/use-load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 1506.947708,
+            "worker": 0,
+            "kernelStartNs": "1543816689788083",
+            "kernelEndNs": "1543818196735791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/tools/codemode/browser.mdx",
+            "hits": 1,
+            "serviceMs": 1145.725667,
+            "worker": 0,
+            "kernelStartNs": "1543816971648916",
+            "kernelEndNs": "1543818117374583"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/core/rtk-viewer-count.mdx",
+            "hits": 1,
+            "serviceMs": 1099.574541,
+            "worker": 0,
+            "kernelStartNs": "1543816878490875",
+            "kernelEndNs": "1543817978065416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall.mdx",
+            "hits": 1,
+            "serviceMs": 1048.310209,
+            "worker": 0,
+            "kernelStartNs": "1543816927588416",
+            "kernelEndNs": "1543817975898625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/ios/meeting-view-controller.mdx",
+            "hits": 1,
+            "serviceMs": 848.466,
+            "worker": 0,
+            "kernelStartNs": "1543816887174916",
+            "kernelEndNs": "1543817735640916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/handlers/index.mdx",
+            "hits": 1,
+            "serviceMs": 740.754167,
+            "worker": 0,
+            "kernelStartNs": "1543816827699333",
+            "kernelEndNs": "1543817568453500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/email-security/email-configuration/lists/block-list.mdx",
+            "hits": 1,
+            "serviceMs": 729.5255,
+            "worker": 0,
+            "kernelStartNs": "1543816838758500",
+            "kernelEndNs": "1543817568284000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/waf/detections/leaked-credentials-enable-terraform.mdx",
+            "hits": 1,
+            "serviceMs": 720.348916,
+            "worker": 0,
+            "kernelStartNs": "1543816848138875",
+            "kernelEndNs": "1543817568487791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agent-setup/cursor.mdx",
+            "hits": 1,
+            "serviceMs": 707.282292,
+            "worker": 0,
+            "kernelStartNs": "1543816861113333",
+            "kernelEndNs": "1543817568395625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/kv/2025-01-27-kv-increased-namespaces-limits.mdx",
+            "hits": 1,
+            "serviceMs": 255.098125,
+            "worker": 0,
+            "kernelStartNs": "1543816249463541",
+            "kernelEndNs": "1543816504561666"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/client-side-security/detection/monitor-connections-scripts.mdx",
+            "hits": 1,
+            "serviceMs": 69.051416,
+            "worker": 0,
+            "kernelStartNs": "1543816509247750",
+            "kernelEndNs": "1543816578299166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/analytics/account-and-zone-analytics/status-codes.mdx",
+            "hits": 1,
+            "serviceMs": 28.416584,
+            "worker": 0,
+            "kernelStartNs": "1543816936905916",
+            "kernelEndNs": "1543816965322500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/bots/additional-configurations/static-resources.mdx",
+            "hits": 1,
+            "serviceMs": 19.741458,
+            "worker": 0,
+            "kernelStartNs": "1543816578595000",
+            "kernelEndNs": "1543816598336458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/use-cases/performance/load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 14.955083,
+            "worker": 0,
+            "kernelStartNs": "1543816801529833",
+            "kernelEndNs": "1543816816484916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/compatibility-flags/nodejs-compat.mdx",
+            "hits": 1,
+            "serviceMs": 11.805833,
+            "worker": 0,
+            "kernelStartNs": "1543816895940125",
+            "kernelEndNs": "1543816907745958"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/support/troubleshooting/http-status-codes/4xx-client-error/error-499.mdx",
+            "hits": 1,
+            "serviceMs": 10.662709,
+            "worker": 0,
+            "kernelStartNs": "1543816916635541",
+            "kernelEndNs": "1543816927298250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/ai-crawl-control/2025-10-21-track-robots-txt.mdx",
+            "hits": 1,
+            "serviceMs": 9.860708,
+            "worker": 0,
+            "kernelStartNs": "1543816817094833",
+            "kernelEndNs": "1543816826955541"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/gateway/extended-email.mdx",
+            "hits": 1,
+            "serviceMs": 9.42275,
+            "worker": 0,
+            "kernelStartNs": "1543816791983291",
+            "kernelEndNs": "1543816801406041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ddos-protection/change-log/http/2023-11-13-emergency.mdx",
+            "hits": 1,
+            "serviceMs": 6.899083,
+            "worker": 0,
+            "kernelStartNs": "1543816850359500",
+            "kernelEndNs": "1543816857258583"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/warp/enroll-ios-android.mdx",
+            "hits": 1,
+            "serviceMs": 6.750458,
+            "worker": 0,
+            "kernelStartNs": "1543816709091625",
+            "kernelEndNs": "1543816715842083"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/learning-paths/secure-internet-traffic/understand-policies/indicator-feeds.mdx",
+            "hits": 1,
+            "serviceMs": 5.751417,
+            "worker": 0,
+            "kernelStartNs": "1543816907852708",
+            "kernelEndNs": "1543816913604125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/networks/connectors/cloudflare-wan/configuration/third-party/google.mdx",
+            "hits": 1,
+            "serviceMs": 5.004,
+            "worker": 0,
+            "kernelStartNs": "1543816833684250",
+            "kernelEndNs": "1543816838688250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-for-platforms/cloudflare-for-saas/api-reference.mdx",
+            "hits": 1,
+            "serviceMs": 4.370209,
+            "worker": 0,
+            "kernelStartNs": "1543816504753416",
+            "kernelEndNs": "1543816509123625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/turnstile/privacy-policy.mdx",
+            "hits": 1,
+            "serviceMs": 3.769542,
+            "worker": 0,
+            "kernelStartNs": "1543816965923166",
+            "kernelEndNs": "1543816969692708"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/workers/wrangler-commands/runtime-types.mdx",
+            "hits": 1,
+            "serviceMs": 3.643333,
+            "worker": 0,
+            "kernelStartNs": "1543816857360458",
+            "kernelEndNs": "1543816861003791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/vpc.mdx",
+            "hits": 1,
+            "serviceMs": 3.526833,
+            "worker": 0,
+            "kernelStartNs": "1543816883538208",
+            "kernelEndNs": "1543816887065041"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/cloudflare-wan/2025-11-06-connector-designate-wan-link-breakout.mdx",
+            "hits": 1,
+            "serviceMs": 3.113291,
+            "worker": 0,
+            "kernelStartNs": "1543816986676625",
+            "kernelEndNs": "1543816989789916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/bindings/queues.mdx",
+            "hits": 1,
+            "serviceMs": 2.800208,
+            "worker": 0,
+            "kernelStartNs": "1543816913724125",
+            "kernelEndNs": "1543816916524333"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/local-development/vite-plugin.mdx",
+            "hits": 1,
+            "serviceMs": 2.306958,
+            "worker": 0,
+            "kernelStartNs": "1543816715981458",
+            "kernelEndNs": "1543816718288416"
+          }
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "cloudflare-mdx-scale-v1-32-correctness",
+      "index": 0,
+      "sequence": 1,
+      "hostBefore": {
+        "at": "2026-07-12T11:48:17.493Z",
+        "loadAverage": [
+          24.8916015625,
+          20.12451171875,
+          17.04345703125
+        ],
+        "freeMemoryBytes": 4705599488,
+        "uptimeSeconds": 1543811,
+        "power": {
+          "available": true,
+          "source": "AC Power",
+          "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+        },
+        "lowPowerMode": {
+          "available": true,
+          "enabled": false,
+          "value": 0,
+          "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+        },
+        "thermal": {
+          "available": true,
+          "noThermalWarning": true,
+          "noPerformanceWarning": true,
+          "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+        },
+        "memoryPressure": {
+          "available": true,
+          "freePercentage": 62,
+          "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+        },
+        "swapUsage": {
+          "available": true,
+          "raw": "total = 21504.00M  used = 20673.12M  free = 830.88M  (encrypted)",
+          "totalBytes": 22548578304,
+          "usedBytes": 21677337477.12,
+          "freeBytes": 871240826.88
+        },
+        "virtualMemoryCounters": {
+          "pageins": 527888798,
+          "pageouts": 2205386,
+          "swapins": 27022258,
+          "swapouts": 33511593,
+          "compressions": 1520732572,
+          "decompressions": 1270898825
+        },
+        "totalProcessCpuPercent": 744.5,
+        "competingStudyProcesses": [
+          {
+            "pid": 62117,
+            "ppid": 62112,
+            "cpuPercent": 41.2,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 68979,
+            "ppid": 22741,
+            "cpuPercent": 61,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 73939,
+            "ppid": 89710,
+            "cpuPercent": 80,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 88919,
+            "ppid": 88528,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          },
+          {
+            "pid": 88941,
+            "ppid": 88919,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          }
+        ]
+      },
+      "hostAfter": {
+        "at": "2026-07-12T11:48:41.000Z",
+        "loadAverage": [
+          22.33349609375,
+          19.90380859375,
+          17.052734375
+        ],
+        "freeMemoryBytes": 2758901760,
+        "uptimeSeconds": 1543835,
+        "power": {
+          "available": true,
+          "source": "AC Power",
+          "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+        },
+        "lowPowerMode": {
+          "available": true,
+          "enabled": false,
+          "value": 0,
+          "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+        },
+        "thermal": {
+          "available": true,
+          "noThermalWarning": true,
+          "noPerformanceWarning": true,
+          "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+        },
+        "memoryPressure": {
+          "available": true,
+          "freePercentage": 62,
+          "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+        },
+        "swapUsage": {
+          "available": true,
+          "raw": "total = 21504.00M  used = 20665.12M  free = 838.88M  (encrypted)",
+          "totalBytes": 22548578304,
+          "usedBytes": 21668948869.12,
+          "freeBytes": 879629434.88
+        },
+        "virtualMemoryCounters": {
+          "pageins": 527927072,
+          "pageouts": 2205386,
+          "swapins": 27022668,
+          "swapouts": 33511593,
+          "compressions": 1520732572,
+          "decompressions": 1270901709
+        },
+        "totalProcessCpuPercent": 439.3999999999999,
+        "competingStudyProcesses": [
+          {
+            "pid": 62117,
+            "ppid": 62112,
+            "cpuPercent": 4.3,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 68979,
+            "ppid": 22741,
+            "cpuPercent": 3.4,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 73939,
+            "ppid": 89710,
+            "cpuPercent": 93.6,
+            "kind": "build-or-test"
+          },
+          {
+            "pid": 88919,
+            "ppid": 88528,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          },
+          {
+            "pid": 88941,
+            "ppid": 88919,
+            "cpuPercent": 0,
+            "kind": "javascript-tool"
+          },
+          {
+            "pid": 89536,
+            "ppid": 87850,
+            "cpuPercent": 97.8,
+            "kind": "javascript-tool"
+          }
+        ]
+      },
+      "hostDeltas": {
+        "virtualMemoryCounters": {
+          "pageins": 38274,
+          "pageouts": 0,
+          "swapins": 410,
+          "swapouts": 0,
+          "compressions": 0,
+          "decompressions": 2884
+        },
+        "swapUsedBytes": -8388608
+      },
+      "hostPolicyViolations": [],
+      "variant": "worker-2",
+      "workerCount": 2,
+      "workerModel": "rolldown",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "selection": {
+        "algorithm": "cloudflare-mdx-scale-v1",
+        "scale": 32,
+        "prefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "prefixSummary": {
+          "bytes": 95272,
+          "collections": {
+            "changelog": 3,
+            "compatibility": 1,
+            "docs": 23,
+            "partials": 5
+          },
+          "featureClasses": {
+            "fence-0": 21,
+            "fence-1": 3,
+            "fence-2-4": 4,
+            "fence-5+": 4
+          },
+          "fencedBlocks": 63,
+          "languages": {
+            "bash": 9,
+            "hcl": 2,
+            "html": 3,
+            "js": 1,
+            "sh": 16,
+            "swift": 2,
+            "terraform": 1,
+            "toml": 2,
+            "ts": 1,
+            "tsx": 3,
+            "txt": 5,
+            "typescript": 18
+          },
+          "lines": 2310,
+          "sources": 32
+        },
+        "manifestFullSelectionSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673"
+      },
+      "buildProfile": "default",
+      "effectiveRunLinkCheck": false,
+      "limit": 0,
+      "instrumentation": true,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "poolEnvironment": {
+        "ROLLDOWN_WORKER_THREADS": "18",
+        "RAYON_NUM_THREADS": "12",
+        "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+      },
+      "runtimeProfile": {
+        "kind": "unchanged-baseline",
+        "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+        "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+        "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+      },
+      "finalRssBytes": 694878208,
+      "outputBytes": 518850,
+      "outputChunks": 32,
+      "outputHash": "a2f8ecd6cc54df744e98bcd4bfd29266864a2d92251f2d36f8d0206675a71c93",
+      "normalizedOutputBytes": 518850,
+      "normalizedOutputHash": "a2f8ecd6cc54df744e98bcd4bfd29266864a2d92251f2d36f8d0206675a71c93",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "metrics": {
+        "schema": 2,
+        "factoryCalls": 2,
+        "workerMask": "3",
+        "initializationMsTotal": 17293.225208,
+        "initializationMsMax": 8791.334166,
+        "handlerCalls": 32,
+        "inputBytes": 95272,
+        "outputBytes": 521272,
+        "serviceMsTotal": 2674.46513,
+        "serviceMsMax": 579.283959,
+        "active": 0,
+        "maxActive": 2,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 32,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          13,
+          19,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "kernelClock": "process.hrtime.bigint monotonic nanoseconds shared across Node worker threads",
+        "perEntryColumns": [
+          "hits",
+          "serviceNanoseconds",
+          "workerIndexPlusOne",
+          "kernelStartMonotonicNanoseconds",
+          "kernelEndMonotonicNanoseconds"
+        ],
+        "kernelTimeline": {
+          "completedEntries": 32,
+          "originNs": "1543840503395166",
+          "firstStartNs": "1543840503395166",
+          "lastStartNs": "1543841807551583",
+          "lastEndNs": "1543841891319750",
+          "spanMs": 1387.924584,
+          "lastStartToLastEndMs": 83.768167,
+          "maxConcurrent": 2,
+          "perWorker": [
+            {
+              "worker": 0,
+              "calls": 13,
+              "busyMs": 1304.419627,
+              "serviceElapsedMsTotal": 1304.419627,
+              "overlapMs": 0,
+              "idleGapMs": 24.957039,
+              "maxIdleGapMs": 16.589041,
+              "firstStartOffsetMs": 0.355584,
+              "lastStartOffsetMs": 1233.395834,
+              "lastEndOffsetMs": 1329.73225,
+              "finalEntryId": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/handlers/index.mdx"
+            },
+            {
+              "worker": 1,
+              "calls": 19,
+              "busyMs": 1370.045503,
+              "serviceElapsedMsTotal": 1370.045503,
+              "overlapMs": 0,
+              "idleGapMs": 17.879081,
+              "maxIdleGapMs": 6.732541,
+              "firstStartOffsetMs": 0,
+              "lastStartOffsetMs": 1304.156417,
+              "lastEndOffsetMs": 1387.924584,
+              "finalEntryId": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/core/rtk-viewer-count.mdx"
+            }
+          ]
+        },
+        "timelineEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/compatibility-flags/nodejs-compat.mdx",
+            "hits": 1,
+            "serviceMs": 6.4865,
+            "worker": 0,
+            "kernelStartNs": "1543840994858958",
+            "kernelEndNs": "1543841001345458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/vpc.mdx",
+            "hits": 1,
+            "serviceMs": 2.311459,
+            "worker": 0,
+            "kernelStartNs": "1543840979724166",
+            "kernelEndNs": "1543840982035625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ddos-protection/change-log/http/2023-11-13-emergency.mdx",
+            "hits": 1,
+            "serviceMs": 6.806417,
+            "worker": 1,
+            "kernelStartNs": "1543841762515208",
+            "kernelEndNs": "1543841769321625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/turnstile/privacy-policy.mdx",
+            "hits": 1,
+            "serviceMs": 2.2145,
+            "worker": 0,
+            "kernelStartNs": "1543840982411250",
+            "kernelEndNs": "1543840984625750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/support/troubleshooting/http-status-codes/4xx-client-error/error-499.mdx",
+            "hits": 1,
+            "serviceMs": 9.525458,
+            "worker": 0,
+            "kernelStartNs": "1543840984947958",
+            "kernelEndNs": "1543840994473416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/analytics/account-and-zone-analytics/status-codes.mdx",
+            "hits": 1,
+            "serviceMs": 23.662625,
+            "worker": 1,
+            "kernelStartNs": "1543841073903583",
+            "kernelEndNs": "1543841097566208"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/kv/2025-01-27-kv-increased-namespaces-limits.mdx",
+            "hits": 1,
+            "serviceMs": 1.811,
+            "worker": 1,
+            "kernelStartNs": "1543841261633791",
+            "kernelEndNs": "1543841263444791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/core/rtk-viewer-count.mdx",
+            "hits": 1,
+            "serviceMs": 83.768167,
+            "worker": 1,
+            "kernelStartNs": "1543841807551583",
+            "kernelEndNs": "1543841891319750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall.mdx",
+            "hits": 1,
+            "serviceMs": 570.021,
+            "worker": 1,
+            "kernelStartNs": "1543840503395166",
+            "kernelEndNs": "1543841073416166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/ios/meeting-view-controller.mdx",
+            "hits": 1,
+            "serviceMs": 116.100334,
+            "worker": 1,
+            "kernelStartNs": "1543841141341166",
+            "kernelEndNs": "1543841257441500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/workers/wrangler-commands/runtime-types.mdx",
+            "hits": 1,
+            "serviceMs": 2.666458,
+            "worker": 0,
+            "kernelStartNs": "1543840972283000",
+            "kernelEndNs": "1543840974949458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/tools/codemode/browser.mdx",
+            "hits": 1,
+            "serviceMs": 579.283959,
+            "worker": 0,
+            "kernelStartNs": "1543841156319041",
+            "kernelEndNs": "1543841735603000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/bindings/queues.mdx",
+            "hits": 1,
+            "serviceMs": 0.777834,
+            "worker": 1,
+            "kernelStartNs": "1543841799069291",
+            "kernelEndNs": "1543841799847125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/learning-paths/secure-internet-traffic/understand-policies/indicator-feeds.mdx",
+            "hits": 1,
+            "serviceMs": 3.704917,
+            "worker": 0,
+            "kernelStartNs": "1543840975656041",
+            "kernelEndNs": "1543840979360958"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/cloudflare-wan/2025-11-06-connector-designate-wan-link-breakout.mdx",
+            "hits": 1,
+            "serviceMs": 3.209125,
+            "worker": 1,
+            "kernelStartNs": "1543841257986416",
+            "kernelEndNs": "1543841261195541"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/bots/additional-configurations/static-resources.mdx",
+            "hits": 1,
+            "serviceMs": 26.322042,
+            "worker": 0,
+            "kernelStartNs": "1543840945192666",
+            "kernelEndNs": "1543840971514708"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/client-side-security/detection/monitor-connections-scripts.mdx",
+            "hits": 1,
+            "serviceMs": 23.192375,
+            "worker": 1,
+            "kernelStartNs": "1543841769959875",
+            "kernelEndNs": "1543841793152250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/warp/enroll-ios-android.mdx",
+            "hits": 1,
+            "serviceMs": 4.610125,
+            "worker": 0,
+            "kernelStartNs": "1543841001911875",
+            "kernelEndNs": "1543841006522000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/secrets-store.mdx",
+            "hits": 1,
+            "serviceMs": 28.814708,
+            "worker": 1,
+            "kernelStartNs": "1543841263828208",
+            "kernelEndNs": "1543841292642916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/logs/faq/504-origin-status-0.mdx",
+            "hits": 1,
+            "serviceMs": 82.948959,
+            "worker": 0,
+            "kernelStartNs": "1543841008889291",
+            "kernelEndNs": "1543841091838250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/terraform/tutorial/use-load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 63.155959,
+            "worker": 0,
+            "kernelStartNs": "1543841092534916",
+            "kernelEndNs": "1543841155690875"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/sandbox/guides/mount-buckets.mdx",
+            "hits": 1,
+            "serviceMs": 444.175209,
+            "worker": 1,
+            "kernelStartNs": "1543841295175916",
+            "kernelEndNs": "1543841739351125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/gateway/extended-email.mdx",
+            "hits": 1,
+            "serviceMs": 5.922166,
+            "worker": 1,
+            "kernelStartNs": "1543841800015625",
+            "kernelEndNs": "1543841805937791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/local-development/vite-plugin.mdx",
+            "hits": 1,
+            "serviceMs": 1.037792,
+            "worker": 1,
+            "kernelStartNs": "1543841806271291",
+            "kernelEndNs": "1543841807309083"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/networks/connectors/cloudflare-wan/configuration/third-party/google.mdx",
+            "hits": 1,
+            "serviceMs": 3.760375,
+            "worker": 1,
+            "kernelStartNs": "1543841136790291",
+            "kernelEndNs": "1543841140550666"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/ai-crawl-control/2025-10-21-track-robots-txt.mdx",
+            "hits": 1,
+            "serviceMs": 4.822083,
+            "worker": 1,
+            "kernelStartNs": "1543841793945083",
+            "kernelEndNs": "1543841798767166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/use-cases/performance/load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 6.875292,
+            "worker": 1,
+            "kernelStartNs": "1543841098726083",
+            "kernelEndNs": "1543841105601375"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agent-setup/cursor.mdx",
+            "hits": 1,
+            "serviceMs": 15.868167,
+            "worker": 1,
+            "kernelStartNs": "1543841746083666",
+            "kernelEndNs": "1543841761951833"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/handlers/index.mdx",
+            "hits": 1,
+            "serviceMs": 96.336416,
+            "worker": 0,
+            "kernelStartNs": "1543841736791000",
+            "kernelEndNs": "1543841833127416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/waf/detections/leaked-credentials-enable-terraform.mdx",
+            "hits": 1,
+            "serviceMs": 14.014625,
+            "worker": 1,
+            "kernelStartNs": "1543841106096791",
+            "kernelEndNs": "1543841120111416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/email-security/email-configuration/lists/block-list.mdx",
+            "hits": 1,
+            "serviceMs": 15.406209,
+            "worker": 1,
+            "kernelStartNs": "1543841120623916",
+            "kernelEndNs": "1543841136030125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-for-platforms/cloudflare-for-saas/api-reference.mdx",
+            "hits": 1,
+            "serviceMs": 424.852875,
+            "worker": 0,
+            "kernelStartNs": "1543840503750750",
+            "kernelEndNs": "1543840928603625"
+          }
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/tools/codemode/browser.mdx",
+            "hits": 1,
+            "serviceMs": 579.283959,
+            "worker": 0,
+            "kernelStartNs": "1543841156319041",
+            "kernelEndNs": "1543841735603000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/team-and-resources/devices/cloudflare-one-client/uninstall.mdx",
+            "hits": 1,
+            "serviceMs": 570.021,
+            "worker": 1,
+            "kernelStartNs": "1543840503395166",
+            "kernelEndNs": "1543841073416166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/sandbox/guides/mount-buckets.mdx",
+            "hits": 1,
+            "serviceMs": 444.175209,
+            "worker": 1,
+            "kernelStartNs": "1543841295175916",
+            "kernelEndNs": "1543841739351125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-for-platforms/cloudflare-for-saas/api-reference.mdx",
+            "hits": 1,
+            "serviceMs": 424.852875,
+            "worker": 0,
+            "kernelStartNs": "1543840503750750",
+            "kernelEndNs": "1543840928603625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/ios/meeting-view-controller.mdx",
+            "hits": 1,
+            "serviceMs": 116.100334,
+            "worker": 1,
+            "kernelStartNs": "1543841141341166",
+            "kernelEndNs": "1543841257441500"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/handlers/index.mdx",
+            "hits": 1,
+            "serviceMs": 96.336416,
+            "worker": 0,
+            "kernelStartNs": "1543841736791000",
+            "kernelEndNs": "1543841833127416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/api-reference/core/rtk-viewer-count.mdx",
+            "hits": 1,
+            "serviceMs": 83.768167,
+            "worker": 1,
+            "kernelStartNs": "1543841807551583",
+            "kernelEndNs": "1543841891319750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/logs/faq/504-origin-status-0.mdx",
+            "hits": 1,
+            "serviceMs": 82.948959,
+            "worker": 0,
+            "kernelStartNs": "1543841008889291",
+            "kernelEndNs": "1543841091838250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/terraform/tutorial/use-load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 63.155959,
+            "worker": 0,
+            "kernelStartNs": "1543841092534916",
+            "kernelEndNs": "1543841155690875"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/secrets-store.mdx",
+            "hits": 1,
+            "serviceMs": 28.814708,
+            "worker": 1,
+            "kernelStartNs": "1543841263828208",
+            "kernelEndNs": "1543841292642916"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/bots/additional-configurations/static-resources.mdx",
+            "hits": 1,
+            "serviceMs": 26.322042,
+            "worker": 0,
+            "kernelStartNs": "1543840945192666",
+            "kernelEndNs": "1543840971514708"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/analytics/account-and-zone-analytics/status-codes.mdx",
+            "hits": 1,
+            "serviceMs": 23.662625,
+            "worker": 1,
+            "kernelStartNs": "1543841073903583",
+            "kernelEndNs": "1543841097566208"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/client-side-security/detection/monitor-connections-scripts.mdx",
+            "hits": 1,
+            "serviceMs": 23.192375,
+            "worker": 1,
+            "kernelStartNs": "1543841769959875",
+            "kernelEndNs": "1543841793152250"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agent-setup/cursor.mdx",
+            "hits": 1,
+            "serviceMs": 15.868167,
+            "worker": 1,
+            "kernelStartNs": "1543841746083666",
+            "kernelEndNs": "1543841761951833"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/email-security/email-configuration/lists/block-list.mdx",
+            "hits": 1,
+            "serviceMs": 15.406209,
+            "worker": 1,
+            "kernelStartNs": "1543841120623916",
+            "kernelEndNs": "1543841136030125"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/waf/detections/leaked-credentials-enable-terraform.mdx",
+            "hits": 1,
+            "serviceMs": 14.014625,
+            "worker": 1,
+            "kernelStartNs": "1543841106096791",
+            "kernelEndNs": "1543841120111416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/support/troubleshooting/http-status-codes/4xx-client-error/error-499.mdx",
+            "hits": 1,
+            "serviceMs": 9.525458,
+            "worker": 0,
+            "kernelStartNs": "1543840984947958",
+            "kernelEndNs": "1543840994473416"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/use-cases/performance/load-balancing.mdx",
+            "hits": 1,
+            "serviceMs": 6.875292,
+            "worker": 1,
+            "kernelStartNs": "1543841098726083",
+            "kernelEndNs": "1543841105601375"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ddos-protection/change-log/http/2023-11-13-emergency.mdx",
+            "hits": 1,
+            "serviceMs": 6.806417,
+            "worker": 1,
+            "kernelStartNs": "1543841762515208",
+            "kernelEndNs": "1543841769321625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/compatibility-flags/nodejs-compat.mdx",
+            "hits": 1,
+            "serviceMs": 6.4865,
+            "worker": 0,
+            "kernelStartNs": "1543840994858958",
+            "kernelEndNs": "1543841001345458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/gateway/extended-email.mdx",
+            "hits": 1,
+            "serviceMs": 5.922166,
+            "worker": 1,
+            "kernelStartNs": "1543841800015625",
+            "kernelEndNs": "1543841805937791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/ai-crawl-control/2025-10-21-track-robots-txt.mdx",
+            "hits": 1,
+            "serviceMs": 4.822083,
+            "worker": 1,
+            "kernelStartNs": "1543841793945083",
+            "kernelEndNs": "1543841798767166"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/cloudflare-one/warp/enroll-ios-android.mdx",
+            "hits": 1,
+            "serviceMs": 4.610125,
+            "worker": 0,
+            "kernelStartNs": "1543841001911875",
+            "kernelEndNs": "1543841006522000"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/networks/connectors/cloudflare-wan/configuration/third-party/google.mdx",
+            "hits": 1,
+            "serviceMs": 3.760375,
+            "worker": 1,
+            "kernelStartNs": "1543841136790291",
+            "kernelEndNs": "1543841140550666"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/learning-paths/secure-internet-traffic/understand-policies/indicator-feeds.mdx",
+            "hits": 1,
+            "serviceMs": 3.704917,
+            "worker": 0,
+            "kernelStartNs": "1543840975656041",
+            "kernelEndNs": "1543840979360958"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/cloudflare-wan/2025-11-06-connector-designate-wan-link-breakout.mdx",
+            "hits": 1,
+            "serviceMs": 3.209125,
+            "worker": 1,
+            "kernelStartNs": "1543841257986416",
+            "kernelEndNs": "1543841261195541"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/workers/wrangler-commands/runtime-types.mdx",
+            "hits": 1,
+            "serviceMs": 2.666458,
+            "worker": 0,
+            "kernelStartNs": "1543840972283000",
+            "kernelEndNs": "1543840974949458"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/commands/vpc.mdx",
+            "hits": 1,
+            "serviceMs": 2.311459,
+            "worker": 0,
+            "kernelStartNs": "1543840979724166",
+            "kernelEndNs": "1543840982035625"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/partials/turnstile/privacy-policy.mdx",
+            "hits": 1,
+            "serviceMs": 2.2145,
+            "worker": 0,
+            "kernelStartNs": "1543840982411250",
+            "kernelEndNs": "1543840984625750"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/kv/2025-01-27-kv-increased-namespaces-limits.mdx",
+            "hits": 1,
+            "serviceMs": 1.811,
+            "worker": 1,
+            "kernelStartNs": "1543841261633791",
+            "kernelEndNs": "1543841263444791"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/local-development/vite-plugin.mdx",
+            "hits": 1,
+            "serviceMs": 1.037792,
+            "worker": 1,
+            "kernelStartNs": "1543841806271291",
+            "kernelEndNs": "1543841807309083"
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/runtime-apis/bindings/queues.mdx",
+            "hits": 1,
+            "serviceMs": 0.777834,
+            "worker": 1,
+            "kernelStartNs": "1543841799069291",
+            "kernelEndNs": "1543841799847125"
+          }
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    }
+  ]
+}

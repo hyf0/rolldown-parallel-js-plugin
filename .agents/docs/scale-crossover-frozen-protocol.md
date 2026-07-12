@@ -1,6 +1,6 @@
 # Frozen Scale-Crossover Execution Protocol
 
-Status: frozen before new benchmark timing or implementation changes on 2026-07-12. This protocol implements the planning rules in [scale crossover, worker selection, and initialization](./scale-crossover-worker-policy.md). [Amendment 1](./scale-crossover-protocol-amendment-1.md) supersedes the historical runtime artifact as a formal baseline after a no-timer worker-lifecycle failure; all other pins remain unchanged. A later change to a corpus, selection order, scale, acceptance threshold, host gate, runtime pin, or semantic gate requires a versioned amendment before affected timing is run. Correctness admission may reject a candidate, but it may not silently relax a gate or substitute a more favorable corpus.
+Status: frozen before new benchmark timing or implementation changes on 2026-07-12. This protocol implements the planning rules in [scale crossover, worker selection, and initialization](./scale-crossover-worker-policy.md). [Amendment 1](./scale-crossover-protocol-amendment-1.md) supersedes the historical runtime artifact as a formal baseline after a no-timer worker-lifecycle failure. [Amendment 2](./scale-crossover-protocol-amendment-2.md) makes the MDX correctness gate executable, records the adapter's null-map capability as a product failure, and prevents screens or summaries from bypassing evidence classification. [Amendment 3](./scale-crossover-protocol-amendment-3.md) supersedes the controlled Vue schema-1 corpus with the compile-admitted 5,650-source pool and frozen 5,000-source curve. [Amendment 4](./scale-crossover-protocol-amendment-4.md) promotes the real 546-SFC Directus graph after the original independent large candidates fail admission. A later change to a corpus, selection order, scale, acceptance threshold, host gate, runtime pin, or semantic gate requires a versioned amendment before affected timing is run. Correctness admission may reject a candidate, but it may not silently relax a gate or substitute a more favorable corpus.
 
 ## Scope and lifecycle
 
@@ -24,6 +24,8 @@ Formal wall timing starts only after a restart and must pass every gate before e
 The runner waits in ten-second intervals for at most five minutes for transient load, CPU, and memory-pressure gates, then aborts rather than recording an ineligible sample. Power, low-power, thermal, uptime, and starting-swap violations abort immediately. A fixed cooldown does not override these gates. The current pre-protocol host has more than 19 GiB of used swap and more than 17 days of uptime, so it is explicitly ineligible for new wall evidence until restarted; correctness admission and harness verification may proceed but cannot be promoted to performance evidence.
 
 ## Controlled Vue corpus
+
+This schema-1 section is retained as the original frozen record and is superseded for new timing by [Amendment 3](./scale-crossover-protocol-amendment-3.md).
 
 The controlled same-kernel curve uses 4,540 content-unique real SFCs from four pinned MIT repositories. It is a prepared wide transform curve, not a representative project graph.
 
@@ -52,6 +54,8 @@ Nested order sorts by `SHA-256(aggregateSha256 + NUL + sourceKey)` with UTF-8 so
 Preparation and an untimed full-corpus ordinary/worker smoke must prove every selected source compiles, executes exactly once, and produces deterministic code and maps before timing. A compile failure is retained as an admission result; changing eligibility requires a protocol amendment and regenerated hashes. The generated entry exports each selected absolute SFC, `treeshake` is false, and imports emitted after each SFC transform are externalized so unrelated project graphs cannot change this controlled curve.
 
 ## Independent Vue projects
+
+The original large-project admission order below is retained as rejection provenance and is superseded for new large-band timing by [Amendment 4](./scale-crossover-protocol-amendment-4.md).
 
 Independent-project evidence uses real entry roots and retains reached repository-local dependencies. Synthetic all-roots input never substitutes for this layer. The frozen admission order is:
 

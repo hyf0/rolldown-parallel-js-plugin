@@ -6,6 +6,10 @@ import { performance } from 'node:perf_hooks';
 import { pathToFileURL } from 'node:url';
 import { createManagedWorkerCloudflareMdxPlugin } from './managed-worker-plugin.mjs';
 import { createOrdinaryCloudflareMdxPlugin } from './ordinary-plugin.mjs';
+import {
+  assertChildCaptureComplete,
+  CHILD_MAX_BUFFER_BYTES,
+} from './child-buffer-policy.mjs';
 
 if (process.argv[2] === '--child') {
   await runChild(JSON.parse(process.argv[3] ?? 'null'));
@@ -45,9 +49,10 @@ async function runParent() {
         {
           encoding: 'utf8',
           env: sanitizedEnvironment(),
-          maxBuffer: 64 * 1024 * 1024,
+          maxBuffer: CHILD_MAX_BUFFER_BYTES,
         },
       );
+      assertChildCaptureComplete(child, 'managed worker smoke');
       if (child.status !== 0) {
         throw new Error(
           'Managed worker smoke failed for ' +

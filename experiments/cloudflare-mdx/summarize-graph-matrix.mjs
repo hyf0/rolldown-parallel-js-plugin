@@ -1,32 +1,49 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import nodePath from 'node:path';
+import {
+  evaluateChildHostPolicy,
+  evaluateStartAdmission,
+  validateFrozenPerformanceHostPolicy,
+} from './local-host-policy.mjs';
+import { normalizePoolEnvironment } from './pool-environment.mjs';
+import { LIFECYCLE_FIXED_RUNTIME_PROFILE, normalizeRuntimeProfile } from './runtime-profile.mjs';
+import { loadScaleManifest } from './scale-corpus.mjs';
+import { EXPECTED_COMPILER_ENVIRONMENT } from './environment-provenance.mjs';
+import { requireCurrentEvidenceProvenance } from './evidence-provenance.mjs';
 
-const inputArgument = process.argv[2];
-const outputArgument = process.argv[3];
+const coverageOnly = process.argv[2] === '--verify-coverage';
+const inputArgument = process.argv[coverageOnly ? 3 : 2];
+const outputArgument = process.argv[coverageOnly ? 4 : 3];
 if (!inputArgument) {
-  throw new Error(
-    'Usage: node summarize-graph-matrix.mjs <raw-report.json> [summary.json]',
-  );
+  throw new Error('Usage: node summarize-graph-matrix.mjs <raw-report.json> [summary.json]');
 }
 const inputPath = nodePath.resolve(inputArgument);
-const outputPath = outputArgument
-  ? nodePath.resolve(outputArgument)
-  : undefined;
+const outputPath = outputArgument ? nodePath.resolve(outputArgument) : undefined;
 const report = JSON.parse(await readFile(inputPath, 'utf8'));
-if (
-  report.kind !== 'local-graph-formal-matrix' ||
-  report.executionScope !== 'local-only'
-) {
+const scaleManifest = await loadScaleManifest();
+if (coverageOnly) {
+  validateExactGraphCoverage(report);
+  console.log(JSON.stringify({ valid: true, cases: report.config.cases.length, runs: report.runs.length }));
+  process.exit(0);
+}
+await requireCurrentEvidenceProvenance(
+  report.environment,
+  report.runner,
+  report.caseRunner,
+  'run-graph-matrix.mjs',
+  'run-graph-case.mjs',
+);
+if (report.kind !== 'local-graph-formal-matrix' || report.executionScope !== 'local-only') {
   throw new Error('Expected a local graph formal matrix report');
 }
+validateConclusionReport(report);
 if ((report.validationErrors ?? []).length !== 0) {
   throw new Error(
     `Cannot summarize a report with validation errors: ${report.validationErrors.join('; ')}`,
   );
 }
 
-const bootstrapIterations =
-  report.config.summary?.bootstrapIterations ?? 100_000;
+const bootstrapIterations = report.config.summary?.bootstrapIterations ?? 100_000;
 const bootstrapSeed = report.config.summary?.bootstrapSeed ?? 0x20260712;
 if (
   !Number.isInteger(bootstrapIterations) ||
@@ -50,20 +67,14 @@ const hostPolicyViolations = [
     })),
   ),
 ];
-const environmentProvenanceComplete = hasCompleteEnvironmentProvenance(
-  report.environment,
-);
-const activeParentCiMarkers = Object.entries(
-  report.environment?.parentCiMarkers ?? {},
-)
+const environmentProvenanceComplete = hasCompleteEnvironmentProvenance(report.environment);
+const activeParentCiMarkers = Object.entries(report.environment?.parentCiMarkers ?? {})
   .filter(([, value]) => isActiveCiValue(value))
   .map(([name, value]) => ({ name, value }));
 const effectiveRunLinkCheckRecorded = report.runs.every(
   (run) => typeof run.runLinkCheck === 'boolean',
 );
-const effectiveRunLinkCheckDisabled = report.runs.every(
-  (run) => run.runLinkCheck === false,
-);
+const effectiveRunLinkCheckDisabled = report.runs.every((run) => run.runLinkCheck === false);
 const benchmarkIneligibilityReasons = [];
 if (!report.runner?.sha256) {
   benchmarkIneligibilityReasons.push('runner source-hash provenance is missing');
@@ -84,14 +95,10 @@ if (!effectiveRunLinkCheckRecorded) {
     'effective RUN_LINK_CHECK state is missing from one or more runs',
   );
 } else if (!effectiveRunLinkCheckDisabled) {
-  benchmarkIneligibilityReasons.push(
-    'RUN_LINK_CHECK was enabled in one or more runs',
-  );
+  benchmarkIneligibilityReasons.push('RUN_LINK_CHECK was enabled in one or more runs');
 }
 if (hostPolicyViolations.length > 0) {
-  benchmarkIneligibilityReasons.push(
-    `${hostPolicyViolations.length} host-policy violation(s)`,
-  );
+  benchmarkIneligibilityReasons.push(`${hostPolicyViolations.length} host-policy violation(s)`);
 }
 
 const cases = [];
@@ -103,24 +110,19 @@ for (const name of new Set(report.runs.map((run) => run.name))) {
     variants[variant] = {
       samples: selected.length,
       wallMs: stats(selected.map((run) => run.totalElapsedMs)),
-      cpuMs: stats(
-        selected.map((run) => run.cpuUserMs + run.cpuSystemMs),
-      ),
+      cpuMs: stats(selected.map((run) => run.cpuUserMs + run.cpuSystemMs)),
       peakRssBytes: stats(selected.map((run) => run.peakRssBytes)),
-      normalizedOutputHashes: [
-        ...new Set(selected.map((run) => run.normalizedOutputHash)),
-      ],
+      normalizedOutputHashes: [...new Set(selected.map((run) => run.normalizedOutputHash))],
       hostEvents: summarizeHostEvents(selected),
     };
   }
 
-  const byVariantAndIndex = new Map(
-    runs.map((run) => [`${run.variant}\0${run.index}`, run]),
-  );
+  const byVariantAndIndex = new Map(runs.map((run) => [`${run.variant}\0${run.index}`, run]));
+  const count = report.config.selectedWorkerCount;
   const pairDefinitions = [
-    ['ordinary', 'managed-4'],
-    ['ordinary', 'worker-4'],
-    ['managed-4', 'worker-4'],
+    ['ordinary', `managed-${count}`],
+    ['ordinary', `worker-${count}`],
+    [`managed-${count}`, `worker-${count}`],
   ];
   const paired = {};
   for (const [baselineVariant, candidateVariant] of pairDefinitions) {
@@ -132,14 +134,11 @@ for (const name of new Set(report.runs.map((run) => run.name))) {
         byVariantAndIndex.get(`${candidateVariant}\0${baseline.index}`),
       ]);
     if (pairs.some(([, candidate]) => !candidate)) {
-      throw new Error(
-        `${name} is missing a ${baselineVariant}/${candidateVariant} block pair`,
-      );
+      throw new Error(`${name} is missing a ${baselineVariant}/${candidateVariant} block pair`);
     }
     paired[`${baselineVariant}-to-${candidateVariant}`] = pairedStats(
       pairs,
-      bootstrapSeed ^
-        hashString(`${name}\0${baselineVariant}\0${candidateVariant}`),
+      bootstrapSeed ^ hashString(`${name}\0${baselineVariant}\0${candidateVariant}`),
     );
   }
   cases.push({ name, variants, paired });
@@ -148,6 +147,9 @@ for (const name of new Set(report.runs.map((run) => run.name))) {
 const summary = {
   schema: 1,
   kind: 'local-graph-formal-matrix-summary',
+  evidenceKind: report.evidenceKind,
+  timingEligible: true,
+  conclusionEligible: true,
   source: inputPath,
   generatedAt: new Date().toISOString(),
   executionScope: report.executionScope,
@@ -186,17 +188,14 @@ else process.stdout.write(serialized);
 
 function pairedStats(pairs, seed) {
   const wallSpeedups = pairs.map(
-    ([baseline, candidate]) =>
-      baseline.totalElapsedMs / candidate.totalElapsedMs,
+    ([baseline, candidate]) => baseline.totalElapsedMs / candidate.totalElapsedMs,
   );
   const cpuRatios = pairs.map(
     ([baseline, candidate]) =>
-      (candidate.cpuUserMs + candidate.cpuSystemMs) /
-      (baseline.cpuUserMs + baseline.cpuSystemMs),
+      (candidate.cpuUserMs + candidate.cpuSystemMs) / (baseline.cpuUserMs + baseline.cpuSystemMs),
   );
   const peakRssRatios = pairs.map(
-    ([baseline, candidate]) =>
-      candidate.peakRssBytes / baseline.peakRssBytes,
+    ([baseline, candidate]) => candidate.peakRssBytes / baseline.peakRssBytes,
   );
   return {
     blocks: pairs.length,
@@ -222,8 +221,7 @@ function stats(values) {
   const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
   const variance =
     values.length > 1
-      ? values.reduce((sum, value) => sum + (value - mean) ** 2, 0) /
-        (values.length - 1)
+      ? values.reduce((sum, value) => sum + (value - mean) ** 2, 0) / (values.length - 1)
       : 0;
   return {
     min: sorted[0],
@@ -299,19 +297,14 @@ function summarizeHostEvents(runs) {
       maxDeltaPages: values.length === 0 ? undefined : Math.max(...values),
     };
   }
-  const swapUsedDeltas = runs
-    .map((run) => run.hostDeltas.swapUsedBytes)
-    .filter(Number.isFinite);
+  const swapUsedDeltas = runs.map((run) => run.hostDeltas.swapUsedBytes).filter(Number.isFinite);
   return {
     virtualMemoryCounters: counters,
     swapUsedBytes: {
       samples: swapUsedDeltas.length,
       samplesWithIncrease: swapUsedDeltas.filter((value) => value > 0).length,
       totalDelta: swapUsedDeltas.reduce((sum, value) => sum + value, 0),
-      maxDelta:
-        swapUsedDeltas.length === 0
-          ? undefined
-          : Math.max(...swapUsedDeltas),
+      maxDelta: swapUsedDeltas.length === 0 ? undefined : Math.max(...swapUsedDeltas),
     },
   };
 }
@@ -327,9 +320,212 @@ function hasCompleteEnvironmentProvenance(environment) {
     return false;
   }
   const cleared = new Set(environment.childCiMarkersCleared);
-  return Object.keys(environment.parentCiMarkers).every((name) =>
-    cleared.has(name),
+  return (
+    environment.runtimeProfile?.kind === 'lifecycle-fixed-baseline' &&
+    same(environment.compilerEnvironment, EXPECTED_COMPILER_ENVIRONMENT) &&
+    environment.harnessSourceManifest?.sourceCount > 0 &&
+    /^[a-f0-9]{64}$/.test(environment.harnessSourceManifest?.selectionSha256 ?? '') &&
+    environment.correctnessGate?.status === 'passed' &&
+    /^[a-f0-9]{64}$/.test(environment.correctnessGate?.sha256 ?? '') &&
+    environment.childPoolEnvironment &&
+    Object.keys(environment.parentCiMarkers).every((name) => cleared.has(name))
   );
+}
+
+function validateConclusionReport(value) {
+  if (
+    value.evidenceKind !== 'performance-confirmation' ||
+    value.measurementFieldsPresent !== true ||
+    value.timingEligible !== true ||
+    value.conclusionEligible !== true ||
+    value.config?.evidenceKind !== 'performance-confirmation'
+  ) {
+    throw new Error('Graph summary requires a repeated performance-confirmation report');
+  }
+  if (
+    !Number.isInteger(value.config.selectedWorkerCount) ||
+    value.config.selectedWorkerCount < 1 ||
+    value.config.selectedWorkerCount > 8
+  ) {
+    throw new Error('Graph report does not pin the screened worker count');
+  }
+  validateExactGraphCoverage(value);
+  validateFrozenPerformanceHostPolicy(value.config.hostPolicy);
+  const runtime = normalizeRuntimeProfile(value.environment?.runtimeProfile);
+  if (JSON.stringify(runtime) !== JSON.stringify(LIFECYCLE_FIXED_RUNTIME_PROFILE)) {
+    throw new Error('Graph report did not use the lifecycle-fixed baseline');
+  }
+  const pools = normalizePoolEnvironment(value.config.poolEnvironment);
+  if (
+    JSON.stringify(pools) !==
+    JSON.stringify(normalizePoolEnvironment(value.environment?.childPoolEnvironment))
+  ) {
+    throw new Error('Graph report pool provenance is inconsistent');
+  }
+  if (
+    value.environment?.correctnessGate?.status !== 'passed' ||
+    !/^[a-f0-9]{64}$/.test(value.environment?.correctnessGate?.sha256 ?? '')
+  ) {
+    throw new Error('Graph report lacks the passed correctness gate');
+  }
+  if ((value.hostAdmissionAttempts ?? []).length < value.runs.length) {
+    throw new Error('Graph report lacks per-child host admission');
+  }
+  for (const definition of value.config.cases) {
+    if ((definition.warmups ?? 0) !== 0 || definition.repeats !== 10) {
+      throw new Error(`${definition.name} is not a ten-block graph confirmation`);
+    }
+  }
+  for (const run of value.runs) {
+    for (const metric of [run.totalElapsedMs, run.cpuUserMs, run.cpuSystemMs, run.peakRssBytes]) {
+      if (!Number.isFinite(metric) || metric < 0) {
+        throw new Error(`${run.name}/${run.variant} has non-finite metrics`);
+      }
+    }
+    if (
+      JSON.stringify(normalizeRuntimeProfile(run.runtimeProfile)) !== JSON.stringify(runtime) ||
+      JSON.stringify(normalizePoolEnvironment(run.poolEnvironment)) !== JSON.stringify(pools)
+    ) {
+      throw new Error(`${run.name}/${run.variant} has inconsistent provenance`);
+    }
+    const start = evaluateStartAdmission(value.config.hostPolicy, run.hostBefore);
+    const child = evaluateChildHostPolicy(value.config.hostPolicy, run.hostBefore, run.hostAfter);
+    if (
+      start.immediate.length > 0 ||
+      start.transient.length > 0 ||
+      child.length > 0 ||
+      (run.hostPolicyViolations ?? []).length > 0
+    ) {
+      throw new Error(`${run.name}/${run.variant} failed frozen host admission`);
+    }
+  }
+}
+
+function validateExactGraphCoverage(value) {
+  const count = value.config.selectedWorkerCount;
+  const crossover = value.config.confirmedCrossoverPoint;
+  if (!Number.isInteger(crossover) || crossover < 1 || crossover >= 9_157) {
+    throw new Error('Graph report does not pin a confirmed crossover point below 9,157');
+  }
+  const variants = ['ordinary', `managed-${count}`, `worker-${count}`];
+  const definitions = [
+    {
+      name: `cloudflare-mdx-graph-confirmed-crossover-${crossover}`,
+      graphPoint: 'confirmed-crossover',
+      selectionScale: crossover,
+      startIndex: 0,
+    },
+    {
+      name: 'cloudflare-mdx-graph-full-9157',
+      graphPoint: 'full-corpus',
+      selectionScale: 9_157,
+      startIndex: 10,
+    },
+  ];
+  if (value.config.cases?.length !== definitions.length || value.runs?.length !== 60) {
+    throw new Error('Graph report must contain exactly two cases and 60 measured runs');
+  }
+  for (const [position, expected] of definitions.entries()) {
+    const definition = value.config.cases[position];
+    const expectedPrefix = scaleManifest.prefixes[String(expected.selectionScale)]?.selectionSha256;
+    if (
+      !/^[a-f0-9]{64}$/.test(expectedPrefix ?? '') ||
+      definition.name !== expected.name ||
+      definition.graphPoint !== expected.graphPoint ||
+      definition.corpus !== 'cloudflare-mdx-scale-v1' ||
+      definition.selectionScale !== expected.selectionScale ||
+      definition.selectionPrefixSha256 !== expectedPrefix ||
+      definition.startIndex !== expected.startIndex ||
+      definition.repeats !== 10 ||
+      (definition.warmups ?? 0) !== 0 ||
+      definition.instrumentation !== false ||
+      definition.measurementMode !== 'measurement' ||
+      !same(definition.variants, variants)
+    ) {
+      throw new Error(`Graph ${expected.graphPoint} definition is incomplete`);
+    }
+    const selected = value.runs.filter(({ name }) => name === expected.name);
+    if (selected.length !== 30) {
+      throw new Error(`Graph ${expected.graphPoint} case has ${selected.length}/30 runs`);
+    }
+    for (let index = expected.startIndex; index < expected.startIndex + 10; index++) {
+      const block = selected.filter((run) => run.index === index);
+      if (block.length !== 3 || !same(block.map(({ variant }) => variant).sort(), [...variants].sort())) {
+        throw new Error(`Graph ${expected.graphPoint} block ${index} is incomplete`);
+      }
+    }
+    for (const run of selected) {
+      if (
+        run.selection?.scale !== expected.selectionScale ||
+        run.selection?.prefixSha256 !== expectedPrefix ||
+        run.measurementMode !== 'measurement'
+      ) {
+        throw new Error(`Graph ${expected.graphPoint}/${run.variant} selection differs`);
+      }
+    }
+    const parityFields = [
+      'graphProfile', 'instrumentation', 'transformedEntryCount', 'selection',
+      'codeModuleCount', 'codeOnlyModules', 'graphWithoutObservedCode', 'graphModuleCount',
+      'graphStaticEdges', 'graphDynamicEdges', 'graphProjectStaticEdges',
+      'graphExternalStaticEdges', 'graphNonProjectInternalStaticEdges',
+      'graphNonProjectInternalIds', 'graphHash', 'moduleKindCounts', 'boundaryHash', 'boundary',
+      'outputChunks', 'outputAssets', 'normalizedOutputBytes', 'normalizedOutputHash',
+      'outputNormalization',
+    ];
+    for (const field of parityFields) {
+      if (new Set(selected.map((run) => JSON.stringify(run[field]))).size !== 1) {
+        throw new Error(`Graph ${expected.graphPoint} raw runs differ for ${field}`);
+      }
+    }
+    const rawDifferences = ['codeHash', 'outputBytes', 'outputHash'].flatMap((field) => {
+      const values = Object.fromEntries(
+        variants.map((variant) => [
+          variant,
+          [...new Set(selected.filter((run) => run.variant === variant).map((run) => JSON.stringify(run[field])))],
+        ]),
+      );
+      return new Set(Object.values(values).flat()).size === 1
+        ? []
+        : [{ name: expected.name, field, values }];
+    });
+    const recomputedParity = {
+      name: expected.name,
+      graph: true,
+      boundary: true,
+      normalizedOutput: true,
+      moduleMetadataPattern: true,
+      rawParityRequired: false,
+      fields: parityFields,
+      mdxAstroMetaModules: Object.fromEntries(
+        variants.map((variant) => [
+          variant,
+          [...new Set(selected.filter((run) => run.variant === variant).map((run) => run.mdxAstroMetaModules))],
+        ]),
+      ),
+      rawDifferences,
+    };
+    const expectedMetadata = {
+      ordinary: [expected.selectionScale],
+      [`managed-${count}`]: [expected.selectionScale],
+      [`worker-${count}`]: [0],
+    };
+    if (
+      !same(recomputedParity.mdxAstroMetaModules, expectedMetadata) ||
+      !same(value.parity[position], recomputedParity)
+    ) {
+      throw new Error(`Graph ${expected.graphPoint} parity claim is not derived from all raw runs`);
+    }
+  }
+  if (
+    value.runs.some((run) => !definitions.some(({ name }) => name === run.name)) ||
+    !same(value.parity?.map(({ name }) => name), definitions.map(({ name }) => name))
+  ) {
+    throw new Error('Graph report contains missing or unexpected cases');
+  }
+}
+
+function same(left, right) {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 function isActiveCiValue(value) {

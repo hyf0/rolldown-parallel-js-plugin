@@ -1,0 +1,40 @@
+{
+  "executionScope": "local-only",
+  "evidenceKind": "correctness-only",
+  "executionEnabled": true,
+  "runtimeProfile": {
+    "kind": "lifecycle-fixed-baseline",
+    "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+    "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "changeScope": "remove-early-parent-worker-unref-only"
+  },
+  "poolEnvironment": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
+  "sourceMapCapability": {
+    "status": "product-failure",
+    "reason": "The pinned Astro MDX adapter configures sourcemap:false and returns null maps; this admission makes no source-map parity claim.",
+    "protocolAmendment": ".agents/docs/scale-crossover-protocol-amendment-2.md"
+  },
+  "cases": [
+    {
+      "name": "cloudflare-mdx-scale-v1-9157-correctness",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "buildProfile": "default",
+      "selectionScale": 9157,
+      "selectionPrefixSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673",
+      "instrumentation": true,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "variants": ["ordinary", "worker-4"],
+      "warmups": 0,
+      "repeats": 2
+    }
+  ]
+}

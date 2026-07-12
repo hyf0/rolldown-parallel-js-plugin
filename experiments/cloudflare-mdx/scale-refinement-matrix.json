@@ -1,0 +1,92 @@
+{
+  "executionScope": "local-only",
+  "evidenceKind": "performance-refinement",
+  "executionEnabled": false,
+  "blockedBy": "Requires the first direction-changing base interval from the completed base screen.",
+  "correctnessGate": "scale-correctness-gate.json",
+  "directionChangingBaseInterval": null,
+  "instruction": "After the base screen, copy only refinement points inside the first direction-changing base interval into cases, pinning the hashes below. Do not run this template as-is.",
+  "runtimeProfile": {
+    "kind": "lifecycle-fixed-baseline",
+    "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+    "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "changeScope": "remove-early-parent-worker-unref-only"
+  },
+  "eligibleScalesByBaseInterval": {
+    "32-128": [64, 96],
+    "128-256": [160, 192, 224],
+    "256-512": [320, 384, 448],
+    "512-1024": [640, 768, 896],
+    "1024-2048": [1280, 1536, 1792],
+    "2048-4096": [2560, 3072, 3584],
+    "4096-9157": [5120, 6144, 7168, 8192]
+  },
+  "caseTemplate": {
+    "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+    "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown",
+    "corpus": "cloudflare-mdx-scale-v1",
+    "buildProfile": "default",
+    "instrumentation": false,
+    "rustInstrumentation": false,
+    "variants": [
+      "ordinary",
+      "worker-1",
+      "worker-2",
+      "worker-3",
+      "worker-4",
+      "worker-5",
+      "worker-6",
+      "worker-7",
+      "worker-8"
+    ],
+    "warmups": 0,
+    "repeats": 1
+  },
+  "poolEnvironment": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
+  "hostPolicy": {
+    "requiredPowerSource": "AC Power",
+    "requireLowPowerModeOff": true,
+    "requireNoThermalOrPerformanceWarning": true,
+    "requireNoCompetingStudyProcesses": true,
+    "maxUptimeSeconds": 86400,
+    "maxStartOneMinuteLoad": 2,
+    "maxStartTotalProcessCpuPercent": 150,
+    "maxStartSwapUsedBytes": 536870912,
+    "minStartMemoryFreePercent": 50,
+    "waitIntervalMs": 10000,
+    "maxWaitMs": 300000,
+    "maxSwapoutDeltaPages": 0,
+    "maxPageoutDeltaPages": 0,
+    "cooldownMs": 15000
+  },
+  "allowedRefinementPrefixes": {
+    "64": "ffa6b3a4752c93c667c523ef3253a7b039d6b8a29a0a0ff7f4e2379967cfc449",
+    "96": "32dbfd10c432543f04377c7fdf5043eccd2a060a7a9ffd99ab38d590a437f204",
+    "160": "6ce1ae4190fedfb3d7b481c90defe295058248ad6c77bece5ca0e879e9f19837",
+    "192": "bb6a866548dc83ad7dae34d0a06bea9438d32e73c3fce7ab66b782c802f6a563",
+    "224": "764d13502fc41ad2babc6b52886339f8d16faeba831b28333f892a86f338fc66",
+    "320": "53dab81a3837aa68bcbe0d1ee489cd658f854f68d60d72a76bc4406d22acc008",
+    "384": "14402d060b30d3c05cd82a70475aab0630f87c8500bffff6604396382b577259",
+    "448": "92ee01bb05ba529252e5b5e96a8649c3f3dffc16033eee99844662657ce3542e",
+    "640": "ed1e965404e30a9c72a5f2ee8538dd845786163f68ffb8fd577af8194ef40f22",
+    "768": "3dd3c5ddf3da996aa0de2a57a5aee6e31340d79d702460227a6bf4102d6d58d5",
+    "896": "09628a6c8fee0f60a79368013eb4aa12058542b1d5809a896ef34f0a5d6fbb88",
+    "1280": "264636c570bcea3d781d949d9ab97a05187dfc27bd7cdf7aa22a2646341f4967",
+    "1536": "c221b2f9c9859ebb191c9bc417f2200dc0972c7be62328dc0cb2b08c4bee8231",
+    "1792": "52c22895111d77b98c52d9cfb42463e93d68c98a03c43df08c511dda8f8c6e76",
+    "2560": "827f8edc7ca2a7fcd1c63dc87fd1c3e132e786b3f34a4c7a6947d67b659ee45e",
+    "3072": "444dae2cca9990ca1279cc2fce15cf815ef51607674aea0d267c9a24fb425f7b",
+    "3584": "0714c4c71e270e70f4c71293f6c45c1bf1129cbecdaa6e4a1b15b959fa49a568",
+    "5120": "07dd120c34c1309e924458c7c7bae1d2dcfa0d0ef2e29b6527edbe2b2252787e",
+    "6144": "46e5836dcc3603d844f2f86668713780e6ce39c376fe03cdb417e22c297b9435",
+    "7168": "2bbce730a83906f17b87c6314f0afffeb8ccfce58c37dd27457fd953d0244577",
+    "8192": "abc4e23031ac415bddb4cda169347816e4a756eef83c8e182f6284b6fc5de855"
+  },
+  "cases": []
+}

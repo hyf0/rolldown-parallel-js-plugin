@@ -1,17 +1,30 @@
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
-import {
-  cpus,
-  freemem,
-  loadavg,
-  platform,
-  release,
-  totalmem,
-  uptime,
-} from 'node:os';
+import { cpus, platform, release, totalmem } from 'node:os';
 import nodePath from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  captureHostSnapshot,
+  evaluateChildHostPolicy,
+  hostDelta,
+  validateFrozenPerformanceHostPolicy,
+  waitForHostAdmission,
+} from './local-host-policy.mjs';
+import {
+  applyPoolEnvironment,
+  BASELINE_POOL_ENVIRONMENT,
+  normalizePoolEnvironment,
+  readPoolEnvironment,
+} from './pool-environment.mjs';
+import { FROZEN_SCALES, loadScaleManifest } from './scale-corpus.mjs';
+import { normalizeRuntimeProfile, validateRuntimeLane } from './runtime-profile.mjs';
+import { assertChildCaptureComplete, CHILD_MAX_BUFFER_BYTES } from './child-buffer-policy.mjs';
+import { requirePassedScaleCorrectnessGate } from './correctness-gate.mjs';
+import {
+  captureHarnessSourceManifest,
+  requirePinnedCompilerEnvironment,
+} from './environment-provenance.mjs';
 
 const checkOnly = process.argv[2] === '--check-config';
 const configArgument = process.argv[checkOnly ? 3 : 2];
@@ -19,11 +32,14 @@ const outputArgument = process.argv[checkOnly ? 4 : 3];
 const configPath = nodePath.resolve(
   configArgument ?? nodePath.join(import.meta.dirname, 'graph-formal-matrix.json'),
 );
-const outputPath = outputArgument
-  ? nodePath.resolve(outputArgument)
-  : undefined;
+const outputPath = outputArgument ? nodePath.resolve(outputArgument) : undefined;
 const config = JSON.parse(await readFile(configPath, 'utf8'));
-validateConfig(config);
+const scaleManifest = await loadScaleManifest();
+validateConfig(config, scaleManifest);
+const poolEnvironment = normalizePoolEnvironment(
+  config.poolEnvironment ?? BASELINE_POOL_ENVIRONMENT,
+);
+const runtimeProfile = normalizeRuntimeProfile(config.runtimeProfile);
 
 if (checkOnly) {
   console.log(
@@ -36,22 +52,25 @@ if (checkOnly) {
         (sum, definition) => sum + definition.repeats * definition.variants.length,
         0,
       ),
+      poolEnvironment,
+      runtimeProfile,
+      executionEnabled: config.executionEnabled ?? true,
+      childMaxBufferBytes: CHILD_MAX_BUFFER_BYTES,
     }),
   );
   process.exit(0);
 }
-
-const ciMarkerNames = [
-  'CI',
-  'GITHUB_ACTIONS',
-  'BUILDKITE',
-  'CIRCLECI',
-  'TF_BUILD',
-  'JENKINS_URL',
-];
-const activeCiMarkers = ciMarkerNames.filter((name) =>
-  isCiEnvironment(process.env[name]),
+if (config.executionEnabled === false) {
+  throw new Error(
+    `This graph matrix is disabled: ${config.blockedBy ?? 'no execution gate was recorded'}`,
+  );
+}
+const correctnessGateAdmission = await requirePassedScaleCorrectnessGate(
+  nodePath.resolve(nodePath.dirname(configPath), config.correctnessGate),
 );
+
+const ciMarkerNames = ['CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'CIRCLECI', 'TF_BUILD', 'JENKINS_URL'];
+const activeCiMarkers = ciMarkerNames.filter((name) => isCiEnvironment(process.env[name]));
 if (activeCiMarkers.length > 0) {
   throw new Error(
     `This benchmark is local-only; refuse to run with active CI markers: ${activeCiMarkers.join(', ')}`,
@@ -69,11 +88,18 @@ const caseRunnerHash = createHash('sha256')
 const parentCiMarkers = Object.fromEntries(
   ciMarkerNames.map((name) => [name, process.env[name] ?? null]),
 );
+const projectRoots = [...new Set(config.cases.map(({ projectRoot }) => projectRoot))];
+if (projectRoots.length !== 1 || !nodePath.isAbsolute(projectRoots[0])) {
+  throw new Error('A graph matrix must use one absolute project root');
+}
+const compilerEnvironment = await requirePinnedCompilerEnvironment(projectRoots[0]);
+const harnessSourceManifest = await captureHarnessSourceManifest();
 
 const comparableFields = [
   'graphProfile',
   'instrumentation',
   'transformedEntryCount',
+  'selection',
   'codeModuleCount',
   'codeOnlyModules',
   'graphWithoutObservedCode',
@@ -96,8 +122,8 @@ const comparableFields = [
 ];
 const rawFields = ['codeHash', 'outputBytes', 'outputHash'];
 const startedAt = new Date().toISOString();
-const hostAtStart = hostSnapshot();
-const powerAtStart = powerStatus();
+const hostAtStart = captureHostSnapshot();
+const hostAdmissionAttempts = [];
 const runs = [];
 const rawDifferences = [];
 const caseParity = [];
@@ -125,10 +151,7 @@ for (const definition of config.cases) {
   for (let offset = 0; offset < repeats; offset++) {
     const blockIndex = startIndex + offset;
     const rotation = blockIndex % variants.length;
-    const order = [
-      ...variants.slice(rotation),
-      ...variants.slice(0, rotation),
-    ];
+    const order = [...variants.slice(rotation), ...variants.slice(0, rotation)];
     for (const variant of order) {
       execute(name, caseOptions, variant, blockIndex, false);
     }
@@ -143,6 +166,10 @@ for (const definition of config.cases) {
 const report = {
   schema: 1,
   kind: 'local-graph-formal-matrix',
+  evidenceKind: config.evidenceKind,
+  measurementFieldsPresent: true,
+  timingEligible: true,
+  conclusionEligible: true,
   executionScope: 'local-only',
   startedAt,
   finishedAt: new Date().toISOString(),
@@ -160,6 +187,19 @@ const report = {
     parentCiMarkers,
     childCiMarkersCleared: ciMarkerNames,
     parentRunLinkCheck: process.env.RUN_LINK_CHECK ?? null,
+    parentPoolEnvironment: readPoolEnvironment(),
+    childPoolEnvironment: poolEnvironment,
+    runtimeProfile,
+    compilerEnvironment,
+    harnessSourceManifest,
+    correctnessGate: {
+      path: correctnessGateAdmission.gatePath,
+      sha256: correctnessGateAdmission.gateSha256,
+      status: correctnessGateAdmission.gate.status,
+      requiredArtifacts: correctnessGateAdmission.gate.requiredArtifacts,
+      sourceMapCapability: correctnessGateAdmission.gate.sourceMapCapability,
+    },
+    childMaxBufferBytes: CHILD_MAX_BUFFER_BYTES,
     childInputRunLinkCheck: null,
     runCaseRunLinkCheck: false,
   },
@@ -170,17 +210,12 @@ const report = {
     cpuModel: cpus()[0]?.model,
     logicalCpuCount: cpus().length,
     totalMemoryBytes: totalmem(),
-    power: powerAtStart,
     atStart: hostAtStart,
-    atFinish: hostSnapshot(),
+    atFinish: captureHostSnapshot(),
   },
   config,
-  hostPolicyViolations:
-    config.hostPolicy?.power && !powerAtStart?.includes(config.hostPolicy.power)
-      ? [
-          `power status did not contain ${config.hostPolicy.power}: ${powerAtStart}`,
-        ]
-      : [],
+  hostAdmissionAttempts,
+  hostPolicyViolations: [],
   validationErrors: [],
   rawDifferences,
   parity: caseParity,
@@ -211,23 +246,28 @@ function execute(name, caseOptions, variant, index, warmup) {
   delete environment.RUN_LINK_CHECK;
   delete environment.ROLLDOWN_PARALLEL_PLUGIN_METRICS;
   delete environment.ROLLDOWN_PARALLEL_PLUGIN_WORKERS;
-  const options = { ...caseOptions, variant };
-  const hostBefore = hostSnapshot();
+  applyPoolEnvironment(environment, poolEnvironment);
+  const options = {
+    ...caseOptions,
+    variant,
+    expectedPoolEnvironment: poolEnvironment,
+    runtimeProfile,
+    rustInstrumentation: false,
+    evidenceKind: config.evidenceKind,
+  };
+  const admission = waitForHostAdmission(config.hostPolicy);
+  hostAdmissionAttempts.push(...admission.attempts);
+  const hostBefore = admission.snapshot;
   const result = spawnSync(
     '/usr/bin/time',
-    [
-      '-l',
-      process.execPath,
-      '--expose-gc',
-      caseRunnerPath,
-      JSON.stringify(options),
-    ],
+    ['-l', process.execPath, '--expose-gc', caseRunnerPath, JSON.stringify(options)],
     {
       encoding: 'utf8',
       env: environment,
-      maxBuffer: 64 * 1024 * 1024,
+      maxBuffer: CHILD_MAX_BUFFER_BYTES,
     },
   );
+  assertChildCaptureComplete(result, `${name}/${variant}`);
   if (result.status !== 0) {
     throw new Error(
       `${name}/${variant} exited ${result.status}:\n${result.stdout}\n${result.stderr}`,
@@ -235,25 +275,25 @@ function execute(name, caseOptions, variant, index, warmup) {
   }
   if (warmup) return;
 
-  const peakRssMatch = result.stderr.match(
-    /(\d+)\s+maximum resident set size/,
-  );
+  const peakRssMatch = result.stderr.match(/(\d+)\s+maximum resident set size/);
   if (!peakRssMatch) {
-    throw new Error(
-      `Could not parse peak RSS for ${name}/${variant}:\n${result.stderr}`,
-    );
+    throw new Error(`Could not parse peak RSS for ${name}/${variant}:\n${result.stderr}`);
   }
   const child = JSON.parse(result.stdout.trim());
-  const expectedMetaModules = variant.startsWith('worker-')
-    ? 0
-    : child.transformedEntryCount;
+  const expectedMetaModules = variant.startsWith('worker-') ? 0 : child.transformedEntryCount;
   if (child.mdxAstroMetaModules !== expectedMetaModules) {
     throw new Error(
       `${name}/${variant} meta.astro coverage was ${child.mdxAstroMetaModules}; expected ${expectedMetaModules}`,
     );
   }
-  const hostAfter = hostSnapshot();
+  const hostAfter = captureHostSnapshot();
   const hostDeltas = hostDelta(hostBefore, hostAfter);
+  const hostPolicyViolations = evaluateChildHostPolicy(config.hostPolicy, hostBefore, hostAfter);
+  if (hostPolicyViolations.length > 0) {
+    throw new Error(
+      `${name}/${variant} violated the frozen host policy: ${hostPolicyViolations.join('; ')}`,
+    );
+  }
   runs.push({
     name,
     index,
@@ -262,11 +302,7 @@ function execute(name, caseOptions, variant, index, warmup) {
     hostBefore,
     hostAfter,
     hostDeltas,
-    hostPolicyViolations: evaluateHostPolicy(
-      config.hostPolicy,
-      hostBefore,
-      hostAfter,
-    ),
+    hostPolicyViolations,
     ...child,
   });
 }
@@ -275,9 +311,7 @@ function validateParity(name, selected, variants, repeats) {
   for (const variant of variants) {
     const count = selected.filter((run) => run.variant === variant).length;
     if (count !== repeats) {
-      throw new Error(
-        `${name}/${variant} produced ${count} runs; expected ${repeats}`,
-      );
+      throw new Error(`${name}/${variant} produced ${count} runs; expected ${repeats}`);
     }
   }
   for (const index of new Set(selected.map((run) => run.index))) {
@@ -286,17 +320,13 @@ function validateParity(name, selected, variants, repeats) {
       block.length !== variants.length ||
       new Set(block.map((run) => run.variant)).size !== variants.length
     ) {
-      throw new Error(
-        `${name} block ${index} does not contain every variant once`,
-      );
+      throw new Error(`${name} block ${index} does not contain every variant once`);
     }
   }
   for (const field of comparableFields) {
     const values = selected.map((run) => JSON.stringify(run[field]));
     if (new Set(values).size !== 1) {
-      throw new Error(
-        `${name} graph parity failed for ${field}: ${values.join(' != ')}`,
-      );
+      throw new Error(`${name} graph parity failed for ${field}: ${values.join(' != ')}`);
     }
   }
   const differences = rawFields.flatMap((field) => {
@@ -312,9 +342,7 @@ function validateParity(name, selected, variants, repeats) {
         ],
       ]),
     );
-    return new Set(Object.values(values).flat()).size === 1
-      ? []
-      : [{ name, field, values }];
+    return new Set(Object.values(values).flat()).size === 1 ? [] : [{ name, field, values }];
   });
   return {
     name,
@@ -329,9 +357,7 @@ function validateParity(name, selected, variants, repeats) {
         variant,
         [
           ...new Set(
-            selected
-              .filter((run) => run.variant === variant)
-              .map((run) => run.mdxAstroMetaModules),
+            selected.filter((run) => run.variant === variant).map((run) => run.mdxAstroMetaModules),
           ),
         ],
       ]),
@@ -340,30 +366,112 @@ function validateParity(name, selected, variants, repeats) {
   };
 }
 
-function validateConfig(value) {
+function validateConfig(value, manifest) {
   if (value.executionScope !== 'local-only') {
     throw new Error('executionScope must be local-only');
   }
-  if (!Array.isArray(value.cases) || value.cases.length === 0) {
-    throw new Error('cases must be a non-empty array');
+  if (!Array.isArray(value.cases)) {
+    throw new Error('cases must be an array');
   }
+  if (value.executionEnabled !== false && value.cases.length === 0) {
+    throw new Error('An enabled graph matrix must contain cases');
+  }
+  if (value.evidenceKind !== 'performance-confirmation') {
+    throw new Error('evidenceKind must be performance-confirmation');
+  }
+  validateFrozenPerformanceHostPolicy(value.hostPolicy);
+  normalizePoolEnvironment(value.poolEnvironment ?? BASELINE_POOL_ENVIRONMENT);
+  if (typeof value.correctnessGate !== 'string' || value.correctnessGate.length === 0) {
+    throw new Error('Graph formal matrix must declare correctnessGate');
+  }
+  if (value.runtimeProfile === undefined) {
+    throw new Error('Graph formal matrix must pin runtimeProfile');
+  }
+  const profile = normalizeRuntimeProfile(value.runtimeProfile);
   if (value.hostPolicy?.cooldownMs !== 15_000) {
     throw new Error('hostPolicy.cooldownMs must be 15000');
+  }
+  if (
+    value.executionEnabled === false &&
+    (value.selectedWorkerCount !== null ||
+      value.confirmedCrossoverPoint !== null ||
+      value.cases.length !== 0 ||
+      value.caseTemplate?.repeats !== 10 ||
+      value.caseTemplate?.warmups !== 0 ||
+      value.caseTemplate?.measurementMode !== 'measurement' ||
+      JSON.stringify(value.caseTemplate?.variantTemplate) !==
+        JSON.stringify([
+          'ordinary',
+          'managed-${selectedWorkerCount}',
+          'worker-${selectedWorkerCount}',
+        ]))
+  ) {
+    throw new Error(
+      'Disabled graph template must await a selected worker count and ten-block cases',
+    );
+  }
+  if (
+    value.executionEnabled !== false &&
+    (!Number.isInteger(value.selectedWorkerCount) ||
+      value.selectedWorkerCount < 1 ||
+      value.selectedWorkerCount > 8)
+  ) {
+    throw new Error('Enabled graph matrix must pin selectedWorkerCount from one through eight');
+  }
+  if (
+    value.executionEnabled !== false &&
+    (!Number.isInteger(value.confirmedCrossoverPoint) ||
+      !FROZEN_SCALES.includes(value.confirmedCrossoverPoint) ||
+      value.confirmedCrossoverPoint >= 9_157)
+  ) {
+    throw new Error('Enabled graph matrix must pin a confirmed crossover point below 9,157');
+  }
+  const expectedVariants = [
+    'ordinary',
+    `managed-${value.selectedWorkerCount}`,
+    `worker-${value.selectedWorkerCount}`,
+  ];
+  if (value.executionEnabled !== false) {
+    const exactCases = [
+      {
+        name: `cloudflare-mdx-graph-confirmed-crossover-${value.confirmedCrossoverPoint}`,
+        role: 'confirmed-crossover',
+        scale: value.confirmedCrossoverPoint,
+        startIndex: 0,
+      },
+      {
+        name: 'cloudflare-mdx-graph-full-9157',
+        role: 'full-corpus',
+        scale: 9_157,
+        startIndex: 10,
+      },
+    ];
+    if (value.cases.length !== exactCases.length) {
+      throw new Error('Enabled graph matrix must contain exactly crossover and full-corpus cases');
+    }
+    for (const [index, expected] of exactCases.entries()) {
+      const definition = value.cases[index];
+      if (
+        definition.name !== expected.name ||
+        definition.graphPoint !== expected.role ||
+        definition.selectionScale !== expected.scale ||
+        definition.startIndex !== expected.startIndex
+      ) {
+        throw new Error(`Graph case ${index} is not the exact ${expected.role} case`);
+      }
+    }
   }
   for (const definition of value.cases) {
     if (typeof definition.name !== 'string' || definition.name.length === 0) {
       throw new Error('Every case must have a name');
     }
-    if (
-      JSON.stringify(definition.variants) !==
-      JSON.stringify(['ordinary', 'managed-4', 'worker-4'])
-    ) {
+    if (JSON.stringify(definition.variants) !== JSON.stringify(expectedVariants)) {
       throw new Error(
-        `${definition.name} variants must be ordinary, managed-4, worker-4`,
+        `${definition.name} variants must use selected worker count ${value.selectedWorkerCount}`,
       );
     }
-    if (definition.repeats !== 5) {
-      throw new Error(`${definition.name} repeats must be 5`);
+    if (definition.repeats !== 10) {
+      throw new Error(`${definition.name} repeats must be 10`);
     }
     if ((definition.warmups ?? 0) !== 0) {
       throw new Error(`${definition.name} warmups must be 0`);
@@ -371,14 +479,33 @@ function validateConfig(value) {
     if (definition.instrumentation !== false) {
       throw new Error(`${definition.name} instrumentation must be false`);
     }
+    if (definition.measurementMode !== 'measurement') {
+      throw new Error(`${definition.name} measurementMode must be measurement`);
+    }
+    if (value.executionEnabled !== false) {
+      validateRuntimeLane({
+        runtimeProfile: profile,
+        instrumentation: definition.instrumentation,
+        rustInstrumentation: false,
+        evidenceKind: value.evidenceKind,
+        lifecycleClaim: definition.lifecycleClaim ?? false,
+      });
+    }
     if (definition.runLinkCheck !== false) {
       throw new Error(`${definition.name} runLinkCheck must be false`);
     }
     if (definition.rawParityRequired !== false) {
       throw new Error(`${definition.name} rawParityRequired must be false`);
     }
-    if (definition.corpus !== 'production-mdx') {
-      throw new Error(`${definition.name} corpus must be production-mdx`);
+    if (definition.corpus !== 'cloudflare-mdx-scale-v1') {
+      throw new Error(`${definition.name} must select the frozen scale corpus`);
+    }
+    if (
+      !FROZEN_SCALES.includes(definition.selectionScale) ||
+      definition.selectionPrefixSha256 !==
+        manifest.prefixes[String(definition.selectionScale)]?.selectionSha256
+    ) {
+      throw new Error(`${definition.name} does not pin the exact frozen scale prefix`);
     }
     if (
       !nodePath.isAbsolute(definition.projectRoot) ||
@@ -401,135 +528,4 @@ function cooldown(milliseconds) {
 
 function isCiEnvironment(value) {
   return value !== undefined && !['', '0', 'false'].includes(value.toLowerCase());
-}
-
-function hostSnapshot() {
-  return {
-    at: new Date().toISOString(),
-    loadAverage: loadavg(),
-    freeMemoryBytes: freemem(),
-    uptimeSeconds: uptime(),
-    swapUsage: swapUsage(),
-    virtualMemoryCounters: virtualMemoryCounters(),
-    totalProcessCpuPercent: totalProcessCpuPercent(),
-  };
-}
-
-function powerStatus() {
-  if (platform() !== 'darwin') return undefined;
-  const result = spawnSync('pmset', ['-g', 'batt'], { encoding: 'utf8' });
-  return result.status === 0 ? result.stdout.trim() : undefined;
-}
-
-function swapUsage() {
-  if (platform() !== 'darwin') return undefined;
-  const result = spawnSync('sysctl', ['-n', 'vm.swapusage'], {
-    encoding: 'utf8',
-  });
-  if (result.status !== 0) return undefined;
-  const raw = result.stdout.trim();
-  const fields = Object.fromEntries(
-    [...raw.matchAll(/(total|used|free) = ([0-9.]+)([KMGTP])/g)].map(
-      ([, name, amount, unit]) => [name, toBytes(Number(amount), unit)],
-    ),
-  );
-  return {
-    raw,
-    totalBytes: fields.total,
-    usedBytes: fields.used,
-    freeBytes: fields.free,
-  };
-}
-
-function toBytes(amount, unit) {
-  const power = ['K', 'M', 'G', 'T', 'P'].indexOf(unit) + 1;
-  return amount * 1024 ** power;
-}
-
-function virtualMemoryCounters() {
-  if (platform() !== 'darwin') return undefined;
-  const result = spawnSync('vm_stat', [], { encoding: 'utf8' });
-  if (result.status !== 0) return undefined;
-  const counters = {};
-  for (const line of result.stdout.split('\n')) {
-    const match = line.match(/^"?([^":]+)"?:\s+(\d+)\.$/);
-    if (match) counters[match[1]] = Number(match[2]);
-  }
-  return {
-    pageins: counters.Pageins,
-    pageouts: counters.Pageouts,
-    swapins: counters.Swapins,
-    swapouts: counters.Swapouts,
-    compressions: counters.Compressions,
-    decompressions: counters.Decompressions,
-  };
-}
-
-function totalProcessCpuPercent() {
-  const result = spawnSync('/bin/ps', ['-A', '-o', '%cpu='], {
-    encoding: 'utf8',
-  });
-  if (result.status !== 0) return undefined;
-  return result.stdout
-    .trim()
-    .split(/\s+/)
-    .reduce((sum, value) => sum + Number(value), 0);
-}
-
-function hostDelta(before, after) {
-  const counters = {};
-  for (const field of [
-    'pageins',
-    'pageouts',
-    'swapins',
-    'swapouts',
-    'compressions',
-    'decompressions',
-  ]) {
-    const start = before.virtualMemoryCounters?.[field];
-    const finish = after.virtualMemoryCounters?.[field];
-    counters[field] =
-      Number.isFinite(start) && Number.isFinite(finish)
-        ? finish - start
-        : undefined;
-  }
-  return {
-    virtualMemoryCounters: counters,
-    swapUsedBytes:
-      Number.isFinite(before.swapUsage?.usedBytes) &&
-      Number.isFinite(after.swapUsage?.usedBytes)
-        ? after.swapUsage.usedBytes - before.swapUsage.usedBytes
-        : undefined,
-  };
-}
-
-function evaluateHostPolicy(policy, before, after) {
-  if (!policy) return [];
-  const violations = [];
-  if (
-    Number.isFinite(policy.maxStartOneMinuteLoad) &&
-    before.loadAverage[0] > policy.maxStartOneMinuteLoad
-  ) {
-    violations.push(
-      `start one-minute load ${before.loadAverage[0]} exceeded ${policy.maxStartOneMinuteLoad}`,
-    );
-  }
-  if (
-    Number.isFinite(policy.maxStartExternalCpuPercent) &&
-    before.totalProcessCpuPercent > policy.maxStartExternalCpuPercent
-  ) {
-    violations.push(
-      `start process CPU ${before.totalProcessCpuPercent}% exceeded ${policy.maxStartExternalCpuPercent}%`,
-    );
-  }
-  for (const [field, maximum] of [
-    ['swapouts', policy.maxSwapoutDeltaPages],
-    ['pageouts', policy.maxPageoutDeltaPages],
-  ]) {
-    const delta = hostDelta(before, after).virtualMemoryCounters[field];
-    if (Number.isFinite(maximum) && Number.isFinite(delta) && delta > maximum) {
-      violations.push(`${field} increased by ${delta} pages`);
-    }
-  }
-  return violations;
 }

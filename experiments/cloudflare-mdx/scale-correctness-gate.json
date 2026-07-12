@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "blocked",
+  "blockedBy": "The lifecycle-fixed 9,157-source correctness artifact and executable semantic sentinel artifact have not been recorded.",
+  "runtimeProfile": {
+    "kind": "lifecycle-fixed-baseline",
+    "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+    "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "changeScope": "remove-early-parent-worker-unref-only"
+  },
+  "requiredArtifacts": {
+    "fullCorpus": {
+      "path": "data/scale-v1-9157-lifecycle-fixed-correctness.raw.json",
+      "sha256": null,
+      "status": "missing"
+    },
+    "semanticSentinel": {
+      "path": "data/scale-v1-semantic-lifecycle-fixed-correctness.raw.json",
+      "sha256": null,
+      "status": "missing"
+    }
+  },
+  "sourceMapCapability": {
+    "status": "product-failure",
+    "reason": "The pinned Astro MDX compiler adapter configures sourcemap:false and returns null maps; this iteration verifies code/output determinism but makes no source-map parity claim.",
+    "protocolAmendment": ".agents/docs/scale-crossover-protocol-amendment-2.md"
+  }
+}

@@ -1,9 +1,37 @@
 {
   "executionScope": "local-only",
+  "evidenceKind": "performance-confirmation",
+  "executionEnabled": false,
+  "blockedBy": "Requires the completed base/refinement screen, repeated fixed-count selection, and a passed scale correctness gate.",
+  "correctnessGate": "scale-correctness-gate.json",
+  "selectedWorkerCount": null,
+  "confirmedCrossoverPoint": null,
+  "runtimeProfile": {
+    "kind": "lifecycle-fixed-baseline",
+    "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+    "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "changeScope": "remove-early-parent-worker-unref-only"
+  },
+  "poolEnvironment": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
   "hostPolicy": {
-    "power": "AC Power",
+    "requiredPowerSource": "AC Power",
+    "requireLowPowerModeOff": true,
+    "requireNoThermalOrPerformanceWarning": true,
+    "requireNoCompetingStudyProcesses": true,
+    "maxUptimeSeconds": 86400,
+    "maxStartOneMinuteLoad": 2,
+    "maxStartTotalProcessCpuPercent": 150,
+    "maxStartSwapUsedBytes": 536870912,
+    "minStartMemoryFreePercent": 50,
+    "waitIntervalMs": 10000,
+    "maxWaitMs": 300000,
     "cooldownMs": 15000,
-    "maxStartExternalCpuPercent": 300,
     "maxSwapoutDeltaPages": 0,
     "maxPageoutDeltaPages": 0
   },
@@ -11,20 +39,22 @@
     "bootstrapIterations": 100000,
     "bootstrapSeed": 539363090
   },
-  "cases": [
-    {
-      "name": "production-mdx-server-graph-formal-local",
-      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
-      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
-      "corpus": "production-mdx",
-      "runLinkCheck": false,
-      "instrumentation": false,
-      "rawParityRequired": false,
-      "fixedNow": "2026-07-12T00:00:00.000Z",
-      "variants": ["ordinary", "managed-4", "worker-4"],
-      "warmups": 0,
-      "repeats": 5,
-      "startIndex": 0
-    }
-  ]
+  "caseTemplate": {
+    "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+    "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown",
+    "corpus": "cloudflare-mdx-scale-v1",
+    "runLinkCheck": false,
+    "instrumentation": false,
+    "measurementMode": "measurement",
+    "rawParityRequired": false,
+    "fixedNow": "2026-07-12T00:00:00.000Z",
+    "variantTemplate": [
+      "ordinary",
+      "managed-${selectedWorkerCount}",
+      "worker-${selectedWorkerCount}"
+    ],
+    "warmups": 0,
+    "repeats": 10
+  },
+  "cases": []
 }

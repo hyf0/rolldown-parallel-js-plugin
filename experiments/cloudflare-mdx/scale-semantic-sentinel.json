@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "algorithm": "cloudflare-mdx-scale-v1",
+  "classification": "correctness-only",
+  "executionEnabled": true,
+  "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+  "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown",
+  "runtimeProfile": {
+    "kind": "lifecycle-fixed-baseline",
+    "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+    "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+    "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+    "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "changeScope": "remove-early-parent-worker-unref-only"
+  },
+  "poolEnvironment": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
+  "fixedNow": "2026-07-12T00:00:00.000Z",
+  "successVariants": ["ordinary", "managed-2", "worker-2"],
+  "diagnosticVariants": ["ordinary", "worker-2"],
+  "successEntries": [
+    "src/content/docs/workers/index.mdx",
+    "src/content/docs/style-guide/components/render.mdx",
+    "src/content/docs/images/optimization/draw-overlays.mdx",
+    "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+    "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+    "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+    "src/content/partials/workers/fetch-html-example-js.mdx",
+    "src/content/partials/workers/redirect-example-js.mdx",
+    "src/content/partials/workers/respond-another-site-example-js.mdx",
+    "src/content/partials/workers/return-html-example-js.mdx",
+    "src/content/partials/workers/return-json-example-js.mdx",
+    "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+    "src/content/partials/agents/what-just-happened.mdx"
+  ],
+  "coverage": {
+    "existingGraphSmokeEntries": 5,
+    "allPlaygroundSources": 6,
+    "fixedMermaidSources": 2
+  },
+  "diagnosticFixture": {
+    "path": "experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx",
+    "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191",
+    "expectedResult": "structured-error",
+    "requireExactParity": false,
+    "capabilityStatusOnDifference": "product-failure",
+    "timingEligible": false
+  }
+}

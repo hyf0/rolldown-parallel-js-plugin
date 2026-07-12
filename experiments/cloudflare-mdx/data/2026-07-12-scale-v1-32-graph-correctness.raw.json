@@ -1,0 +1,871 @@
+{
+  "schema": 1,
+  "classification": "correctness-only",
+  "timingEligible": false,
+  "reclassification": {
+    "kind": "historical-0aa-artifact",
+    "recordedKind": "unchanged-baseline",
+    "protocolAmendment": ".agents/docs/scale-crossover-protocol-amendment-1.md",
+    "lifecycleClaimEligible": false,
+    "timingEligible": false
+  },
+  "startedAt": "2026-07-12T11:45:25.423Z",
+  "finishedAt": "2026-07-12T11:46:42.817Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "environment": {
+    "parentPoolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": null,
+      "RAYON_NUM_THREADS": null,
+      "ROLLDOWN_MAX_BLOCKING_THREADS": null
+    },
+    "childPoolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "runtimeProfile": {
+      "kind": "unchanged-baseline",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+    },
+    "parentCiMarkers": {
+      "CI": null,
+      "GITHUB_ACTIONS": null,
+      "BUILDKITE": null,
+      "CIRCLECI": null,
+      "TF_BUILD": null,
+      "JENKINS_URL": null
+    },
+    "childCiMarkersCleared": [
+      "CI",
+      "GITHUB_ACTIONS",
+      "BUILDKITE",
+      "CIRCLECI",
+      "TF_BUILD",
+      "JENKINS_URL"
+    ]
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664,
+    "snapshot": {
+      "at": "2026-07-12T11:46:42.818Z",
+      "loadAverage": [
+        31.90966796875,
+        19.572265625,
+        16.5439453125
+      ],
+      "freeMemoryBytes": 4859592704,
+      "uptimeSeconds": 1543716,
+      "power": {
+        "available": true,
+        "source": "AC Power",
+        "raw": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true"
+      },
+      "lowPowerMode": {
+        "available": true,
+        "enabled": false,
+        "value": 0,
+        "raw": "System-wide power settings:\nCurrently in use:\n standby              1\n Sleep On Power Button 1\n hibernatefile        /var/vm/sleepimage\n powernap             1\n networkoversleep     0\n disksleep            10\n sleep                0 (sleep prevented by coreaudiod, coreaudiod, sharingd, powerd)\n hibernatemode        3\n ttyskeepawake        1\n displaysleep         10\n tcpkeepalive         1\n lowpowermode         0\n womp                 1"
+      },
+      "thermal": {
+        "available": true,
+        "noThermalWarning": true,
+        "noPerformanceWarning": true,
+        "raw": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded"
+      },
+      "memoryPressure": {
+        "available": true,
+        "freePercentage": 62,
+        "raw": "The system has 38654705664 (2359296 pages with a page size of 16384).\nSystem-wide memory free percentage: 62%"
+      },
+      "swapUsage": {
+        "available": true,
+        "raw": "total = 25600.00M  used = 23949.44M  free = 1650.56M  (encrypted)",
+        "totalBytes": 26843545600,
+        "usedBytes": 25112807997.44,
+        "freeBytes": 1730737602.56
+      },
+      "virtualMemoryCounters": {
+        "pageins": 527798064,
+        "pageouts": 2205386,
+        "swapins": 26919690,
+        "swapouts": 33422426,
+        "compressions": 1520732572,
+        "decompressions": 1270869059
+      },
+      "totalProcessCpuPercent": 916.8000000000001,
+      "competingStudyProcesses": [
+        {
+          "pid": 9034,
+          "ppid": 89710,
+          "cpuPercent": 85.3,
+          "kind": "build-or-test"
+        },
+        {
+          "pid": 29830,
+          "ppid": 89710,
+          "cpuPercent": 85.8,
+          "kind": "cargo"
+        },
+        {
+          "pid": 29831,
+          "ppid": 89710,
+          "cpuPercent": 85.8,
+          "kind": "cargo"
+        },
+        {
+          "pid": 88919,
+          "ppid": 88528,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        },
+        {
+          "pid": 88941,
+          "ppid": 88919,
+          "cpuPercent": 0,
+          "kind": "javascript-tool"
+        }
+      ]
+    }
+  },
+  "config": {
+    "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+    "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+    "runtimeProfile": {
+      "kind": "unchanged-baseline",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+    },
+    "poolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "variants": [
+      "ordinary",
+      "managed-2",
+      "worker-2"
+    ],
+    "corpus": "cloudflare-mdx-scale-v1",
+    "selectionScale": 32,
+    "selectionPrefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+    "runLinkCheck": false,
+    "instrumentation": false,
+    "measurementMode": "correctness-only",
+    "rawParityRequired": false,
+    "fixedNow": "2026-07-12T00:00:00.000Z"
+  },
+  "parity": {
+    "code": true,
+    "rawCode": true,
+    "graph": true,
+    "boundary": true,
+    "output": true,
+    "normalizedOutput": true,
+    "rawOutput": true,
+    "moduleMetadata": false,
+    "moduleMetadataPattern": true,
+    "fields": [
+      "graphProfile",
+      "instrumentation",
+      "transformedEntryCount",
+      "selection",
+      "codeModuleCount",
+      "codeOnlyModules",
+      "graphWithoutObservedCode",
+      "graphModuleCount",
+      "graphStaticEdges",
+      "graphDynamicEdges",
+      "graphProjectStaticEdges",
+      "graphExternalStaticEdges",
+      "graphNonProjectInternalStaticEdges",
+      "graphNonProjectInternalIds",
+      "graphHash",
+      "moduleKindCounts",
+      "boundaryHash",
+      "boundary",
+      "outputChunks",
+      "outputAssets",
+      "normalizedOutputBytes",
+      "normalizedOutputHash",
+      "outputNormalization"
+    ],
+    "mdxAstroMetaModules": {
+      "ordinary": 32,
+      "managed-2": 32,
+      "worker-2": 0
+    },
+    "rawParityRequired": false,
+    "rawDifferences": []
+  },
+  "runs": [
+    {
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "selection": {
+        "algorithm": "cloudflare-mdx-scale-v1",
+        "scale": 32,
+        "prefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "prefixSummary": {
+          "bytes": 95272,
+          "collections": {
+            "changelog": 3,
+            "compatibility": 1,
+            "docs": 23,
+            "partials": 5
+          },
+          "featureClasses": {
+            "fence-0": 21,
+            "fence-1": 3,
+            "fence-2-4": 4,
+            "fence-5+": 4
+          },
+          "fencedBlocks": 63,
+          "languages": {
+            "bash": 9,
+            "hcl": 2,
+            "html": 3,
+            "js": 1,
+            "sh": 16,
+            "swift": 2,
+            "terraform": 1,
+            "toml": 2,
+            "ts": 1,
+            "tsx": 3,
+            "txt": 5,
+            "typescript": 18
+          },
+          "lines": 2310,
+          "sources": 32
+        },
+        "manifestFullSelectionSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673"
+      },
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "graphProfile": {
+        "runLinkCheck": false,
+        "publicCiRunLinkCheck": true,
+        "sameConfigurationAsPublicCi": false,
+        "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+      },
+      "instrumentation": false,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "runLinkCheck": false,
+      "transformedEntryCount": 32,
+      "discoveredProductionMdxFiles": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "poolEnvironment": {
+        "ROLLDOWN_WORKER_THREADS": "18",
+        "RAYON_NUM_THREADS": "12",
+        "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+      },
+      "runtimeProfile": {
+        "kind": "unchanged-baseline",
+        "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+        "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+        "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+      },
+      "finalRssBytes": 681689088,
+      "outputBytes": 944867,
+      "outputChunks": 33,
+      "outputAssets": 0,
+      "outputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "normalizedOutputBytes": 944867,
+      "normalizedOutputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "eligibleSourceEntries": 0,
+        "eligibleOutputFiles": [],
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "codeModuleCount": 206,
+      "codeHash": "293a2679d2187004f02b5edb6ce508a6b65ff9e5787ae866cf484081bdfb7c8a",
+      "codeOnlyModules": [],
+      "graphWithoutObservedCode": [],
+      "graphModuleCount": 206,
+      "graphStaticEdges": 663,
+      "graphDynamicEdges": 0,
+      "graphProjectStaticEdges": 255,
+      "graphExternalStaticEdges": 405,
+      "graphNonProjectInternalStaticEdges": 3,
+      "graphNonProjectInternalIds": [
+        "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+      ],
+      "graphHash": "720d8dfd3d68037812ef745b1cb48729286bb67de2bb1ccc4679d1c921c31fca",
+      "moduleKindCounts": {
+        "asset": 1,
+        "astro": 124,
+        "css": 1,
+        "data": 4,
+        "javascript": 44,
+        "mdx": 32
+      },
+      "mdxAstroMetaModules": 32,
+      "boundaryHash": "de59bfb68a3646fe4a6a61f85f81c35b4f98362933d2df27aa6445c6e82e8714",
+      "boundary": {
+        "definition": {
+          "included": [
+            "all selected production MDX transforms",
+            "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+            "raw imports as exact string modules",
+            "local CSS and asset imports as internal leaf modules"
+          ],
+          "excluded": [
+            "Astro compiler CSS virtual modules and CSS dependency traversal",
+            "Astro hoisted and client script modules",
+            "hydration and client build inputs",
+            "route rendering and final asset emission"
+          ]
+        },
+        "localResolutionCalls": 255,
+        "unresolvedLocalEdges": 0,
+        "resolvedLocalModuleCount": 206,
+        "externalResolutionCalls": 405,
+        "externalAstroResolutionCalls": 323,
+        "externalNodeResolutionCalls": 1,
+        "externalPackageResolutionCalls": 81,
+        "externalProtocolResolutionCalls": 0,
+        "externalSpecifiers": [
+          "@apidevtools/swagger-parser",
+          "@astrojs/mdx/server.js",
+          "@astrojs/react/server.js",
+          "@astrojs/starlight/components",
+          "@iarna/toml",
+          "astro-icon/components",
+          "astro/compiler-runtime",
+          "astro/container",
+          "astro/jsx-runtime",
+          "astro/runtime/server/index.js",
+          "astro/zod",
+          "astro:assets",
+          "astro:content",
+          "date-fns",
+          "dedent",
+          "dot-prop",
+          "github-slugger",
+          "hast-util-select",
+          "hastscript",
+          "jsonc-parser",
+          "marked",
+          "mdast-util-from-markdown",
+          "mdast-util-mdx",
+          "micromark-extension-mdxjs",
+          "node-html-parser",
+          "node:fs/promises",
+          "parse-duration",
+          "prettier",
+          "pretty-bytes",
+          "react",
+          "react-markdown",
+          "react-select",
+          "react/jsx-runtime",
+          "rehype",
+          "rehype-autolink-headings",
+          "rehype-external-links",
+          "rehype-parse",
+          "rehype-remark",
+          "rehype-stringify",
+          "remark-gfm",
+          "remark-stringify",
+          "starlight-package-managers",
+          "ts-blank-space",
+          "unified",
+          "unist-util-visit",
+          "wrangler"
+        ],
+        "rawLeafModules": 0,
+        "rawLeafBytes": 0,
+        "assetLeafModules": 1,
+        "assetLeafBytes": 611862,
+        "cssLeafModules": 1,
+        "cssLeafBytes": 59820,
+        "dataLeafModules": 0,
+        "dataLeafBytes": 0,
+        "astroModuleInstances": 124,
+        "astroSourceFiles": 100,
+        "astroCompiledSourceBytes": 550006,
+        "astroCompiledOutputBytes": 2877264,
+        "omittedAstroCssBlocks": 48,
+        "omittedAstroCssBytes": 193694,
+        "omittedCssDependencyReferences": 0,
+        "omittedCssLocalDependencyReferences": 0,
+        "omittedCssExternalDependencyReferences": 0,
+        "omittedCssLocalDependencies": [],
+        "omittedAstroClientScriptBlocks": 26,
+        "omittedAstroInlineClientScriptBlocks": 26,
+        "omittedAstroExternalClientScriptBlocks": 0,
+        "omittedAstroInlineClientScriptBytes": 67318,
+        "omittedAstroInlineClientScriptImportEdges": 8,
+        "omittedAstroClientSpecifierEdges": 8,
+        "omittedAstroClientLocalImportEdges": 5,
+        "omittedAstroClientExternalImportEdges": 3,
+        "omittedAstroClientLocalModules": [
+          "src/util/tippy.ts",
+          "src/util/zaraz.ts"
+        ],
+        "omittedAstroClientExternalSpecifiers": [
+          "pretty-bytes",
+          "tippy.js"
+        ],
+        "omittedHydratedComponents": 1,
+        "omittedClientOnlyComponents": 0,
+        "omittedServerComponents": 0
+      }
+    },
+    {
+      "variant": "managed-2",
+      "workerCount": 2,
+      "workerModel": "plugin-managed",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "selection": {
+        "algorithm": "cloudflare-mdx-scale-v1",
+        "scale": 32,
+        "prefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "prefixSummary": {
+          "bytes": 95272,
+          "collections": {
+            "changelog": 3,
+            "compatibility": 1,
+            "docs": 23,
+            "partials": 5
+          },
+          "featureClasses": {
+            "fence-0": 21,
+            "fence-1": 3,
+            "fence-2-4": 4,
+            "fence-5+": 4
+          },
+          "fencedBlocks": 63,
+          "languages": {
+            "bash": 9,
+            "hcl": 2,
+            "html": 3,
+            "js": 1,
+            "sh": 16,
+            "swift": 2,
+            "terraform": 1,
+            "toml": 2,
+            "ts": 1,
+            "tsx": 3,
+            "txt": 5,
+            "typescript": 18
+          },
+          "lines": 2310,
+          "sources": 32
+        },
+        "manifestFullSelectionSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673"
+      },
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "graphProfile": {
+        "runLinkCheck": false,
+        "publicCiRunLinkCheck": true,
+        "sameConfigurationAsPublicCi": false,
+        "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+      },
+      "instrumentation": false,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "runLinkCheck": false,
+      "transformedEntryCount": 32,
+      "discoveredProductionMdxFiles": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "poolEnvironment": {
+        "ROLLDOWN_WORKER_THREADS": "18",
+        "RAYON_NUM_THREADS": "12",
+        "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+      },
+      "runtimeProfile": {
+        "kind": "unchanged-baseline",
+        "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+        "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+        "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+      },
+      "finalRssBytes": 972718080,
+      "outputBytes": 944867,
+      "outputChunks": 33,
+      "outputAssets": 0,
+      "outputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "normalizedOutputBytes": 944867,
+      "normalizedOutputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "eligibleSourceEntries": 0,
+        "eligibleOutputFiles": [],
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "codeModuleCount": 206,
+      "codeHash": "293a2679d2187004f02b5edb6ce508a6b65ff9e5787ae866cf484081bdfb7c8a",
+      "codeOnlyModules": [],
+      "graphWithoutObservedCode": [],
+      "graphModuleCount": 206,
+      "graphStaticEdges": 663,
+      "graphDynamicEdges": 0,
+      "graphProjectStaticEdges": 255,
+      "graphExternalStaticEdges": 405,
+      "graphNonProjectInternalStaticEdges": 3,
+      "graphNonProjectInternalIds": [
+        "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+      ],
+      "graphHash": "720d8dfd3d68037812ef745b1cb48729286bb67de2bb1ccc4679d1c921c31fca",
+      "moduleKindCounts": {
+        "asset": 1,
+        "astro": 124,
+        "css": 1,
+        "data": 4,
+        "javascript": 44,
+        "mdx": 32
+      },
+      "mdxAstroMetaModules": 32,
+      "boundaryHash": "de59bfb68a3646fe4a6a61f85f81c35b4f98362933d2df27aa6445c6e82e8714",
+      "boundary": {
+        "definition": {
+          "included": [
+            "all selected production MDX transforms",
+            "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+            "raw imports as exact string modules",
+            "local CSS and asset imports as internal leaf modules"
+          ],
+          "excluded": [
+            "Astro compiler CSS virtual modules and CSS dependency traversal",
+            "Astro hoisted and client script modules",
+            "hydration and client build inputs",
+            "route rendering and final asset emission"
+          ]
+        },
+        "localResolutionCalls": 255,
+        "unresolvedLocalEdges": 0,
+        "resolvedLocalModuleCount": 206,
+        "externalResolutionCalls": 405,
+        "externalAstroResolutionCalls": 323,
+        "externalNodeResolutionCalls": 1,
+        "externalPackageResolutionCalls": 81,
+        "externalProtocolResolutionCalls": 0,
+        "externalSpecifiers": [
+          "@apidevtools/swagger-parser",
+          "@astrojs/mdx/server.js",
+          "@astrojs/react/server.js",
+          "@astrojs/starlight/components",
+          "@iarna/toml",
+          "astro-icon/components",
+          "astro/compiler-runtime",
+          "astro/container",
+          "astro/jsx-runtime",
+          "astro/runtime/server/index.js",
+          "astro/zod",
+          "astro:assets",
+          "astro:content",
+          "date-fns",
+          "dedent",
+          "dot-prop",
+          "github-slugger",
+          "hast-util-select",
+          "hastscript",
+          "jsonc-parser",
+          "marked",
+          "mdast-util-from-markdown",
+          "mdast-util-mdx",
+          "micromark-extension-mdxjs",
+          "node-html-parser",
+          "node:fs/promises",
+          "parse-duration",
+          "prettier",
+          "pretty-bytes",
+          "react",
+          "react-markdown",
+          "react-select",
+          "react/jsx-runtime",
+          "rehype",
+          "rehype-autolink-headings",
+          "rehype-external-links",
+          "rehype-parse",
+          "rehype-remark",
+          "rehype-stringify",
+          "remark-gfm",
+          "remark-stringify",
+          "starlight-package-managers",
+          "ts-blank-space",
+          "unified",
+          "unist-util-visit",
+          "wrangler"
+        ],
+        "rawLeafModules": 0,
+        "rawLeafBytes": 0,
+        "assetLeafModules": 1,
+        "assetLeafBytes": 611862,
+        "cssLeafModules": 1,
+        "cssLeafBytes": 59820,
+        "dataLeafModules": 0,
+        "dataLeafBytes": 0,
+        "astroModuleInstances": 124,
+        "astroSourceFiles": 100,
+        "astroCompiledSourceBytes": 550006,
+        "astroCompiledOutputBytes": 2877264,
+        "omittedAstroCssBlocks": 48,
+        "omittedAstroCssBytes": 193694,
+        "omittedCssDependencyReferences": 0,
+        "omittedCssLocalDependencyReferences": 0,
+        "omittedCssExternalDependencyReferences": 0,
+        "omittedCssLocalDependencies": [],
+        "omittedAstroClientScriptBlocks": 26,
+        "omittedAstroInlineClientScriptBlocks": 26,
+        "omittedAstroExternalClientScriptBlocks": 0,
+        "omittedAstroInlineClientScriptBytes": 67318,
+        "omittedAstroInlineClientScriptImportEdges": 8,
+        "omittedAstroClientSpecifierEdges": 8,
+        "omittedAstroClientLocalImportEdges": 5,
+        "omittedAstroClientExternalImportEdges": 3,
+        "omittedAstroClientLocalModules": [
+          "src/util/tippy.ts",
+          "src/util/zaraz.ts"
+        ],
+        "omittedAstroClientExternalSpecifiers": [
+          "pretty-bytes",
+          "tippy.js"
+        ],
+        "omittedHydratedComponents": 1,
+        "omittedClientOnlyComponents": 0,
+        "omittedServerComponents": 0
+      }
+    },
+    {
+      "variant": "worker-2",
+      "workerCount": 2,
+      "workerModel": "rolldown",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "selection": {
+        "algorithm": "cloudflare-mdx-scale-v1",
+        "scale": 32,
+        "prefixSha256": "6bc4912e745afe8ff4c4e0360d8f0d61c8567c498eae27c917d5bad24bf751cd",
+        "prefixSummary": {
+          "bytes": 95272,
+          "collections": {
+            "changelog": 3,
+            "compatibility": 1,
+            "docs": 23,
+            "partials": 5
+          },
+          "featureClasses": {
+            "fence-0": 21,
+            "fence-1": 3,
+            "fence-2-4": 4,
+            "fence-5+": 4
+          },
+          "fencedBlocks": 63,
+          "languages": {
+            "bash": 9,
+            "hcl": 2,
+            "html": 3,
+            "js": 1,
+            "sh": 16,
+            "swift": 2,
+            "terraform": 1,
+            "toml": 2,
+            "ts": 1,
+            "tsx": 3,
+            "txt": 5,
+            "typescript": 18
+          },
+          "lines": 2310,
+          "sources": 32
+        },
+        "manifestFullSelectionSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673"
+      },
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "graphProfile": {
+        "runLinkCheck": false,
+        "publicCiRunLinkCheck": true,
+        "sameConfigurationAsPublicCi": false,
+        "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+      },
+      "instrumentation": false,
+      "rustInstrumentation": false,
+      "measurementMode": "correctness-only",
+      "runLinkCheck": false,
+      "transformedEntryCount": 32,
+      "discoveredProductionMdxFiles": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "poolEnvironment": {
+        "ROLLDOWN_WORKER_THREADS": "18",
+        "RAYON_NUM_THREADS": "12",
+        "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+      },
+      "runtimeProfile": {
+        "kind": "unchanged-baseline",
+        "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+        "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+        "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc"
+      },
+      "finalRssBytes": 1042841600,
+      "outputBytes": 944867,
+      "outputChunks": 33,
+      "outputAssets": 0,
+      "outputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "normalizedOutputBytes": 944867,
+      "normalizedOutputHash": "d21193ed6358b3d87ddcad478e240f1d52eba3e47779379899a3b43370fc45ab",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "eligibleSourceEntries": 0,
+        "eligibleOutputFiles": [],
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "codeModuleCount": 206,
+      "codeHash": "293a2679d2187004f02b5edb6ce508a6b65ff9e5787ae866cf484081bdfb7c8a",
+      "codeOnlyModules": [],
+      "graphWithoutObservedCode": [],
+      "graphModuleCount": 206,
+      "graphStaticEdges": 663,
+      "graphDynamicEdges": 0,
+      "graphProjectStaticEdges": 255,
+      "graphExternalStaticEdges": 405,
+      "graphNonProjectInternalStaticEdges": 3,
+      "graphNonProjectInternalIds": [
+        "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+      ],
+      "graphHash": "720d8dfd3d68037812ef745b1cb48729286bb67de2bb1ccc4679d1c921c31fca",
+      "moduleKindCounts": {
+        "asset": 1,
+        "astro": 124,
+        "css": 1,
+        "data": 4,
+        "javascript": 44,
+        "mdx": 32
+      },
+      "mdxAstroMetaModules": 0,
+      "boundaryHash": "de59bfb68a3646fe4a6a61f85f81c35b4f98362933d2df27aa6445c6e82e8714",
+      "boundary": {
+        "definition": {
+          "included": [
+            "all selected production MDX transforms",
+            "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+            "raw imports as exact string modules",
+            "local CSS and asset imports as internal leaf modules"
+          ],
+          "excluded": [
+            "Astro compiler CSS virtual modules and CSS dependency traversal",
+            "Astro hoisted and client script modules",
+            "hydration and client build inputs",
+            "route rendering and final asset emission"
+          ]
+        },
+        "localResolutionCalls": 255,
+        "unresolvedLocalEdges": 0,
+        "resolvedLocalModuleCount": 206,
+        "externalResolutionCalls": 405,
+        "externalAstroResolutionCalls": 323,
+        "externalNodeResolutionCalls": 1,
+        "externalPackageResolutionCalls": 81,
+        "externalProtocolResolutionCalls": 0,
+        "externalSpecifiers": [
+          "@apidevtools/swagger-parser",
+          "@astrojs/mdx/server.js",
+          "@astrojs/react/server.js",
+          "@astrojs/starlight/components",
+          "@iarna/toml",
+          "astro-icon/components",
+          "astro/compiler-runtime",
+          "astro/container",
+          "astro/jsx-runtime",
+          "astro/runtime/server/index.js",
+          "astro/zod",
+          "astro:assets",
+          "astro:content",
+          "date-fns",
+          "dedent",
+          "dot-prop",
+          "github-slugger",
+          "hast-util-select",
+          "hastscript",
+          "jsonc-parser",
+          "marked",
+          "mdast-util-from-markdown",
+          "mdast-util-mdx",
+          "micromark-extension-mdxjs",
+          "node-html-parser",
+          "node:fs/promises",
+          "parse-duration",
+          "prettier",
+          "pretty-bytes",
+          "react",
+          "react-markdown",
+          "react-select",
+          "react/jsx-runtime",
+          "rehype",
+          "rehype-autolink-headings",
+          "rehype-external-links",
+          "rehype-parse",
+          "rehype-remark",
+          "rehype-stringify",
+          "remark-gfm",
+          "remark-stringify",
+          "starlight-package-managers",
+          "ts-blank-space",
+          "unified",
+          "unist-util-visit",
+          "wrangler"
+        ],
+        "rawLeafModules": 0,
+        "rawLeafBytes": 0,
+        "assetLeafModules": 1,
+        "assetLeafBytes": 611862,
+        "cssLeafModules": 1,
+        "cssLeafBytes": 59820,
+        "dataLeafModules": 0,
+        "dataLeafBytes": 0,
+        "astroModuleInstances": 124,
+        "astroSourceFiles": 100,
+        "astroCompiledSourceBytes": 550006,
+        "astroCompiledOutputBytes": 2877264,
+        "omittedAstroCssBlocks": 48,
+        "omittedAstroCssBytes": 193694,
+        "omittedCssDependencyReferences": 0,
+        "omittedCssLocalDependencyReferences": 0,
+        "omittedCssExternalDependencyReferences": 0,
+        "omittedCssLocalDependencies": [],
+        "omittedAstroClientScriptBlocks": 26,
+        "omittedAstroInlineClientScriptBlocks": 26,
+        "omittedAstroExternalClientScriptBlocks": 0,
+        "omittedAstroInlineClientScriptBytes": 67318,
+        "omittedAstroInlineClientScriptImportEdges": 8,
+        "omittedAstroClientSpecifierEdges": 8,
+        "omittedAstroClientLocalImportEdges": 5,
+        "omittedAstroClientExternalImportEdges": 3,
+        "omittedAstroClientLocalModules": [
+          "src/util/tippy.ts",
+          "src/util/zaraz.ts"
+        ],
+        "omittedAstroClientExternalSpecifiers": [
+          "pretty-bytes",
+          "tippy.js"
+        ],
+        "omittedHydratedComponents": 1,
+        "omittedClientOnlyComponents": 0,
+        "omittedServerComponents": 0
+      }
+    }
+  ]
+}
