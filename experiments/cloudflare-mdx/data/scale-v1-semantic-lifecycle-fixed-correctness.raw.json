@@ -133,18 +133,13 @@
     "harnessSourceManifest": {
       "schema": 1,
       "recordFormat": "relativePath + NUL + bytes + NUL + sourceSha256 + LF",
-      "sourceCount": 58,
-      "selectionSha256": "cb8b13fe657fac164c55569c69f1a9d05295eceff32913a30001eca8a22de2fb",
+      "sourceCount": 29,
+      "selectionSha256": "74a9982f916ff7b7af8f4c3a1ea7c1441a8cf5b0b2d3e0cbb65060af10aa2b17",
       "entries": [
         {
           "relativePath": "astro-mdx-counter.patch",
           "bytes": 6053,
           "sourceSha256": "6c19261687418a362b944fe7b3e9953f2a334d738d95d3e8898674eb4c579279"
-        },
-        {
-          "relativePath": "attribution-admission.mjs",
-          "bytes": 75437,
-          "sourceSha256": "45d2a800772db66e06aec710dec24a5b4b403ea801c77d0b55cd77d0c281415e"
         },
         {
           "relativePath": "attribution-resources.mjs",
@@ -158,8 +153,8 @@
         },
         {
           "relativePath": "correctness-gate.mjs",
-          "bytes": 20242,
-          "sourceSha256": "9bf0c0272f7a73e98db2aa06bd926da430a42132dd95ebbb8f0df6a92fbb5dd0"
+          "bytes": 20264,
+          "sourceSha256": "127e94c691fd1040516cb712e51d1475e107b28bc424a99c41fe3b401872e0d0"
         },
         {
           "relativePath": "correctness-schema.mjs",
@@ -178,28 +173,13 @@
         },
         {
           "relativePath": "environment-provenance.mjs",
-          "bytes": 9945,
-          "sourceSha256": "34584b52225030a9240c7eee750e47d7f3059e9b99baa49a842c6952c53f4263"
-        },
-        {
-          "relativePath": "evidence-provenance.mjs",
-          "bytes": 1351,
-          "sourceSha256": "0f10d715fb01c99006bcdc6c0f71d7fd4ebde744e2b31dec018e086eb337ef50"
+          "bytes": 11778,
+          "sourceSha256": "341e87c4aef56fb5848377a8e24df72968c3d72cd53e67e16ea7173a4a509200"
         },
         {
           "relativePath": "fixtures/invalid-diagnostic.mdx",
           "bytes": 54,
           "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191"
-        },
-        {
-          "relativePath": "generate-mdx-policy.mjs",
-          "bytes": 4330,
-          "sourceSha256": "f5749e698eb4fc775367ad94facfe562148842cdc963c3bb9dfade2b87ef2143"
-        },
-        {
-          "relativePath": "generate-scale-followup.mjs",
-          "bytes": 3430,
-          "sourceSha256": "d73fd5dd6c213914d0204c4c1acb83119348d69c644d6c15d9862ec58829d35d"
         },
         {
           "relativePath": "graph-config.mjs",
@@ -227,16 +207,6 @@
           "sourceSha256": "532cdece349804cf6dba421ca946b1f373c08023bf67fb0b700b18113c642bb6"
         },
         {
-          "relativePath": "mdx-policy.mjs",
-          "bytes": 61259,
-          "sourceSha256": "219b91dade84ed3cbfc84c67c8050667786fc5345ced9205ee2c44ba59393e21"
-        },
-        {
-          "relativePath": "merge-matrix-reports.mjs",
-          "bytes": 3215,
-          "sourceSha256": "5b192ad4d2d1385e895aa869bcd98da53d7fd37e80953360dcd09a5683eb7779"
-        },
-        {
           "relativePath": "metrics.mjs",
           "bytes": 14097,
           "sourceSha256": "68e005106c1a4a1c3959c30f6d9182d40424a268986d9d52608bd665032f8eab"
@@ -257,34 +227,9 @@
           "sourceSha256": "f0fa7f662474acb457d12106dd87d8420ddee956c038024eac8e412270addfa7"
         },
         {
-          "relativePath": "policy-launcher-smoke-case.mjs",
-          "bytes": 73,
-          "sourceSha256": "f64014407d511bb98c342c7537996b3e43f8e98069e57fece4f45dbf0f58e903"
-        },
-        {
-          "relativePath": "policy-node-launcher.mjs",
-          "bytes": 435,
-          "sourceSha256": "4db20254df3c02b4529e2748d771170fdf309e3b3844aa869e757c123d5518b2"
-        },
-        {
           "relativePath": "pool-environment.mjs",
           "bytes": 1722,
           "sourceSha256": "2c37a9e91b03fee0092a4abbcd2b8a513789e6a56b9b142ef4f583833e9607c2"
-        },
-        {
-          "relativePath": "prepare-manifest.mjs",
-          "bytes": 5375,
-          "sourceSha256": "7bd1fbeb98b39a5ff4b2ccc327dac1a90d20b79df81b2430c86f14aaee5fb00f"
-        },
-        {
-          "relativePath": "prepare-scale-manifest.mjs",
-          "bytes": 715,
-          "sourceSha256": "1d5c453fed3cfb1f7699dd80177449426323b539e7d589970cb4a044d76e8ee7"
-        },
-        {
-          "relativePath": "probe-transform.mjs",
-          "bytes": 582,
-          "sourceSha256": "927cefb03f4fbd56cf4e9e5c7e1bda1a8b96b16a923e24a08e72a70ad2fa2643"
         },
         {
           "relativePath": "raw-jsonc-loader.mjs",
@@ -292,19 +237,9 @@
           "sourceSha256": "864d41e2ed89b39f35cfb2a1d080d8a88e9b49200c4e501fe31457d397cb2768"
         },
         {
-          "relativePath": "run-astro-reference.mjs",
-          "bytes": 19657,
-          "sourceSha256": "4252333aee8dc82f8fd775001f8ccdf7720cac5cbcdbb0a01d29bf833b9fc104"
-        },
-        {
-          "relativePath": "run-attribution-matrix.mjs",
-          "bytes": 10902,
-          "sourceSha256": "d18e53ae9d6105441ad04ee9780075d05c772e8123b77ee523641e79199ecbd5"
-        },
-        {
           "relativePath": "run-case.mjs",
-          "bytes": 20381,
-          "sourceSha256": "2641f35de3f19d92336ab8cd3627740e0798003513d01c5ae56b9bd4b72b8956"
+          "bytes": 21768,
+          "sourceSha256": "d6db833464177a35af8e9e4789ebeda2f14f96a317050288decbc71dce9d8600"
         },
         {
           "relativePath": "run-graph-case.mjs",
@@ -313,113 +248,33 @@
         },
         {
           "relativePath": "run-graph-matrix.mjs",
-          "bytes": 17762,
-          "sourceSha256": "f33686e59d1ae01596cddde193ac67ba7968bf5c9b3ad6114984e763681aff79"
+          "bytes": 17784,
+          "sourceSha256": "ab34a006c7a73fad372d7c24f7fb36e0134f30b131534d66f1c2dc4d7a6ebc56"
         },
         {
           "relativePath": "run-graph-smoke.mjs",
-          "bytes": 7267,
-          "sourceSha256": "11fb947e246f6add9f9fe49e504f57b4bd0dfadc969e9e1e95f5ca4f48f4dd28"
-        },
-        {
-          "relativePath": "run-managed-worker-smoke.mjs",
-          "bytes": 6651,
-          "sourceSha256": "2c523f460e6529d9bc8001e234e18bf25bbb70ec6a53b98f3f48840326d10995"
+          "bytes": 7289,
+          "sourceSha256": "54fd905e85889857ffe439f66717c608060e7fa317b704e8af6be667dd7fa256"
         },
         {
           "relativePath": "run-matrix.mjs",
-          "bytes": 18192,
-          "sourceSha256": "4ce42c585848938eeae30e34c0daf10638caf6f5cece40b5c9d69639e628218a"
-        },
-        {
-          "relativePath": "run-policy-matrix.mjs",
-          "bytes": 27354,
-          "sourceSha256": "c50d1f4456b761b4b36e48c2e45b3aaedd97f492b34da3f5a7d782cbc80e6902"
+          "bytes": 18214,
+          "sourceSha256": "983d898f994a1fd046863914e08907b4a53afe65af56ab10bc06adf7ebcacd99"
         },
         {
           "relativePath": "run-semantic-sentinel.mjs",
-          "bytes": 11734,
-          "sourceSha256": "7cb6b04c5cd8308f5ea51aa53cee98488edd0cbb732d833aabdbc4c7306042a1"
+          "bytes": 11756,
+          "sourceSha256": "33af231ee124cdb4c807cab84660796461d6efd6b0652480a186a4c73ea82eda"
         },
         {
           "relativePath": "runtime-profile.mjs",
-          "bytes": 5375,
-          "sourceSha256": "eeafad3409b1eafe16aacc9850618be82aad7e8e74a8f404f09b2a31f8fbf9bc"
+          "bytes": 6514,
+          "sourceSha256": "9971bd7a6f35fe8b9fc445d5db2cd39fc4347d20d572f214acb2f8d1acbb83ec"
         },
         {
           "relativePath": "scale-corpus.mjs",
           "bytes": 16991,
           "sourceSha256": "6995028e42b92b88278d7c6fbc4f6402b429905d94ee01de7387e80eb8de1efd"
-        },
-        {
-          "relativePath": "scale-followup.mjs",
-          "bytes": 36454,
-          "sourceSha256": "41d1be138325364da2f682d6f45447630462c44a2232eec1a7480466129660a8"
-        },
-        {
-          "relativePath": "summarize-graph-matrix.mjs",
-          "bytes": 20294,
-          "sourceSha256": "095c7a7b5c28c374e74754caf69f9e99cc27aa109c5daa9e1eb94ec2e3063c63"
-        },
-        {
-          "relativePath": "summarize-matrix.mjs",
-          "bytes": 16585,
-          "sourceSha256": "74f9c3780f69f2f0e3f76c4aede58a1a194e269ba783a6a702ead493ceca0ebb"
-        },
-        {
-          "relativePath": "summarize-policy-matrix.mjs",
-          "bytes": 3101,
-          "sourceSha256": "d35cbcc7dc8f6b545da25b08a0e9a78bf79211ededc2625085bd738a6f26ecd0"
-        },
-        {
-          "relativePath": "verify-attribution-harness.mjs",
-          "bytes": 31698,
-          "sourceSha256": "4a04356ea2840ed33b92b61198ff2e573fa1507e491bde4a320c7b52999110b5"
-        },
-        {
-          "relativePath": "verify-child-buffer-policy.mjs",
-          "bytes": 866,
-          "sourceSha256": "fda6c20779847fdd135c55c5c4fffbca4fe86c4acfd47c1b86cc129fefb942f6"
-        },
-        {
-          "relativePath": "verify-correctness-gate.mjs",
-          "bytes": 26070,
-          "sourceSha256": "fe707499b6cc82eaec8f77e1a78b93d5ad1b8638c49cdfdc39c7bd4ff3b83701"
-        },
-        {
-          "relativePath": "verify-evidence-classification.mjs",
-          "bytes": 7987,
-          "sourceSha256": "82925d6638657ca97064245928a75d805c50b04b00351bd3629fd3769478d409"
-        },
-        {
-          "relativePath": "verify-host-policy.mjs",
-          "bytes": 3252,
-          "sourceSha256": "1936583c8dff5b0efd378340a292bb1a8f2a2ae9e86d746feb6810db18575c00"
-        },
-        {
-          "relativePath": "verify-mdx-policy.mjs",
-          "bytes": 27165,
-          "sourceSha256": "d5215e3be525543b7795d744cc34d0d4a52fce17a887096bb8eecb1f234d1710"
-        },
-        {
-          "relativePath": "verify-metrics-timeline.mjs",
-          "bytes": 4605,
-          "sourceSha256": "df41856f1ebc23a6d232a76c03ff576291cec9c11dbfa101d834e24829a55de9"
-        },
-        {
-          "relativePath": "verify-runtime-profile.mjs",
-          "bytes": 3490,
-          "sourceSha256": "4e3074d8495ece2bf882dc186c58b741b335197a54ed28d44195e55f3fa07797"
-        },
-        {
-          "relativePath": "verify-scale-followup.mjs",
-          "bytes": 15041,
-          "sourceSha256": "a39fa4ce7f831a76b560ac2b5a6f8f92db665ef680cb8d154550020c5e301018"
-        },
-        {
-          "relativePath": "verify-scale-harness.mjs",
-          "bytes": 16767,
-          "sourceSha256": "fe8996ab08ea21b4258f9fd248d2ec8c59e869e82f149a4b0755d63b75c47f48"
         },
         {
           "relativePath": "worker-impl.mjs",
@@ -452,17 +307,17 @@
     "childMaxBufferBytes": 67108864
   },
   "runner": {
-    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-semantic-sentinel.mjs",
-    "sha256": "7cb6b04c5cd8308f5ea51aa53cee98488edd0cbb732d833aabdbc4c7306042a1"
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-semantic-sentinel.mjs",
+    "sha256": "33af231ee124cdb4c807cab84660796461d6efd6b0652480a186a4c73ea82eda"
   },
   "childRunners": {
     "success": {
-      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-graph-case.mjs",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-graph-case.mjs",
       "sha256": "25c80f5a9f65bc32bf89d92c032b023543931463dca4294f3bcb1e57da093616"
     },
     "diagnostic": {
-      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-case.mjs",
-      "sha256": "2641f35de3f19d92336ab8cd3627740e0798003513d01c5ae56b9bd4b72b8956"
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-case.mjs",
+      "sha256": "d6db833464177a35af8e9e4789ebeda2f14f96a317050288decbc71dce9d8600"
     }
   },
   "success": {
@@ -571,10 +426,10 @@
           "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
           "changeScope": "remove-early-parent-worker-unref-only"
         },
-        "outputBytes": 1257915,
+        "outputBytes": 1257916,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "44bf06606ac618da8875106bcccec9fe7f9ff3e3f9a3cfa9531f904be965c509",
+        "outputHash": "475ecad2c7613e1f3fae721e85218d1d8f345eaa730138c16eb68c8c1e621f25",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -599,7 +454,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "c4d22d68e85be0b70a209347b3cb5be034f232263846a9bf1ccf8aee1fcca277",
+        "codeHash": "45b2546faacd83df2a947e885bfe194b42c6e473299127a37b351bc27274c5b2",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
@@ -787,10 +642,10 @@
           "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
           "changeScope": "remove-early-parent-worker-unref-only"
         },
-        "outputBytes": 1257907,
+        "outputBytes": 1257910,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "2fd876c338436e867db7aa88aa6130d490bf05bed7687d5b85b3464932a3506d",
+        "outputHash": "dacf914068cf03e354ac29397ca80b58d2724a4134de907a12f090668a8bc49c",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -815,7 +670,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "8eb9cb5c6843cfb2716c17077d8f8f6e67f000dca0d9e77d5c01b6ec19051e52",
+        "codeHash": "15e09e57f7a96ffb3d4138f6ca909c264182d3f44770470744db13ee0b8b8818",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
@@ -1003,10 +858,10 @@
           "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
           "changeScope": "remove-early-parent-worker-unref-only"
         },
-        "outputBytes": 1257910,
+        "outputBytes": 1257912,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "23a4ac0b0de4042a6ee57298a5211d2fce213dd525d01317997864b63e5be7f8",
+        "outputHash": "b08f8b31a8e228296bdf4b30b9a9bf10349446ba87f43a5365c4138421d23e71",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -1031,7 +886,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "3f098e8895e872b65351a26116374b64bdba6ba517c156b03480c693705a4ddb",
+        "codeHash": "e84c5cb776460319b933314fa46b87f93702d6deec26efb9fb21b6de5efd9996",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
@@ -1224,7 +1079,7 @@
         {
           "field": "message",
           "values": {
-            "ordinary": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
+            "ordinary": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
             "worker-2": "Build failed with 1 error:\n\nError: MDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n"
           }
         },
@@ -1271,7 +1126,7 @@
         },
         "diagnostic": {
           "name": "Error",
-          "message": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
+          "message": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
           "code": null,
           "pluginCode": null,
           "plugin": null,

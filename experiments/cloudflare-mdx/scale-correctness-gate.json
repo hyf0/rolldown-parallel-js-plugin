@@ -12,12 +12,12 @@
   "requiredArtifacts": {
     "fullCorpus": {
       "path": "data/scale-v1-9157-lifecycle-fixed-correctness.raw.json",
-      "sha256": "ec3281ff4c21ccb45f507a36fb8811f3d3cb195bba4de43378708f15c6b699b0",
+      "sha256": "0570935049182f87bd479c4ae20dea41d1c2deb8b288b0330dadf0c6b4e2b38d",
       "status": "passed"
     },
     "semanticSentinel": {
       "path": "data/scale-v1-semantic-lifecycle-fixed-correctness.raw.json",
-      "sha256": "048db637a863b9d980620ab15c89fe1ff1e6bade2df0bfa703b3304730da1e43",
+      "sha256": "99649c9d1ee1e0371b0d97ed50f1ac5152bd828acd72392d920855d0b132d551",
       "status": "passed"
     }
   },
