@@ -1,8 +1,8 @@
 import { randomUUID } from 'node:crypto';
-import { open, rename, rm } from 'node:fs/promises';
+import { link, open, rm } from 'node:fs/promises';
 import nodePath from 'node:path';
 
-export async function writeFileAtomic(path, data, { renameFile = rename } = {}) {
+export async function writeFileAtomic(path, data, { publishFile = link } = {}) {
   const target = nodePath.resolve(path);
   const temporary = nodePath.join(
     nodePath.dirname(target),
@@ -15,7 +15,14 @@ export async function writeFileAtomic(path, data, { renameFile = rename } = {}) 
     await handle.sync();
     await handle.close();
     handle = undefined;
-    await renameFile(temporary, target);
+    await publishFile(temporary, target);
+    await rm(temporary);
+    const directory = await open(nodePath.dirname(target), 'r');
+    try {
+      await directory.sync();
+    } finally {
+      await directory.close();
+    }
   } catch (error) {
     await handle?.close().catch(() => {});
     await rm(temporary, { force: true }).catch(() => {});

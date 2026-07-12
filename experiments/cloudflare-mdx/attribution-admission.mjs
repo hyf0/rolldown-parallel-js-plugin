@@ -490,14 +490,22 @@ export function deriveAttributionComparison(runs) {
 }
 
 function summarizeWorkerPoolInitialization(initialization) {
-  const readyValues = initialization.workers.map(({ mainReadyMs }) => mainReadyMs);
+  const poolStartMs =
+    initialization.processSnapshots.beforeWorkerPool.capturedAt.monotonicMs;
+  const readyEventMs = initialization.workers.map(
+    ({ mainTimeline }) => mainTimeline.readyMessageAt.monotonicMs,
+  );
+  const firstReadyEventMs = Math.min(...readyEventMs);
+  const allReadyEventMs = Math.max(...readyEventMs);
   const plugins = initialization.workers.flatMap(({ workerBootstrap }) => workerBootstrap.plugins);
   return {
     elapsedMs: initialization.poolInitializationMs,
     readiness: {
-      firstReadyMs: Math.min(...readyValues),
-      allReadyMs: Math.max(...readyValues),
-      readySkewMs: Math.max(...readyValues) - Math.min(...readyValues),
+      origin: 'main beforeWorkerPool process snapshot',
+      poolStartMonotonicMs: poolStartMs,
+      firstReadyMs: firstReadyEventMs - poolStartMs,
+      allReadyMs: allReadyEventMs - poolStartMs,
+      readySkewMs: allReadyEventMs - firstReadyEventMs,
     },
     criticalStageMaximaMs: {
       launcherEntryThroughRegistration: Math.max(
@@ -508,6 +516,11 @@ function summarizeWorkerPoolInitialization(initialization) {
       runtimeAndBindingImport: Math.max(
         ...initialization.workers.map(
           ({ workerBootstrap }) => workerBootstrap.launcher.stages.runtimeAndBindingImport.durationMs,
+        ),
+      ),
+      metricsRuntimeImport: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.launcher.stages.metricsRuntimeImport.durationMs,
         ),
       ),
       implementationImport: Math.max(...plugins.map(({ implementationImportMs }) => implementationImportMs)),
@@ -926,6 +939,7 @@ function validateJsMetrics(metrics, expectedWorkers) {
     !positive(metrics.initializationMsTotal) ||
     !positive(metrics.initializationMsMax) ||
     metrics.initializationMsTotal < metrics.initializationMsMax ||
+    metrics.initializationMsTotal > expectedWorkers * metrics.initializationMsMax + 1e-6 ||
     metrics.handlerCalls !== ATTRIBUTION_SCALE ||
     metrics.distinctHandlerIds !== ATTRIBUTION_SCALE ||
     metrics.active !== 0 ||

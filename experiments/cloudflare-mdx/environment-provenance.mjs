@@ -13,6 +13,41 @@ const PACKAGE_REQUESTS = Object.freeze([
   { name: 'tsx', from: 'project' },
 ]);
 
+export const CORRECTNESS_HARNESS_SOURCE_FILES = Object.freeze([
+  'attribution-resources.mjs',
+  'child-buffer-policy.mjs',
+  'correctness-gate.mjs',
+  'correctness-schema.mjs',
+  'create-transform.mjs',
+  'environment-provenance.mjs',
+  'graph-config.mjs',
+  'graph-loader-plugin.mjs',
+  'local-host-policy.mjs',
+  'managed-worker-plugin.mjs',
+  'managed-worker-thread.mjs',
+  'metrics.mjs',
+  'normalize-output.mjs',
+  'ordinary-plugin.mjs',
+  'parallel-plugin.mjs',
+  'pool-environment.mjs',
+  'raw-jsonc-loader.mjs',
+  'run-case.mjs',
+  'run-graph-case.mjs',
+  'run-graph-matrix.mjs',
+  'run-graph-smoke.mjs',
+  'run-matrix.mjs',
+  'run-semantic-sentinel.mjs',
+  'runtime-profile.mjs',
+  'scale-corpus.mjs',
+  'worker-impl.mjs',
+]);
+
+const COMMON_HARNESS_INPUT_FILES = Object.freeze([
+  'astro-mdx-counter.patch',
+  'fixtures/invalid-diagnostic.mdx',
+  'data/cloudflare-mdx-scale-v1.json',
+]);
+
 export const EXPECTED_COMPILER_ENVIRONMENT = Object.freeze({
   schema: 1,
   node: 'v24.18.0',
@@ -126,11 +161,20 @@ export async function captureHarnessSourceManifest() {
   for (const entry of await readdir(import.meta.dirname, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.mjs')) files.push(entry.name);
   }
-  files.push(
-    'astro-mdx-counter.patch',
-    'fixtures/invalid-diagnostic.mdx',
-    'data/cloudflare-mdx-scale-v1.json',
-  );
+  files.push(...COMMON_HARNESS_INPUT_FILES);
+  return captureSourceManifest(files);
+}
+
+export async function captureCorrectnessHarnessSourceManifest() {
+  await requireCorrectnessSourceClosure();
+  return captureSourceManifest([
+    ...CORRECTNESS_HARNESS_SOURCE_FILES,
+    ...COMMON_HARNESS_INPUT_FILES,
+  ]);
+}
+
+async function captureSourceManifest(inputFiles) {
+  const files = [...inputFiles];
   files.sort(compareUtf8);
   const entries = [];
   const selection = createHash('sha256');
@@ -152,6 +196,23 @@ export async function captureHarnessSourceManifest() {
     selectionSha256: selection.digest('hex'),
     entries,
   };
+}
+
+async function requireCorrectnessSourceClosure() {
+  const selected = new Set(CORRECTNESS_HARNESS_SOURCE_FILES);
+  for (const relativePath of CORRECTNESS_HARNESS_SOURCE_FILES) {
+    const source = await readFile(nodePath.join(import.meta.dirname, relativePath), 'utf8');
+    const imports = [
+      ...source.matchAll(/(?:from\s*|import\s*)['"](\.\/[^'"]+\.mjs)['"]/g),
+    ].map((match) => nodePath.posix.normalize(match[1].slice(2)));
+    for (const imported of imports) {
+      if (!selected.has(imported)) {
+        throw new Error(
+          `Correctness harness source ${relativePath} imports unbound local source ${imported}`,
+        );
+      }
+    }
+  }
 }
 
 async function resolvePackageRoot(resolver, name) {

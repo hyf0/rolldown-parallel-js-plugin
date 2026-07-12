@@ -76,6 +76,25 @@ expectRejected('factory-initialization-max-exceeds-total', (report) => {
 expectRejected('stale-initialization-comparison', (report) => {
   report.initializationComparison.workerPools[0].readySkewMs += 1;
 });
+expectRejected('stale-main-plugin-construction-summary', (report) => {
+  report.runs[0].attributionSummary.initialization.pluginConstruction.mainThreadElapsedMs += 1;
+});
+expectRejected('stale-first-ready-summary', (report) => {
+  report.runs[1].attributionSummary.initialization.workerPool.readiness.firstReadyMs += 1;
+});
+expectRejected('stale-all-ready-summary', (report) => {
+  report.runs[1].attributionSummary.initialization.workerPool.readiness.allReadyMs += 1;
+});
+expectRejected('stale-critical-stage-summary', (report) => {
+  report.runs[2].attributionSummary.initialization.workerPool.criticalStageMaximaMs.factory += 1;
+});
+expectRejected('stale-ordinary-delta-summary', (report) => {
+  report.initializationComparison.workerPools[1].deltasVsOrdinaryFactoryMs.allReady += 1;
+});
+expectRejected('factory-initialization-total-exceeds-call-max-bound', (report) => {
+  report.runs[1].metrics.initializationMsTotal =
+    report.runs[1].metrics.factoryCalls * report.runs[1].metrics.initializationMsMax + 1;
+});
 expectRejected('missing-rust-events', (report) => {
   report.runs[1].rustMetrics[0].timeline.events = [];
 });
@@ -372,18 +391,22 @@ function rustMetrics(ids, workerCount) {
 }
 
 function lifecycleMetrics(workerCount) {
-  const workersAtReady = range(workerCount).map((threadNumber) => ({
-    threadNumber,
-    mainReadyMs: 40 + threadNumber,
-    mainTimeline: {
-      constructorStartedAt: timestamp(10),
-      constructorReturnedAt: timestamp(11),
-      onlineAt: timestamp(20),
-      readyMessageAt: timestamp(50 + threadNumber),
-    },
-    workerBootstrap: workerBootstrap(threadNumber),
-    resourcesAtPoolReady: workerResource(61, 62, { user: 100 + threadNumber, system: 10 }),
-  }));
+  const workersAtReady = range(workerCount).map((threadNumber) => {
+    const constructorStartedAt = 10 + threadNumber * 0.25;
+    const readyMessageAt = 50 + threadNumber;
+    return {
+      threadNumber,
+      mainReadyMs: readyMessageAt - constructorStartedAt,
+      mainTimeline: {
+        constructorStartedAt: timestamp(constructorStartedAt),
+        constructorReturnedAt: timestamp(11 + threadNumber * 0.25),
+        onlineAt: timestamp(20 + threadNumber * 0.25),
+        readyMessageAt: timestamp(readyMessageAt),
+      },
+      workerBootstrap: workerBootstrap(threadNumber),
+      resourcesAtPoolReady: workerResource(61, 62, { user: 100 + threadNumber, system: 10 }),
+    };
+  });
   const workersBeforeTermination = workersAtReady.map(({ threadNumber, resourcesAtPoolReady }) => ({
     threadNumber,
     resourcesAtPoolReady,
@@ -469,8 +492,8 @@ function cpuWindow(workerCount, includeInner, snapshots) {
           meaning: 'the first asynchronous Worker.cpuUsage read completes within these bounds',
         }
       : {
-          earliestAt: timestamp(10),
-          latestAt: timestamp(20),
+          earliestAt: timestamp(10 + threadNumber * 0.25),
+          latestAt: timestamp(20 + threadNumber * 0.25),
           meaning: 'Node.js does not expose the exact Worker.cpuUsage counter start instant',
         },
     endBounds: includeInner

@@ -11,11 +11,19 @@ try {
     throw new Error('Atomic output did not publish the complete artifact');
   }
 
+  await expectRejected(async () => {
+    await writeFileAtomic(target, 'replacement\n');
+  });
+  if ((await readFile(target, 'utf8')) !== 'complete\n') {
+    throw new Error('Atomic output overwrote an existing complete artifact');
+  }
+
+  await rm(target);
   await writeFile(target, 'previous\n');
   await expectRejected(async () => {
     await writeFileAtomic(target, 'partial\n', {
-      renameFile: async () => {
-        throw new Error('synthetic rename failure');
+      publishFile: async () => {
+        throw new Error('synthetic publish failure');
       },
     });
   });
@@ -28,7 +36,12 @@ try {
 
   console.log(
     JSON.stringify({
-      valid: ['complete-rename', 'failed-rename-preserves-target', 'failed-rename-cleans-temp'],
+      valid: [
+        'complete-link-and-directory-sync',
+        'existing-target-no-clobber',
+        'failed-publish-preserves-target',
+        'failed-publish-cleans-temp',
+      ],
     }),
   );
 } finally {

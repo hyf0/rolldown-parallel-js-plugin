@@ -14,7 +14,7 @@ import {
   assertSemanticCorrectnessArtifactSchema,
 } from './correctness-schema.mjs';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   EXPECTED_COMPILER_ENVIRONMENT,
 } from './environment-provenance.mjs';
 import { FROZEN_PERFORMANCE_HOST_POLICY } from './local-host-policy.mjs';
@@ -49,7 +49,7 @@ const context = {
     '/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build',
   manifest,
   compilerEnvironment: EXPECTED_COMPILER_ENVIRONMENT,
-  harnessSourceManifest: await captureHarnessSourceManifest(),
+  harnessSourceManifest: await captureCorrectnessHarnessSourceManifest(),
 };
 const validFull = syntheticFullReport(context);
 assertFullCorrectnessArtifactSchema(validFull);

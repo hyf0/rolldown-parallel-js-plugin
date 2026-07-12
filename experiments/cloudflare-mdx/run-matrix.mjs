@@ -22,7 +22,7 @@ import { normalizeRuntimeProfile, validateRuntimeLane } from './runtime-profile.
 import { assertChildCaptureComplete, CHILD_MAX_BUFFER_BYTES } from './child-buffer-policy.mjs';
 import { requirePassedScaleCorrectnessGate } from './correctness-gate.mjs';
 import {
-  captureHarnessSourceManifest,
+  captureCorrectnessHarnessSourceManifest,
   requirePinnedCompilerEnvironment,
 } from './environment-provenance.mjs';
 
@@ -94,7 +94,7 @@ if (projectRoots.length !== 1 || !nodePath.isAbsolute(projectRoots[0])) {
   throw new Error('A matrix must use one absolute project root');
 }
 const compilerEnvironment = await requirePinnedCompilerEnvironment(projectRoots[0]);
-const harnessSourceManifest = await captureHarnessSourceManifest();
+const harnessSourceManifest = await captureCorrectnessHarnessSourceManifest();
 
 const runs = [];
 const validationErrors = [];
