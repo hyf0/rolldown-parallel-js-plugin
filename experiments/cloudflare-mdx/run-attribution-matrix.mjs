@@ -153,6 +153,14 @@ for (let index = 0; index < definition.repeats; index++) {
         result.stderr,
         'rolldown-parallel-plugin-module-init-metrics',
       ),
+      createBundlerOptionsMetrics: parseRecords(
+        result.stderr,
+        'rolldown-create-bundler-options-metrics',
+      ),
+      nativePluginRegistrationMetrics: parseRecords(
+        result.stderr,
+        'rolldown-native-plugin-registration-metrics',
+      ),
     };
     run.attributionSummary = deriveAttributionSummary(run);
     runs.push(run);

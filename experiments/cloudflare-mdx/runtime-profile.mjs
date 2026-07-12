@@ -16,9 +16,9 @@ export const LIFECYCLE_FIXED_RUNTIME_PROFILE = Object.freeze({
 
 export const ATTRIBUTION_RUNTIME_PROFILE = Object.freeze({
   kind: 'instrumented-attribution',
-  rolldownCommit: '8e35a2249b60b65120a44d1d896eeeed19dc703b',
-  bindingSha256: '6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e',
-  distSha256: '68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735',
+  rolldownCommit: '41833e1294e5f80efdf90067fe3766b31b58435d',
+  bindingSha256: '2db2fd322eb0e0e57f5ff0a618e52ddac7acf64754cfcd90aa36345917cea711',
+  distSha256: '7931dffb49a5e7e0fb7470a7850242d8f50726ced7f4e56792f68012405083c6',
 });
 
 export function normalizeRuntimeProfile(value) {
@@ -91,7 +91,7 @@ export function normalizeRuntimeProfile(value) {
     JSON.stringify(normalized) !== JSON.stringify(ATTRIBUTION_RUNTIME_PROFILE)
   ) {
     throw new Error(
-      'instrumented-attribution must use the frozen 8e35a22/6b7dfa/68f57b artifact',
+      'instrumented-attribution must use the frozen 41833e1/2db2fd/7931df artifact',
     );
   }
   const allowedFields = [
