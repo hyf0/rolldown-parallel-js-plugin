@@ -17,15 +17,12 @@ if (!run('git', ['-C', checkout, 'cat-file', '-e', `${upstreamCommit}^{commit}`]
   run('git', ['-C', checkout, 'fetch', '--depth=1', 'origin', upstreamCommit]);
 }
 run('git', ['-C', checkout, 'checkout', '--detach', upstreamCommit]);
+run('git', ['-C', checkout, 'reset', '--hard', upstreamCommit]);
+run('git', ['-C', checkout, 'clean', '-fdx']);
 const patch = await readFile(patchPath);
 const patchHash = sha256(patch);
-const reverseCheck = run('git', ['-C', checkout, 'apply', '--reverse', '--check', patchPath], {
-  allowFailure: true,
-});
-if (!reverseCheck.ok) {
-  run('git', ['-C', checkout, 'apply', '--check', patchPath]);
-  run('git', ['-C', checkout, 'apply', patchPath]);
-}
+run('git', ['-C', checkout, 'apply', '--check', patchPath]);
+run('git', ['-C', checkout, 'apply', patchPath]);
 run('make', ['clean'], { cwd: checkout });
 const cflags = '-Wall -Wextra -Wno-unused-parameter -O2';
 run('make', [`CFLAGS=${cflags}`], { cwd: checkout });
