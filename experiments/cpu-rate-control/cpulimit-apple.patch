@@ -1,0 +1,183 @@
+diff --git a/src/cpulimit.c b/src/cpulimit.c
+index 50eabea..0a5c8cb 100644
+--- a/src/cpulimit.c
++++ b/src/cpulimit.c
+@@ -43,7 +43,7 @@
+ #include <sys/types.h>
+ #include <sys/wait.h>
+ 
+-#ifdef __APPLE__ || __FREEBSD__
++#if defined(__APPLE__) || defined(__FreeBSD__)
+ #include <libgen.h>
+ #endif
+ 
+@@ -85,6 +85,10 @@ char *program_name;
+ //number of cpu
+ int NCPU;
+ 
++unsigned long control_cycles = 0;
++unsigned long stop_cycles = 0;
++unsigned long long stopped_us = 0;
++
+ /* CONFIGURATION VARIABLES */
+ 
+ //verbose mode
+@@ -245,8 +249,8 @@ void limit_process(pid_t pid, double limit, int include_children)
+ 		if (pcpu < 0) {
+ 			//it's the 1st cycle, initialize workingrate
+ 			pcpu = limit;
+-			workingrate = limit;
+-			twork.tv_nsec = TIME_SLOT * limit * 1000;
++			workingrate = MIN(limit, 1);
++			twork.tv_nsec = TIME_SLOT * 1000 * workingrate;
+ 		}
+ 		else {
+ 			//adjust workingrate
+@@ -307,9 +311,21 @@ void limit_process(pid_t pid, double limit, int include_children)
+ 				node = next_node;
+ 			}
+ 			//now the processes are sleeping
++			struct timeval startsleep;
++			struct timeval endsleep;
++			gettimeofday(&startsleep, NULL);
+ 			nanosleep(&tsleep,NULL);
++			gettimeofday(&endsleep, NULL);
++			stop_cycles++;
++			stopped_us += timediff(&endsleep, &startsleep);
+ 		}
+ 		c++;
++		control_cycles++;
++	}
++	if (getenv("CPULIMIT_REPORT") != NULL) {
++		fprintf(stderr,
++			"[cpulimit-report] {\"version\":1,\"targetPid\":%d,\"limitPercent\":%.0f,\"controlCycles\":%lu,\"stopCycles\":%lu,\"stoppedUs\":%llu}\n",
++			pid, limit * 100, control_cycles, stop_cycles, stopped_us);
+ 	}
+ 	close_process_group(&pgroup);
+ }
+diff --git a/src/memrchr.c b/src/memrchr.c
+index 1f37870..9ed9c97 100644
+--- a/src/memrchr.c
++++ b/src/memrchr.c
+@@ -21,10 +21,7 @@
+  * Find the last occurrence of 'c' in the buffer 's' of size 'n'.
+  */
+ void *
+-memrchr(s, c, n)
+-    const void *s;
+-    int c;
+-    size_t n;
++memrchr(const void *s, int c, size_t n)
+ {
+     if (n != 0) {
+     	const unsigned char *cp;
+diff --git a/src/process_group.c b/src/process_group.c
+index 06d73a6..1817d82 100644
+--- a/src/process_group.c
++++ b/src/process_group.c
+@@ -25,6 +25,10 @@
+ #include <sys/time.h>
+ #include <signal.h>
+ 
++#ifdef __APPLE__
++#include <libgen.h>
++#endif
++
+ #include <assert.h>
+ 
+ #include "process_iterator.h"
+diff --git a/src/process_iterator_apple.c b/src/process_iterator_apple.c
+index b878ed8..356c728 100644
+--- a/src/process_iterator_apple.c
++++ b/src/process_iterator_apple.c
+@@ -25,6 +25,9 @@
+ #include <errno.h>
+ #include <stdio.h>
+ #include <libproc.h>
++#include <mach/mach_time.h>
++#include <stdlib.h>
++#include <string.h>
+ 
+ int unique_nonzero_ints(int* arr_in, int len_in, int* arr_out) {
+ 	int* source = arr_in;
+@@ -49,24 +52,30 @@ int unique_nonzero_ints(int* arr_in, int len_in, int* arr_out) {
+ 	if (arr_in == arr_out) {
+ 		free(source);
+ 	}
+-	return len_out-1;
++	return len_out;
+ }
+ 
+ int init_process_iterator(struct process_iterator *it, struct process_filter *filter) {
+ 	it->i = 0;
+ 	/* Find out how much to allocate for it->pidlist */
+-	if ((it->count = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0)) <= 0) {
++	int bytes = proc_listpids(PROC_ALL_PIDS, 0, NULL, 0);
++	if (bytes <= 0) {
+ 		fprintf(stderr, "proc_listpids: %s\n", strerror(errno));
+ 		return -1;
+ 	}
+ 	/* Allocate and populate it->pidlist */
+-	if ((it->pidlist = (int *)malloc((it->count)*sizeof(int))) == NULL) {
++	if ((it->pidlist = (int *)malloc(bytes)) == NULL) {
+ 		fprintf(stderr, "malloc: %s\n", strerror(errno));
++		return -1;
+ 	}
+-	if ((it->count = proc_listpids(PROC_ALL_PIDS, 0, it->pidlist, it->count)) <= 0) {
++	bytes = proc_listpids(PROC_ALL_PIDS, 0, it->pidlist, bytes);
++	if (bytes <= 0) {
+ 		fprintf(stderr, "proc_listpids: %s\n", strerror(errno));
++		free(it->pidlist);
++		it->pidlist = NULL;
+ 		return -1;
+ 	}
++	it->count = bytes / sizeof(int);
+ 	it->count = unique_nonzero_ints(it->pidlist, it->count, it->pidlist);
+ 	it->filter = filter;
+ 	return 0;
+@@ -74,12 +83,18 @@ int init_process_iterator(struct process_iterator *it, struct process_filter *fi
+ 
+ static int pti2proc(struct proc_taskallinfo *ti, struct process *process) {
+ 	int bytes;
++	mach_timebase_info_data_t timebase;
++	mach_timebase_info(&timebase);
+ 	process->pid = ti->pbsd.pbi_pid;
+ 	process->ppid = ti->pbsd.pbi_ppid;
+ 	process->starttime = ti->pbsd.pbi_start_tvsec;
+-	process->cputime = (ti->ptinfo.pti_total_user + ti->ptinfo.pti_total_system) / 1000000;
+-	bytes = strlen(ti->pbsd.pbi_comm);
+-	memcpy(process->command, ti->pbsd.pbi_comm, (bytes < PATH_MAX ? bytes : PATH_MAX) + 1);
++	__uint128_t cpu_ticks = ti->ptinfo.pti_total_user + ti->ptinfo.pti_total_system;
++	__uint128_t cpu_ns = cpu_ticks * timebase.numer / timebase.denom;
++	process->cputime = (int)(cpu_ns / 1000000);
++	bytes = strnlen(ti->pbsd.pbi_comm, sizeof(ti->pbsd.pbi_comm));
++	if (bytes > PATH_MAX) bytes = PATH_MAX;
++	memcpy(process->command, ti->pbsd.pbi_comm, bytes);
++	process->command[bytes] = '\0';
+ 	return 0;
+ }
+ 
+@@ -91,8 +106,8 @@ static int get_process_pti(pid_t pid, struct proc_taskallinfo *ti) {
+ 			fprintf(stderr, "proc_pidinfo: %s\n", strerror(errno));
+ 		}
+ 		return -1;
+-	} else if (bytes < sizeof(ti)) {
+-		fprintf(stderr, "proc_pidinfo: too few bytes; expected %ld, got %d\n", sizeof(ti), bytes);
++	} else if ((size_t)bytes < sizeof(*ti)) {
++		fprintf(stderr, "proc_pidinfo: too few bytes; expected %zu, got %d\n", sizeof(*ti), bytes);
+ 		return -1;
+ 	}
+ 	return 0;
+diff --git a/tests/process_iterator_test.c b/tests/process_iterator_test.c
+index 1615196..d0b7233 100644
+--- a/tests/process_iterator_test.c
++++ b/tests/process_iterator_test.c
+@@ -28,7 +28,7 @@
+ #include <signal.h>
+ #include <string.h>
+ 
+-#ifdef __APPLE__ || __FREEBSD__
++#if defined(__APPLE__) || defined(__FreeBSD__)
+ #include <libgen.h>
+ #endif
+ 

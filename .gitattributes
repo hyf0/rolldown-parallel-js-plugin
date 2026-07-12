@@ -1,2 +1,3 @@
 experiments/cloudflare-mdx/data/*/build.stdout.log -whitespace
 experiments/cloudflare-mdx/data/*/build.stderr.log -whitespace
+experiments/cpu-rate-control/cpulimit-apple.patch -whitespace
