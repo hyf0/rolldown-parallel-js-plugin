@@ -134,7 +134,7 @@
       "schema": 1,
       "recordFormat": "relativePath + NUL + bytes + NUL + sourceSha256 + LF",
       "sourceCount": 58,
-      "selectionSha256": "5e12871caf8b02f5918fee751aa82df819229cac67849293cc8a4d4224610f5f",
+      "selectionSha256": "cb8b13fe657fac164c55569c69f1a9d05295eceff32913a30001eca8a22de2fb",
       "entries": [
         {
           "relativePath": "astro-mdx-counter.patch",
@@ -143,8 +143,8 @@
         },
         {
           "relativePath": "attribution-admission.mjs",
-          "bytes": 27200,
-          "sourceSha256": "5c0a21dceb274060916b30d3eaf36feb61fc6e6b7cd0294c7e58d062ef9e21af"
+          "bytes": 75437,
+          "sourceSha256": "45d2a800772db66e06aec710dec24a5b4b403ea801c77d0b55cd77d0c281415e"
         },
         {
           "relativePath": "attribution-resources.mjs",
@@ -298,8 +298,8 @@
         },
         {
           "relativePath": "run-attribution-matrix.mjs",
-          "bytes": 10630,
-          "sourceSha256": "bbfdf2a4dceccffb12e5d007a63a40515e57370197e5d307cdc7385d21b50dd2"
+          "bytes": 10902,
+          "sourceSha256": "d18e53ae9d6105441ad04ee9780075d05c772e8123b77ee523641e79199ecbd5"
         },
         {
           "relativePath": "run-case.mjs",
@@ -344,7 +344,7 @@
         {
           "relativePath": "runtime-profile.mjs",
           "bytes": 5375,
-          "sourceSha256": "33968b833422abfd74f95b30f83ff6ea2fc2897d9f0d0eb73957c08259c08843"
+          "sourceSha256": "eeafad3409b1eafe16aacc9850618be82aad7e8e74a8f404f09b2a31f8fbf9bc"
         },
         {
           "relativePath": "scale-corpus.mjs",
@@ -373,8 +373,8 @@
         },
         {
           "relativePath": "verify-attribution-harness.mjs",
-          "bytes": 12543,
-          "sourceSha256": "6353625a57c7d6296130110a74292d9d169c3e442932e57c7687b282fa535d9b"
+          "bytes": 31698,
+          "sourceSha256": "4a04356ea2840ed33b92b61198ff2e573fa1507e491bde4a320c7b52999110b5"
         },
         {
           "relativePath": "verify-child-buffer-policy.mjs",
@@ -571,10 +571,10 @@
           "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
           "changeScope": "remove-early-parent-worker-unref-only"
         },
-        "outputBytes": 1257909,
+        "outputBytes": 1257915,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "4abfc31f6684f0372dfa5ae1094fdc53a2d9457a747980d054dffa5abf4da1c8",
+        "outputHash": "44bf06606ac618da8875106bcccec9fe7f9ff3e3f9a3cfa9531f904be965c509",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -599,7 +599,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "d9098e9deba8ac7eb640fe14c6c67da761317874eb33f7a60dd2bad4687d2011",
+        "codeHash": "c4d22d68e85be0b70a209347b3cb5be034f232263846a9bf1ccf8aee1fcca277",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
@@ -790,7 +790,7 @@
         "outputBytes": 1257907,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "3720e5f1e1bb7e485c6f219506d67e078350ac3dbe1a65664e6f5c518abf9821",
+        "outputHash": "2fd876c338436e867db7aa88aa6130d490bf05bed7687d5b85b3464932a3506d",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -815,7 +815,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "3f2129954e0f89e4b72334aeedc3be644c326dbaeceac4b020e6fb1e556e8c2a",
+        "codeHash": "8eb9cb5c6843cfb2716c17077d8f8f6e67f000dca0d9e77d5c01b6ec19051e52",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
@@ -1003,10 +1003,10 @@
           "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
           "changeScope": "remove-early-parent-worker-unref-only"
         },
-        "outputBytes": 1257913,
+        "outputBytes": 1257910,
         "outputChunks": 14,
         "outputAssets": 0,
-        "outputHash": "7231d37082e77ef36887bcc07fcfdbe3b1ede4ef0e80874ceec0aa24cbec459c",
+        "outputHash": "23a4ac0b0de4042a6ee57298a5211d2fce213dd525d01317997864b63e5be7f8",
         "normalizedOutputBytes": 1257682,
         "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
         "outputNormalization": {
@@ -1031,7 +1031,7 @@
           ]
         },
         "codeModuleCount": 179,
-        "codeHash": "f88462d11949b4df7d23dc8f0f828dda95eab77496039eacaa62d01dd3846cc8",
+        "codeHash": "3f098e8895e872b65351a26116374b64bdba6ba517c156b03480c693705a4ddb",
         "codeOnlyModules": [],
         "graphWithoutObservedCode": [],
         "graphModuleCount": 179,
