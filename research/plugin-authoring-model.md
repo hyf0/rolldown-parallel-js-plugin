@@ -1,6 +1,6 @@
 # Parallel JavaScript Plugin Authoring Model
 
-Snapshot: first-iteration evidence through 2026-07-11, with the shared/exclusive placement direction added on 2026-07-12. This document describes what a JavaScript plugin must do to run safely and usefully in Rolldown's current replicated-worker model, and where that model cannot preserve an ordinary plugin contract. It is a research contract, not a proposed public API. Production-scale requirements are defined in the draft [next goal](../.agents/docs/production-scale-goal.md).
+Snapshot: evidence through the 2026-07-12 Cloudflare production-source transform-stage study. This document describes what a JavaScript plugin must do to run safely and usefully in Rolldown's current replicated-worker model, and where that model cannot preserve an ordinary plugin contract. It is a research contract, not a proposed public API. Complete-build and placement requirements are defined in the [production-scale goal](../.agents/docs/production-scale-goal.md).
 
 ## The unit of parallelism
 
@@ -36,7 +36,7 @@ Every state item used by a worker hook needs one declared owner and lifetime.
 | Shared mutable state | Explicit shared memory or external service | Synchronization, failure, serialization, and contention are part of the contract |
 | Watch or rebuild cache | Reused owner with explicit invalidation | Outside the current runtime scope and unsupported by ordinary main-side invalidation alone |
 
-Undeclared closure or module-global state is worker-local by accident. Availability routing means `resolveId`, `load`, and `transform` for the same module may use different instances. The controlled resolver probe turns this into observable evidence: an ordinary closure counter produces one stable sequence, while ten worker-4 runs produce ten different output hashes. Even runs with the same per-worker call totals route different modules to those instances. `generateBundle` and `writeBundle` each choose one available instance, while `moduleParsed` broadcasts to all instances. A plugin that writes an instance map in transform and reads it in load or output cannot be converted safely without affinity, shared state, or reduction.
+Undeclared closure or module-global state is worker-local by accident. Availability routing means `resolveId`, `load`, and `transform` for the same module may use different instances. The controlled resolver probe turns this into observable evidence: an ordinary closure counter produces one stable sequence, while ten worker-4 runs produce ten different output hashes. Cloudflare adds a production example: its link validator stores 9,157 per-module results in a `globalThis` Map, ordinary execution fills the coordinator Map, and both worker models leave it empty. Even runs with the same per-worker call totals route different modules to those instances. `generateBundle` and `writeBundle` each choose one available instance, while `moduleParsed` broadcasts to all instances. A plugin that writes an instance map in transform and reads it in load or output cannot be converted safely without affinity, shared state, or reduction.
 
 ## Hook kernel requirements
 
@@ -52,7 +52,7 @@ The strongest current candidate is a module-local synchronous kernel:
 - It does not move already-asynchronous work into an exclusive permit merely to call it parallel. An ordinary event loop can overlap many pending Promises in one plugin instance; the current worker pool caps them at its worker count.
 - It treats cancellation and worker exit as explicit failures and can be retried only when the hook is pure and duplicate side effects are impossible.
 
-The controlled transform kernel satisfies this model. The narrowed Vue whole-SFC adapter satisfies output determinism for its style-free, virtual-module-free corpus, but still loses ordinary compiler-error structure and imports too much code per worker. The isolated Svelte kernel tests the same model with a larger real compiler corpus and separately records warning and error incompatibility. The graph-preserving Svelte case shows that the kernel can still shorten a representative project-subgraph build, but its 1.117x four-worker gain costs 2.84x user CPU and 2.17x peak RSS and remains far below the 1.36x isolated ceiling.
+The controlled transform kernel satisfies this model. The narrowed Vue whole-SFC adapter satisfies output determinism for its style-free, virtual-module-free corpus, but still loses ordinary compiler-error structure and imports too much code per worker. The isolated Svelte kernel tests the same model with a larger real compiler corpus and separately records warning and error incompatibility. The graph-preserving Svelte case shows that the kernel can still shorten a representative project-subgraph build, but its 1.117x four-worker gain costs 2.84x user CPU and 2.17x peak RSS. Cloudflare's 9,157-module MDX kernel supplies strong noisy-host repeated evidence above 2x, while its graph case directly observes all returned Astro metadata disappearing under ParallelPlugin and its link validator demonstrates the required reduction boundary.
 
 ## Lifecycle and global hooks
 
@@ -96,10 +96,11 @@ The current bundler creates one shared pool of up to eight workers and initializ
 - The 166-SFC Vue case regresses even at two workers and becomes much worse at eight.
 - The isolated 24-SFC Svelte fixture regresses at every tested worker count, while the synthetic 1,340-SFC kernel case is best at four workers and degrades at eight and twelve despite filling every slot. Its project dependencies are externalized, so it is not representative-graph evidence.
 - The graph-preserving 425-module Svelte registry subgraph is also best at four workers, where it wins all 15 paired rounds at 1.117x. Two workers provide a smaller 1.064x; one and eight workers lose every pair. Four workers consume 2.84x ordinary user CPU and 2.17x peak RSS, so the scheduler must weigh resource cost as well as wall time.
+- The Cloudflare 9,157-module screen is best at four workers: one worker is slower than ordinary, two improve, four reach about 25 seconds, and eight regress to about 28 seconds while using more CPU and memory. The screen does not isolate the cause. Four production compiler instances become ready in about two seconds, so initialization is measurable but amortized by the full corpus.
 - CPU-heavy wide `resolveId` and `load` improve through eight workers in the controlled case, while one worker regresses but removes the main-loop stall. Cheap, serial, payload-only, and already-asynchronous versions lose; async worker-1 is about 126 times slower than ordinary because a pending Promise holds its permit.
 - A serial dependency chain cannot use more than one worker regardless of hook cost.
 
-A usable policy therefore needs plugin or kernel identity, fresh versus reused lifecycle, estimated synchronous cost, observed ready concurrency, CPU competition with Rolldown and native addons, memory budget, and whether isolation without throughput is desired. Hardware concurrency alone is insufficient.
+A usable clean-build policy therefore needs plugin or kernel identity, initialization lifetime, estimated synchronous cost, observed ready concurrency, CPU competition with Rolldown and native addons, memory budget, and whether isolation without throughput is desired. Hardware concurrency alone is insufficient. Cross-build reuse remains outside the no-watch research scope.
 
 The next-iteration placement model remains owned by Rolldown:
 

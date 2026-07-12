@@ -1,6 +1,6 @@
 # Production Candidate Screening
 
-Status: complete. The search universe and three-candidate order were frozen in commit `dc89184` before any research clone, installation, local build, adaptation, or timing run. All three selected candidates failed their first admission rule on pinned source evidence. This is an inconclusive corpus result, not a ParallelPlugin value verdict. [Terminal synthesis](../../research/production-scale-verdict.md)
+Status: historical screen, superseded for Cloudflare Docs on 2026-07-12. The search universe and three-candidate order were frozen in commit `dc89184`, and this ledger accurately records why the old rule rejected all three candidates. Yunfei then corrected the rule: an original Astro/Vite/Rollup build is not a reason to reject a real workload when the relevant stage can be adapted to direct Rolldown and ordinary-versus-parallel Rolldown remains the worker attribution boundary. Cloudflare Docs is therefore reopened in [the active adaptation record](./cloudflare-mdx-rolldown.md). Gutenberg and Kibana have not been reopened.
 
 ## Screening protocol
 
@@ -11,7 +11,7 @@ Status: complete. The search universe and three-candidate order were frozen in c
 
 ## Candidate 1: Cloudflare Docs
 
-Disposition: rejected on 2026-07-12 at admission rule 1. No dependency installation, local build, adaptation, or local timing was performed.
+Disposition: the original rejection is superseded. A dependency installation, unmodified local Astro build, and direct-Rolldown ordinary/ParallelPlugin MDX adaptation started on 2026-07-12. The ledger below is retained as the historical decision, not the active disposition.
 
 ### Pin and public evidence
 

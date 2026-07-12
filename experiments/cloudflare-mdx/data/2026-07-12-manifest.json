@@ -1,0 +1,172 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-07-12T03:54:52.550Z",
+  "project": {
+    "commit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+    "status": "",
+    "productionMdx": {
+      "files": 9157,
+      "bytes": 32619831,
+      "lines": 754414,
+      "approximateFencedCodeBlocks": 16378,
+      "manifestSha256": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "collections": {
+        "changelog": {
+          "files": 988,
+          "bytes": 1942596,
+          "lines": 38784,
+          "fencedMarkers": 1146
+        },
+        "compatibility-flags": {
+          "files": 1,
+          "bytes": 2792,
+          "lines": 34,
+          "fencedMarkers": 0
+        },
+        "docs": {
+          "files": 6719,
+          "bytes": 28050106,
+          "lines": 660909,
+          "fencedMarkers": 29671
+        },
+        "partials": {
+          "files": 1449,
+          "bytes": 2624337,
+          "lines": 54687,
+          "fencedMarkers": 1948
+        }
+      },
+      "largest": [
+        {
+          "path": "src/content/docs/warp-client/legal/3rdparty.mdx",
+          "bytes": 606036,
+          "lines": 11364
+        },
+        {
+          "path": "src/content/docs/realtime/realtimekit/legal/3rdparty.mdx",
+          "bytes": 500295,
+          "lines": 10883
+        },
+        {
+          "path": "src/content/docs/reference-architecture/architectures/load-balancing.mdx",
+          "bytes": 93202,
+          "lines": 782
+        },
+        {
+          "path": "src/content/docs/reference-architecture/architectures/sase.mdx",
+          "bytes": 91630,
+          "lines": 700
+        },
+        {
+          "path": "src/content/docs/rules/reference/page-rules-migration.mdx",
+          "bytes": 79284,
+          "lines": 1476
+        },
+        {
+          "path": "src/content/docs/reference-architecture/architectures/security.mdx",
+          "bytes": 78674,
+          "lines": 650
+        },
+        {
+          "path": "src/content/docs/workers/wrangler/configuration.mdx",
+          "bytes": 78201,
+          "lines": 1917
+        },
+        {
+          "path": "src/content/docs/realtime/realtimekit/core/meeting-object-explained.mdx",
+          "bytes": 76247,
+          "lines": 2254
+        },
+        {
+          "path": "src/content/partials/fundamentals/account-permissions-table.mdx",
+          "bytes": 75871,
+          "lines": 183
+        },
+        {
+          "path": "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+          "bytes": 73642,
+          "lines": 1773
+        },
+        {
+          "path": "src/content/docs/cloudflare-one/access-controls/ai-controls/mcp-portals.mdx",
+          "bytes": 70683,
+          "lines": 1086
+        },
+        {
+          "path": "src/content/docs/realtime/realtimekit/core/local-participant.mdx",
+          "bytes": 70438,
+          "lines": 2944
+        },
+        {
+          "path": "src/content/docs/r2/api/s3/api.mdx",
+          "bytes": 67937,
+          "lines": 166
+        },
+        {
+          "path": "src/content/docs/reference-architecture/design-guides/designing-ztna-access-policies.mdx",
+          "bytes": 62568,
+          "lines": 515
+        },
+        {
+          "path": "src/content/docs/reference-architecture/design-guides/zero-trust-for-startups.mdx",
+          "bytes": 62217,
+          "lines": 425
+        },
+        {
+          "path": "src/content/docs/cloudflare-one/networks/connectors/cloudflare-tunnel/downloads/copyrights.mdx",
+          "bytes": 60130,
+          "lines": 1197
+        },
+        {
+          "path": "src/content/docs/ddos-protection/advanced-ddos-systems/overview/programmable-flow-protection.mdx",
+          "bytes": 53609,
+          "lines": 1432
+        },
+        {
+          "path": "src/content/docs/durable-objects/best-practices/rules-of-durable-objects.mdx",
+          "bytes": 53364,
+          "lines": 1581
+        },
+        {
+          "path": "src/content/docs/cloudflare-one/team-and-resources/devices/user-side-certificates/manual-deployment.mdx",
+          "bytes": 51001,
+          "lines": 1322
+        },
+        {
+          "path": "src/content/partials/networking-services/mconn/configure-connectors.mdx",
+          "bytes": 50070,
+          "lines": 911
+        }
+      ]
+    },
+    "excludedRepositoryMdx": [
+      ".agents/skills/eli5/recommendations/internal-dns/index.eli5.mdx",
+      "templates/tutorial-template.mdx"
+    ],
+    "files": {
+      "packageJsonSha256": "9109282fc31d22ca3391f480cc993df5be41b834457f6ea04c0356320c205812",
+      "lockfileSha256": "f908eb3dab7cd3346887a6a6cc9b26c8f49015d891900612eb69b5bd94829e7c",
+      "astroConfigSha256": "406f150db49fce08fc0520ed909fa6342707dbb3eb3f81215e6ccf83c3869297",
+      "contentConfigSha256": "81679622ee4b23ba56aa6dc523a74b8fc068668387a4a9802e33e64384ad0d5d"
+    }
+  },
+  "rolldown": {
+    "commit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+    "status": "",
+    "distFiles": 46,
+    "distBytes": 17095127,
+    "distSha256": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+    "bindingSha256": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d"
+  },
+  "runtime": {
+    "node": "v24.18.0",
+    "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+    "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  }
+}

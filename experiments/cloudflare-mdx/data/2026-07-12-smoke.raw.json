@@ -1,0 +1,365 @@
+{
+  "schema": 1,
+  "executionScope": "local-only",
+  "startedAt": "2026-07-12T06:49:43.133Z",
+  "finishedAt": "2026-07-12T06:49:54.845Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "runner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-matrix.mjs",
+    "sha256": "6cfac30239cbe220c699a892028c2c35aeac6587a6305cc5feb6466b3a0966fc"
+  },
+  "caseRunner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-case.mjs",
+    "sha256": "4cc5a2fd46e9847ba1cd77c97be40f0648bf77679328c27017334b76c7909ea4"
+  },
+  "environment": {
+    "parentCiMarkers": {
+      "CI": null,
+      "GITHUB_ACTIONS": null,
+      "BUILDKITE": null,
+      "CIRCLECI": null,
+      "TF_BUILD": null,
+      "JENKINS_URL": null
+    },
+    "childCiMarkersCleared": [
+      "CI",
+      "GITHUB_ACTIONS",
+      "BUILDKITE",
+      "CIRCLECI",
+      "TF_BUILD",
+      "JENKINS_URL"
+    ],
+    "parentRunLinkCheck": null,
+    "childInputRunLinkCheck": null,
+    "runCaseProfilePolicy": {
+      "default": false,
+      "ci-link-check": true
+    }
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664,
+    "power": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true",
+    "atStart": {
+      "at": "2026-07-12T06:49:43.134Z",
+      "loadAverage": [
+        4.7685546875,
+        6.15283203125,
+        8.27734375
+      ],
+      "freeMemoryBytes": 85098496,
+      "uptimeSeconds": 1525898,
+      "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 516782174,
+        "pageouts": 2142141,
+        "swapins": 26079428,
+        "swapouts": 32344435,
+        "compressions": 1482620894,
+        "decompressions": 1241673363
+      },
+      "totalProcessCpuPercent": 246.29999999999995
+    },
+    "atFinish": {
+      "at": "2026-07-12T06:49:54.846Z",
+      "loadAverage": [
+        4.228515625,
+        5.96484375,
+        8.1728515625
+      ],
+      "freeMemoryBytes": 871776256,
+      "uptimeSeconds": 1525909,
+      "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 516786238,
+        "pageouts": 2142157,
+        "swapins": 26079487,
+        "swapouts": 32344435,
+        "compressions": 1482653887,
+        "decompressions": 1241674206
+      },
+      "totalProcessCpuPercent": 181.09999999999988
+    }
+  },
+  "matrix": {
+    "cases": [
+      {
+        "name": "docs-32",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "docs",
+        "limit": 32,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "worker-1",
+          "worker-2"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "hostPolicyViolations": [],
+  "validationErrors": [],
+  "rawOutputDifferences": [],
+  "runs": [
+    {
+      "name": "docs-32",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 475299840,
+      "hostBefore": {
+        "at": "2026-07-12T06:49:43.169Z",
+        "loadAverage": [
+          4.7685546875,
+          6.15283203125,
+          8.27734375
+        ],
+        "freeMemoryBytes": 88064000,
+        "uptimeSeconds": 1525898,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516782203,
+          "pageouts": 2142143,
+          "swapins": 26079428,
+          "swapouts": 32344435,
+          "compressions": 1482620894,
+          "decompressions": 1241673363
+        },
+        "totalProcessCpuPercent": 246.39999999999998
+      },
+      "hostAfter": {
+        "at": "2026-07-12T06:49:47.845Z",
+        "loadAverage": [
+          4.62646484375,
+          6.10009765625,
+          8.24609375
+        ],
+        "freeMemoryBytes": 617136128,
+        "uptimeSeconds": 1525902,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516785142,
+          "pageouts": 2142157,
+          "swapins": 26079475,
+          "swapouts": 32344435,
+          "compressions": 1482653887,
+          "decompressions": 1241673592
+        },
+        "totalProcessCpuPercent": 325.30000000000007
+      },
+      "hostPolicyViolations": [],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "docs",
+      "buildProfile": "default",
+      "effectiveRunLinkCheck": false,
+      "limit": 32,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 3026.875166,
+      "mainPluginConstructionElapsedMs": 2501.583458,
+      "rolldownCreateElapsedMs": 0.7765410000001793,
+      "generateAndWorkerLifecycleElapsedMs": 524.3577090000003,
+      "closeElapsedMs": 0.05004099999950995,
+      "cpuUserMs": 2190.075,
+      "cpuSystemMs": 833.344,
+      "finalRssBytes": 475185152,
+      "outputBytes": 421248,
+      "outputChunks": 32,
+      "outputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "normalizedOutputBytes": 421248,
+      "normalizedOutputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "docs-32",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 517685248,
+      "hostBefore": {
+        "at": "2026-07-12T06:49:47.870Z",
+        "loadAverage": [
+          4.62646484375,
+          6.10009765625,
+          8.24609375
+        ],
+        "freeMemoryBytes": 622362624,
+        "uptimeSeconds": 1525902,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516785145,
+          "pageouts": 2142157,
+          "swapins": 26079475,
+          "swapouts": 32344435,
+          "compressions": 1482653887,
+          "decompressions": 1241673592
+        },
+        "totalProcessCpuPercent": 325.30000000000007
+      },
+      "hostAfter": {
+        "at": "2026-07-12T06:49:51.269Z",
+        "loadAverage": [
+          4.3359375,
+          6.01513671875,
+          8.20361328125
+        ],
+        "freeMemoryBytes": 786481152,
+        "uptimeSeconds": 1525906,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516785513,
+          "pageouts": 2142157,
+          "swapins": 26079483,
+          "swapouts": 32344435,
+          "compressions": 1482653887,
+          "decompressions": 1241674028
+        },
+        "totalProcessCpuPercent": 220.30000000000004
+      },
+      "hostPolicyViolations": [],
+      "variant": "worker-1",
+      "workerCount": 1,
+      "workerModel": "rolldown",
+      "corpus": "docs",
+      "buildProfile": "default",
+      "effectiveRunLinkCheck": false,
+      "limit": 32,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 2246.824917,
+      "mainPluginConstructionElapsedMs": 1.1034169999998085,
+      "rolldownCreateElapsedMs": 0.6780410000001211,
+      "generateAndWorkerLifecycleElapsedMs": 2239.956084,
+      "closeElapsedMs": 4.768125000000055,
+      "cpuUserMs": 2115.472,
+      "cpuSystemMs": 651.91,
+      "finalRssBytes": 456704000,
+      "outputBytes": 421248,
+      "outputChunks": 32,
+      "outputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "normalizedOutputBytes": 421248,
+      "normalizedOutputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "docs-32",
+      "index": 0,
+      "sequence": 2,
+      "peakRssBytes": 764215296,
+      "hostBefore": {
+        "at": "2026-07-12T06:49:51.293Z",
+        "loadAverage": [
+          4.3359375,
+          6.01513671875,
+          8.20361328125
+        ],
+        "freeMemoryBytes": 795672576,
+        "uptimeSeconds": 1525906,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516785516,
+          "pageouts": 2142157,
+          "swapins": 26079483,
+          "swapouts": 32344435,
+          "compressions": 1482653887,
+          "decompressions": 1241674028
+        },
+        "totalProcessCpuPercent": 258.70000000000005
+      },
+      "hostAfter": {
+        "at": "2026-07-12T06:49:54.821Z",
+        "loadAverage": [
+          4.228515625,
+          5.96484375,
+          8.1728515625
+        ],
+        "freeMemoryBytes": 870236160,
+        "uptimeSeconds": 1525909,
+        "swapUsage": "total = 24576.00M  used = 23054.69M  free = 1521.31M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 516786234,
+          "pageouts": 2142157,
+          "swapins": 26079487,
+          "swapouts": 32344435,
+          "compressions": 1482653887,
+          "decompressions": 1241674206
+        },
+        "totalProcessCpuPercent": 181.09999999999988
+      },
+      "hostPolicyViolations": [],
+      "variant": "worker-2",
+      "workerCount": 2,
+      "workerModel": "rolldown",
+      "corpus": "docs",
+      "buildProfile": "default",
+      "effectiveRunLinkCheck": false,
+      "limit": 32,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 1991.2945419999999,
+      "mainPluginConstructionElapsedMs": 1.1234170000000177,
+      "rolldownCreateElapsedMs": 0.7256250000000364,
+      "generateAndWorkerLifecycleElapsedMs": 1984.3594999999998,
+      "closeElapsedMs": 4.731999999999971,
+      "cpuUserMs": 3722.877,
+      "cpuSystemMs": 1392.83,
+      "finalRssBytes": 678576128,
+      "outputBytes": 421248,
+      "outputChunks": 32,
+      "outputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "normalizedOutputBytes": 421248,
+      "normalizedOutputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 0,
+        "files": []
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    }
+  ]
+}

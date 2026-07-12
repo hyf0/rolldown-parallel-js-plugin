@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "kind": "cloudflare_docs_astro_mdx_handler_id_set_validation",
+  "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+  "counterArtifact": "2026-07-12-astro-local-mdx-counter-run/mdx-transform-counter.json",
+  "source": {
+    "root": "src/content",
+    "glob": "*.mdx",
+    "files": 9157,
+    "sortedAbsolutePathBytes": 1417724,
+    "sortedAbsolutePathSha256": "e2c96d7aae510582c31e04b3fcb43afc41f44edf21b8aa6d08e052df9658ac54"
+  },
+  "observed": {
+    "calls": 9157,
+    "completed": 9157,
+    "failed": 0,
+    "distinctIds": 9157,
+    "sortedAbsoluteIdBytes": 1417724,
+    "sortedAbsoluteIdSha256": "e2c96d7aae510582c31e04b3fcb43afc41f44edf21b8aa6d08e052df9658ac54"
+  },
+  "onlyInSource": 0,
+  "onlyInObserved": 0,
+  "setsEqual": true,
+  "benchmarkEligible": false
+}

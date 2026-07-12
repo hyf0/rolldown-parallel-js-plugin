@@ -1,0 +1,640 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T04:05:34.505Z",
+  "finishedAt": "2026-07-12T04:05:41.240Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "matrix": {
+    "cases": [
+      {
+        "name": "docs-32-instrumented",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "docs",
+        "limit": 32,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-2"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "runs": [
+    {
+      "name": "docs-32-instrumented",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 492716032,
+      "variant": "ordinary",
+      "workerCount": 0,
+      "corpus": "docs",
+      "limit": 32,
+      "instrumentation": true,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 2472.1476249999996,
+      "mainPluginConstructionElapsedMs": 1991.1234160000001,
+      "rolldownCreateElapsedMs": 0.7514999999998508,
+      "generateAndWorkerLifecycleElapsedMs": 480.12741600000027,
+      "closeElapsedMs": 0.04383399999960602,
+      "cpuUserMs": 2161.023,
+      "cpuSystemMs": 713.889,
+      "finalRssBytes": 492584960,
+      "outputBytes": 421248,
+      "outputChunks": 32,
+      "outputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "metrics": {
+        "factoryCalls": 1,
+        "workerMask": "1",
+        "initializationMsTotal": 1990.978083,
+        "initializationMsMax": 1990.978083,
+        "handlerCalls": 32,
+        "inputBytes": 108591,
+        "outputBytes": 424751,
+        "serviceMsTotal": 2861.034123,
+        "serviceMsMax": 375.256375,
+        "active": 0,
+        "maxActive": 11,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 32,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          32,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-over-discord.mdx",
+            "hits": 1,
+            "serviceMs": 375.256375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/ipv6-networks.mdx",
+            "hits": 1,
+            "serviceMs": 284.963916,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/index.mdx",
+            "hits": 1,
+            "serviceMs": 261.564625,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-in-google-sheets.mdx",
+            "hits": 1,
+            "serviceMs": 248.021916,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/dns-json.mdx",
+            "hits": 1,
+            "serviceMs": 242.691667,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/index.mdx",
+            "hits": 1,
+            "serviceMs": 235.4665,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/dns-wireformat.mdx",
+            "hits": 1,
+            "serviceMs": 231.894458,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-over-tor.mdx",
+            "hits": 1,
+            "serviceMs": 207.9345,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/extended-dns-error-codes.mdx",
+            "hits": 1,
+            "serviceMs": 206.598125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/dns-over-https-client.mdx",
+            "hits": 1,
+            "serviceMs": 203.072125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-tls.mdx",
+            "hits": 1,
+            "serviceMs": 193.098375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/index.mdx",
+            "hits": 1,
+            "serviceMs": 79.456375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/gaming-consoles.mdx",
+            "hits": 1,
+            "serviceMs": 15.555834,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/public-dns-resolver.mdx",
+            "hits": 1,
+            "serviceMs": 8.284958,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/ios.mdx",
+            "hits": 1,
+            "serviceMs": 6.844958,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/android.mdx",
+            "hits": 1,
+            "serviceMs": 6.817958,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/encrypted-dns-browsers.mdx",
+            "hits": 1,
+            "serviceMs": 6.631875,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/network-operators.mdx",
+            "hits": 1,
+            "serviceMs": 6.11175,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/faq.mdx",
+            "hits": 1,
+            "serviceMs": 5.488875,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/cloudflare-resolver-firefox.mdx",
+            "hits": 1,
+            "serviceMs": 5.183875,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/ip-addresses.mdx",
+            "hits": 1,
+            "serviceMs": 4.894167,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/google-cloud.mdx",
+            "hits": 1,
+            "serviceMs": 4.692292,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/oblivious-dns-over-https.mdx",
+            "hits": 1,
+            "serviceMs": 4.298041,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/index.mdx",
+            "hits": 1,
+            "serviceMs": 3.862416,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dnskey.mdx",
+            "hits": 1,
+            "serviceMs": 2.550792,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.957334,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/check.mdx",
+            "hits": 1,
+            "serviceMs": 1.596833,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.593292,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/azure.mdx",
+            "hits": 1,
+            "serviceMs": 1.474125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.328583,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/sla-and-support.mdx",
+            "hits": 1,
+            "serviceMs": 1.220041,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/index.mdx",
+            "hits": 1,
+            "serviceMs": 0.627167,
+            "worker": 0
+          }
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "docs-32-instrumented",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 765198336,
+      "variant": "worker-2",
+      "workerCount": 2,
+      "corpus": "docs",
+      "limit": 32,
+      "instrumentation": true,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 32,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 2121.891208,
+      "mainPluginConstructionElapsedMs": 0.9923330000000306,
+      "rolldownCreateElapsedMs": 0.6361249999999927,
+      "generateAndWorkerLifecycleElapsedMs": 2114.363375,
+      "closeElapsedMs": 5.610874999999851,
+      "cpuUserMs": 4017.881,
+      "cpuSystemMs": 1364.76,
+      "finalRssBytes": 678887424,
+      "outputBytes": 421248,
+      "outputChunks": 32,
+      "outputHash": "d522bb8fed5f88450bd6d8a3a9675ff75cd5b80139e0aab1dafbba96932151b4",
+      "metrics": {
+        "factoryCalls": 2,
+        "workerMask": "3",
+        "initializationMsTotal": 3535.192292,
+        "initializationMsMax": 1768.159584,
+        "handlerCalls": 32,
+        "inputBytes": 108591,
+        "outputBytes": 424751,
+        "serviceMsTotal": 581.756753,
+        "serviceMsMax": 209.241209,
+        "active": 0,
+        "maxActive": 2,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 32,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          5,
+          27,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-in-google-sheets.mdx",
+            "hits": 1,
+            "serviceMs": 209.241209,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/oblivious-dns-over-https.mdx",
+            "hits": 1,
+            "serviceMs": 61.532667,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/dns-json.mdx",
+            "hits": 1,
+            "serviceMs": 56.27875,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/check.mdx",
+            "hits": 1,
+            "serviceMs": 54.61,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/dns-wireformat.mdx",
+            "hits": 1,
+            "serviceMs": 22.037959,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-over-discord.mdx",
+            "hits": 1,
+            "serviceMs": 16.869083,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-over-tor.mdx",
+            "hits": 1,
+            "serviceMs": 16.2165,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/extended-dns-error-codes.mdx",
+            "hits": 1,
+            "serviceMs": 15.887084,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/gaming-consoles.mdx",
+            "hits": 1,
+            "serviceMs": 11.728083,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/public-dns-resolver.mdx",
+            "hits": 1,
+            "serviceMs": 11.273584,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-tls.mdx",
+            "hits": 1,
+            "serviceMs": 11.250417,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/faq.mdx",
+            "hits": 1,
+            "serviceMs": 8.843292,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/android.mdx",
+            "hits": 1,
+            "serviceMs": 8.652209,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/dns-over-https-client.mdx",
+            "hits": 1,
+            "serviceMs": 8.314792,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/index.mdx",
+            "hits": 1,
+            "serviceMs": 7.744,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/ios.mdx",
+            "hits": 1,
+            "serviceMs": 7.511666,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/network-operators.mdx",
+            "hits": 1,
+            "serviceMs": 6.749833,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/ip-addresses.mdx",
+            "hits": 1,
+            "serviceMs": 6.64025,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/cloudflare-resolver-firefox.mdx",
+            "hits": 1,
+            "serviceMs": 5.768,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/encrypted-dns-browsers.mdx",
+            "hits": 1,
+            "serviceMs": 5.172125,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/make-api-requests/index.mdx",
+            "hits": 1,
+            "serviceMs": 4.114375,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/index.mdx",
+            "hits": 1,
+            "serviceMs": 4.08,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dnskey.mdx",
+            "hits": 1,
+            "serviceMs": 3.137167,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/google-cloud.mdx",
+            "hits": 1,
+            "serviceMs": 3.089333,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/index.mdx",
+            "hits": 1,
+            "serviceMs": 3.083792,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/ipv6-networks.mdx",
+            "hits": 1,
+            "serviceMs": 2.953541,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/sla-and-support.mdx",
+            "hits": 1,
+            "serviceMs": 1.859334,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/setup/azure.mdx",
+            "hits": 1,
+            "serviceMs": 1.647292,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/privacy/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.572792,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/infrastructure/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.42675,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/encryption/dns-over-https/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.305708,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/index.mdx",
+            "hits": 1,
+            "serviceMs": 1.165166,
+            "worker": 1
+          }
+        ]
+      },
+      "rustMetrics": [
+        {
+          "kind": "rolldown_parallel_plugin_transform_metrics",
+          "version": 1,
+          "plugin": "cloudflare-mdx",
+          "workerCount": 2,
+          "wrapperCalls": 33,
+          "permitAcquiredCalls": 33,
+          "completedWrapperCalls": 33,
+          "permitQueueWaitNs": {
+            "total": 5932325294,
+            "max": 295959959
+          },
+          "permitHeldNs": {
+            "total": 590337958,
+            "max": 209560917
+          },
+          "permitQueuePending": {
+            "current": 0,
+            "max": 30
+          },
+          "wrapperOutstanding": {
+            "current": 0,
+            "max": 32
+          },
+          "permitInFlight": {
+            "current": 0,
+            "max": 2
+          },
+          "wrapperInputCodeBytes": 112875,
+          "returnedCodeBytes": 424751,
+          "valueResults": 32,
+          "nullResults": 1,
+          "errorResults": 0,
+          "cancelledBeforeAcquire": 0,
+          "cancelledDuringService": 0
+        }
+      ],
+      "lifecycleMetrics": [
+        {
+          "kind": "rolldown_parallel_plugin_init_metrics",
+          "version": 1,
+          "workerCount": 2,
+          "pluginCount": 1,
+          "poolInitializationMs": 1809.748084,
+          "rssBeforeBytes": 117489664,
+          "rssAfterBytes": 659521536,
+          "workers": [
+            {
+              "threadNumber": 0,
+              "mainReadyMs": 1809.1824579999998,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1771.9126660000002,
+                "registerPluginsMs": 0.08758299999999508,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 2.8550840000000335,
+                    "factoryMs": 1768.2681249999998,
+                    "bindingifyMs": 0.6554169999999431
+                  }
+                ]
+              }
+            },
+            {
+              "threadNumber": 1,
+              "mainReadyMs": 1807.3349589999998,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1770.2254590000002,
+                "registerPluginsMs": 0.16937499999994543,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 2.2072090000000344,
+                    "factoryMs": 1767.1405,
+                    "bindingifyMs": 0.6647500000003674
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "rolldown_parallel_plugin_termination_metrics",
+          "version": 1,
+          "workerCount": 2,
+          "poolTerminationMs": 5.409499999999753,
+          "rssBeforeBytes": 765034496,
+          "rssAfterBytes": 678854656
+        }
+      ]
+    }
+  ]
+}

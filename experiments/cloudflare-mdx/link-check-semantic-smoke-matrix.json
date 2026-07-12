@@ -1,0 +1,16 @@
+{
+  "cases": [
+    {
+      "name": "docs-32-link-check-semantic-probe",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "docs",
+      "buildProfile": "ci-link-check",
+      "limit": 32,
+      "instrumentation": false,
+      "variants": ["ordinary", "managed-2", "worker-2"],
+      "warmups": 0,
+      "repeats": 1
+    }
+  ]
+}

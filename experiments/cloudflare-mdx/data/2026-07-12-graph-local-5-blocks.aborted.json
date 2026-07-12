@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "kind": "local_graph_matrix_aborted",
+  "recordedAt": "2026-07-12T06:28:26Z",
+  "command": [
+    "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+    "experiments/cloudflare-mdx/run-graph-matrix.mjs",
+    "experiments/cloudflare-mdx/graph-formal-matrix.json",
+    "experiments/cloudflare-mdx/data/2026-07-12-graph-local-5-blocks.raw.json"
+  ],
+  "executionScope": "local-only",
+  "activeCiMarkers": [],
+  "exitCode": 1,
+  "interruption": "SIGINT",
+  "partialRawArtifactWritten": false,
+  "reason": "The fourth rotated block's worker-4 process remained active after 103 seconds while host load reached 38.51, free pages fell to 3582 at 16384 bytes per page, and the host continued swapping. Remaining samples would measure memory thrashing rather than the intended graph execution.",
+  "hostAtInterruption": {
+    "loadAverage": [38.51, 17.77, 13.22],
+    "swapUsage": "total = 25600.00M used = 24724.50M free = 875.50M encrypted",
+    "pageSizeBytes": 16384,
+    "freePages": 3582,
+    "pagesOccupiedByCompressor": 949017,
+    "pageouts": 2140730,
+    "swapins": 25923833,
+    "swapouts": 32269792
+  },
+  "measurementUse": "None. Completed in-memory samples were discarded with the runner and no graph timing conclusion is drawn from this attempt.",
+  "benchmarkEligible": false
+}

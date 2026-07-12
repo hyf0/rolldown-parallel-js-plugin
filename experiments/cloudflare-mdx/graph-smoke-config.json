@@ -1,0 +1,17 @@
+{
+  "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+  "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+  "variants": ["ordinary", "managed-2", "worker-2"],
+  "corpus": "graph-smoke",
+  "runLinkCheck": false,
+  "instrumentation": false,
+  "rawParityRequired": true,
+  "entries": [
+    "src/content/docs/workers/index.mdx",
+    "src/content/docs/style-guide/components/render.mdx",
+    "src/content/docs/images/optimization/draw-overlays.mdx",
+    "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+    "src/content/docs/realtime/realtimekit/ui-kit/index.mdx"
+  ],
+  "fixedNow": "2026-07-12T00:00:00.000Z"
+}

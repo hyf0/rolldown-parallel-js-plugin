@@ -1,6 +1,6 @@
 # Production-Scale Parallel JavaScript Transform Goal
 
-Status: terminal inconclusive-corpus outcome on 2026-07-12. The finite [candidate-search manifest](./production-candidate-search.md) was frozen before deep screening. Cloudflare Docs, Gutenberg, and Kibana all failed the first admission rule because their production builds use Astro/Vite/Rollup, a multi-stage esbuild workflow, and webpack or Rspack respectively rather than direct Rolldown. No candidate entered adaptation or implementation. The completed mechanism-scale research remains evidence, but it does not satisfy this production-scale goal. [Production-scale verdict](../../research/production-scale-verdict.md)
+Status: the Cloudflare high-volume transform-stage study completed locally on 2026-07-12, but this complete-build goal is not satisfied. Cloudflare reaches the distinct-module and repeated stage-speedup thresholds, fails the complete-build time-share gate, violates the intended clean-host policy, lacks shared/exclusive and multi-plugin evidence, and fails semantic closure. This document remains the durable specification for a later complete-build and placement iteration. [Cloudflare adaptation](./cloudflare-mdx-rolldown.md)
 
 ## Outcome
 
@@ -12,6 +12,12 @@ The product question is broader than Vue or Svelte. Projects cannot reasonably r
 
 The product claim must separate the value of JavaScript worker execution from the additional value of Rolldown-owned coordination. A plugin-managed `worker_threads` pool using the same JavaScript kernel is therefore an alternative baseline, not an implementation detail that may be omitted.
 
+## First production-stage disposition
+
+Cloudflare's 9,157 real production MDX transforms pass the volume and JavaScript-work gates. Ten rotated local default-profile blocks show a 2.178x paired median speedup for Rolldown-managed four-worker execution and 2.386x for a plugin-managed four-worker pool, with normalized output parity. The host violated the predeclared pageout, swapout, and background-load policy, so this is strong repeated local evidence rather than clean-host formal confirmation. The direct stage falls from a 63.089-second median to 28.226 seconds, but the original local Astro reference is 689.01 seconds and route rendering dominates much of the remainder. The workload therefore cannot support the requested 15→7–8 or 30→15 minute complete-build result.
+
+The run also fails the semantic and product gates: ParallelPlugin observably drops Astro metadata, isolate-local link-validation state is not reduced, Cloudflare diagnostics and crash semantics remain untested, earlier fixtures show degraded attribution, resource use rises, and eight workers regress. The next iteration must treat shared versus exclusive placement, several-plugin execution, deterministic reduction, and ordinary-equivalent errors as primary requirements. All timing comparisons were launched locally; the direct artifacts record `RUN_LINK_CHECK=false`, but the earlier kernel runner did not persist `CI`.
+
 ## Why another iteration is required
 
 The completed cases establish execution mechanics, fixed cost, crossover, main-thread isolation, state risks, and opposite real-compiler outcomes. They are too short to answer the intended production-scale question: the 166-SFC Vue build is about 316 ms, the graph-preserving Svelte build about 596 ms, and the isolated 1,340-SFC Svelte fixture about 2.1 seconds ordinary.
@@ -20,9 +26,9 @@ Measured fresh pool and plugin initialization is roughly 100–400 ms for the re
 
 ## Workload admission gate
 
-A candidate enters adaptation only when the unmodified ordinary build proves all of the following:
+A candidate enters adaptation when source evidence and an initial ordinary reference prove all of the following:
 
-- It uses Rolldown directly on the latest Node.js LTS available when this `/goal` started, pins the exact patch, and has a stable 15–30 minute production-build baseline under a representative pinned developer or CI allocation. Artificial CPU throttling or memory pressure introduced only to reach the duration does not qualify. This iteration does not run a Node.js version matrix.
+- It has a pinned production reference with enough real duration and transform volume to justify adaptation, and the experiment can express the target build stage through direct Rolldown on the latest Node.js LTS patch. If the source project uses another bundler, preserve that command as a separate reference and establish ordinary direct Rolldown before ParallelPlugin; never attribute migration or graph-adaptation gains to workers. Artificial CPU throttling or memory pressure introduced only to reach the duration does not qualify. This iteration does not run a Node.js version matrix.
 - It is one real project or monorepo build using the original module relationships and production plugin configuration. It does not join unrelated repositories, duplicate source files, manufacture extra outputs, or otherwise add work only to reach the target duration.
 - A required JavaScript plugin or transform chain owns the expensive path. The plugin is retained because its JavaScript behavior, configuration, callbacks, ecosystem extensions, or maintenance model makes a wholesale Rust rewrite an unrealistic product answer.
 - Roughly 5,000 distinct project module IDs execute the target expensive transform. Each hit is counted at the actual handler boundary; total invocations, repeated target or output invocations, misses, and bypassed cache paths are reported separately and cannot substitute for the distinct-module count.
@@ -125,9 +131,9 @@ Before formal shared-group measurement, freeze the queue and fairness policy in 
 
 ## Resource and success envelope
 
-Pin one dedicated representative host or CI allocation before formal runs, including its CPU quota, memory limit, power mode, thermal conditions, operating-system version, and background-load policy. Do not throttle it merely to make the ordinary build last 15–30 minutes. The ordinary and every worker variant use the same total CPU and memory envelope, must not swap, and may redistribute that CPU budget between Rolldown Rust threads and JavaScript workers only through a recorded configuration.
+Pin one dedicated representative local host before formal runs, including its CPU availability, memory limit, power mode, thermal conditions, operating-system version, and background-load policy. Do not throttle it merely to make the ordinary build last 15–30 minutes. The ordinary and every worker variant use the same total CPU and memory envelope, must not swap, and may redistribute that CPU budget between Rolldown Rust threads and JavaScript workers only through a recorded configuration.
 
-The primary metric is complete-build wall time in minutes. CPU-minutes, peak RSS, retained RSS, and machine interference are co-equal resource results rather than caveats. Before parallel runs, derive separate CPU-minute, peak-RSS, and retained-RSS acceptance or review thresholds from the pinned developer or CI allocation and its real headroom; do not choose them after seeing the variants. A variant that needs a larger host allocation than the ordinary production target is a conditional resource-for-time result, not the primary 2x success. Report CPU and memory classifications separately rather than collapsing them into one resource label.
+The primary metric is complete-build wall time in minutes. CPU-minutes, peak RSS, retained RSS, and machine interference are co-equal resource results rather than caveats. Before parallel runs, derive separate CPU-minute, peak-RSS, and retained-RSS acceptance or review thresholds from the pinned local host and its real headroom; do not choose them after seeing the variants. A variant that needs a larger host allocation than the ordinary production target is a conditional resource-for-time result, not the primary 2x success. Report CPU and memory classifications separately rather than collapsing them into one resource label.
 
 Main-thread event-loop isolation remains a secondary result. It may justify a one-worker mode for a different product need, but it cannot rescue a negative 2x production-build verdict.
 
@@ -208,4 +214,4 @@ When no candidate passes admission, completion instead requires the predeclared 
 - Starting new production-scale `resolveId` or `load` performance studies. Transform-time calls to `this.resolve` or `this.load` remain in scope only as coordinator-boundary, reentrancy, overhead, and correctness requirements for the admitted transform.
 - Dynamic migration of a live plugin instance, public placement syntax, automatic crash retry, a purity-declaration API, and cross-process global worker management.
 - Requiring second-hardware replication, a Node.js version matrix, or cross-platform generalization in this iteration.
-- Running any candidate measurement before Yunfei started this `/goal`. Candidate screening and the ordinary long-running trace are now allowed because they determine whether the admission gate passes; plugin adaptation, parallel implementation, and the full shared/exclusive matrix wait until that gate passes.
+- Using public CI timing or a CI-only plugin profile as a substitute for local benchmark data. CI-specific runs may expose semantic behavior, but their timing remains outside the local comparison.

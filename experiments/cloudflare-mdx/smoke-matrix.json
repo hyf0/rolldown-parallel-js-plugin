@@ -1,0 +1,15 @@
+{
+  "cases": [
+    {
+      "name": "docs-32",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "docs",
+      "limit": 32,
+      "instrumentation": false,
+      "variants": ["ordinary", "worker-1", "worker-2"],
+      "warmups": 0,
+      "repeats": 1
+    }
+  ]
+}

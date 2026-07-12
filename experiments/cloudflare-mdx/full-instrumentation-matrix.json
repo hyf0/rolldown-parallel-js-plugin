@@ -1,0 +1,15 @@
+{
+  "cases": [
+    {
+      "name": "production-mdx-full-instrumentation",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "production-mdx",
+      "limit": 0,
+      "instrumentation": true,
+      "variants": ["ordinary", "worker-4"],
+      "warmups": 0,
+      "repeats": 1
+    }
+  ]
+}

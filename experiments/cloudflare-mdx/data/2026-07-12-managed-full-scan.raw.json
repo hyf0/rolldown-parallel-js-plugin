@@ -1,0 +1,165 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T04:31:19.813Z",
+  "finishedAt": "2026-07-12T04:31:47.114Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664,
+    "power": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true",
+    "atStart": {
+      "at": "2026-07-12T04:31:19.814Z",
+      "loadAverage": [
+        4.23046875,
+        4.94384765625,
+        5.77587890625
+      ],
+      "freeMemoryBytes": 819200000,
+      "uptimeSeconds": 1517594,
+      "swapUsage": "total = 17408.00M  used = 16294.12M  free = 1113.88M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 510604764,
+        "pageouts": 2102490,
+        "swapins": 25166575,
+        "swapouts": 30837713,
+        "compressions": 1425845402,
+        "decompressions": 1196873687
+      }
+    },
+    "atFinish": {
+      "at": "2026-07-12T04:31:47.114Z",
+      "loadAverage": [
+        6.78759765625,
+        5.49072265625,
+        5.94384765625
+      ],
+      "freeMemoryBytes": 4276862976,
+      "uptimeSeconds": 1517622,
+      "swapUsage": "total = 17408.00M  used = 16294.12M  free = 1113.88M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 510612014,
+        "pageouts": 2102637,
+        "swapins": 25167057,
+        "swapouts": 30837713,
+        "compressions": 1426329049,
+        "decompressions": 1196999641
+      }
+    }
+  },
+  "matrix": {
+    "cases": [
+      {
+        "name": "production-mdx-managed-full-scan",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "production-mdx",
+        "buildProfile": "default",
+        "limit": 0,
+        "instrumentation": false,
+        "variants": [
+          "managed-4"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "hostPolicyViolations": [],
+  "validationErrors": [],
+  "rawOutputDifferences": [],
+  "runs": [
+    {
+      "name": "production-mdx-managed-full-scan",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 3639885824,
+      "hostBefore": {
+        "at": "2026-07-12T04:31:19.829Z",
+        "loadAverage": [
+          4.23046875,
+          4.94384765625,
+          5.77587890625
+        ],
+        "freeMemoryBytes": 817283072,
+        "uptimeSeconds": 1517594,
+        "swapUsage": "total = 17408.00M  used = 16294.12M  free = 1113.88M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 510604767,
+          "pageouts": 2102490,
+          "swapins": 25166575,
+          "swapouts": 30837713,
+          "compressions": 1425845402,
+          "decompressions": 1196873687
+        }
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:31:47.110Z",
+        "loadAverage": [
+          6.78759765625,
+          5.49072265625,
+          5.94384765625
+        ],
+        "freeMemoryBytes": 4265721856,
+        "uptimeSeconds": 1517622,
+        "swapUsage": "total = 17408.00M  used = 16294.12M  free = 1113.88M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 510612010,
+          "pageouts": 2102637,
+          "swapins": 25167057,
+          "swapouts": 30837713,
+          "compressions": 1426329049,
+          "decompressions": 1196999517
+        }
+      },
+      "hostPolicyViolations": [],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 24695.527208000003,
+      "mainPluginConstructionElapsedMs": 2422.662041,
+      "rolldownCreateElapsedMs": 3.312750000000051,
+      "generateAndWorkerLifecycleElapsedMs": 22246.354584,
+      "closeElapsedMs": 0.2053330000017013,
+      "cpuUserMs": 115146.904,
+      "cpuSystemMs": 8376.278,
+      "finalRssBytes": 3635560448,
+      "outputBytes": 166149789,
+      "outputChunks": 9157,
+      "outputHash": "a1185894e598fec156ef0d884830b638e68e784b78c4b25b7ba3b995cff3cef8",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    }
+  ]
+}

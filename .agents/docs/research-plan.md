@@ -1,6 +1,12 @@
 # Research Plan
 
-This record separates the completed mechanism-scale sequence from the completed production-scale candidate iteration. Yunfei started its `/goal` on 2026-07-12; all three candidates failed rule 1, so the terminal outcome is an inconclusive corpus and implementation never opened.
+This record separates the completed mechanism-scale sequence, the superseded candidate screen, and the completed 2026-07-12 Cloudflare Docs transform-stage study. Yunfei corrected the screen's requirement that every source project already use Rolldown. The completed adaptation keeps the original Astro build separate and measures worker value only between ordinary and worker-backed direct Rolldown. Its result and remaining product work are in [the Cloudflare adaptation record](./cloudflare-mdx-rolldown.md).
+
+## Completed Cloudflare high-volume transform-stage study
+
+Status: the Cloudflare study is complete for the local default profile; the production-scale complete-build goal is not. The adapter ran Cloudflare's production MDX chain over 9,157 distinct sources, added a plugin-managed worker control, completed ten rotated wall-time blocks, instrumented exact handler and worker behavior, retained the project-local server graph in a separate scan, and measured the original local Astro build. Four workers reduce the repeated direct stage by more than 2x, but do not make the complete Astro build 2x faster and do not establish an incremental Rolldown-managed advantage over the plugin-owned pool. Metadata, state reduction, diagnostic and failure parity, and resource policy remain blockers rather than hidden follow-up details.
+
+The next iteration is a product-contract and workload-selection study, not another Cloudflare timing sweep. It should admit a 15–30 minute direct-Rolldown case only after measuring that required JavaScript transforms occupy enough of the critical path, then compare plugin-owned pools, Rolldown-managed shared placement, explicit exclusive placement, and an optional same-worker ordered transform chain under one local CPU and memory budget. Vite, CI benchmarking, watch, rebuild, development servers, and HMR remain outside scope.
 
 ## Completed first-iteration order
 
@@ -67,9 +73,9 @@ Status: complete. The [isolated Svelte result](../../experiments/svelte-transfor
 - Add `resolveId` and `load` evidence after the transform verdict and measure each hook separately. Use the earlier surveys to select honest direct-Rolldown fixtures rather than artificial delay or Vite projects.
 - A negative core or Vue result may narrow the later matrices, but it does not remove the required Svelte experiment or separate hook conclusions.
 
-## Completed production-scale candidate iteration: required high-frequency JavaScript transform
+## Superseded production-scale candidate screen: required high-frequency JavaScript transform
 
-Status: Phase A complete with an inconclusive corpus result. The finite [candidate-search manifest](./production-candidate-search.md) is frozen with Cloudflare Docs, Gutenberg, and Kibana as the only deep-screen candidates. All three failed rule 1 because their production builds are Astro/Vite/Rollup, a multi-stage esbuild workflow, and webpack or Rspack rather than direct Rolldown. The [admission ledger](./production-candidate-screening.md) marks every later rule not evaluated. Phases B through F did not start because no candidate was admitted. Existing Vue and Svelte results remain controls and mechanism evidence; their subsecond or two-second builds cannot satisfy this iteration.
+Status: the frozen screen and its evidence remain complete, but its disposition is superseded for Cloudflare Docs. Gutenberg and Kibana remain unevaluated beyond the historical rule-1 rejection. Cloudflare proceeds through the separately recorded adapted build-stage sequence, and no result from that adaptation may be called an unchanged full-project build.
 
 ### Phase A: candidate admission
 
@@ -84,7 +90,7 @@ Status: Phase A complete with an inconclusive corpus result. The finite [candida
 
 ### Phase B: ordinary production trace
 
-- Pin one dedicated representative host or CI allocation, CPU and memory quotas, power and thermal policy, background-load policy, and a no-swap requirement before formal measurement; do not throttle the host merely to reach the target duration. Before parallel runs, derive separate CPU-minute, peak-RSS, and retained-RSS acceptance or review thresholds from that allocation and its real headroom.
+- Pin one dedicated representative local host, CPU and memory availability, power and thermal policy, background-load policy, and a no-swap requirement before formal measurement; do not throttle the host merely to reach the target duration. Before parallel runs, derive separate CPU-minute, peak-RSS, and retained-RSS acceptance or review thresholds from that host and its real headroom.
 - Separate instrumented attribution from uninstrumented wall confirmation. Record target-transform hit, miss, and cache-path counts; per-call cost distribution; ready-call width over time; queue-free ordinary service; Node main-thread CPU; Rust and native CPU where observable; RSS over time; garbage collection; source and source-map bytes; warnings; errors; output; and shutdown in the attribution run, then quantify instrumentation overhead.
 - Establish repeated absolute wall time and environmental variance before any worker change. The intended result is expressed as minutes, not only a ratio. Formal confirmation uses rotated blocks containing ordinary, the best eligible plugin-owned variant, and the best eligible Rolldown-owned variant. Run at least five blocks; if any required ordinary-to-variant 95% paired interval crosses the 2x target or the direct Rolldown-owned-to-plugin-owned interval crosses parity, continue to a maximum of ten, after which the affected wall or incremental-value claim remains inconclusive rather than being decided from the median alone.
 - Prove that the expensive time is synchronous JavaScript on the critical path and that the machine has CPU capacity workers can use.

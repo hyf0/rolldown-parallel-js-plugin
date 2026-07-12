@@ -1,0 +1,16 @@
+{
+  "cases": [
+    {
+      "name": "production-mdx-managed-full-scan",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "variants": ["managed-4"],
+      "warmups": 0,
+      "repeats": 1
+    }
+  ]
+}

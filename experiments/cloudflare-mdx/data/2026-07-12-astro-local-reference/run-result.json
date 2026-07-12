@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T05:39:00.154Z",
+  "finishedAt": "2026-07-12T05:50:30.004Z",
+  "elapsedMs": 689849,
+  "profile": "default",
+  "exitCode": 0,
+  "buildExitCode": 0,
+  "buildSignal": null,
+  "forwardedSignal": null,
+  "spawnError": null,
+  "artifacts": {
+    "provenance": "provenance.json",
+    "resources": "resources.txt",
+    "stdout": "build.stdout.log",
+    "stderr": "build.stderr.log",
+    "timestamped": "build.timestamped.jsonl",
+    "processTree": "process-tree.tsv"
+  }
+}

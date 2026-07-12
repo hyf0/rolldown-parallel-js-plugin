@@ -1,0 +1,23 @@
+{
+  "hostPolicy": {
+    "power": "AC Power",
+    "cooldownMs": 15000,
+    "maxStartExternalCpuPercent": 300,
+    "maxSwapoutDeltaPages": 0,
+    "maxPageoutDeltaPages": 0
+  },
+  "cases": [
+    {
+      "name": "production-mdx-formal-kernel",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "variants": ["ordinary", "managed-4", "worker-4"],
+      "warmups": 1,
+      "repeats": 5
+    }
+  ]
+}

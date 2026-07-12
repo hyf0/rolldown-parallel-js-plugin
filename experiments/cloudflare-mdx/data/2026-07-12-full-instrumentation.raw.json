@@ -1,0 +1,921 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T04:21:06.100Z",
+  "finishedAt": "2026-07-12T04:22:36.816Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "matrix": {
+    "cases": [
+      {
+        "name": "production-mdx-full-instrumentation",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "production-mdx",
+        "limit": 0,
+        "instrumentation": true,
+        "variants": [
+          "ordinary",
+          "worker-4"
+        ],
+        "warmups": 0,
+        "repeats": 1
+      }
+    ]
+  },
+  "validationErrors": [],
+  "rawOutputDifferences": [
+    "production-mdx-full-instrumentation produced different raw outputBytes: 166149788,166149789",
+    "production-mdx-full-instrumentation produced different raw outputHash: 3040a20dd330e656e9cd6bf54b5b10d8be9b56f0c8d5c593669f488d4b302ff8,6fad09c34544816b9824562e7dde7d01abcfee7e737320fcdccbbd84cfb9e76e"
+  ],
+  "runs": [
+    {
+      "name": "production-mdx-full-instrumentation",
+      "index": 0,
+      "sequence": 0,
+      "peakRssBytes": 3196207104,
+      "variant": "ordinary",
+      "workerCount": 0,
+      "corpus": "production-mdx",
+      "limit": 0,
+      "instrumentation": true,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 62188.365917,
+      "mainPluginConstructionElapsedMs": 1844.372875,
+      "rolldownCreateElapsedMs": 2.935041999999612,
+      "generateAndWorkerLifecycleElapsedMs": 60321.010875,
+      "closeElapsedMs": 0.07525000000168802,
+      "cpuUserMs": 74210.034,
+      "cpuSystemMs": 3031.679,
+      "finalRssBytes": 3194699776,
+      "outputBytes": 166149788,
+      "outputChunks": 9157,
+      "outputHash": "3040a20dd330e656e9cd6bf54b5b10d8be9b56f0c8d5c593669f488d4b302ff8",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "metrics": {
+        "factoryCalls": 1,
+        "workerMask": "1",
+        "initializationMsTotal": 1841.7665,
+        "initializationMsMax": 1841.7665,
+        "handlerCalls": 9157,
+        "inputBytes": 32619831,
+        "outputBytes": 167169553,
+        "serviceMsTotal": 4708765.453589,
+        "serviceMsMax": 16100.214834,
+        "active": 0,
+        "maxActive": 701,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 9157,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          9157,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+            "hits": 1,
+            "serviceMs": 16100.214834,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-12-22-agents-sdk-ai-sdk-v6.mdx",
+            "hits": 1,
+            "serviceMs": 12026.875083,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-09-03-agents-sdk-beta-v5.mdx",
+            "hits": 1,
+            "serviceMs": 11633.327125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+            "hits": 1,
+            "serviceMs": 11086.364209,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agent-memory/api/http-api.mdx",
+            "hits": 1,
+            "serviceMs": 10874.912125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-08-05-sandbox-sdk-major-update.mdx",
+            "hits": 1,
+            "serviceMs": 10813.285041,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-03-23-agents-sdk-v0.8.0.mdx",
+            "hits": 1,
+            "serviceMs": 10798.1475,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-02-03-agents-workflows-integration.mdx",
+            "hits": 1,
+            "serviceMs": 10744.498958,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/client-sdk.mdx",
+            "hits": 1,
+            "serviceMs": 10694.063959,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-03-18-npm-i-agents.mdx",
+            "hits": 1,
+            "serviceMs": 10607.561667,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-03-02-agents-sdk-v0.7.0.mdx",
+            "hits": 1,
+            "serviceMs": 10566.378084,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/voice.mdx",
+            "hits": 1,
+            "serviceMs": 10547.388291,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-08-05-agents-MCP-update.mdx",
+            "hits": 1,
+            "serviceMs": 10542.634708,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/model-context-protocol/apis/client-api.mdx",
+            "hits": 1,
+            "serviceMs": 10538.031084,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/harnesses/think/tools.mdx",
+            "hits": 1,
+            "serviceMs": 10302.788916,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/communication/routing.mdx",
+            "hits": 1,
+            "serviceMs": 10245.959458,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-05-13-agents-sdk-v0.12.4.mdx",
+            "hits": 1,
+            "serviceMs": 10144.713542,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/execution/schedule-tasks.mdx",
+            "hits": 1,
+            "serviceMs": 10132.245875,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/examples/email-agent.mdx",
+            "hits": 1,
+            "serviceMs": 10131.348625,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/webhooks/index.mdx",
+            "hits": 1,
+            "serviceMs": 10100.024417,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-02-09-agents-sdk-v0.4.0.mdx",
+            "hits": 1,
+            "serviceMs": 10089.718917,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/operations/configuration.mdx",
+            "hits": 1,
+            "serviceMs": 10089.694875,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/model-context-protocol/apis/handler-api.mdx",
+            "hits": 1,
+            "serviceMs": 10070.186333,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/execution/run-workflows.mdx",
+            "hits": 1,
+            "serviceMs": 10028.083292,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/autonomous-responses.mdx",
+            "hits": 1,
+            "serviceMs": 10010.717125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/lifecycle/sessions.mdx",
+            "hits": 1,
+            "serviceMs": 9983.585417,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/lifecycle/callable-methods.mdx",
+            "hits": 1,
+            "serviceMs": 9933.982125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/tools/codemode/api-reference.mdx",
+            "hits": 1,
+            "serviceMs": 9926.855834,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/1.1.1.1/additional-options/dns-over-discord.mdx",
+            "hits": 1,
+            "serviceMs": 9904.347917,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/concepts/conversation-state-and-memory.mdx",
+            "hits": 1,
+            "serviceMs": 9873.024958,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/concepts/agentic-patterns/long-running-agents.mdx",
+            "hits": 1,
+            "serviceMs": 9859.546375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-06-02-agents-sdk-v0.14.0.mdx",
+            "hits": 1,
+            "serviceMs": 9850.76375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/communication/readonly-connections.mdx",
+            "hits": 1,
+            "serviceMs": 9812.623167,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/model-context-protocol/guides/remote-mcp-server.mdx",
+            "hits": 1,
+            "serviceMs": 9805.899666,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/containers/2026-04-13-sandbox-outbound-workers-tls-auth.mdx",
+            "hits": 1,
+            "serviceMs": 9805.7175,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-06-16-agents-sdk-v0.16.1.mdx",
+            "hits": 1,
+            "serviceMs": 9795.697167,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/lifecycle/agent-class.mdx",
+            "hits": 1,
+            "serviceMs": 9780.429792,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/examples/slack-agent.mdx",
+            "hits": 1,
+            "serviceMs": 9755.125458,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/harnesses/think/lifecycle-hooks.mdx",
+            "hits": 1,
+            "serviceMs": 9697.640666,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-02-09-pty-terminal-support.mdx",
+            "hits": 1,
+            "serviceMs": 9669.872375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-02-17-agents-sdk-v0.5.0.mdx",
+            "hits": 1,
+            "serviceMs": 9635.700208,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/webhooks/push-notifications.mdx",
+            "hits": 1,
+            "serviceMs": 9632.322708,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/lifecycle/state.mdx",
+            "hits": 1,
+            "serviceMs": 9622.963125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/getting-started/add-to-existing-project.mdx",
+            "hits": 1,
+            "serviceMs": 9622.118417,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/examples/browser-agent.mdx",
+            "hits": 1,
+            "serviceMs": 9593.345083,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2026-03-17-codemode-sdk-v0.2.1.mdx",
+            "hits": 1,
+            "serviceMs": 9590.861666,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/execution/retries.mdx",
+            "hits": 1,
+            "serviceMs": 9586.098125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/execution/queue-tasks.mdx",
+            "hits": 1,
+            "serviceMs": 9565.688625,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/execution/sub-agents.mdx",
+            "hits": 1,
+            "serviceMs": 9559.279083,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/ai-search/2026-04-16-ai-search-namespace-binding.mdx",
+            "hits": 1,
+            "serviceMs": 9555.334792,
+            "worker": 0
+          }
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-full-instrumentation",
+      "index": 0,
+      "sequence": 1,
+      "peakRssBytes": 4952113152,
+      "variant": "worker-4",
+      "workerCount": 4,
+      "corpus": "production-mdx",
+      "limit": 0,
+      "instrumentation": true,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 23808.827958,
+      "mainPluginConstructionElapsedMs": 0.9891660000000684,
+      "rolldownCreateElapsedMs": 2.778958999999986,
+      "generateAndWorkerLifecycleElapsedMs": 23739.830125,
+      "closeElapsedMs": 42.92945800000234,
+      "cpuUserMs": 112156.03,
+      "cpuSystemMs": 7666.613,
+      "finalRssBytes": 3915120640,
+      "outputBytes": 166149789,
+      "outputChunks": 9157,
+      "outputHash": "6fad09c34544816b9824562e7dde7d01abcfee7e737320fcdccbbd84cfb9e76e",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "metrics": {
+        "factoryCalls": 4,
+        "workerMask": "f",
+        "initializationMsTotal": 7775.969208,
+        "initializationMsMax": 1949.367041,
+        "handlerCalls": 9157,
+        "inputBytes": 32619831,
+        "outputBytes": 167169554,
+        "serviceMsTotal": 81218.192514,
+        "serviceMsMax": 1117.348834,
+        "active": 0,
+        "maxActive": 4,
+        "unknownIdCalls": 0,
+        "distinctHandlerIds": 9157,
+        "missingHandlerIds": [],
+        "duplicateHandlerIds": [],
+        "perWorkerCalls": [
+          2367,
+          2398,
+          2350,
+          2042,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "slowestEntries": [
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/local-participant.mdx",
+            "hits": 1,
+            "serviceMs": 1117.348834,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/warp-client/legal/3rdparty.mdx",
+            "hits": 1,
+            "serviceMs": 682.706041,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/legal/3rdparty.mdx",
+            "hits": 1,
+            "serviceMs": 493.139917,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/waf/change-log/historical-2024.mdx",
+            "hits": 1,
+            "serviceMs": 481.463917,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/meeting-object-explained.mdx",
+            "hits": 1,
+            "serviceMs": 362.35875,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/chat.mdx",
+            "hits": 1,
+            "serviceMs": 353.338875,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+            "hits": 1,
+            "serviceMs": 351.105833,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/rules/reference/page-rules-migration.mdx",
+            "hits": 1,
+            "serviceMs": 339.925125,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/d1/tutorials/using-read-replication-for-e-com.mdx",
+            "hits": 1,
+            "serviceMs": 315.985792,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/voice.mdx",
+            "hits": 1,
+            "serviceMs": 306.834,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/wrangler/configuration.mdx",
+            "hits": 1,
+            "serviceMs": 305.574917,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/fundamentals/reference/error-responses.mdx",
+            "hits": 1,
+            "serviceMs": 295.757791,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/waf/change-log/historical-2022.mdx",
+            "hits": 1,
+            "serviceMs": 293.824375,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/durable-objects/best-practices/rules-of-durable-objects.mdx",
+            "hits": 1,
+            "serviceMs": 282.037625,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/fundamentals/reference/markdown-for-agents.mdx",
+            "hits": 1,
+            "serviceMs": 268.702417,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/style-guide/components/badges.mdx",
+            "hits": 1,
+            "serviceMs": 251.450125,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/addons.mdx",
+            "hits": 1,
+            "serviceMs": 248.639667,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/waiting-room.mdx",
+            "hits": 1,
+            "serviceMs": 243.061708,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/browser-run/how-to/og-images-astro.mdx",
+            "hits": 1,
+            "serviceMs": 225.745542,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/turnstile/get-started/server-side-validation.mdx",
+            "hits": 1,
+            "serviceMs": 224.363959,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/pulumi/tutorial/hello-world.mdx",
+            "hits": 1,
+            "serviceMs": 221.698792,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/autonomous-responses.mdx",
+            "hits": 1,
+            "serviceMs": 218.597083,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/remote-participants/index.mdx",
+            "hits": 1,
+            "serviceMs": 210.659416,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ddos-protection/advanced-ddos-systems/overview/programmable-flow-protection.mdx",
+            "hits": 1,
+            "serviceMs": 201.359042,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/changelog/agents/2025-12-22-agents-sdk-ai-sdk-v6.mdx",
+            "hits": 1,
+            "serviceMs": 198.847333,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/build-your-own-ui.mdx",
+            "hits": 1,
+            "serviceMs": 194.7315,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/durable-objects/tutorials/build-a-seat-booking-app.mdx",
+            "hits": 1,
+            "serviceMs": 190.4415,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/examples/email-agent.mdx",
+            "hits": 1,
+            "serviceMs": 181.107458,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/remote-participants/events.mdx",
+            "hits": 1,
+            "serviceMs": 179.603625,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/demos/chatgpt-app.mdx",
+            "hits": 1,
+            "serviceMs": 170.726,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/plugins.mdx",
+            "hits": 1,
+            "serviceMs": 163.147208,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ai-search/configuration/retrieval/embed-search-snippets.mdx",
+            "hits": 1,
+            "serviceMs": 161.773083,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/team-and-resources/devices/user-side-certificates/manual-deployment.mdx",
+            "hits": 1,
+            "serviceMs": 160.243208,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/pages/migrations/migrating-jekyll-from-github-pages.mdx",
+            "hits": 1,
+            "serviceMs": 153.234375,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/communication/routing.mdx",
+            "hits": 1,
+            "serviceMs": 152.304167,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/model-context-protocol/apis/client-api.mdx",
+            "hits": 1,
+            "serviceMs": 151.455041,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/core/stage-management.mdx",
+            "hits": 1,
+            "serviceMs": 149.02375,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/pages/tutorials/add-a-react-form-with-formspree.mdx",
+            "hits": 1,
+            "serviceMs": 143.056791,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/model-context-protocol/guides/oauth-mcp-client.mdx",
+            "hits": 1,
+            "serviceMs": 138.499041,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/queues/tutorials/web-crawler-with-browser-run/index.mdx",
+            "hits": 1,
+            "serviceMs": 138.485583,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/communication/readonly-connections.mdx",
+            "hits": 1,
+            "serviceMs": 134.423209,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/workers/best-practices/workers-best-practices.mdx",
+            "hits": 1,
+            "serviceMs": 132.368875,
+            "worker": 1
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/custom-header.mdx",
+            "hits": 1,
+            "serviceMs": 132.340667,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/r2/objects/upload-objects.mdx",
+            "hits": 1,
+            "serviceMs": 132.025708,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/communication-channels/chat/client-sdk.mdx",
+            "hits": 1,
+            "serviceMs": 131.413625,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/cloudflare-one/access-controls/policies/common-policies.mdx",
+            "hits": 1,
+            "serviceMs": 129.407709,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/concepts/agentic-patterns/long-running-agents.mdx",
+            "hits": 1,
+            "serviceMs": 128.711375,
+            "worker": 0
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/agents/runtime/lifecycle/sessions.mdx",
+            "hits": 1,
+            "serviceMs": 128.602,
+            "worker": 2
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/ai-gateway/usage/websockets-api/realtime-api.mdx",
+            "hits": 1,
+            "serviceMs": 126.995375,
+            "worker": 3
+          },
+          {
+            "id": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/src/content/docs/realtime/realtimekit/ui-kit/state-management.mdx",
+            "hits": 1,
+            "serviceMs": 126.2705,
+            "worker": 1
+          }
+        ]
+      },
+      "rustMetrics": [
+        {
+          "kind": "rolldown_parallel_plugin_transform_metrics",
+          "version": 1,
+          "plugin": "cloudflare-mdx",
+          "workerCount": 4,
+          "wrapperCalls": 9158,
+          "permitAcquiredCalls": 9158,
+          "completedWrapperCalls": 9158,
+          "permitQueueWaitNs": {
+            "total": 106876558802923,
+            "max": 21201335042
+          },
+          "permitHeldNs": {
+            "total": 83111694465,
+            "max": 1118756958
+          },
+          "permitQueuePending": {
+            "current": 0,
+            "max": 9146
+          },
+          "wrapperOutstanding": {
+            "current": 0,
+            "max": 9150
+          },
+          "permitInFlight": {
+            "current": 0,
+            "max": 4
+          },
+          "wrapperInputCodeBytes": 32624115,
+          "returnedCodeBytes": 167169554,
+          "valueResults": 9157,
+          "nullResults": 1,
+          "errorResults": 0,
+          "cancelledBeforeAcquire": 0,
+          "cancelledDuringService": 0
+        }
+      ],
+      "lifecycleMetrics": [
+        {
+          "kind": "rolldown_parallel_plugin_init_metrics",
+          "version": 1,
+          "workerCount": 4,
+          "pluginCount": 1,
+          "poolInitializationMs": 1996.5106250000001,
+          "rssBeforeBytes": 130400256,
+          "rssAfterBytes": 1186480128,
+          "workers": [
+            {
+              "threadNumber": 0,
+              "mainReadyMs": 1986.314917,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1944.2494170000002,
+                "registerPluginsMs": 0.14958300000034797,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 1.1277079999999842,
+                    "factoryMs": 1941.8570829999999,
+                    "bindingifyMs": 1.0671250000000327
+                  }
+                ]
+              }
+            },
+            {
+              "threadNumber": 1,
+              "mainReadyMs": 1985.755958,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1943.9533330000002,
+                "registerPluginsMs": 0.059292000000368716,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 1.6074999999998454,
+                    "factoryMs": 1941.499375,
+                    "bindingifyMs": 0.7401660000000447
+                  }
+                ]
+              }
+            },
+            {
+              "threadNumber": 2,
+              "mainReadyMs": 1994.193417,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1953.4627919999998,
+                "registerPluginsMs": 0.06283399999983885,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 1.1546250000001237,
+                    "factoryMs": 1951.4893749999999,
+                    "bindingifyMs": 0.715458000000126
+                  }
+                ]
+              }
+            },
+            {
+              "threadNumber": 3,
+              "mainReadyMs": 1993.7785410000001,
+              "workerBootstrap": {
+                "measuredBootstrapMs": 1954.479,
+                "registerPluginsMs": 0.08716700000013589,
+                "plugins": [
+                  {
+                    "pluginIndex": 0,
+                    "implementationImportMs": 1.5499159999999392,
+                    "factoryMs": 1952.1137919999999,
+                    "bindingifyMs": 0.6802499999998872
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "kind": "rolldown_parallel_plugin_termination_metrics",
+          "version": 1,
+          "workerCount": 4,
+          "poolTerminationMs": 42.66254199999821,
+          "rssBeforeBytes": 4928847872,
+          "rssAfterBytes": 3776233472
+        }
+      ]
+    }
+  ]
+}

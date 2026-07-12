@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T05:55:10.683Z",
+  "finishedAt": "2026-07-12T06:11:01.966Z",
+  "elapsedMs": 951282,
+  "profile": "default",
+  "exitCode": 0,
+  "buildExitCode": 0,
+  "buildSignal": null,
+  "forwardedSignal": null,
+  "spawnError": null,
+  "artifacts": {
+    "provenance": "provenance.json",
+    "resources": "resources.txt",
+    "stdout": "build.stdout.log",
+    "stderr": "build.stderr.log",
+    "timestamped": "build.timestamped.jsonl",
+    "processTree": "process-tree.tsv",
+    "mdxTransformCounter": "mdx-transform-counter.json"
+  }
+}

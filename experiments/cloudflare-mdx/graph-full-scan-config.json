@@ -1,0 +1,10 @@
+{
+  "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+  "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+  "variants": ["ordinary", "managed-4", "worker-4"],
+  "corpus": "production-mdx",
+  "runLinkCheck": false,
+  "instrumentation": false,
+  "rawParityRequired": false,
+  "fixedNow": "2026-07-12T00:00:00.000Z"
+}

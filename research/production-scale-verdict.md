@@ -1,8 +1,20 @@
 # Production-Scale Candidate Verdict
 
-Status: terminal `inconclusive corpus` outcome on 2026-07-12. No production-scale candidate was admitted, so this iteration makes no new ParallelPlugin performance, resource, correctness, or investment claim.
+Status: the candidate-screen decision is superseded for Cloudflare Docs, and the adapted local study completed on 2026-07-12. This document preserves the frozen screen below; the controlling performance and product result is [the Cloudflare adaptation record](../.agents/docs/cloudflare-mdx-rolldown.md).
 
-## Decision
+## Correction
+
+The earlier screen protected one valid distinction but enforced it at the wrong boundary. Bundler-migration gains still cannot be attributed to ParallelPlugin, yet that does not require rejecting a large Astro project. The corrected experiment keeps the original Astro command as a separate production reference, establishes an ordinary direct-Rolldown adaptation, and changes only ordinary versus worker execution for the worker comparison. The `inconclusive corpus` decision below is therefore historical rather than terminal.
+
+## Current adapted result
+
+Cloudflare's 9,157-module production MDX chain is a positive transform-stage case. Across ten rotated local default-profile blocks, the ordinary median is 63.089 seconds, plugin-managed four-worker median is 26.779 seconds, and Rolldown-managed four-worker median is 28.226 seconds. The paired ordinary-to-Rolldown speedup is 2.178x with bootstrap 95% interval 2.129–2.369 and identical normalized output. Host-policy violations limit this to strong repeated local evidence. The plugin-managed-to-Rolldown interval crosses parity, so no additional Rolldown scheduling advantage is established.
+
+It is also a negative complete-build candidate for the requested 2x outcome. The original local default-profile Astro build took 689.01 seconds, and exact transfer of the direct stage's 34.86-second saving would illustrate about a 5% complete-build reduction. That arithmetic is not an upper bound because the adapter does not establish one-to-one timing correspondence. Under the adapter boundary, the untouched 377-second static-route phase alone exceeds half of the complete build. This establishes the workload lesson for Cloudflare: thousands of transform hits are necessary, but the required JavaScript transform must also dominate the critical path. The overall production-scale goal remains open.
+
+Current ParallelPlugin is not production-compatible. It observably drops Astro module metadata, cannot merge the link validator's isolate-local state, and raises CPU and memory use. Cloudflare diagnostics and crash semantics remain untested, while earlier fixtures show degraded error attribution. Four workers are best in the local screen and eight regress, but the experiment does not isolate the cause. All timing comparisons were launched locally; direct artifacts record `RUN_LINK_CHECK=false`, while the earlier kernel runner did not persist `CI`. The separate link-check run is retained only as semantic-defect evidence, and host-policy violations prevent calling the ten-block matrix clean-host formal confirmation.
+
+## Historical frozen-screen decision
 
 The bounded public search did not find an unmodified direct-Rolldown production build that could reach the remaining admission rules. The frozen candidates were Cloudflare Docs, WordPress Gutenberg, and Elastic Kibana. Each failed rule 1 because its production build uses a different build system. Screening stopped there, as predeclared, and every later rule remains `not evaluated`.
 
@@ -46,7 +58,7 @@ Worker startup also remains the wrong primary lever for the intended minute-scal
 - Which worker-local caches are performance-only and deterministic across worker counts, assignment order, and cache warmth.
 - How worker service rate, RSS, garbage collection, memory bandwidth, Rust-thread competition, ready width, and load balance evolve over a minute-scale build.
 
-## Reopening condition
+## Historical reopening condition
 
 A future production-performance goal should start only when one of these inputs exists:
 

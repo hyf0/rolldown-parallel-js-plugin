@@ -1,6 +1,6 @@
 # Production Candidate Search Manifest
 
-Status: committed before deep screening on 2026-07-12. This manifest freezes the discovery universe, selection rules, longlist, and three-candidate screening order for the active [production-scale goal](./production-scale-goal.md). Later evidence may reject a selected candidate but must not replace it merely because it fails.
+Status: historical manifest committed before deep screening on 2026-07-12. It freezes the discovery universe, selection rules, longlist, and three-candidate screening order. Yunfei later corrected the direct-Rolldown admission boundary and Cloudflare proceeded through a separate attributed build-stage adaptation; this manifest itself remains unchanged evidence.
 
 ## Environment pin at goal start
 

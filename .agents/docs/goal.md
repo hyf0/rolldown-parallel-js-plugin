@@ -1,6 +1,6 @@
 # Goal
 
-Status: completed mechanism-scale iteration. This record remains the scope and success criteria for the evidence committed through 2026-07-11. It must not be promoted into a production-scale investment verdict; the later [production-scale parallel JavaScript transform goal](./production-scale-goal.md) ended with an inconclusive corpus and added no performance claim.
+Status: completed mechanism-scale iteration. This record remains the scope and success criteria for the evidence committed through 2026-07-11. The later [production-scale parallel JavaScript transform goal](./production-scale-goal.md) and [Cloudflare result](../../experiments/cloudflare-mdx/2026-07-12-results.md) add strong repeated local evidence for a greater-than-2x real transform stage, reject that workload as a 2x complete-build candidate, and preserve semantic blockers; they do not retroactively strengthen the narrower fixtures in this record.
 
 ## Outcome
 

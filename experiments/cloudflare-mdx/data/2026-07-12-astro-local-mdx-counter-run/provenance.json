@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "kind": "cloudflare_docs_instrumented_mdx_count",
+  "startedAt": "2026-07-12T05:55:10.683Z",
+  "formal": false,
+  "benchmarkEligible": false,
+  "instrumentationMode": "mdx-counter",
+  "profile": "default",
+  "command": [
+    "/usr/bin/time",
+    "-l",
+    "-o",
+    "<output-dir>/resources.txt",
+    "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack",
+    "pnpm",
+    "run",
+    "build"
+  ],
+  "project": {
+    "root": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+    "commit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+    "status": "",
+    "packageName": "cloudflare-docs-starlight",
+    "packageVersion": null,
+    "scripts": {
+      "prebuild": "tsx bin/fetch-skills.ts",
+      "build": "export NODE_OPTIONS='--max-old-space-size=8192' || set NODE_OPTIONS=\"--max-old-space-size=8192\" && astro build"
+    },
+    "dependencies": {
+      "astro": "6.4.7",
+      "mdx": "6.0.3",
+      "vite": "7.3.5"
+    },
+    "files": {
+      "packageJsonSha256": "9109282fc31d22ca3391f480cc993df5be41b834457f6ea04c0356320c205812",
+      "lockfileSha256": "f908eb3dab7cd3346887a6a6cc9b26c8f49015d891900612eb69b5bd94829e7c",
+      "astroConfigSha256": "406f150db49fce08fc0520ed909fa6342707dbb3eb3f81215e6ccf83c3869297",
+      "contentConfigSha256": "81679622ee4b23ba56aa6dc523a74b8fc068668387a4a9802e33e64384ad0d5d"
+    },
+    "installed": {
+      "astroVersion": "6.4.7",
+      "astroPackageSha256": "99f1d8fb31d2cd0a5ec521364901f62010bad1ae9225ac615262126f060057b2",
+      "mdxVersion": "6.0.3",
+      "mdxPackageSha256": "c517b57af37cc4a84e3eaa48a12e15cd9f8b88cd9e3ed925b989b77a888b89a4",
+      "mdxTransformPath": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js",
+      "mdxTransformSha256": "eb8f67c3bfca0dc8880a150b89145d23415ffa87946c87d9380ed8587bff8990",
+      "expectedMdxTransformSha256": "eb8f67c3bfca0dc8880a150b89145d23415ffa87946c87d9380ed8587bff8990"
+    }
+  },
+  "runtime": {
+    "node": "v24.18.0",
+    "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+    "nodeBinarySha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a",
+    "pnpm": "10.24.0",
+    "packageManagerLauncher": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack",
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664
+  },
+  "runner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/run-astro-reference.mjs",
+    "sha256": "1889f085e8ff4331732d2cd4bad88d55d4712acbec1483051ea719a1c671eefe",
+    "sampleIntervalMs": 2000
+  },
+  "environment": {
+    "formalUnset": [
+      "ASTRO_MDX_COUNTER_PATH",
+      "ASTRO_PERFORMANCE_BENCHMARK",
+      "ASTRO_TIMER_PATH",
+      "BUILD_TARGET",
+      "NODE_ENV",
+      "NODE_OPTIONS"
+    ],
+    "runLinkCheck": false,
+    "ci": false,
+    "effective": {
+      "ASTRO_MDX_COUNTER_PATH": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/data/2026-07-12-astro-local-mdx-counter-run/mdx-transform-counter.json",
+      "ASTRO_PERFORMANCE_BENCHMARK": null,
+      "ASTRO_TIMER_PATH": null,
+      "BUILD_TARGET": null,
+      "CI": null,
+      "NODE_ENV": null,
+      "NODE_OPTIONS": null,
+      "RUN_LINK_CHECK": null
+    },
+    "githubTokenPresent": false
+  },
+  "preRunState": {
+    "astroCache": {
+      "exists": true,
+      "kind": "directory",
+      "sizeBytes": 128,
+      "modifiedAt": "2026-07-12T05:39:15.537Z"
+    },
+    "dist": {
+      "exists": true,
+      "kind": "directory",
+      "sizeBytes": 4384,
+      "modifiedAt": "2026-07-12T05:50:28.605Z"
+    },
+    "skills": {
+      "exists": true,
+      "kind": "directory",
+      "sizeBytes": 416,
+      "modifiedAt": "2026-07-12T03:33:54.481Z"
+    }
+  }
+}

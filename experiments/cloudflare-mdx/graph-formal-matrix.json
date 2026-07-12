@@ -1,0 +1,30 @@
+{
+  "executionScope": "local-only",
+  "hostPolicy": {
+    "power": "AC Power",
+    "cooldownMs": 15000,
+    "maxStartExternalCpuPercent": 300,
+    "maxSwapoutDeltaPages": 0,
+    "maxPageoutDeltaPages": 0
+  },
+  "summary": {
+    "bootstrapIterations": 100000,
+    "bootstrapSeed": 539363090
+  },
+  "cases": [
+    {
+      "name": "production-mdx-server-graph-formal-local",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+      "corpus": "production-mdx",
+      "runLinkCheck": false,
+      "instrumentation": false,
+      "rawParityRequired": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "variants": ["ordinary", "managed-4", "worker-4"],
+      "warmups": 0,
+      "repeats": 5,
+      "startIndex": 0
+    }
+  ]
+}

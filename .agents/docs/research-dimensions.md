@@ -1,6 +1,6 @@
 # Research Dimensions
 
-Performance value and technical defects are parallel workstreams. The mechanism-scale iteration answers them for its recorded fixtures. A production investment direction still requires the draft [production-scale goal](./production-scale-goal.md).
+Performance value and technical defects are parallel workstreams. The mechanism-scale fixtures and the Cloudflare production MDX stage answer them at different scales. A later complete-build and placement decision retains the gates in the [production-scale goal](./production-scale-goal.md).
 
 Every hook result needs three kinds of attribution: how many calls were runnable at the same time, how long calls waited for a worker, and how long the selected plugin instance spent serving them. A long hook with no concurrent peers cannot gain multi-worker throughput; a short hook with many peers can still lose to dispatch and conversion cost.
 
@@ -32,7 +32,7 @@ Classify every important state edge as immutable replicated configuration, worke
 
 ## Production-scale transform dimensions
 
-The production-scale protocol targeted one real project or monorepo whose original graph and production configuration send roughly 5,000 distinct project module IDs through a required expensive JavaScript transform or transform chain in a repeated 15–30 minute direct-Rolldown build. Its bounded corpus supplied no candidate past rule 1, so these dimensions remain unanswered production requirements rather than measured results. Vue and Svelte remain controls rather than the product definition. Duplicate files, joined unrelated repositories, manufactured outputs, file count without handler execution, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the target.
+The completed Cloudflare stage sends 9,157 observed production module IDs through the real MDX JavaScript transform chain. Four workers reduce the repeated local direct stage by 2.178x under Rolldown management and 2.386x under plugin management, while the original local application reference shows that the stage is too small to halve the complete build. This measures volume, ready width, initialization, worker balance, CPU, RSS, plugin-owned parity, graph adaptation, and several semantic failures. It leaves the 15–30 minute complete-build, multi-plugin shared/exclusive placement, long-lived memory, cache reduction, and failure-recovery dimensions open. Vue and Svelte remain controls rather than the product definition. Duplicate files, joined unrelated repositories, manufactured outputs, file count without handler execution, wrapper count, filter misses, artificial delay, and native substitutes do not satisfy the next target. [Cloudflare result](../../experiments/cloudflare-mdx/2026-07-12-results.md)
 
 ### Sustained service
 

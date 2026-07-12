@@ -1,0 +1,1478 @@
+{
+  "schema": 1,
+  "startedAt": "2026-07-12T04:54:34.909Z",
+  "finishedAt": "2026-07-12T05:08:59.579Z",
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+  "host": {
+    "platform": "darwin",
+    "release": "25.5.0",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "logicalCpuCount": 12,
+    "totalMemoryBytes": 38654705664,
+    "power": "Now drawing from 'AC Power'\n -InternalBattery-0 (id=34930787)\t100%; charged; 0:00 remaining present: true",
+    "atStart": {
+      "at": "2026-07-12T04:54:34.910Z",
+      "loadAverage": [
+        4.57861328125,
+        6.1943359375,
+        6.90576171875
+      ],
+      "freeMemoryBytes": 168034304,
+      "uptimeSeconds": 1518989,
+      "swapUsage": "total = 17408.00M  used = 16021.56M  free = 1386.44M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 511305078,
+        "pageouts": 2107651,
+        "swapins": 25190225,
+        "swapouts": 30841773,
+        "compressions": 1431245997,
+        "decompressions": 1201055783
+      },
+      "totalProcessCpuPercent": 304.19999999999993
+    },
+    "atFinish": {
+      "at": "2026-07-12T05:08:59.580Z",
+      "loadAverage": [
+        7.458984375,
+        7.033203125,
+        7.15966796875
+      ],
+      "freeMemoryBytes": 4767694848,
+      "uptimeSeconds": 1519854,
+      "swapUsage": "total = 17408.00M  used = 16684.75M  free = 723.25M  (encrypted)",
+      "virtualMemoryCounters": {
+        "pageins": 511752680,
+        "pageouts": 2111672,
+        "swapins": 25205936,
+        "swapouts": 30900093,
+        "compressions": 1437368174,
+        "decompressions": 1205757076
+      },
+      "totalProcessCpuPercent": 207.99999999999997
+    }
+  },
+  "matrix": {
+    "hostPolicy": {
+      "power": "AC Power",
+      "cooldownMs": 15000,
+      "maxStartExternalCpuPercent": 300,
+      "maxSwapoutDeltaPages": 0,
+      "maxPageoutDeltaPages": 0
+    },
+    "cases": [
+      {
+        "name": "production-mdx-formal-kernel",
+        "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+        "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-core-transform/packages/rolldown",
+        "corpus": "production-mdx",
+        "buildProfile": "default",
+        "limit": 0,
+        "instrumentation": false,
+        "variants": [
+          "ordinary",
+          "managed-4",
+          "worker-4"
+        ],
+        "warmups": 0,
+        "startIndex": 5,
+        "repeats": 5
+      }
+    ]
+  },
+  "hostPolicyViolations": [],
+  "validationErrors": [],
+  "rawOutputDifferences": [
+    "production-mdx-formal-kernel produced different raw outputBytes: 166149793,166149801,166149798,166149791,166149784,166149792,166149789,166149805,166149778,166149796,166149794,166149790,166149802",
+    "production-mdx-formal-kernel produced different raw outputHash: 40fbf5fd77c85f8cb298c14d617960185db802fa946a1b3d696ab81423cc963a,40a49a5d00569a9cae812e1d35b4cc24d2507b35b0582861aea5f658afe3d393,e18abcf9d94a4b3a77f854b8e278c2f4c2e6c0b03abb34330102d2fb313437d7,aad413ee3d27915df0b66eb58a42c3b177b224b36a7afa8310b45f9297161f17,114c8aa850381171c89d03eff160f48a9be8c0623bbb8decaeb33a330781b27c,4063c558c39727d1e8125fd016606b1ecdf81ed235d89a6bf7f66c0f35bb1505,3d1d5f94ff0e98c5a683cd44df3c278367c67202a9843d8607bb1dbec4c21d08,5eaf691c3b8adee7ccb9d7c39d4a9a306fd51a7ddb42b86f0f49fd4dac75c9a8,fc45e9889f756fdf2e3eac83f0cc1d0177e2947de5dac8da36c159c132501b13,6d220e60f97b00ccf2a5c6606ccfb23280a101d080f19f36354584f1685d3bff,3d056f3d81fd9a278bed11de2107b6e5173e12c38baaa7309c1095b1555948e1,d460cd49fe6cca2961e5c3bd12452287ce877b8d0455bf2375a8fe7836993747,483efb758136afad95b20470fa01467fa5e4db0eb0407d345574b416ceba908e,e5ed0c957c0f906841b08d7bd7fb12ccc1cc9e7c646d70cc8d8b4b7ec4d36f51,a594acaf77b8369f7c8ddf26b6b38975f806145e763d6fa2f12bdbf30c9411e2"
+  ],
+  "runs": [
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 5,
+      "sequence": 0,
+      "peakRssBytes": 4145119232,
+      "hostBefore": {
+        "at": "2026-07-12T04:54:34.941Z",
+        "loadAverage": [
+          4.57861328125,
+          6.1943359375,
+          6.90576171875
+        ],
+        "freeMemoryBytes": 163659776,
+        "uptimeSeconds": 1518989,
+        "swapUsage": "total = 17408.00M  used = 16021.56M  free = 1386.44M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511305083,
+          "pageouts": 2107651,
+          "swapins": 25190225,
+          "swapouts": 30841773,
+          "compressions": 1431245997,
+          "decompressions": 1201055783
+        },
+        "totalProcessCpuPercent": 277.29999999999984
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:55:05.490Z",
+        "loadAverage": [
+          5.98876953125,
+          6.38134765625,
+          6.94775390625
+        ],
+        "freeMemoryBytes": 4920377344,
+        "uptimeSeconds": 1519020,
+        "swapUsage": "total = 17408.00M  used = 16371.44M  free = 1036.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511317587,
+          "pageouts": 2108016,
+          "swapins": 25193759,
+          "swapouts": 30868261,
+          "compressions": 1432142136,
+          "decompressions": 1201438989
+        },
+        "totalProcessCpuPercent": 191.49999999999997
+      },
+      "hostPolicyViolations": [
+        "swapouts increased by 26488 pages",
+        "pageouts increased by 365 pages"
+      ],
+      "variant": "worker-4",
+      "workerCount": 4,
+      "workerModel": "rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 27514.381458,
+      "mainPluginConstructionElapsedMs": 1.41150000000016,
+      "rolldownCreateElapsedMs": 5.026209000000108,
+      "generateAndWorkerLifecycleElapsedMs": 27433.994625,
+      "closeElapsedMs": 41.81420799999978,
+      "cpuUserMs": 119590.508,
+      "cpuSystemMs": 9901.878,
+      "finalRssBytes": 3655335936,
+      "outputBytes": 166149793,
+      "outputChunks": 9157,
+      "outputHash": "40fbf5fd77c85f8cb298c14d617960185db802fa946a1b3d696ab81423cc963a",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 5,
+      "sequence": 1,
+      "peakRssBytes": 2980495360,
+      "hostBefore": {
+        "at": "2026-07-12T04:55:20.514Z",
+        "loadAverage": [
+          5.09814453125,
+          6.166015625,
+          6.8603515625
+        ],
+        "freeMemoryBytes": 3342368768,
+        "uptimeSeconds": 1519035,
+        "swapUsage": "total = 17408.00M  used = 16371.44M  free = 1036.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511333400,
+          "pageouts": 2108016,
+          "swapins": 25193783,
+          "swapouts": 30868261,
+          "compressions": 1432142136,
+          "decompressions": 1201513293
+        },
+        "totalProcessCpuPercent": 151.19999999999996
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:56:29.692Z",
+        "loadAverage": [
+          5.6337890625,
+          6.11181640625,
+          6.78369140625
+        ],
+        "freeMemoryBytes": 3320807424,
+        "uptimeSeconds": 1519104,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511368776,
+          "pageouts": 2108318,
+          "swapins": 25194424,
+          "swapouts": 30868261,
+          "compressions": 1432281639,
+          "decompressions": 1201757527
+        },
+        "totalProcessCpuPercent": 295.99999999999983
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 302 pages"
+      ],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 66362.000583,
+      "mainPluginConstructionElapsedMs": 2130.569708,
+      "rolldownCreateElapsedMs": 2.7132919999994556,
+      "generateAndWorkerLifecycleElapsedMs": 64209.665,
+      "closeElapsedMs": 0.061124999992898665,
+      "cpuUserMs": 78677.736,
+      "cpuSystemMs": 3922.069,
+      "finalRssBytes": 2970894336,
+      "outputBytes": 166149801,
+      "outputChunks": 9157,
+      "outputHash": "40a49a5d00569a9cae812e1d35b4cc24d2507b35b0582861aea5f658afe3d393",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 5,
+      "sequence": 2,
+      "peakRssBytes": 3618144256,
+      "hostBefore": {
+        "at": "2026-07-12T04:56:44.718Z",
+        "loadAverage": [
+          6.072265625,
+          6.2001953125,
+          6.8037109375
+        ],
+        "freeMemoryBytes": 2963275776,
+        "uptimeSeconds": 1519119,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511371667,
+          "pageouts": 2108318,
+          "swapins": 25194532,
+          "swapouts": 30868261,
+          "compressions": 1432281639,
+          "decompressions": 1201781447
+        },
+        "totalProcessCpuPercent": 338.1000000000001
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:57:14.900Z",
+        "loadAverage": [
+          7.4541015625,
+          6.48974609375,
+          6.8857421875
+        ],
+        "freeMemoryBytes": 4102275072,
+        "uptimeSeconds": 1519149,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511382248,
+          "pageouts": 2108525,
+          "swapins": 25194635,
+          "swapouts": 30868261,
+          "compressions": 1432648475,
+          "decompressions": 1201936180
+        },
+        "totalProcessCpuPercent": 230.39999999999998
+      },
+      "hostPolicyViolations": [
+        "start process CPU 338.1000000000001% exceeded 300%",
+        "pageouts increased by 207 pages"
+      ],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 27260.284708,
+      "mainPluginConstructionElapsedMs": 2888.902583,
+      "rolldownCreateElapsedMs": 2.9237499999999272,
+      "generateAndWorkerLifecycleElapsedMs": 24345.822125000002,
+      "closeElapsedMs": 0.20874999999796273,
+      "cpuUserMs": 125146.581,
+      "cpuSystemMs": 10379.262,
+      "finalRssBytes": 3614392320,
+      "outputBytes": 166149798,
+      "outputChunks": 9157,
+      "outputHash": "e18abcf9d94a4b3a77f854b8e278c2f4c2e6c0b03abb34330102d2fb313437d7",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 6,
+      "sequence": 3,
+      "peakRssBytes": 3630399488,
+      "hostBefore": {
+        "at": "2026-07-12T04:57:29.924Z",
+        "loadAverage": [
+          7.45703125,
+          6.53173828125,
+          6.89306640625
+        ],
+        "freeMemoryBytes": 3553247232,
+        "uptimeSeconds": 1519164,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511385279,
+          "pageouts": 2108525,
+          "swapins": 25194695,
+          "swapouts": 30868261,
+          "compressions": 1432648475,
+          "decompressions": 1201974188
+        },
+        "totalProcessCpuPercent": 155.09999999999997
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:58:34.185Z",
+        "loadAverage": [
+          6.791015625,
+          6.63427734375,
+          6.91162109375
+        ],
+        "freeMemoryBytes": 3712188416,
+        "uptimeSeconds": 1519229,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511392685,
+          "pageouts": 2108554,
+          "swapins": 25195055,
+          "swapouts": 30868261,
+          "compressions": 1432697151,
+          "decompressions": 1202056336
+        },
+        "totalProcessCpuPercent": 144.39999999999995
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 29 pages"
+      ],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 61476.33625,
+      "mainPluginConstructionElapsedMs": 2245.309416,
+      "rolldownCreateElapsedMs": 3.0524999999997817,
+      "generateAndWorkerLifecycleElapsedMs": 59208.421375,
+      "closeElapsedMs": 0.07050000000162981,
+      "cpuUserMs": 76087.901,
+      "cpuSystemMs": 2885.832,
+      "finalRssBytes": 3583328256,
+      "outputBytes": 166149791,
+      "outputChunks": 9157,
+      "outputHash": "aad413ee3d27915df0b66eb58a42c3b177b224b36a7afa8310b45f9297161f17",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 6,
+      "sequence": 4,
+      "peakRssBytes": 4081008640,
+      "hostBefore": {
+        "at": "2026-07-12T04:58:49.208Z",
+        "loadAverage": [
+          6.1103515625,
+          6.48876953125,
+          6.8544921875
+        ],
+        "freeMemoryBytes": 3172073472,
+        "uptimeSeconds": 1519244,
+        "swapUsage": "total = 17408.00M  used = 16355.44M  free = 1052.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511393736,
+          "pageouts": 2108554,
+          "swapins": 25195159,
+          "swapouts": 30868261,
+          "compressions": 1432697151,
+          "decompressions": 1202076845
+        },
+        "totalProcessCpuPercent": 160.19999999999993
+      },
+      "hostAfter": {
+        "at": "2026-07-12T04:59:15.698Z",
+        "loadAverage": [
+          7.81640625,
+          6.85205078125,
+          6.9736328125
+        ],
+        "freeMemoryBytes": 4661477376,
+        "uptimeSeconds": 1519270,
+        "swapUsage": "total = 17408.00M  used = 16347.44M  free = 1060.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511400189,
+          "pageouts": 2108625,
+          "swapins": 25195390,
+          "swapouts": 30868261,
+          "compressions": 1432970171,
+          "decompressions": 1202171631
+        },
+        "totalProcessCpuPercent": 141.39999999999998
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 71 pages"
+      ],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 23849.453041999997,
+      "mainPluginConstructionElapsedMs": 2333.066208,
+      "rolldownCreateElapsedMs": 2.6767909999998665,
+      "generateAndWorkerLifecycleElapsedMs": 21492.021292,
+      "closeElapsedMs": 0.24716699999771663,
+      "cpuUserMs": 115596.534,
+      "cpuSystemMs": 8337.076,
+      "finalRssBytes": 4076142592,
+      "outputBytes": 166149784,
+      "outputChunks": 9157,
+      "outputHash": "114c8aa850381171c89d03eff160f48a9be8c0623bbb8decaeb33a330781b27c",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 6,
+      "sequence": 5,
+      "peakRssBytes": 3678240768,
+      "hostBefore": {
+        "at": "2026-07-12T04:59:30.721Z",
+        "loadAverage": [
+          6.68115234375,
+          6.646484375,
+          6.8974609375
+        ],
+        "freeMemoryBytes": 4063182848,
+        "uptimeSeconds": 1519285,
+        "swapUsage": "total = 17408.00M  used = 16347.44M  free = 1060.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511405001,
+          "pageouts": 2108625,
+          "swapins": 25195550,
+          "swapouts": 30868261,
+          "compressions": 1432970171,
+          "decompressions": 1202203858
+        },
+        "totalProcessCpuPercent": 194.00000000000003
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:00:02.307Z",
+        "loadAverage": [
+          11.52197265625,
+          7.75341796875,
+          7.283203125
+        ],
+        "freeMemoryBytes": 4980473856,
+        "uptimeSeconds": 1519317,
+        "swapUsage": "total = 17408.00M  used = 16812.50M  free = 595.50M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511453011,
+          "pageouts": 2108902,
+          "swapins": 25196140,
+          "swapouts": 30898025,
+          "compressions": 1433572919,
+          "decompressions": 1202558293
+        },
+        "totalProcessCpuPercent": 333.8000000000001
+      },
+      "hostPolicyViolations": [
+        "swapouts increased by 29764 pages",
+        "pageouts increased by 277 pages"
+      ],
+      "variant": "worker-4",
+      "workerCount": 4,
+      "workerModel": "rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 28875.847040999997,
+      "mainPluginConstructionElapsedMs": 0.8951660000000174,
+      "rolldownCreateElapsedMs": 3.1782080000000406,
+      "generateAndWorkerLifecycleElapsedMs": 28793.91225,
+      "closeElapsedMs": 55.511124999997264,
+      "cpuUserMs": 120088.817,
+      "cpuSystemMs": 9667.527,
+      "finalRssBytes": 3315712000,
+      "outputBytes": 166149792,
+      "outputChunks": 9157,
+      "outputHash": "4063c558c39727d1e8125fd016606b1ecdf81ed235d89a6bf7f66c0f35bb1505",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 7,
+      "sequence": 6,
+      "peakRssBytes": 3537190912,
+      "hostBefore": {
+        "at": "2026-07-12T05:00:17.337Z",
+        "loadAverage": [
+          10.685546875,
+          7.76220703125,
+          7.294921875
+        ],
+        "freeMemoryBytes": 2932654080,
+        "uptimeSeconds": 1519332,
+        "swapUsage": "total = 17408.00M  used = 16812.50M  free = 595.50M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511458845,
+          "pageouts": 2108902,
+          "swapins": 25196478,
+          "swapouts": 30898025,
+          "compressions": 1433572919,
+          "decompressions": 1202754529
+        },
+        "totalProcessCpuPercent": 201.6
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:00:49.837Z",
+        "loadAverage": [
+          10.4736328125,
+          8.00341796875,
+          7.39794921875
+        ],
+        "freeMemoryBytes": 3864182784,
+        "uptimeSeconds": 1519364,
+        "swapUsage": "total = 17408.00M  used = 16804.50M  free = 603.50M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511495973,
+          "pageouts": 2109180,
+          "swapins": 25196858,
+          "swapouts": 30898025,
+          "compressions": 1433916606,
+          "decompressions": 1202991064
+        },
+        "totalProcessCpuPercent": 360.6999999999999
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 278 pages"
+      ],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 29122.90725,
+      "mainPluginConstructionElapsedMs": 3337.550833,
+      "rolldownCreateElapsedMs": 2.7486659999995027,
+      "generateAndWorkerLifecycleElapsedMs": 25759.92375,
+      "closeElapsedMs": 0.17620899999747053,
+      "cpuUserMs": 123213.096,
+      "cpuSystemMs": 10538.968,
+      "finalRssBytes": 3534372864,
+      "outputBytes": 166149789,
+      "outputChunks": 9157,
+      "outputHash": "3d1d5f94ff0e98c5a683cd44df3c278367c67202a9843d8607bb1dbec4c21d08",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 7,
+      "sequence": 7,
+      "peakRssBytes": 4268605440,
+      "hostBefore": {
+        "at": "2026-07-12T05:01:04.867Z",
+        "loadAverage": [
+          8.51611328125,
+          7.69189453125,
+          7.296875
+        ],
+        "freeMemoryBytes": 2297315328,
+        "uptimeSeconds": 1519379,
+        "swapUsage": "total = 17408.00M  used = 16788.44M  free = 619.56M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511500476,
+          "pageouts": 2109180,
+          "swapins": 25197956,
+          "swapouts": 30898025,
+          "compressions": 1433916606,
+          "decompressions": 1203072675
+        },
+        "totalProcessCpuPercent": 515.5000000000001
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:01:40.006Z",
+        "loadAverage": [
+          11.548828125,
+          8.55908203125,
+          7.62841796875
+        ],
+        "freeMemoryBytes": 5184634880,
+        "uptimeSeconds": 1519415,
+        "swapUsage": "total = 17408.00M  used = 16796.75M  free = 611.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511525467,
+          "pageouts": 2109545,
+          "swapins": 25199005,
+          "swapouts": 30900093,
+          "compressions": 1434578527,
+          "decompressions": 1203455643
+        },
+        "totalProcessCpuPercent": 208.29999999999995
+      },
+      "hostPolicyViolations": [
+        "start process CPU 515.5000000000001% exceeded 300%",
+        "swapouts increased by 2068 pages",
+        "pageouts increased by 365 pages"
+      ],
+      "variant": "worker-4",
+      "workerCount": 4,
+      "workerModel": "rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 31452.605000000003,
+      "mainPluginConstructionElapsedMs": 1.0004579999999805,
+      "rolldownCreateElapsedMs": 2.6769170000002305,
+      "generateAndWorkerLifecycleElapsedMs": 31359.571708,
+      "closeElapsedMs": 67.11737500000163,
+      "cpuUserMs": 126871.558,
+      "cpuSystemMs": 11293.982,
+      "finalRssBytes": 3817914368,
+      "outputBytes": 166149791,
+      "outputChunks": 9157,
+      "outputHash": "5eaf691c3b8adee7ccb9d7c39d4a9a306fd51a7ddb42b86f0f49fd4dac75c9a8",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 7,
+      "sequence": 8,
+      "peakRssBytes": 2924527616,
+      "hostBefore": {
+        "at": "2026-07-12T05:01:55.031Z",
+        "loadAverage": [
+          10.00439453125,
+          8.36669921875,
+          7.57568359375
+        ],
+        "freeMemoryBytes": 724729856,
+        "uptimeSeconds": 1519430,
+        "swapUsage": "total = 17408.00M  used = 16788.75M  free = 619.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511529706,
+          "pageouts": 2109545,
+          "swapins": 25199949,
+          "swapouts": 30900093,
+          "compressions": 1434578527,
+          "decompressions": 1203687156
+        },
+        "totalProcessCpuPercent": 430.99999999999994
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:03:04.484Z",
+        "loadAverage": [
+          7.89794921875,
+          8.05126953125,
+          7.5166015625
+        ],
+        "freeMemoryBytes": 3085844480,
+        "uptimeSeconds": 1519499,
+        "swapUsage": "total = 17408.00M  used = 16740.75M  free = 667.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511561090,
+          "pageouts": 2110110,
+          "swapins": 25201846,
+          "swapouts": 30900093,
+          "compressions": 1434927358,
+          "decompressions": 1203906263
+        },
+        "totalProcessCpuPercent": 308.6
+      },
+      "hostPolicyViolations": [
+        "start process CPU 430.99999999999994% exceeded 300%",
+        "pageouts increased by 565 pages"
+      ],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 66140.941459,
+      "mainPluginConstructionElapsedMs": 2574.8125000000005,
+      "rolldownCreateElapsedMs": 2.9237499999999272,
+      "generateAndWorkerLifecycleElapsedMs": 63542.095624999994,
+      "closeElapsedMs": 1.2154169999994338,
+      "cpuUserMs": 77558.949,
+      "cpuSystemMs": 4245.981,
+      "finalRssBytes": 2917793792,
+      "outputBytes": 166149805,
+      "outputChunks": 9157,
+      "outputHash": "fc45e9889f756fdf2e3eac83f0cc1d0177e2947de5dac8da36c159c132501b13",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 8,
+      "sequence": 9,
+      "peakRssBytes": 3491807232,
+      "hostBefore": {
+        "at": "2026-07-12T05:03:19.514Z",
+        "loadAverage": [
+          7.7294921875,
+          8.00048828125,
+          7.5068359375
+        ],
+        "freeMemoryBytes": 2423062528,
+        "uptimeSeconds": 1519514,
+        "swapUsage": "total = 17408.00M  used = 16740.75M  free = 667.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511569367,
+          "pageouts": 2110110,
+          "swapins": 25201998,
+          "swapouts": 30900093,
+          "compressions": 1434927358,
+          "decompressions": 1203949400
+        },
+        "totalProcessCpuPercent": 241.8
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:03:59.504Z",
+        "loadAverage": [
+          8.93408203125,
+          8.26708984375,
+          7.62548828125
+        ],
+        "freeMemoryBytes": 4793384960,
+        "uptimeSeconds": 1519554,
+        "swapUsage": "total = 17408.00M  used = 16740.75M  free = 667.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511609826,
+          "pageouts": 2110291,
+          "swapins": 25202547,
+          "swapouts": 30900093,
+          "compressions": 1435623637,
+          "decompressions": 1204298077
+        },
+        "totalProcessCpuPercent": 461.1999999999999
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 181 pages"
+      ],
+      "variant": "worker-4",
+      "workerCount": 4,
+      "workerModel": "rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 36702.600750000005,
+      "mainPluginConstructionElapsedMs": 1.0382920000001832,
+      "rolldownCreateElapsedMs": 3.084792000000107,
+      "generateAndWorkerLifecycleElapsedMs": 36596.659792,
+      "closeElapsedMs": 79.48270800000319,
+      "cpuUserMs": 140020.931,
+      "cpuSystemMs": 12300.727,
+      "finalRssBytes": 2971402240,
+      "outputBytes": 166149778,
+      "outputChunks": 9157,
+      "outputHash": "6d220e60f97b00ccf2a5c6606ccfb23280a101d080f19f36354584f1685d3bff",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 8,
+      "sequence": 10,
+      "peakRssBytes": 3329163264,
+      "hostBefore": {
+        "at": "2026-07-12T05:04:14.532Z",
+        "loadAverage": [
+          7.46484375,
+          7.97509765625,
+          7.5322265625
+        ],
+        "freeMemoryBytes": 4396761088,
+        "uptimeSeconds": 1519569,
+        "swapUsage": "total = 17408.00M  used = 16740.75M  free = 667.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511616797,
+          "pageouts": 2110291,
+          "swapins": 25202698,
+          "swapouts": 30900093,
+          "compressions": 1435623637,
+          "decompressions": 1204370462
+        },
+        "totalProcessCpuPercent": 270.6
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:05:24.675Z",
+        "loadAverage": [
+          5.98046875,
+          7.353515625,
+          7.32568359375
+        ],
+        "freeMemoryBytes": 3806314496,
+        "uptimeSeconds": 1519639,
+        "swapUsage": "total = 17408.00M  used = 16716.75M  free = 691.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511649860,
+          "pageouts": 2110997,
+          "swapins": 25203929,
+          "swapouts": 30900093,
+          "compressions": 1436057048,
+          "decompressions": 1204760752
+        },
+        "totalProcessCpuPercent": 313.9000000000001
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 706 pages"
+      ],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 67160.176416,
+      "mainPluginConstructionElapsedMs": 2643.623208,
+      "rolldownCreateElapsedMs": 2.960957999999664,
+      "generateAndWorkerLifecycleElapsedMs": 64494.314584,
+      "closeElapsedMs": 0.13941600000543986,
+      "cpuUserMs": 81062.408,
+      "cpuSystemMs": 4470.12,
+      "finalRssBytes": 3320004608,
+      "outputBytes": 166149796,
+      "outputChunks": 9157,
+      "outputHash": "3d056f3d81fd9a278bed11de2107b6e5173e12c38baaa7309c1095b1555948e1",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 8,
+      "sequence": 11,
+      "peakRssBytes": 3578789888,
+      "hostBefore": {
+        "at": "2026-07-12T05:05:39.702Z",
+        "loadAverage": [
+          5.62744140625,
+          7.205078125,
+          7.27294921875
+        ],
+        "freeMemoryBytes": 3587080192,
+        "uptimeSeconds": 1519654,
+        "swapUsage": "total = 17408.00M  used = 16716.75M  free = 691.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511651939,
+          "pageouts": 2110997,
+          "swapins": 25203957,
+          "swapouts": 30900093,
+          "compressions": 1436057048,
+          "decompressions": 1204790829
+        },
+        "totalProcessCpuPercent": 196.60000000000002
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:06:07.636Z",
+        "loadAverage": [
+          6.19677734375,
+          7.21142578125,
+          7.27294921875
+        ],
+        "freeMemoryBytes": 3839672320,
+        "uptimeSeconds": 1519682,
+        "swapUsage": "total = 17408.00M  used = 16708.75M  free = 699.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511673499,
+          "pageouts": 2111170,
+          "swapins": 25204360,
+          "swapouts": 30900093,
+          "compressions": 1436403433,
+          "decompressions": 1205006707
+        },
+        "totalProcessCpuPercent": 336.09999999999997
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 173 pages"
+      ],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 25070.903374999998,
+      "mainPluginConstructionElapsedMs": 2861.0043750000004,
+      "rolldownCreateElapsedMs": 3.811999999999898,
+      "generateAndWorkerLifecycleElapsedMs": 22182.495958,
+      "closeElapsedMs": 0.26516699999774573,
+      "cpuUserMs": 114142.895,
+      "cpuSystemMs": 9067.108,
+      "finalRssBytes": 3574235136,
+      "outputBytes": 166149794,
+      "outputChunks": 9157,
+      "outputHash": "d460cd49fe6cca2961e5c3bd12452287ce877b8d0455bf2375a8fe7836993747",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 9,
+      "sequence": 12,
+      "peakRssBytes": 3000254464,
+      "hostBefore": {
+        "at": "2026-07-12T05:06:22.664Z",
+        "loadAverage": [
+          5.4326171875,
+          6.98876953125,
+          7.19189453125
+        ],
+        "freeMemoryBytes": 2885500928,
+        "uptimeSeconds": 1519697,
+        "swapUsage": "total = 17408.00M  used = 16708.75M  free = 699.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511679852,
+          "pageouts": 2111170,
+          "swapins": 25204452,
+          "swapouts": 30900093,
+          "compressions": 1436403433,
+          "decompressions": 1205081594
+        },
+        "totalProcessCpuPercent": 259.1000000000001
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:07:27.883Z",
+        "loadAverage": [
+          5.60546875,
+          6.80322265625,
+          7.10986328125
+        ],
+        "freeMemoryBytes": 3292151808,
+        "uptimeSeconds": 1519762,
+        "swapUsage": "total = 17408.00M  used = 16700.75M  free = 707.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511714916,
+          "pageouts": 2111177,
+          "swapins": 25204917,
+          "swapouts": 30900093,
+          "compressions": 1436497139,
+          "decompressions": 1205175645
+        },
+        "totalProcessCpuPercent": 230.79999999999987
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 7 pages"
+      ],
+      "variant": "ordinary",
+      "workerCount": 0,
+      "workerModel": "ordinary",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 62343.830417000005,
+      "mainPluginConstructionElapsedMs": 2560.8041249999997,
+      "rolldownCreateElapsedMs": 2.880500000000211,
+      "generateAndWorkerLifecycleElapsedMs": 59759.489958000006,
+      "closeElapsedMs": 0.2235000000000582,
+      "cpuUserMs": 73535.613,
+      "cpuSystemMs": 3210.106,
+      "finalRssBytes": 2836856832,
+      "outputBytes": 166149790,
+      "outputChunks": 9157,
+      "outputHash": "483efb758136afad95b20470fa01467fa5e4db0eb0407d345574b416ceba908e",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 9,
+      "sequence": 13,
+      "peakRssBytes": 3818831872,
+      "hostBefore": {
+        "at": "2026-07-12T05:07:42.911Z",
+        "loadAverage": [
+          5.2734375,
+          6.666015625,
+          7.05517578125
+        ],
+        "freeMemoryBytes": 2934620160,
+        "uptimeSeconds": 1519777,
+        "swapUsage": "total = 17408.00M  used = 16692.75M  free = 715.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511716437,
+          "pageouts": 2111177,
+          "swapins": 25204961,
+          "swapouts": 30900093,
+          "compressions": 1436497139,
+          "decompressions": 1205186647
+        },
+        "totalProcessCpuPercent": 218.89999999999998
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:08:13.598Z",
+        "loadAverage": [
+          6.9345703125,
+          6.9228515625,
+          7.13330078125
+        ],
+        "freeMemoryBytes": 4354605056,
+        "uptimeSeconds": 1519808,
+        "swapUsage": "total = 17408.00M  used = 16692.75M  free = 715.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511730277,
+          "pageouts": 2111540,
+          "swapins": 25205500,
+          "swapouts": 30900093,
+          "compressions": 1436995233,
+          "decompressions": 1205442374
+        },
+        "totalProcessCpuPercent": 260
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 363 pages"
+      ],
+      "variant": "managed-4",
+      "workerCount": 4,
+      "workerModel": "plugin-managed",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 27865.840709,
+      "mainPluginConstructionElapsedMs": 3258.6102090000004,
+      "rolldownCreateElapsedMs": 2.9833749999997963,
+      "generateAndWorkerLifecycleElapsedMs": 24580.842582999998,
+      "closeElapsedMs": 0.29520899999988615,
+      "cpuUserMs": 121222.105,
+      "cpuSystemMs": 10315.93,
+      "finalRssBytes": 3815292928,
+      "outputBytes": 166149802,
+      "outputChunks": 9157,
+      "outputHash": "e5ed0c957c0f906841b08d7bd7fb12ccc1cc9e7c646d70cc8d8b4b7ec4d36f51",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    },
+    {
+      "name": "production-mdx-formal-kernel",
+      "index": 9,
+      "sequence": 14,
+      "peakRssBytes": 4073832448,
+      "hostBefore": {
+        "at": "2026-07-12T05:08:28.622Z",
+        "loadAverage": [
+          6.59765625,
+          6.84521484375,
+          7.10107421875
+        ],
+        "freeMemoryBytes": 2523971584,
+        "uptimeSeconds": 1519823,
+        "swapUsage": "total = 17408.00M  used = 16692.75M  free = 715.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511736614,
+          "pageouts": 2111540,
+          "swapins": 25205592,
+          "swapouts": 30900093,
+          "compressions": 1436995233,
+          "decompressions": 1205571377
+        },
+        "totalProcessCpuPercent": 212.79999999999995
+      },
+      "hostAfter": {
+        "at": "2026-07-12T05:08:59.557Z",
+        "loadAverage": [
+          7.458984375,
+          7.033203125,
+          7.15966796875
+        ],
+        "freeMemoryBytes": 4749328384,
+        "uptimeSeconds": 1519854,
+        "swapUsage": "total = 17408.00M  used = 16684.75M  free = 723.25M  (encrypted)",
+        "virtualMemoryCounters": {
+          "pageins": 511752677,
+          "pageouts": 2111672,
+          "swapins": 25205936,
+          "swapouts": 30900093,
+          "compressions": 1437368174,
+          "decompressions": 1205756999
+        },
+        "totalProcessCpuPercent": 207.99999999999997
+      },
+      "hostPolicyViolations": [
+        "pageouts increased by 132 pages"
+      ],
+      "variant": "worker-4",
+      "workerCount": 4,
+      "workerModel": "rolldown",
+      "corpus": "production-mdx",
+      "buildProfile": "default",
+      "limit": 0,
+      "instrumentation": false,
+      "fixedNow": "2026-07-12T00:00:00.000Z",
+      "discoveredProductionMdxFiles": 9157,
+      "discoveredDocsMdxFiles": 6719,
+      "transformedEntryCount": 9157,
+      "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "rolldownCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "bindingHash": "deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d",
+      "distHash": "e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc",
+      "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+      "totalElapsedMs": 28143.66325,
+      "mainPluginConstructionElapsedMs": 1.0475839999999152,
+      "rolldownCreateElapsedMs": 2.657416000000012,
+      "generateAndWorkerLifecycleElapsedMs": 28081.511542,
+      "closeElapsedMs": 36.367083000001,
+      "cpuUserMs": 117506.367,
+      "cpuSystemMs": 9379.698,
+      "finalRssBytes": 3398762496,
+      "outputBytes": 166149784,
+      "outputChunks": 9157,
+      "outputHash": "a594acaf77b8369f7c8ddf26b6b38975f806145e763d6fa2f12bdbf30c9411e2",
+      "normalizedOutputBytes": 166149564,
+      "normalizedOutputHash": "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484",
+      "outputNormalization": {
+        "kind": "undici-formdata-boundary",
+        "playgroundUrls": 7,
+        "files": [
+          "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+          "src/content/partials/workers/fetch-html-example-js.js",
+          "src/content/partials/workers/redirect-example-js.js",
+          "src/content/partials/workers/respond-another-site-example-js.js",
+          "src/content/partials/workers/return-html-example-js.js",
+          "src/content/partials/workers/return-json-example-js.js"
+        ]
+      },
+      "rustMetrics": [],
+      "lifecycleMetrics": []
+    }
+  ]
+}

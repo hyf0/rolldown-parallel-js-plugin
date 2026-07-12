@@ -1,0 +1,180 @@
+--- vite-plugin-mdx.original.js
++++ vite-plugin-mdx.instrumented.js
+@@ -1,17 +1,122 @@
++import { writeFileSync } from "node:fs";
++import { performance } from "node:perf_hooks";
+ import { VFile } from "vfile";
+ import { isSatteriProcessor, isUnifiedProcessor } from "./processor-guards.js";
+ import { safeParseFrontmatter } from "./utils.js";
++const mdxCounterPath = process.env.ASTRO_MDX_COUNTER_PATH;
++const mdxCounter = mdxCounterPath ? {
++  schema: 1,
++  kind: "astro_mdx_transform_handler_counter",
++  processId: process.pid,
++  startedAt: new Date().toISOString(),
++  calls: 0,
++  completed: 0,
++  failed: 0,
++  active: 0,
++  maxActive: 0,
++  totalHandlerDurationMs: 0,
++  firstHandlerStartedAt: null,
++  lastHandlerFinishedAt: null,
++  buildEnds: 0,
++  instances: [],
++  ids: /* @__PURE__ */ new Map()
++} : null;
++function registerCounterInstance() {
++  if (!mdxCounter) return null;
++  const instance = {
++    index: mdxCounter.instances.length,
++    createdAt: new Date().toISOString(),
++    configurations: [],
++    buildEnds: 0
++  };
++  mdxCounter.instances.push(instance);
++  return instance;
++}
++function beginCounterTransform(id, instance) {
++  if (!mdxCounter) return null;
++  const startedAt = performance.now();
++  mdxCounter.calls++;
++  mdxCounter.active++;
++  mdxCounter.maxActive = Math.max(mdxCounter.maxActive, mdxCounter.active);
++  mdxCounter.firstHandlerStartedAt ??= new Date().toISOString();
++  let record = mdxCounter.ids.get(id);
++  if (!record) {
++    record = {
++      id,
++      calls: 0,
++      completed: 0,
++      failed: 0,
++      totalHandlerDurationMs: 0,
++      instances: /* @__PURE__ */ new Set()
++    };
++    mdxCounter.ids.set(id, record);
++  }
++  record.calls++;
++  if (instance) record.instances.add(instance.index);
++  return { startedAt, record };
++}
++function finishCounterTransform(token, succeeded) {
++  if (!mdxCounter || !token) return;
++  const durationMs = performance.now() - token.startedAt;
++  mdxCounter.active--;
++  mdxCounter.totalHandlerDurationMs += durationMs;
++  token.record.totalHandlerDurationMs += durationMs;
++  if (succeeded) {
++    mdxCounter.completed++;
++    token.record.completed++;
++  } else {
++    mdxCounter.failed++;
++    token.record.failed++;
++  }
++  mdxCounter.lastHandlerFinishedAt = new Date().toISOString();
++}
++function flushMdxCounter(reason) {
++  if (!mdxCounter || !mdxCounterPath) return;
++  const ids = [...mdxCounter.ids.values()].map((record) => ({
++    ...record,
++    totalHandlerDurationMs: Number(record.totalHandlerDurationMs.toFixed(3)),
++    instances: [...record.instances].sort((a, b) => a - b)
++  })).sort((a, b) => a.id.localeCompare(b.id));
++  const snapshot = {
++    ...mdxCounter,
++    reason,
++    flushedAt: new Date().toISOString(),
++    distinctIds: ids.length,
++    totalHandlerDurationMs: Number(mdxCounter.totalHandlerDurationMs.toFixed(3)),
++    ids
++  };
++  delete snapshot.active;
++  writeFileSync(mdxCounterPath, JSON.stringify(snapshot, null, 2) + "\n");
++}
++if (mdxCounter) {
++  process.once("exit", () => flushMdxCounter("process-exit"));
++}
+ function vitePluginMdx(opts) {
+   let mdxRenderer;
+   let sourcemapEnabled;
++  const counterInstance = registerCounterInstance();
+   return {
+     name: "@mdx-js/rollup",
+     enforce: "pre",
+     buildEnd() {
+       mdxRenderer = void 0;
++      if (mdxCounter && counterInstance) {
++        mdxCounter.buildEnds++;
++        counterInstance.buildEnds++;
++        flushMdxCounter("build-end");
++      }
+     },
+     configResolved(resolved) {
+       sourcemapEnabled = !!resolved.build.sourcemap;
++      if (counterInstance) {
++        counterInstance.configurations.push({
++          command: resolved.command,
++          mode: resolved.mode,
++          root: resolved.root,
++          ssr: Boolean(resolved.build.ssr),
++          sourcemap: sourcemapEnabled
++        });
++      }
+       const jsxPluginIndex = resolved.plugins.findIndex((p) => p.name === "astro:jsx");
+       if (jsxPluginIndex !== -1) {
+         resolved.plugins.splice(jsxPluginIndex, 1);
+@@ -35,27 +140,34 @@
+         id: /\.mdx$/
+       },
+       async handler(code, id) {
+-        const { frontmatter, content } = safeParseFrontmatter(code, id);
++        const counterToken = beginCounterTransform(id, counterInstance);
++        let counterSucceeded = false;
+         try {
+-          if (!mdxRenderer) {
+-            mdxRenderer = await resolveMdxRenderer(opts, sourcemapEnabled);
+-          }
+-          const result = await mdxRenderer.process(content, id, frontmatter);
+-          return {
+-            code: result.code,
+-            map: result.map ?? null,
+-            meta: {
+-              astro: result.astroMetadata,
+-              // `lang: 'ts'` makes Vite resolve `.js` import specifiers to `.ts` files.
+-              vite: { lang: "ts" }
+-            }
+-          };
+-        } catch (e) {
+-          const err = e;
+-          err.name = "MDXError";
+-          err.loc = { file: id, line: e.line, column: e.column };
+-          Error.captureStackTrace(err);
+-          throw err;
++          const { frontmatter, content } = safeParseFrontmatter(code, id);
++          try {
++            if (!mdxRenderer) {
++              mdxRenderer = await resolveMdxRenderer(opts, sourcemapEnabled);
++            }
++            const result = await mdxRenderer.process(content, id, frontmatter);
++            counterSucceeded = true;
++            return {
++              code: result.code,
++              map: result.map ?? null,
++              meta: {
++                astro: result.astroMetadata,
++                // `lang: 'ts'` makes Vite resolve `.js` import specifiers to `.ts` files.
++                vite: { lang: "ts" }
++              }
++            };
++          } catch (e) {
++            const err = e;
++            err.name = "MDXError";
++            err.loc = { file: id, line: e.line, column: e.column };
++            Error.captureStackTrace(err);
++            throw err;
++          }
++        } finally {
++          finishCounterTransform(counterToken, counterSucceeded);
+         }
+       }
+     }

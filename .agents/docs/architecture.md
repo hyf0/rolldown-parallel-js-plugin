@@ -44,13 +44,13 @@ The research must not collapse plugin adaptation and runtime placement into one 
 
 Evaluate worker placements at the least invasive adaptation form that preserves production behavior, and never compare variants that silently use different plugin semantics. Native or built-in execution is a possible performance bound but remains a separate architecture because it does not measure JavaScript plugin parallelization.
 
-The controlled first-iteration runtime evidence covers ordinary, one-worker, and the current replicated whole-plugin pool. Vue and Svelte then use the coordinator/kernel boundary without proposing a public API because whole-plugin replication is not behavior-complete for either ecosystem plugin. The production-scale iteration adds plugin-owned placement whenever the same kernel can run there; without that baseline, a positive result proves JavaScript worker value but not the additional value of Rolldown ownership.
+The controlled first-iteration runtime evidence covers ordinary, one-worker, and the current replicated whole-plugin pool. Vue and Svelte then use the coordinator/kernel boundary without proposing a public API because whole-plugin replication is not behavior-complete for either ecosystem plugin. The Cloudflare MDX study adds a plugin-owned placement using the same kernel. Both worker forms exceed 2x over the ordinary stage in a repeated local matrix whose host violated the clean-run policy, while the plugin-managed-to-Rolldown-managed interval crosses parity. This is strong worker-value evidence but not clean-host formal confirmation or evidence for the additional value of Rolldown ownership. [Cloudflare result](../../experiments/cloudflare-mdx/2026-07-12-results.md)
 
 ## Worker placement for a qualifying production workload
 
 The current implementation already uses one shared `WorkerManager`: every parallel plugin is initialized in every worker, and calls from all parallel plugins compete for the same permits. It has no placement configuration, dedicated capacity, per-plugin concurrency policy, or global resource decision beyond the hardware-derived worker count.
 
-The production protocol treats placement as a Rolldown-owned policy rather than assigning one worker to one plugin. No candidate passed admission, so this remains an unimplemented research model:
+The production protocol treats placement as a Rolldown-owned policy rather than assigning one worker to one plugin. Cloudflare measured only one plugin in the current shared pool, so cross-plugin placement remains an unimplemented research model:
 
 ```text
 Rolldown worker manager
@@ -83,7 +83,7 @@ A worker kernel receives serializable module-local inputs and returns code, sour
 
 ## Sustained production-scale behavior
 
-The production target is not dominated by a few hundred milliseconds of worker startup. It requires evidence over a 15–30 minute build with roughly 5,000 distinct project module IDs executing the expensive JavaScript transform. Seven behaviors determine whether the mechanism retains value at that duration:
+The Cloudflare production compiler takes about 1.94–1.95 seconds to initialize in each worker and the four-worker pool becomes ready in about 2.0 seconds, yet the repeated worker stage still exceeds 2x because 9,157 transforms amortize that cost. The original application reference remains about 11m29s wall and the direct transform stage saves only about 35 seconds, so the requested 15–30 minute and 2x complete-build target still requires a workload whose JavaScript transform dominates the critical path. Seven behaviors determine whether the mechanism retains value at that duration:
 
 1. Per-worker transform service must be measured over time, including whether calls become slower after more workers are added, after JIT warmup, as caches grow, or during garbage collection.
 2. Worker count must share CPU with Rolldown's Rust work and any native compiler stages. The useful count is the one that shortens complete-build wall time under a global resource budget, not the one that maximizes isolated JavaScript activity.
@@ -129,7 +129,8 @@ Each level answers a different question and must not be promoted into a stronger
 3. A direct-Rolldown Vue transform measures compiler initialization, diagnostics, output bytes, and realistic SFC work under the execution model; it disables source maps and makes no map claim.
 4. A pinned direct-Rolldown project graph measures complete fixture-build value, including Rust work, output generation, and contention; the shadcn-svelte registry subgraph supplies this level without claiming a full application.
 5. Separate direct-Rolldown `resolveId` and `load` fixtures establish hook-specific CPU, async, graph-shape, payload, state, and reentrancy conclusions without manufacturing a real-plugin win.
-6. A required JavaScript transform or transform chain with roughly 5,000 distinct project module IDs verified at the expensive handler boundary and a repeated 15–30 minute ordinary baseline is required before making a production-scale investment claim or a 2x wall-time claim.
+6. The Cloudflare MDX/server graph supplies a real 9,157-handler transform-stage result with strong repeated local evidence above 2x, while its host-policy violations prevent clean-host formal confirmation. Under the adapter boundary, the untouched 377-second route phase prevents halving the complete application reference. This is evidence for production source, configuration, volume, and graph adaptation without a complete-build claim.
+7. A required JavaScript transform or transform chain with roughly 5,000 distinct project module IDs verified at the expensive handler boundary, a measured dominant critical-path share, and a repeated 15–30 minute ordinary direct-Rolldown baseline is required before making a 2x complete-build claim.
 
 Technical quality is an equal evidence axis at every level. A faster variant is not viable if it changes output or source maps, loses metadata, changes diagnostics, leaks workers, deadlocks, or produces worker-count-dependent results.
 

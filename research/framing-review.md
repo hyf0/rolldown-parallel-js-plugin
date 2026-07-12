@@ -1,6 +1,6 @@
 # First-Iteration Confirmed Research Direction
 
-Direction confirmed by Yunfei on 2026-07-11 and completed by the evidence committed on that date. It remains the historical reason for the mechanism-scale sequence. Yunfei started the broader [production-scale goal](../.agents/docs/production-scale-goal.md) on 2026-07-12; its bounded screen ended with an inconclusive corpus, so implementation never opened.
+Direction confirmed by Yunfei on 2026-07-11 and completed by the evidence committed on that date. It remains the historical reason for the mechanism-scale sequence. Yunfei started the broader [production-scale goal](../.agents/docs/production-scale-goal.md) on 2026-07-12, corrected the screen's direct-Rolldown admission rule, and the resulting [Cloudflare MDX study](../experiments/cloudflare-mdx/2026-07-12-results.md) completed as a positive transform-stage study that rejects Cloudflare as the requested complete-build candidate. The broader complete-build goal remains open.
 
 ## Confirmed scope
 

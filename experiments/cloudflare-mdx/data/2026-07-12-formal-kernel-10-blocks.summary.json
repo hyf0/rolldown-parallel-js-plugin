@@ -1,0 +1,790 @@
+{
+  "schema": 1,
+  "source": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-cloudflare-build/experiments/cloudflare-mdx/data/2026-07-12-formal-kernel-10-blocks.raw.json",
+  "generatedAt": "2026-07-12T06:51:14.485Z",
+  "executionScope": "unrecorded",
+  "benchmarkEligible": false,
+  "benchmarkIneligibilityReasons": [
+    "execution scope is unrecorded; local-only provenance is required",
+    "runner source-hash provenance is missing",
+    "case-runner source-hash provenance is missing",
+    "execution-environment provenance is missing",
+    "effective RUN_LINK_CHECK state is missing from one or more runs",
+    "42 run-level host-policy violation(s) across 30 run(s)"
+  ],
+  "provenance": {
+    "runnerSourceHashRecorded": false,
+    "runnerSourceHashConsistent": false,
+    "caseRunnerSourceHashRecorded": false,
+    "caseRunnerSourceHashConsistent": false,
+    "executionEnvironmentRecorded": false,
+    "executionEnvironmentPoliciesCompatible": false,
+    "activeParentCiMarkers": [],
+    "buildProfiles": [
+      "default"
+    ],
+    "effectiveRunLinkCheckRecorded": false
+  },
+  "hostPolicyViolations": {
+    "report": [],
+    "runs": [
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 0,
+        "variant": "ordinary",
+        "message": "pageouts increased by 43 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 0,
+        "variant": "managed-4",
+        "message": "start process CPU 330.3999999999999% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 0,
+        "variant": "managed-4",
+        "message": "pageouts increased by 778 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 0,
+        "variant": "worker-4",
+        "message": "start process CPU 668.9000000000001% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 0,
+        "variant": "worker-4",
+        "message": "pageouts increased by 51 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 1,
+        "variant": "managed-4",
+        "message": "pageouts increased by 93 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 1,
+        "variant": "worker-4",
+        "message": "pageouts increased by 130 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 1,
+        "variant": "ordinary",
+        "message": "start process CPU 315.2% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 1,
+        "variant": "ordinary",
+        "message": "pageouts increased by 483 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 2,
+        "variant": "worker-4",
+        "message": "pageouts increased by 717 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 2,
+        "variant": "ordinary",
+        "message": "pageouts increased by 1 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 2,
+        "variant": "managed-4",
+        "message": "pageouts increased by 119 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 3,
+        "variant": "ordinary",
+        "message": "pageouts increased by 129 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 3,
+        "variant": "managed-4",
+        "message": "start process CPU 311.19999999999993% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 3,
+        "variant": "managed-4",
+        "message": "pageouts increased by 349 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 3,
+        "variant": "worker-4",
+        "message": "swapouts increased by 1964 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 3,
+        "variant": "worker-4",
+        "message": "pageouts increased by 330 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 4,
+        "variant": "managed-4",
+        "message": "start process CPU 436.60000000000014% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 4,
+        "variant": "managed-4",
+        "message": "pageouts increased by 255 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 4,
+        "variant": "worker-4",
+        "message": "pageouts increased by 317 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 4,
+        "variant": "ordinary",
+        "message": "pageouts increased by 163 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 5,
+        "variant": "worker-4",
+        "message": "swapouts increased by 26488 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 5,
+        "variant": "worker-4",
+        "message": "pageouts increased by 365 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 5,
+        "variant": "ordinary",
+        "message": "pageouts increased by 302 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 5,
+        "variant": "managed-4",
+        "message": "start process CPU 338.1000000000001% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 5,
+        "variant": "managed-4",
+        "message": "pageouts increased by 207 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 6,
+        "variant": "ordinary",
+        "message": "pageouts increased by 29 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 6,
+        "variant": "managed-4",
+        "message": "pageouts increased by 71 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 6,
+        "variant": "worker-4",
+        "message": "swapouts increased by 29764 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 6,
+        "variant": "worker-4",
+        "message": "pageouts increased by 277 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "managed-4",
+        "message": "pageouts increased by 278 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "worker-4",
+        "message": "start process CPU 515.5000000000001% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "worker-4",
+        "message": "swapouts increased by 2068 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "worker-4",
+        "message": "pageouts increased by 365 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "ordinary",
+        "message": "start process CPU 430.99999999999994% exceeded 300%"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 7,
+        "variant": "ordinary",
+        "message": "pageouts increased by 565 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 8,
+        "variant": "worker-4",
+        "message": "pageouts increased by 181 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 8,
+        "variant": "ordinary",
+        "message": "pageouts increased by 706 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 8,
+        "variant": "managed-4",
+        "message": "pageouts increased by 173 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 9,
+        "variant": "ordinary",
+        "message": "pageouts increased by 7 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 9,
+        "variant": "managed-4",
+        "message": "pageouts increased by 363 pages"
+      },
+      {
+        "name": "production-mdx-formal-kernel",
+        "index": 9,
+        "variant": "worker-4",
+        "message": "pageouts increased by 132 pages"
+      }
+    ]
+  },
+  "validationErrors": [],
+  "rawOutputDifferences": [
+    "production-mdx-formal-kernel produced different raw outputBytes: 166149790,166149800,166149792,166149801,166149795,166149798,166149793,166149791,166149785,166149807,166149797",
+    "production-mdx-formal-kernel produced different raw outputHash: 00f5169f1be730a6ff4079ce586abcd9e0c28821c261830e3ffdf98bd62a6265,48e3b733cf13674a6b2d05c8e34868cada61ce58bc9892f7de074ccba8f0a348,83ab39eb155a41d6acb27978d43b61e41dde02117a9da2f8e4d302612fb044f0,8ba7f9d8d799a266fa785812d43bae97ad5a4710e3bd63bd180079bff5e769d5,46abf907be1e3dd0c7d7c43e386c2b588f86f08f81179860a018addc2bef6873,2f08a439d2cb13db1ba8dab97a6e84b7f61a4221f6ceb078702ae6f461e7dfe8,3b1ac049752ee75d1823624010588319f15e71e6566b4e98bf80aa1e5127adbc,113fa078500d5edfe65d09f605204527beeac4c04d6e088a063625edf46eedc0,149106f6ba9dd0a83a3883724a6d26bf80670063c4e24b5765c8deb6ec3cd3b8,3d53daaa004607b6027755c62b2a482a6f347574ce5a7ea4a3e2e23d02e47b8a,ef87841f236e90213bcf7b97a7640deb7dd9ed8acdd0ad45b201116e347940a7,02039662f48bf1b8139a4127f10a1093d8de74298e7d2adcfdcbfb97b4883bb7,82eed66a87b917db92a739d7eaa04a03320422bbf8910a5648b5df277a28a2a1,47699ae5a1c2141d370ba0cb42fd0b4a5000236aded6c368260a31e02c471b9f,d51f42e362586e988739ca37f38833d6843ea51eef32acb68cdaf8cb88625812",
+    "production-mdx-formal-kernel produced different raw outputBytes: 166149793,166149801,166149798,166149791,166149784,166149792,166149789,166149805,166149778,166149796,166149794,166149790,166149802",
+    "production-mdx-formal-kernel produced different raw outputHash: 40fbf5fd77c85f8cb298c14d617960185db802fa946a1b3d696ab81423cc963a,40a49a5d00569a9cae812e1d35b4cc24d2507b35b0582861aea5f658afe3d393,e18abcf9d94a4b3a77f854b8e278c2f4c2e6c0b03abb34330102d2fb313437d7,aad413ee3d27915df0b66eb58a42c3b177b224b36a7afa8310b45f9297161f17,114c8aa850381171c89d03eff160f48a9be8c0623bbb8decaeb33a330781b27c,4063c558c39727d1e8125fd016606b1ecdf81ed235d89a6bf7f66c0f35bb1505,3d1d5f94ff0e98c5a683cd44df3c278367c67202a9843d8607bb1dbec4c21d08,5eaf691c3b8adee7ccb9d7c39d4a9a306fd51a7ddb42b86f0f49fd4dac75c9a8,fc45e9889f756fdf2e3eac83f0cc1d0177e2947de5dac8da36c159c132501b13,6d220e60f97b00ccf2a5c6606ccfb23280a101d080f19f36354584f1685d3bff,3d056f3d81fd9a278bed11de2107b6e5173e12c38baaa7309c1095b1555948e1,d460cd49fe6cca2961e5c3bd12452287ce877b8d0455bf2375a8fe7836993747,483efb758136afad95b20470fa01467fa5e4db0eb0407d345574b416ceba908e,e5ed0c957c0f906841b08d7bd7fb12ccc1cc9e7c646d70cc8d8b4b7ec4d36f51,a594acaf77b8369f7c8ddf26b6b38975f806145e763d6fa2f12bdbf30c9411e2"
+  ],
+  "cases": [
+    {
+      "name": "production-mdx-formal-kernel",
+      "variants": {
+        "ordinary": {
+          "samples": 10,
+          "wallMs": {
+            "min": 60308.355124999995,
+            "median": 63089.409271000004,
+            "mean": 63883.2116958,
+            "max": 67559.940208,
+            "sampleStandardDeviation": 2690.5902702802355,
+            "values": [
+              63834.988125,
+              67559.940208,
+              60308.355124999995,
+              61491.533291,
+              62154.015084,
+              66362.000583,
+              61476.33625,
+              66140.941459,
+              67160.176416,
+              62343.830417000005
+            ]
+          },
+          "cpuMs": {
+            "min": 75700.96,
+            "median": 78955.8725,
+            "mean": 79646.6294,
+            "max": 85532.52799999999,
+            "sampleStandardDeviation": 3114.9917497455995,
+            "values": [
+              78938.012,
+              81258.82,
+              75700.96,
+              76414.51699999999,
+              78497.27,
+              82599.80500000001,
+              78973.733,
+              81804.93,
+              85532.52799999999,
+              76745.719
+            ]
+          },
+          "peakRssBytes": {
+            "min": 2796306432,
+            "median": 3125788672,
+            "mean": 3149217792,
+            "max": 3630399488,
+            "sampleStandardDeviation": 248803886.179744,
+            "values": [
+              3256696832,
+              3237052416,
+              3322757120,
+              3014524928,
+              2796306432,
+              2980495360,
+              3630399488,
+              2924527616,
+              3329163264,
+              3000254464
+            ]
+          },
+          "normalizedOutputHashes": [
+            "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484"
+          ]
+        },
+        "managed-4": {
+          "samples": 10,
+          "wallMs": {
+            "min": 23014.010292000003,
+            "median": 26779.356771,
+            "mean": 27939.657175299995,
+            "max": 43915.448167,
+            "sampleStandardDeviation": 5959.028112181147,
+            "values": [
+              43915.448167,
+              23014.010292000003,
+              24705.940709,
+              26298.428834000002,
+              28293.354667,
+              27260.284708,
+              23849.453041999997,
+              29122.90725,
+              25070.903374999998,
+              27865.840709
+            ]
+          },
+          "cpuMs": {
+            "min": 118121.16,
+            "median": 130993.536,
+            "mean": 130729.4873,
+            "max": 148463.884,
+            "sampleStandardDeviation": 9048.957919141209,
+            "values": [
+              148463.884,
+              118121.16,
+              123165.65400000001,
+              130449.037,
+              139135.58299999998,
+              135525.843,
+              123933.61,
+              133752.064,
+              123210.003,
+              131538.035
+            ]
+          },
+          "peakRssBytes": {
+            "min": 3537190912,
+            "median": 3937812480,
+            "mean": 3921931468.8,
+            "max": 4619452416,
+            "sampleStandardDeviation": 320026964.3723289,
+            "values": [
+              3955654656,
+              4619452416,
+              3919970304,
+              3975397376,
+              4114874368,
+              3618144256,
+              4081008640,
+              3537190912,
+              3578789888,
+              3818831872
+            ]
+          },
+          "normalizedOutputHashes": [
+            "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484"
+          ]
+        },
+        "worker-4": {
+          "samples": 10,
+          "wallMs": {
+            "min": 24954.269083,
+            "median": 28226.249896,
+            "mean": 28939.4862082,
+            "max": 36702.600750000005,
+            "sampleStandardDeviation": 3249.0110656164716,
+            "values": [
+              29589.829375,
+              24954.269083,
+              27614.564916,
+              28308.836542,
+              26238.264667000003,
+              27514.381458,
+              28875.847040999997,
+              31452.605000000003,
+              36702.600750000005,
+              28143.66325
+            ]
+          },
+          "cpuMs": {
+            "min": 121633.15999999999,
+            "median": 129624.36499999999,
+            "mean": 131483.7659,
+            "max": 152321.65800000002,
+            "sampleStandardDeviation": 8625.86437385447,
+            "values": [
+              126732.884,
+              121633.15999999999,
+              129986.732,
+              134175.954,
+              125686.936,
+              129492.386,
+              129756.344,
+              138165.54,
+              152321.65800000002,
+              126886.065
+            ]
+          },
+          "peakRssBytes": {
+            "min": 3491807232,
+            "median": 4132610048,
+            "mean": 4114220646.4,
+            "max": 4684791808,
+            "sampleStandardDeviation": 333486792.1066357,
+            "values": [
+              4684791808,
+              4357816320,
+              4223123456,
+              4098768896,
+              4120100864,
+              4145119232,
+              3678240768,
+              4268605440,
+              3491807232,
+              4073832448
+            ]
+          },
+          "normalizedOutputHashes": [
+            "1840488b4a0d37a15851ea5dbc41e33f17cb1e9722b23c3048535d4d62274484"
+          ]
+        }
+      },
+      "paired": {
+        "ordinary-to-managed-4": {
+          "blocks": 10,
+          "wallSpeedup": {
+            "min": 1.4535884475606564,
+            "median": 2.3863023933573175,
+            "mean": 2.3564486005763023,
+            "max": 2.935600503815052,
+            "sampleStandardDeviation": 0.3892984659347002,
+            "values": [
+              1.4535884475606564,
+              2.935600503815052,
+              2.441046703517368,
+              2.3382207993924142,
+              2.1967707900149938,
+              2.434383987322221,
+              2.5776832760792168,
+              2.271096799891089,
+              2.6788095910006278,
+              2.2372851071693822
+            ],
+            "bootstrap95": {
+              "lower": 2.2339337949530416,
+              "upper": 2.5776832760792168
+            }
+          },
+          "cpuRatio": {
+            "min": 1.4405046346812058,
+            "median": 1.6378824222117434,
+            "mean": 1.6440539619239953,
+            "max": 1.8807654289545572,
+            "sampleStandardDeviation": 0.13542173560683896,
+            "values": [
+              1.8807654289545572,
+              1.4536410939760138,
+              1.6270025373522343,
+              1.707123752414741,
+              1.7724894509070186,
+              1.6407525780478536,
+              1.569301656286148,
+              1.6350122663756332,
+              1.4405046346812058,
+              1.7139462202445457
+            ]
+          },
+          "peakRssRatio": {
+            "min": 1.0749817909801374,
+            "median": 1.2142811403989642,
+            "mean": 1.2507068631162135,
+            "max": 1.4715391421021486,
+            "sampleStandardDeviation": 0.1252898181439101,
+            "values": [
+              1.214621704154991,
+              1.4270551793252149,
+              1.1797342274598752,
+              1.3187475542414888,
+              1.4715391421021486,
+              1.2139405766429376,
+              1.1241210928685543,
+              1.2094913696995502,
+              1.0749817909801374,
+              1.2728359936872342
+            ]
+          },
+          "wallSpeedups": [
+            1.4535884475606564,
+            2.935600503815052,
+            2.441046703517368,
+            2.3382207993924142,
+            2.1967707900149938,
+            2.434383987322221,
+            2.5776832760792168,
+            2.271096799891089,
+            2.6788095910006278,
+            2.2372851071693822
+          ],
+          "cpuRatios": [
+            1.8807654289545572,
+            1.4536410939760138,
+            1.6270025373522343,
+            1.707123752414741,
+            1.7724894509070186,
+            1.6407525780478536,
+            1.569301656286148,
+            1.6350122663756332,
+            1.4405046346812058,
+            1.7139462202445457
+          ],
+          "peakRssRatios": [
+            1.214621704154991,
+            1.4270551793252149,
+            1.1797342274598752,
+            1.3187475542414888,
+            1.4715391421021486,
+            1.2139405766429376,
+            1.1241210928685543,
+            1.2094913696995502,
+            1.0749817909801374,
+            1.2728359936872342
+          ]
+        },
+        "ordinary-to-worker-4": {
+          "blocks": 10,
+          "wallSpeedup": {
+            "min": 1.8298478866242194,
+            "median": 2.178050144086691,
+            "mean": 2.22784243375353,
+            "max": 2.7073499922313875,
+            "sampleStandardDeviation": 0.23036961591440114,
+            "values": [
+              2.1573286995339425,
+              2.7073499922313875,
+              2.1839328379226814,
+              2.1721674502507007,
+              2.368831013514831,
+              2.4119023240373365,
+              2.128988152718481,
+              2.1028764218098943,
+              1.8298478866242194,
+              2.2151995588918227
+            ],
+            "bootstrap95": {
+              "lower": 2.128988152718481,
+              "upper": 2.368831013514831
+            }
+          },
+          "cpuRatio": {
+            "min": 1.4968610176716814,
+            "median": 1.6481812584788251,
+            "mean": 1.65103983409488,
+            "max": 1.780862340465373,
+            "sampleStandardDeviation": 0.08755987224640657,
+            "values": [
+              1.6054734694864117,
+              1.4968610176716814,
+              1.717108105366167,
+              1.7558961211519535,
+              1.6011631487311597,
+              1.5677081319986166,
+              1.643031664718192,
+              1.688963489119788,
+              1.780862340465373,
+              1.6533308522394585
+            ]
+          },
+          "peakRssRatio": {
+            "min": 1.013177965719237,
+            "median": 1.3587511115660045,
+            "mean": 1.3158988823905422,
+            "max": 1.473408213367082,
+            "sampleStandardDeviation": 0.16181520423814033,
+            "values": [
+              1.4385102604478475,
+              1.346229767074615,
+              1.2709696506496388,
+              1.3596732466628985,
+              1.473408213367082,
+              1.3907484264629084,
+              1.013177965719237,
+              1.4595880088964084,
+              1.0488543081556723,
+              1.3578289764691105
+            ]
+          },
+          "wallSpeedups": [
+            2.1573286995339425,
+            2.7073499922313875,
+            2.1839328379226814,
+            2.1721674502507007,
+            2.368831013514831,
+            2.4119023240373365,
+            2.128988152718481,
+            2.1028764218098943,
+            1.8298478866242194,
+            2.2151995588918227
+          ],
+          "cpuRatios": [
+            1.6054734694864117,
+            1.4968610176716814,
+            1.717108105366167,
+            1.7558961211519535,
+            1.6011631487311597,
+            1.5677081319986166,
+            1.643031664718192,
+            1.688963489119788,
+            1.780862340465373,
+            1.6533308522394585
+          ],
+          "peakRssRatios": [
+            1.4385102604478475,
+            1.346229767074615,
+            1.2709696506496388,
+            1.3596732466628985,
+            1.473408213367082,
+            1.3907484264629084,
+            1.013177965719237,
+            1.4595880088964084,
+            1.0488543081556723,
+            1.3578289764691105
+          ]
+        },
+        "managed-4-to-worker-4": {
+          "blocks": 10,
+          "wallSpeedup": {
+            "min": 0.6830824754292104,
+            "median": 0.927456464121835,
+            "mean": 0.9724201809615126,
+            "max": 1.4841399593910298,
+            "sampleStandardDeviation": 0.2085688681029981,
+            "values": [
+              1.4841399593910298,
+              0.9222474204895951,
+              0.8946706487736574,
+              0.9289830330887218,
+              1.0783241584793026,
+              0.990764947764213,
+              0.8259308552277908,
+              0.9259298951549482,
+              0.6830824754292104,
+              0.9901284158166581
+            ],
+            "bootstrap95": {
+              "lower": 0.8740891378586929,
+              "upper": 1.0342262871479804
+            }
+          },
+          "cpuRatio": {
+            "min": 0.8536277011316773,
+            "median": 1.029151045786084,
+            "mean": 1.010702456164784,
+            "max": 1.2362767169155904,
+            "sampleStandardDeviation": 0.10367964049529416,
+            "values": [
+              0.8536277011316773,
+              1.029732183463149,
+              1.0553813322015893,
+              1.028569908109019,
+              0.9033414263265783,
+              0.9554811328493268,
+              1.0469826869402092,
+              1.0329974421927426,
+              1.2362767169155904,
+              0.964634031517956
+            ]
+          },
+          "peakRssRatio": {
+            "min": 0.90130678282514,
+            "median": 1.0489041273040975,
+            "mean": 1.053353183673429,
+            "max": 1.2067783577976128,
+            "sampleStandardDeviation": 0.10242882511363628,
+            "values": [
+              1.1843278080137842,
+              0.9433620974005937,
+              1.077335573611529,
+              1.0310337579696587,
+              1.0012701471618781,
+              1.145647862195133,
+              0.90130678282514,
+              1.2067783577976128,
+              0.9756949531204219,
+              1.0667744966385364
+            ]
+          },
+          "wallSpeedups": [
+            1.4841399593910298,
+            0.9222474204895951,
+            0.8946706487736574,
+            0.9289830330887218,
+            1.0783241584793026,
+            0.990764947764213,
+            0.8259308552277908,
+            0.9259298951549482,
+            0.6830824754292104,
+            0.9901284158166581
+          ],
+          "cpuRatios": [
+            0.8536277011316773,
+            1.029732183463149,
+            1.0553813322015893,
+            1.028569908109019,
+            0.9033414263265783,
+            0.9554811328493268,
+            1.0469826869402092,
+            1.0329974421927426,
+            1.2362767169155904,
+            0.964634031517956
+          ],
+          "peakRssRatios": [
+            1.1843278080137842,
+            0.9433620974005937,
+            1.077335573611529,
+            1.0310337579696587,
+            1.0012701471618781,
+            1.145647862195133,
+            0.90130678282514,
+            1.2067783577976128,
+            0.9756949531204219,
+            1.0667744966385364
+          ]
+        }
+      }
+    }
+  ]
+}
