@@ -62,7 +62,7 @@ try {
   const plan = {
     schemaVersion: 1,
     kind: 'rolldown-fixed-worker-policy-build-plan',
-    protocol: 'scale-crossover-v1-amended-6',
+    protocol: 'scale-crossover-v1-amended-7',
     formalCoverage: false,
     candidatePolicy: {
       fittedFromEvidence: false,

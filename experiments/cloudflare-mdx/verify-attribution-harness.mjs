@@ -58,6 +58,9 @@ const valid = {
 validateAttributionReport(valid, { correctnessOracle });
 
 const rejected = [];
+expectRejected('disabled-attribution-matrix', (report) => {
+  report.matrix.executionEnabled = false;
+});
 expectRejected('missing-rust-events', (report) => {
   report.runs[1].rustMetrics[0].timeline.events = [];
 });

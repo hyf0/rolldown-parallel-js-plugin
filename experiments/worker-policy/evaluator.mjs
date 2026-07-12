@@ -1,6 +1,6 @@
 import { FORMAL_SOURCE_TYPES } from './formal-source-contracts.mjs';
 
-export const CURRENT_PROTOCOL_REVISION = 'scale-crossover-v1-amended-6';
+export const CURRENT_PROTOCOL_REVISION = 'scale-crossover-v1-amended-7';
 
 export const POLICY_GATES = Object.freeze({
   maximumWallRegretRatio: 1.05,
@@ -13,7 +13,7 @@ export const POLICY_GATES = Object.freeze({
 const REQUIRED_PROTOCOL_DOCUMENTS = Object.freeze([
   '.agents/docs/scale-crossover-frozen-protocol.md',
   ...Array.from(
-    { length: 6 },
+    { length: 7 },
     (_value, index) =>
       `.agents/docs/scale-crossover-protocol-amendment-${index + 1}.md`,
   ),

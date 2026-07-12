@@ -1,8 +1,8 @@
 {
   "executionScope": "local-only",
   "evidenceKind": "attribution",
-  "executionEnabled": false,
-  "blockedBy": "Requires a passed scale-correctness-gate.json and a restarted host that passes every frozen admission gate.",
+  "executionEnabled": true,
+  "enabledBy": "The pinned full-corpus and semantic correctness artifacts pass scale-correctness-gate.json; every child still requires the restarted quiet-host admission.",
   "correctnessGate": "scale-correctness-gate.json",
   "runtimeProfile": {
     "kind": "instrumented-attribution",

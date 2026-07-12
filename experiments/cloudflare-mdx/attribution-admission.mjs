@@ -79,10 +79,13 @@ export function validateAttributionMatrix(matrix) {
   if (
     matrix?.executionScope !== 'local-only' ||
     matrix.evidenceKind !== 'attribution' ||
+    matrix.executionEnabled !== true ||
     typeof matrix.correctnessGate !== 'string' ||
     matrix.correctnessGate.length === 0
   ) {
-    throw new Error('Attribution matrix must be local-only, explicitly attributed, and gated');
+    throw new Error(
+      'Attribution matrix must be enabled, local-only, explicitly attributed, and gated',
+    );
   }
   if (!same(normalizeRuntimeProfile(matrix.runtimeProfile), ATTRIBUTION_RUNTIME_PROFILE)) {
     throw new Error('Attribution matrix does not use the exact frozen attribution runtime');

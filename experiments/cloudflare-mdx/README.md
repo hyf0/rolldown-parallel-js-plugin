@@ -85,7 +85,7 @@ The execution definitions are:
 The correctness counter mode does not call `performance.now`, `process.hrtime`, CPU/RSS APIs, or host samplers. It records only exact identity, hit, worker, map-result, and completion-state counters; clock and duration columns are exclusive to attribution reports.
 - `scale-base-screen-matrix.json`: one uninstrumented, no-warmup rotated screen of ordinary and worker counts one through eight at every base scale. It is enabled after the correctness gate passed, but the frozen performance host gate still applies before the first child.
 - `scale-refinement-matrix.json`: a deliberately non-executable catalog. Populate it only with points inside the first direction-changing base interval.
-- `scale-attribution-matrix.json`: the disabled formal ordinary/worker-four/worker-eight attribution lane over the full 9,157-source prefix. It is never wall or correctness evidence and cannot execute before the correctness and host gates pass.
+- `scale-attribution-matrix.json`: the enabled formal ordinary/worker-four/worker-eight attribution lane over the full 9,157-source prefix. The correctness gate has passed, but every child must still pass the restarted quiet-host gate. It is never wall or correctness evidence.
 - `scale-graph-smoke-config.json`: the 32-source server-graph correctness lane.
 - `scale-semantic-sentinel.json`: executable correctness-only coverage for the existing graph smoke, all six playground sources, fixed docs/partials Mermaid sources, and the invalid diagnostic fixture. It retains structured diagnostic differences as product failures.
 
