@@ -18,7 +18,9 @@ Removing the accidental dependency on an unrelated timer is a lifecycle prerequi
 
 ## Separate attribution artifact
 
-Extended Rust transform events, main/worker CPU and heap snapshots, garbage-collection observation, binding-module initialization counters, and detailed initialization boundaries use a separate instrumented release artifact. Its commit, binding hash, and distribution hash are distinct from the lifecycle-corrected wall baseline. Instrumented elapsed time is never wall-performance evidence, even when the metrics flag is disabled.
+Extended Rust transform events, main/worker CPU and heap snapshots, garbage-collection observation, binding-module initialization counters, and detailed initialization boundaries use research commit `8e35a2249b60b65120a44d1d896eeeed19dc703b`, release binding SHA-256 `6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e`, and distribution SHA-256 `68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735` over 17,140,783 bytes. These pins are distinct from the lifecycle-corrected wall baseline. Instrumented elapsed time is never wall-performance evidence, even when the metrics flag is disabled.
+
+The binding counter produced an early negative initialization result before formal timing. Actual worker-one and worker-four direct builds each emitted one process-level module-initialization record: the retained Tokio runtime started 18 worker threads and stopped none. `napi-derive` 3.5.9 expands `#[napi_derive::module_init]` through `napi::ctor::declarative::ctor!`, so this is a dynamic-library constructor, not a callback repeated for every Node worker environment. The earlier hypothesis that every worker constructed and discarded another Tokio runtime is refuted. Worker startup attribution must instead examine Worker/V8 environment creation, JavaScript module loading, plugin factory/configuration, bindingification, JIT, garbage collection, and retained state.
 
 Each matrix declares one of three profiles and rejects all others:
 
