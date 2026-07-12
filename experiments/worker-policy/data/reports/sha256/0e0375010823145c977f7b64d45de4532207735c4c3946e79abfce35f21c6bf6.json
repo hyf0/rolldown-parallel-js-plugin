@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "rolldown-fixed-worker-policy-machine-topology",
+  "executionScope": "local-only",
+  "node": "v24.18.0",
+  "platform": "darwin",
+  "architecture": "arm64",
+  "cpuModel": "Apple M3 Pro",
+  "availableParallelism": 12,
+  "logicalCpuCount": 12,
+  "performanceCores": 6,
+  "efficiencyCores": 6,
+  "performanceLevels": [
+    {
+      "name": "Performance",
+      "logicalCpuCount": 6
+    },
+    {
+      "name": "Efficiency",
+      "logicalCpuCount": 6
+    }
+  ]
+}
