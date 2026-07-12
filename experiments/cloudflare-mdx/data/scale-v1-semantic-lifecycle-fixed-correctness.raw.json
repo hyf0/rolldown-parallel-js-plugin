@@ -1,0 +1,1340 @@
+{
+  "schema": 1,
+  "classification": "correctness-only",
+  "timingEligible": false,
+  "measurementFieldsPresent": false,
+  "node": "v24.18.0",
+  "nodeBinary": "/Users/yunfeihe/.local/share/mise/installs/node/24.18.0/bin/node",
+  "config": {
+    "schema": 1,
+    "algorithm": "cloudflare-mdx-scale-v1",
+    "classification": "correctness-only",
+    "executionEnabled": true,
+    "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+    "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown",
+    "runtimeProfile": {
+      "kind": "lifecycle-fixed-baseline",
+      "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+      "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+      "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+      "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "changeScope": "remove-early-parent-worker-unref-only"
+    },
+    "poolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "fixedNow": "2026-07-12T00:00:00.000Z",
+    "successVariants": [
+      "ordinary",
+      "managed-2",
+      "worker-2"
+    ],
+    "diagnosticVariants": [
+      "ordinary",
+      "worker-2"
+    ],
+    "successEntries": [
+      "src/content/docs/workers/index.mdx",
+      "src/content/docs/style-guide/components/render.mdx",
+      "src/content/docs/images/optimization/draw-overlays.mdx",
+      "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+      "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+      "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+      "src/content/partials/workers/fetch-html-example-js.mdx",
+      "src/content/partials/workers/redirect-example-js.mdx",
+      "src/content/partials/workers/respond-another-site-example-js.mdx",
+      "src/content/partials/workers/return-html-example-js.mdx",
+      "src/content/partials/workers/return-json-example-js.mdx",
+      "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+      "src/content/partials/agents/what-just-happened.mdx"
+    ],
+    "coverage": {
+      "existingGraphSmokeEntries": 5,
+      "allPlaygroundSources": 6,
+      "fixedMermaidSources": 2
+    },
+    "diagnosticFixture": {
+      "path": "experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx",
+      "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191",
+      "expectedResult": "structured-error",
+      "requireExactParity": false,
+      "capabilityStatusOnDifference": "product-failure",
+      "timingEligible": false
+    }
+  },
+  "environment": {
+    "runtimeProfile": {
+      "kind": "lifecycle-fixed-baseline",
+      "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+      "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+      "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+      "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+      "changeScope": "remove-early-parent-worker-unref-only"
+    },
+    "compilerEnvironment": {
+      "schema": 1,
+      "node": "v24.18.0",
+      "installedBy": "pnpm@11.12.0",
+      "projectFiles": {
+        "package.json": "9109282fc31d22ca3391f480cc993df5be41b834457f6ea04c0356320c205812",
+        "pnpm-lock.yaml": "f908eb3dab7cd3346887a6a6cc9b26c8f49015d891900612eb69b5bd94829e7c",
+        "pnpm-workspace.yaml": "456b838b834f7ee2d60d0835d099b94c0d205180869d188048d7327005b25dec",
+        "node_modules/.modules.yaml": "60f64721c5cacfa8ec58d148e21b96a57096f3051cfd2ec6675e13bd3324edcd"
+      },
+      "packages": [
+        {
+          "name": "@astrojs/mdx",
+          "version": "6.0.3",
+          "treeSha256": "d285e9789d38b57ad2032056479becbe9c99199a530939e3ed3a77fcf0fdd30a"
+        },
+        {
+          "name": "@mdx-js/mdx",
+          "version": "3.1.1",
+          "treeSha256": "cb7ceda2117e895ea5c3edb4b653fe98cc0ea073e84f1696def46f58c4c6f3bd"
+        },
+        {
+          "name": "@astrojs/markdown-remark",
+          "version": "7.2.0",
+          "treeSha256": "6d5c17aea60bbd693c3decfbd87979e416ae5a5158a2f3d3dff12caee7175e34"
+        },
+        {
+          "name": "astro",
+          "version": "6.4.7",
+          "treeSha256": "01963858fd74530b7c506612d986fcc9dcead02192059656a1515e46316bd7cc"
+        },
+        {
+          "name": "@astrojs/compiler",
+          "version": "4.0.0",
+          "treeSha256": "29cc6b785e8cf5ffabe9bebfd4092113e742ee16c7d20434cc6fd4f123c930f4"
+        },
+        {
+          "name": "tsx",
+          "version": "4.22.4",
+          "treeSha256": "c0034f2c67037e35d8489f568c171e9c48256e47243ddb8b5fa77980e9643f1e"
+        }
+      ],
+      "dependencyClosure": {
+        "schema": 1,
+        "roots": [
+          "@astrojs/compiler@4.0.0:29cc6b785e8cf5ffabe9bebfd4092113e742ee16c7d20434cc6fd4f123c930f4",
+          "@astrojs/markdown-remark@7.2.0:6d5c17aea60bbd693c3decfbd87979e416ae5a5158a2f3d3dff12caee7175e34",
+          "@astrojs/mdx@6.0.3:d285e9789d38b57ad2032056479becbe9c99199a530939e3ed3a77fcf0fdd30a",
+          "@mdx-js/mdx@3.1.1:cb7ceda2117e895ea5c3edb4b653fe98cc0ea073e84f1696def46f58c4c6f3bd",
+          "astro@6.4.7:01963858fd74530b7c506612d986fcc9dcead02192059656a1515e46316bd7cc",
+          "tsx@4.22.4:c0034f2c67037e35d8489f568c171e9c48256e47243ddb8b5fa77980e9643f1e"
+        ],
+        "packageCount": 309,
+        "edgeCount": 760,
+        "selectionSha256": "3161bd51e7644136252a45c09b4c79e5a7abda901ce0c5e3f101f1c4abf3eeec"
+      }
+    },
+    "harnessSourceManifest": {
+      "schema": 1,
+      "recordFormat": "relativePath + NUL + bytes + NUL + sourceSha256 + LF",
+      "sourceCount": 58,
+      "selectionSha256": "5e12871caf8b02f5918fee751aa82df819229cac67849293cc8a4d4224610f5f",
+      "entries": [
+        {
+          "relativePath": "astro-mdx-counter.patch",
+          "bytes": 6053,
+          "sourceSha256": "6c19261687418a362b944fe7b3e9953f2a334d738d95d3e8898674eb4c579279"
+        },
+        {
+          "relativePath": "attribution-admission.mjs",
+          "bytes": 27200,
+          "sourceSha256": "5c0a21dceb274060916b30d3eaf36feb61fc6e6b7cd0294c7e58d062ef9e21af"
+        },
+        {
+          "relativePath": "attribution-resources.mjs",
+          "bytes": 5167,
+          "sourceSha256": "de6e6856916910599e69e84b276c8a80e3b9986074dd4f7d0559188c43ed82f0"
+        },
+        {
+          "relativePath": "child-buffer-policy.mjs",
+          "bytes": 352,
+          "sourceSha256": "4de1cfdf1f0bfb5db3f6b824e10ee353fa53f040eb707f92bb058306cfff32ba"
+        },
+        {
+          "relativePath": "correctness-gate.mjs",
+          "bytes": 20242,
+          "sourceSha256": "9bf0c0272f7a73e98db2aa06bd926da430a42132dd95ebbb8f0df6a92fbb5dd0"
+        },
+        {
+          "relativePath": "correctness-schema.mjs",
+          "bytes": 17782,
+          "sourceSha256": "dc8cceb892e0c5cc69be6c3df7fe0b5d27c664b9749060533926680e4dc90c57"
+        },
+        {
+          "relativePath": "create-transform.mjs",
+          "bytes": 4202,
+          "sourceSha256": "0d044adbd6d76476c72fb1d84c2e835456234c57e98003b853438c0443727856"
+        },
+        {
+          "relativePath": "data/cloudflare-mdx-scale-v1.json",
+          "bytes": 3835308,
+          "sourceSha256": "eb7576c384a82b8b19eb94058eef14d0328c2d7a05d9155bcddd6e511de24785"
+        },
+        {
+          "relativePath": "environment-provenance.mjs",
+          "bytes": 9945,
+          "sourceSha256": "34584b52225030a9240c7eee750e47d7f3059e9b99baa49a842c6952c53f4263"
+        },
+        {
+          "relativePath": "evidence-provenance.mjs",
+          "bytes": 1351,
+          "sourceSha256": "0f10d715fb01c99006bcdc6c0f71d7fd4ebde744e2b31dec018e086eb337ef50"
+        },
+        {
+          "relativePath": "fixtures/invalid-diagnostic.mdx",
+          "bytes": 54,
+          "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191"
+        },
+        {
+          "relativePath": "generate-mdx-policy.mjs",
+          "bytes": 4330,
+          "sourceSha256": "f5749e698eb4fc775367ad94facfe562148842cdc963c3bb9dfade2b87ef2143"
+        },
+        {
+          "relativePath": "generate-scale-followup.mjs",
+          "bytes": 3430,
+          "sourceSha256": "d73fd5dd6c213914d0204c4c1acb83119348d69c644d6c15d9862ec58829d35d"
+        },
+        {
+          "relativePath": "graph-config.mjs",
+          "bytes": 2229,
+          "sourceSha256": "4155295bf8cfabcd058f3edf0e9da25f9409171677af57be81c4930e8c629a78"
+        },
+        {
+          "relativePath": "graph-loader-plugin.mjs",
+          "bytes": 22149,
+          "sourceSha256": "3295ef2624cac426a595fd14349f9949cfea798ceb2b3b35e60a2041266c58a0"
+        },
+        {
+          "relativePath": "local-host-policy.mjs",
+          "bytes": 12580,
+          "sourceSha256": "cc764e4d90a027b91614a5eb108d3ba40875b6db7b6b593c0de1d086fa86256f"
+        },
+        {
+          "relativePath": "managed-worker-plugin.mjs",
+          "bytes": 7261,
+          "sourceSha256": "406074e5e238bbc890eb06979796dce5145668b734809b4ec6f5de389ddbdc8e"
+        },
+        {
+          "relativePath": "managed-worker-thread.mjs",
+          "bytes": 1701,
+          "sourceSha256": "532cdece349804cf6dba421ca946b1f373c08023bf67fb0b700b18113c642bb6"
+        },
+        {
+          "relativePath": "mdx-policy.mjs",
+          "bytes": 61259,
+          "sourceSha256": "219b91dade84ed3cbfc84c67c8050667786fc5345ced9205ee2c44ba59393e21"
+        },
+        {
+          "relativePath": "merge-matrix-reports.mjs",
+          "bytes": 3215,
+          "sourceSha256": "5b192ad4d2d1385e895aa869bcd98da53d7fd37e80953360dcd09a5683eb7779"
+        },
+        {
+          "relativePath": "metrics.mjs",
+          "bytes": 14097,
+          "sourceSha256": "68e005106c1a4a1c3959c30f6d9182d40424a268986d9d52608bd665032f8eab"
+        },
+        {
+          "relativePath": "normalize-output.mjs",
+          "bytes": 1355,
+          "sourceSha256": "f03839f3b7a2079d5109228a0841672107157571533bf993291eecf87287156b"
+        },
+        {
+          "relativePath": "ordinary-plugin.mjs",
+          "bytes": 541,
+          "sourceSha256": "722bf70253b35a3f6983a275317e74e53cdb22399ee0b4c293cb0f3b7cb8d68d"
+        },
+        {
+          "relativePath": "parallel-plugin.mjs",
+          "bytes": 615,
+          "sourceSha256": "f0fa7f662474acb457d12106dd87d8420ddee956c038024eac8e412270addfa7"
+        },
+        {
+          "relativePath": "policy-launcher-smoke-case.mjs",
+          "bytes": 73,
+          "sourceSha256": "f64014407d511bb98c342c7537996b3e43f8e98069e57fece4f45dbf0f58e903"
+        },
+        {
+          "relativePath": "policy-node-launcher.mjs",
+          "bytes": 435,
+          "sourceSha256": "4db20254df3c02b4529e2748d771170fdf309e3b3844aa869e757c123d5518b2"
+        },
+        {
+          "relativePath": "pool-environment.mjs",
+          "bytes": 1722,
+          "sourceSha256": "2c37a9e91b03fee0092a4abbcd2b8a513789e6a56b9b142ef4f583833e9607c2"
+        },
+        {
+          "relativePath": "prepare-manifest.mjs",
+          "bytes": 5375,
+          "sourceSha256": "7bd1fbeb98b39a5ff4b2ccc327dac1a90d20b79df81b2430c86f14aaee5fb00f"
+        },
+        {
+          "relativePath": "prepare-scale-manifest.mjs",
+          "bytes": 715,
+          "sourceSha256": "1d5c453fed3cfb1f7699dd80177449426323b539e7d589970cb4a044d76e8ee7"
+        },
+        {
+          "relativePath": "probe-transform.mjs",
+          "bytes": 582,
+          "sourceSha256": "927cefb03f4fbd56cf4e9e5c7e1bda1a8b96b16a923e24a08e72a70ad2fa2643"
+        },
+        {
+          "relativePath": "raw-jsonc-loader.mjs",
+          "bytes": 430,
+          "sourceSha256": "864d41e2ed89b39f35cfb2a1d080d8a88e9b49200c4e501fe31457d397cb2768"
+        },
+        {
+          "relativePath": "run-astro-reference.mjs",
+          "bytes": 19657,
+          "sourceSha256": "4252333aee8dc82f8fd775001f8ccdf7720cac5cbcdbb0a01d29bf833b9fc104"
+        },
+        {
+          "relativePath": "run-attribution-matrix.mjs",
+          "bytes": 10630,
+          "sourceSha256": "bbfdf2a4dceccffb12e5d007a63a40515e57370197e5d307cdc7385d21b50dd2"
+        },
+        {
+          "relativePath": "run-case.mjs",
+          "bytes": 20381,
+          "sourceSha256": "2641f35de3f19d92336ab8cd3627740e0798003513d01c5ae56b9bd4b72b8956"
+        },
+        {
+          "relativePath": "run-graph-case.mjs",
+          "bytes": 17223,
+          "sourceSha256": "25c80f5a9f65bc32bf89d92c032b023543931463dca4294f3bcb1e57da093616"
+        },
+        {
+          "relativePath": "run-graph-matrix.mjs",
+          "bytes": 17762,
+          "sourceSha256": "f33686e59d1ae01596cddde193ac67ba7968bf5c9b3ad6114984e763681aff79"
+        },
+        {
+          "relativePath": "run-graph-smoke.mjs",
+          "bytes": 7267,
+          "sourceSha256": "11fb947e246f6add9f9fe49e504f57b4bd0dfadc969e9e1e95f5ca4f48f4dd28"
+        },
+        {
+          "relativePath": "run-managed-worker-smoke.mjs",
+          "bytes": 6651,
+          "sourceSha256": "2c523f460e6529d9bc8001e234e18bf25bbb70ec6a53b98f3f48840326d10995"
+        },
+        {
+          "relativePath": "run-matrix.mjs",
+          "bytes": 18192,
+          "sourceSha256": "4ce42c585848938eeae30e34c0daf10638caf6f5cece40b5c9d69639e628218a"
+        },
+        {
+          "relativePath": "run-policy-matrix.mjs",
+          "bytes": 27354,
+          "sourceSha256": "c50d1f4456b761b4b36e48c2e45b3aaedd97f492b34da3f5a7d782cbc80e6902"
+        },
+        {
+          "relativePath": "run-semantic-sentinel.mjs",
+          "bytes": 11734,
+          "sourceSha256": "7cb6b04c5cd8308f5ea51aa53cee98488edd0cbb732d833aabdbc4c7306042a1"
+        },
+        {
+          "relativePath": "runtime-profile.mjs",
+          "bytes": 5375,
+          "sourceSha256": "33968b833422abfd74f95b30f83ff6ea2fc2897d9f0d0eb73957c08259c08843"
+        },
+        {
+          "relativePath": "scale-corpus.mjs",
+          "bytes": 16991,
+          "sourceSha256": "6995028e42b92b88278d7c6fbc4f6402b429905d94ee01de7387e80eb8de1efd"
+        },
+        {
+          "relativePath": "scale-followup.mjs",
+          "bytes": 36454,
+          "sourceSha256": "41d1be138325364da2f682d6f45447630462c44a2232eec1a7480466129660a8"
+        },
+        {
+          "relativePath": "summarize-graph-matrix.mjs",
+          "bytes": 20294,
+          "sourceSha256": "095c7a7b5c28c374e74754caf69f9e99cc27aa109c5daa9e1eb94ec2e3063c63"
+        },
+        {
+          "relativePath": "summarize-matrix.mjs",
+          "bytes": 16585,
+          "sourceSha256": "74f9c3780f69f2f0e3f76c4aede58a1a194e269ba783a6a702ead493ceca0ebb"
+        },
+        {
+          "relativePath": "summarize-policy-matrix.mjs",
+          "bytes": 3101,
+          "sourceSha256": "d35cbcc7dc8f6b545da25b08a0e9a78bf79211ededc2625085bd738a6f26ecd0"
+        },
+        {
+          "relativePath": "verify-attribution-harness.mjs",
+          "bytes": 12543,
+          "sourceSha256": "6353625a57c7d6296130110a74292d9d169c3e442932e57c7687b282fa535d9b"
+        },
+        {
+          "relativePath": "verify-child-buffer-policy.mjs",
+          "bytes": 866,
+          "sourceSha256": "fda6c20779847fdd135c55c5c4fffbca4fe86c4acfd47c1b86cc129fefb942f6"
+        },
+        {
+          "relativePath": "verify-correctness-gate.mjs",
+          "bytes": 26070,
+          "sourceSha256": "fe707499b6cc82eaec8f77e1a78b93d5ad1b8638c49cdfdc39c7bd4ff3b83701"
+        },
+        {
+          "relativePath": "verify-evidence-classification.mjs",
+          "bytes": 7987,
+          "sourceSha256": "82925d6638657ca97064245928a75d805c50b04b00351bd3629fd3769478d409"
+        },
+        {
+          "relativePath": "verify-host-policy.mjs",
+          "bytes": 3252,
+          "sourceSha256": "1936583c8dff5b0efd378340a292bb1a8f2a2ae9e86d746feb6810db18575c00"
+        },
+        {
+          "relativePath": "verify-mdx-policy.mjs",
+          "bytes": 27165,
+          "sourceSha256": "d5215e3be525543b7795d744cc34d0d4a52fce17a887096bb8eecb1f234d1710"
+        },
+        {
+          "relativePath": "verify-metrics-timeline.mjs",
+          "bytes": 4605,
+          "sourceSha256": "df41856f1ebc23a6d232a76c03ff576291cec9c11dbfa101d834e24829a55de9"
+        },
+        {
+          "relativePath": "verify-runtime-profile.mjs",
+          "bytes": 3490,
+          "sourceSha256": "4e3074d8495ece2bf882dc186c58b741b335197a54ed28d44195e55f3fa07797"
+        },
+        {
+          "relativePath": "verify-scale-followup.mjs",
+          "bytes": 15041,
+          "sourceSha256": "a39fa4ce7f831a76b560ac2b5a6f8f92db665ef680cb8d154550020c5e301018"
+        },
+        {
+          "relativePath": "verify-scale-harness.mjs",
+          "bytes": 16767,
+          "sourceSha256": "fe8996ab08ea21b4258f9fd248d2ec8c59e869e82f149a4b0755d63b75c47f48"
+        },
+        {
+          "relativePath": "worker-impl.mjs",
+          "bytes": 950,
+          "sourceSha256": "571f79f43ca78f98874d1162964ee6688a08190f9f667d6ba2180a0bd2303f75"
+        }
+      ]
+    },
+    "childPoolEnvironment": {
+      "ROLLDOWN_WORKER_THREADS": "18",
+      "RAYON_NUM_THREADS": "12",
+      "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+    },
+    "parentCiMarkers": {
+      "CI": null,
+      "GITHUB_ACTIONS": null,
+      "BUILDKITE": null,
+      "CIRCLECI": null,
+      "TF_BUILD": null,
+      "JENKINS_URL": null
+    },
+    "childCiMarkersCleared": [
+      "CI",
+      "GITHUB_ACTIONS",
+      "BUILDKITE",
+      "CIRCLECI",
+      "TF_BUILD",
+      "JENKINS_URL"
+    ],
+    "childMaxBufferBytes": 67108864
+  },
+  "runner": {
+    "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-semantic-sentinel.mjs",
+    "sha256": "7cb6b04c5cd8308f5ea51aa53cee98488edd0cbb732d833aabdbc4c7306042a1"
+  },
+  "childRunners": {
+    "success": {
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-graph-case.mjs",
+      "sha256": "25c80f5a9f65bc32bf89d92c032b023543931463dca4294f3bcb1e57da093616"
+    },
+    "diagnostic": {
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/run-case.mjs",
+      "sha256": "2641f35de3f19d92336ab8cd3627740e0798003513d01c5ae56b9bd4b72b8956"
+    }
+  },
+  "success": {
+    "entries": [
+      "src/content/docs/workers/index.mdx",
+      "src/content/docs/style-guide/components/render.mdx",
+      "src/content/docs/images/optimization/draw-overlays.mdx",
+      "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+      "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+      "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+      "src/content/partials/workers/fetch-html-example-js.mdx",
+      "src/content/partials/workers/redirect-example-js.mdx",
+      "src/content/partials/workers/respond-another-site-example-js.mdx",
+      "src/content/partials/workers/return-html-example-js.mdx",
+      "src/content/partials/workers/return-json-example-js.mdx",
+      "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+      "src/content/partials/agents/what-just-happened.mdx"
+    ],
+    "parity": {
+      "graph": true,
+      "normalizedOutput": true,
+      "metadataPattern": {
+        "ordinary": 13,
+        "managed-2": 13,
+        "worker-2": 0
+      },
+      "productMetadataParity": false,
+      "fields": [
+        "graphProfile",
+        "transformedEntryCount",
+        "codeModuleCount",
+        "codeOnlyModules",
+        "graphWithoutObservedCode",
+        "graphModuleCount",
+        "graphStaticEdges",
+        "graphDynamicEdges",
+        "graphProjectStaticEdges",
+        "graphExternalStaticEdges",
+        "graphNonProjectInternalStaticEdges",
+        "graphNonProjectInternalIds",
+        "graphHash",
+        "moduleKindCounts",
+        "boundaryHash",
+        "boundary",
+        "outputChunks",
+        "outputAssets",
+        "normalizedOutputBytes",
+        "normalizedOutputHash",
+        "outputNormalization"
+      ]
+    },
+    "productCapabilities": {
+      "metadata": "product-failure"
+    },
+    "runs": [
+      {
+        "variant": "ordinary",
+        "workerCount": 0,
+        "workerModel": "ordinary",
+        "corpus": "graph-smoke",
+        "entries": [
+          "src/content/docs/workers/index.mdx",
+          "src/content/docs/style-guide/components/render.mdx",
+          "src/content/docs/images/optimization/draw-overlays.mdx",
+          "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+          "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+          "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+          "src/content/partials/workers/fetch-html-example-js.mdx",
+          "src/content/partials/workers/redirect-example-js.mdx",
+          "src/content/partials/workers/respond-another-site-example-js.mdx",
+          "src/content/partials/workers/return-html-example-js.mdx",
+          "src/content/partials/workers/return-json-example-js.mdx",
+          "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+          "src/content/partials/agents/what-just-happened.mdx"
+        ],
+        "fixedNow": "2026-07-12T00:00:00.000Z",
+        "graphProfile": {
+          "runLinkCheck": false,
+          "publicCiRunLinkCheck": true,
+          "sameConfigurationAsPublicCi": false,
+          "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+        },
+        "instrumentation": false,
+        "rustInstrumentation": false,
+        "measurementMode": "correctness-only",
+        "lifecycleClaim": false,
+        "evidenceKind": "correctness-only",
+        "runLinkCheck": false,
+        "transformedEntryCount": 13,
+        "discoveredProductionMdxFiles": 9157,
+        "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+        "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+        "bindingHash": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+        "distHash": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+        "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+        "poolEnvironment": {
+          "ROLLDOWN_WORKER_THREADS": "18",
+          "RAYON_NUM_THREADS": "12",
+          "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+        },
+        "runtimeProfile": {
+          "kind": "lifecycle-fixed-baseline",
+          "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+          "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+          "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+          "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+          "changeScope": "remove-early-parent-worker-unref-only"
+        },
+        "outputBytes": 1257909,
+        "outputChunks": 14,
+        "outputAssets": 0,
+        "outputHash": "4abfc31f6684f0372dfa5ae1094fdc53a2d9457a747980d054dffa5abf4da1c8",
+        "normalizedOutputBytes": 1257682,
+        "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
+        "outputNormalization": {
+          "kind": "undici-formdata-boundary",
+          "eligibleSourceEntries": 6,
+          "eligibleOutputFiles": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ],
+          "playgroundUrls": 7,
+          "files": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ]
+        },
+        "codeModuleCount": 179,
+        "codeHash": "d9098e9deba8ac7eb640fe14c6c67da761317874eb33f7a60dd2bad4687d2011",
+        "codeOnlyModules": [],
+        "graphWithoutObservedCode": [],
+        "graphModuleCount": 179,
+        "graphStaticEdges": 586,
+        "graphDynamicEdges": 0,
+        "graphProjectStaticEdges": 233,
+        "graphExternalStaticEdges": 350,
+        "graphNonProjectInternalStaticEdges": 3,
+        "graphNonProjectInternalIds": [
+          "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+        ],
+        "graphHash": "00fae18301c94bbdd7f313925fd98e229b7faac92c6499e9ef07b0b976a5b946",
+        "moduleKindCounts": {
+          "asset": 6,
+          "astro": 107,
+          "data": 4,
+          "javascript": 43,
+          "mdx": 13,
+          "raw": 6
+        },
+        "mdxAstroMetaModules": 13,
+        "boundaryHash": "3e61ecd60a3b06f0ce000baad2fdd79e40efa922c143d923ac44a201c3cff564",
+        "boundary": {
+          "definition": {
+            "included": [
+              "all selected production MDX transforms",
+              "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+              "raw imports as exact string modules",
+              "local CSS and asset imports as internal leaf modules"
+            ],
+            "excluded": [
+              "Astro compiler CSS virtual modules and CSS dependency traversal",
+              "Astro hoisted and client script modules",
+              "hydration and client build inputs",
+              "route rendering and final asset emission"
+            ]
+          },
+          "localResolutionCalls": 233,
+          "unresolvedLocalEdges": 0,
+          "resolvedLocalModuleCount": 179,
+          "externalResolutionCalls": 350,
+          "externalAstroResolutionCalls": 265,
+          "externalNodeResolutionCalls": 1,
+          "externalPackageResolutionCalls": 84,
+          "externalProtocolResolutionCalls": 0,
+          "externalSpecifiers": [
+            "@apidevtools/swagger-parser",
+            "@astrojs/mdx/server.js",
+            "@astrojs/react/server.js",
+            "@astrojs/starlight/components",
+            "@iarna/toml",
+            "astro-icon/components",
+            "astro/compiler-runtime",
+            "astro/container",
+            "astro/jsx-runtime",
+            "astro/runtime/server/index.js",
+            "astro/zod",
+            "astro:assets",
+            "astro:content",
+            "cidr-tools",
+            "date-fns",
+            "dedent",
+            "dot-prop",
+            "github-slugger",
+            "hast-util-select",
+            "hastscript",
+            "jsonc-parser",
+            "marked",
+            "mdast-util-from-markdown",
+            "mdast-util-mdx",
+            "micromark-extension-mdxjs",
+            "node-html-parser",
+            "node:fs/promises",
+            "parse-duration",
+            "prettier",
+            "pretty-bytes",
+            "react",
+            "react-markdown",
+            "react-select",
+            "react/jsx-runtime",
+            "rehype",
+            "rehype-autolink-headings",
+            "rehype-external-links",
+            "rehype-parse",
+            "rehype-remark",
+            "rehype-stringify",
+            "remark-gfm",
+            "remark-stringify",
+            "starlight-package-managers",
+            "ts-blank-space",
+            "unified",
+            "unist-util-visit",
+            "wrangler"
+          ],
+          "rawLeafModules": 6,
+          "rawLeafBytes": 1151,
+          "assetLeafModules": 6,
+          "assetLeafBytes": 34146,
+          "cssLeafModules": 0,
+          "cssLeafBytes": 0,
+          "dataLeafModules": 0,
+          "dataLeafBytes": 0,
+          "astroModuleInstances": 107,
+          "astroSourceFiles": 84,
+          "astroCompiledSourceBytes": 527375,
+          "astroCompiledOutputBytes": 2680912,
+          "omittedAstroCssBlocks": 46,
+          "omittedAstroCssBytes": 192216,
+          "omittedCssDependencyReferences": 0,
+          "omittedCssLocalDependencyReferences": 0,
+          "omittedCssExternalDependencyReferences": 0,
+          "omittedCssLocalDependencies": [],
+          "omittedAstroClientScriptBlocks": 25,
+          "omittedAstroInlineClientScriptBlocks": 24,
+          "omittedAstroExternalClientScriptBlocks": 1,
+          "omittedAstroInlineClientScriptBytes": 65885,
+          "omittedAstroInlineClientScriptImportEdges": 7,
+          "omittedAstroClientSpecifierEdges": 8,
+          "omittedAstroClientLocalImportEdges": 5,
+          "omittedAstroClientExternalImportEdges": 3,
+          "omittedAstroClientLocalModules": [
+            "src/components/realtimekit/RTKCodeSnippet/RTKCodeSnippet.ts",
+            "src/util/tippy.ts",
+            "src/util/zaraz.ts"
+          ],
+          "omittedAstroClientExternalSpecifiers": [
+            "pretty-bytes",
+            "tippy.js"
+          ],
+          "omittedHydratedComponents": 1,
+          "omittedClientOnlyComponents": 0,
+          "omittedServerComponents": 0
+        }
+      },
+      {
+        "variant": "managed-2",
+        "workerCount": 2,
+        "workerModel": "plugin-managed",
+        "corpus": "graph-smoke",
+        "entries": [
+          "src/content/docs/workers/index.mdx",
+          "src/content/docs/style-guide/components/render.mdx",
+          "src/content/docs/images/optimization/draw-overlays.mdx",
+          "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+          "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+          "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+          "src/content/partials/workers/fetch-html-example-js.mdx",
+          "src/content/partials/workers/redirect-example-js.mdx",
+          "src/content/partials/workers/respond-another-site-example-js.mdx",
+          "src/content/partials/workers/return-html-example-js.mdx",
+          "src/content/partials/workers/return-json-example-js.mdx",
+          "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+          "src/content/partials/agents/what-just-happened.mdx"
+        ],
+        "fixedNow": "2026-07-12T00:00:00.000Z",
+        "graphProfile": {
+          "runLinkCheck": false,
+          "publicCiRunLinkCheck": true,
+          "sameConfigurationAsPublicCi": false,
+          "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+        },
+        "instrumentation": false,
+        "rustInstrumentation": false,
+        "measurementMode": "correctness-only",
+        "lifecycleClaim": false,
+        "evidenceKind": "correctness-only",
+        "runLinkCheck": false,
+        "transformedEntryCount": 13,
+        "discoveredProductionMdxFiles": 9157,
+        "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+        "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+        "bindingHash": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+        "distHash": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+        "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+        "poolEnvironment": {
+          "ROLLDOWN_WORKER_THREADS": "18",
+          "RAYON_NUM_THREADS": "12",
+          "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+        },
+        "runtimeProfile": {
+          "kind": "lifecycle-fixed-baseline",
+          "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+          "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+          "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+          "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+          "changeScope": "remove-early-parent-worker-unref-only"
+        },
+        "outputBytes": 1257907,
+        "outputChunks": 14,
+        "outputAssets": 0,
+        "outputHash": "3720e5f1e1bb7e485c6f219506d67e078350ac3dbe1a65664e6f5c518abf9821",
+        "normalizedOutputBytes": 1257682,
+        "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
+        "outputNormalization": {
+          "kind": "undici-formdata-boundary",
+          "eligibleSourceEntries": 6,
+          "eligibleOutputFiles": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ],
+          "playgroundUrls": 7,
+          "files": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ]
+        },
+        "codeModuleCount": 179,
+        "codeHash": "3f2129954e0f89e4b72334aeedc3be644c326dbaeceac4b020e6fb1e556e8c2a",
+        "codeOnlyModules": [],
+        "graphWithoutObservedCode": [],
+        "graphModuleCount": 179,
+        "graphStaticEdges": 586,
+        "graphDynamicEdges": 0,
+        "graphProjectStaticEdges": 233,
+        "graphExternalStaticEdges": 350,
+        "graphNonProjectInternalStaticEdges": 3,
+        "graphNonProjectInternalIds": [
+          "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+        ],
+        "graphHash": "00fae18301c94bbdd7f313925fd98e229b7faac92c6499e9ef07b0b976a5b946",
+        "moduleKindCounts": {
+          "asset": 6,
+          "astro": 107,
+          "data": 4,
+          "javascript": 43,
+          "mdx": 13,
+          "raw": 6
+        },
+        "mdxAstroMetaModules": 13,
+        "boundaryHash": "3e61ecd60a3b06f0ce000baad2fdd79e40efa922c143d923ac44a201c3cff564",
+        "boundary": {
+          "definition": {
+            "included": [
+              "all selected production MDX transforms",
+              "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+              "raw imports as exact string modules",
+              "local CSS and asset imports as internal leaf modules"
+            ],
+            "excluded": [
+              "Astro compiler CSS virtual modules and CSS dependency traversal",
+              "Astro hoisted and client script modules",
+              "hydration and client build inputs",
+              "route rendering and final asset emission"
+            ]
+          },
+          "localResolutionCalls": 233,
+          "unresolvedLocalEdges": 0,
+          "resolvedLocalModuleCount": 179,
+          "externalResolutionCalls": 350,
+          "externalAstroResolutionCalls": 265,
+          "externalNodeResolutionCalls": 1,
+          "externalPackageResolutionCalls": 84,
+          "externalProtocolResolutionCalls": 0,
+          "externalSpecifiers": [
+            "@apidevtools/swagger-parser",
+            "@astrojs/mdx/server.js",
+            "@astrojs/react/server.js",
+            "@astrojs/starlight/components",
+            "@iarna/toml",
+            "astro-icon/components",
+            "astro/compiler-runtime",
+            "astro/container",
+            "astro/jsx-runtime",
+            "astro/runtime/server/index.js",
+            "astro/zod",
+            "astro:assets",
+            "astro:content",
+            "cidr-tools",
+            "date-fns",
+            "dedent",
+            "dot-prop",
+            "github-slugger",
+            "hast-util-select",
+            "hastscript",
+            "jsonc-parser",
+            "marked",
+            "mdast-util-from-markdown",
+            "mdast-util-mdx",
+            "micromark-extension-mdxjs",
+            "node-html-parser",
+            "node:fs/promises",
+            "parse-duration",
+            "prettier",
+            "pretty-bytes",
+            "react",
+            "react-markdown",
+            "react-select",
+            "react/jsx-runtime",
+            "rehype",
+            "rehype-autolink-headings",
+            "rehype-external-links",
+            "rehype-parse",
+            "rehype-remark",
+            "rehype-stringify",
+            "remark-gfm",
+            "remark-stringify",
+            "starlight-package-managers",
+            "ts-blank-space",
+            "unified",
+            "unist-util-visit",
+            "wrangler"
+          ],
+          "rawLeafModules": 6,
+          "rawLeafBytes": 1151,
+          "assetLeafModules": 6,
+          "assetLeafBytes": 34146,
+          "cssLeafModules": 0,
+          "cssLeafBytes": 0,
+          "dataLeafModules": 0,
+          "dataLeafBytes": 0,
+          "astroModuleInstances": 107,
+          "astroSourceFiles": 84,
+          "astroCompiledSourceBytes": 527375,
+          "astroCompiledOutputBytes": 2680912,
+          "omittedAstroCssBlocks": 46,
+          "omittedAstroCssBytes": 192216,
+          "omittedCssDependencyReferences": 0,
+          "omittedCssLocalDependencyReferences": 0,
+          "omittedCssExternalDependencyReferences": 0,
+          "omittedCssLocalDependencies": [],
+          "omittedAstroClientScriptBlocks": 25,
+          "omittedAstroInlineClientScriptBlocks": 24,
+          "omittedAstroExternalClientScriptBlocks": 1,
+          "omittedAstroInlineClientScriptBytes": 65885,
+          "omittedAstroInlineClientScriptImportEdges": 7,
+          "omittedAstroClientSpecifierEdges": 8,
+          "omittedAstroClientLocalImportEdges": 5,
+          "omittedAstroClientExternalImportEdges": 3,
+          "omittedAstroClientLocalModules": [
+            "src/components/realtimekit/RTKCodeSnippet/RTKCodeSnippet.ts",
+            "src/util/tippy.ts",
+            "src/util/zaraz.ts"
+          ],
+          "omittedAstroClientExternalSpecifiers": [
+            "pretty-bytes",
+            "tippy.js"
+          ],
+          "omittedHydratedComponents": 1,
+          "omittedClientOnlyComponents": 0,
+          "omittedServerComponents": 0
+        }
+      },
+      {
+        "variant": "worker-2",
+        "workerCount": 2,
+        "workerModel": "rolldown",
+        "corpus": "graph-smoke",
+        "entries": [
+          "src/content/docs/workers/index.mdx",
+          "src/content/docs/style-guide/components/render.mdx",
+          "src/content/docs/images/optimization/draw-overlays.mdx",
+          "src/content/docs/style-guide/components/subtract-ip-calculator.mdx",
+          "src/content/docs/realtime/realtimekit/ui-kit/index.mdx",
+          "src/content/docs/style-guide/formatting/code-block-guidelines.mdx",
+          "src/content/partials/workers/fetch-html-example-js.mdx",
+          "src/content/partials/workers/redirect-example-js.mdx",
+          "src/content/partials/workers/respond-another-site-example-js.mdx",
+          "src/content/partials/workers/return-html-example-js.mdx",
+          "src/content/partials/workers/return-json-example-js.mdx",
+          "src/content/docs/agents/communication-channels/chat/chat-agents.mdx",
+          "src/content/partials/agents/what-just-happened.mdx"
+        ],
+        "fixedNow": "2026-07-12T00:00:00.000Z",
+        "graphProfile": {
+          "runLinkCheck": false,
+          "publicCiRunLinkCheck": true,
+          "sameConfigurationAsPublicCi": false,
+          "linkValidatorBoundary": "The link-check profile used by public CI enables starlight-links-validator. Its rehype plugin writes a globalThis Map that remains worker-local under ParallelPlugin and cannot currently be merged into the coordinator state."
+        },
+        "instrumentation": false,
+        "rustInstrumentation": false,
+        "measurementMode": "correctness-only",
+        "lifecycleClaim": false,
+        "evidenceKind": "correctness-only",
+        "runLinkCheck": false,
+        "transformedEntryCount": 13,
+        "discoveredProductionMdxFiles": 9157,
+        "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+        "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+        "bindingHash": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+        "distHash": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+        "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+        "poolEnvironment": {
+          "ROLLDOWN_WORKER_THREADS": "18",
+          "RAYON_NUM_THREADS": "12",
+          "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+        },
+        "runtimeProfile": {
+          "kind": "lifecycle-fixed-baseline",
+          "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+          "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+          "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+          "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+          "changeScope": "remove-early-parent-worker-unref-only"
+        },
+        "outputBytes": 1257913,
+        "outputChunks": 14,
+        "outputAssets": 0,
+        "outputHash": "7231d37082e77ef36887bcc07fcfdbe3b1ede4ef0e80874ceec0aa24cbec459c",
+        "normalizedOutputBytes": 1257682,
+        "normalizedOutputHash": "a336a2a569f3e9d0cc0322ccd15d9fc82c6da73c799ef2a0f28d46d2422fcb86",
+        "outputNormalization": {
+          "kind": "undici-formdata-boundary",
+          "eligibleSourceEntries": 6,
+          "eligibleOutputFiles": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ],
+          "playgroundUrls": 7,
+          "files": [
+            "src/content/docs/style-guide/formatting/code-block-guidelines.js",
+            "src/content/partials/workers/fetch-html-example-js.js",
+            "src/content/partials/workers/redirect-example-js.js",
+            "src/content/partials/workers/respond-another-site-example-js.js",
+            "src/content/partials/workers/return-html-example-js.js",
+            "src/content/partials/workers/return-json-example-js.js"
+          ]
+        },
+        "codeModuleCount": 179,
+        "codeHash": "f88462d11949b4df7d23dc8f0f828dda95eab77496039eacaa62d01dd3846cc8",
+        "codeOnlyModules": [],
+        "graphWithoutObservedCode": [],
+        "graphModuleCount": 179,
+        "graphStaticEdges": 586,
+        "graphDynamicEdges": 0,
+        "graphProjectStaticEdges": 233,
+        "graphExternalStaticEdges": 350,
+        "graphNonProjectInternalStaticEdges": 3,
+        "graphNonProjectInternalIds": [
+          "\u0000@oxc-project+runtime@0.139.0/helpers/esm/taggedTemplateLiteral.js"
+        ],
+        "graphHash": "00fae18301c94bbdd7f313925fd98e229b7faac92c6499e9ef07b0b976a5b946",
+        "moduleKindCounts": {
+          "asset": 6,
+          "astro": 107,
+          "data": 4,
+          "javascript": 43,
+          "mdx": 13,
+          "raw": 6
+        },
+        "mdxAstroMetaModules": 0,
+        "boundaryHash": "3e61ecd60a3b06f0ce000baad2fdd79e40efa922c143d923ac44a201c3cff564",
+        "boundary": {
+          "definition": {
+            "included": [
+              "all selected production MDX transforms",
+              "project-local server-side JS, TS, TSX, JSON, MDX, and Astro imports",
+              "raw imports as exact string modules",
+              "local CSS and asset imports as internal leaf modules"
+            ],
+            "excluded": [
+              "Astro compiler CSS virtual modules and CSS dependency traversal",
+              "Astro hoisted and client script modules",
+              "hydration and client build inputs",
+              "route rendering and final asset emission"
+            ]
+          },
+          "localResolutionCalls": 233,
+          "unresolvedLocalEdges": 0,
+          "resolvedLocalModuleCount": 179,
+          "externalResolutionCalls": 350,
+          "externalAstroResolutionCalls": 265,
+          "externalNodeResolutionCalls": 1,
+          "externalPackageResolutionCalls": 84,
+          "externalProtocolResolutionCalls": 0,
+          "externalSpecifiers": [
+            "@apidevtools/swagger-parser",
+            "@astrojs/mdx/server.js",
+            "@astrojs/react/server.js",
+            "@astrojs/starlight/components",
+            "@iarna/toml",
+            "astro-icon/components",
+            "astro/compiler-runtime",
+            "astro/container",
+            "astro/jsx-runtime",
+            "astro/runtime/server/index.js",
+            "astro/zod",
+            "astro:assets",
+            "astro:content",
+            "cidr-tools",
+            "date-fns",
+            "dedent",
+            "dot-prop",
+            "github-slugger",
+            "hast-util-select",
+            "hastscript",
+            "jsonc-parser",
+            "marked",
+            "mdast-util-from-markdown",
+            "mdast-util-mdx",
+            "micromark-extension-mdxjs",
+            "node-html-parser",
+            "node:fs/promises",
+            "parse-duration",
+            "prettier",
+            "pretty-bytes",
+            "react",
+            "react-markdown",
+            "react-select",
+            "react/jsx-runtime",
+            "rehype",
+            "rehype-autolink-headings",
+            "rehype-external-links",
+            "rehype-parse",
+            "rehype-remark",
+            "rehype-stringify",
+            "remark-gfm",
+            "remark-stringify",
+            "starlight-package-managers",
+            "ts-blank-space",
+            "unified",
+            "unist-util-visit",
+            "wrangler"
+          ],
+          "rawLeafModules": 6,
+          "rawLeafBytes": 1151,
+          "assetLeafModules": 6,
+          "assetLeafBytes": 34146,
+          "cssLeafModules": 0,
+          "cssLeafBytes": 0,
+          "dataLeafModules": 0,
+          "dataLeafBytes": 0,
+          "astroModuleInstances": 107,
+          "astroSourceFiles": 84,
+          "astroCompiledSourceBytes": 527375,
+          "astroCompiledOutputBytes": 2680912,
+          "omittedAstroCssBlocks": 46,
+          "omittedAstroCssBytes": 192216,
+          "omittedCssDependencyReferences": 0,
+          "omittedCssLocalDependencyReferences": 0,
+          "omittedCssExternalDependencyReferences": 0,
+          "omittedCssLocalDependencies": [],
+          "omittedAstroClientScriptBlocks": 25,
+          "omittedAstroInlineClientScriptBlocks": 24,
+          "omittedAstroExternalClientScriptBlocks": 1,
+          "omittedAstroInlineClientScriptBytes": 65885,
+          "omittedAstroInlineClientScriptImportEdges": 7,
+          "omittedAstroClientSpecifierEdges": 8,
+          "omittedAstroClientLocalImportEdges": 5,
+          "omittedAstroClientExternalImportEdges": 3,
+          "omittedAstroClientLocalModules": [
+            "src/components/realtimekit/RTKCodeSnippet/RTKCodeSnippet.ts",
+            "src/util/tippy.ts",
+            "src/util/zaraz.ts"
+          ],
+          "omittedAstroClientExternalSpecifiers": [
+            "pretty-bytes",
+            "tippy.js"
+          ],
+          "omittedHydratedComponents": 1,
+          "omittedClientOnlyComponents": 0,
+          "omittedServerComponents": 0
+        }
+      }
+    ]
+  },
+  "diagnostic": {
+    "fixture": {
+      "path": "experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx",
+      "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191",
+      "expectedResult": "structured-error",
+      "requireExactParity": false,
+      "capabilityStatusOnDifference": "product-failure",
+      "timingEligible": false
+    },
+    "parity": {
+      "structured": true,
+      "nonAbort": true,
+      "exact": false,
+      "fields": [
+        "name",
+        "message",
+        "code",
+        "plugin",
+        "hook",
+        "id",
+        "loc",
+        "frame",
+        "causeName",
+        "causeMessage",
+        "stackHasFixture",
+        "stackHasPluginName",
+        "pluginCode",
+        "line",
+        "column"
+      ],
+      "fixtureMapping": {
+        "ordinary": {
+          "fixturePath": "fixtures/invalid-diagnostic.mdx",
+          "fixtureSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191",
+          "idHasFixture": false,
+          "stackHasFixture": true,
+          "stackHasPluginName": true,
+          "pluginCode": null,
+          "line": null,
+          "column": null
+        },
+        "worker-2": {
+          "fixturePath": "fixtures/invalid-diagnostic.mdx",
+          "fixtureSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191",
+          "idHasFixture": false,
+          "stackHasFixture": false,
+          "stackHasPluginName": true,
+          "pluginCode": null,
+          "line": null,
+          "column": null
+        }
+      },
+      "differences": [
+        {
+          "field": "message",
+          "values": {
+            "ordinary": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
+            "worker-2": "Build failed with 1 error:\n\nError: MDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n"
+          }
+        },
+        {
+          "field": "stackHasFixture",
+          "values": {
+            "ordinary": true,
+            "worker-2": false
+          }
+        }
+      ]
+    },
+    "productCapability": "product-failure",
+    "runs": [
+      {
+        "variant": "ordinary",
+        "workerCount": 0,
+        "workerModel": "ordinary",
+        "corpus": "semantic-diagnostic",
+        "measurementMode": "correctness-only",
+        "evidenceKind": "correctness-only",
+        "timingEligible": false,
+        "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+        "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+        "bindingHash": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+        "distHash": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+        "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+        "poolEnvironment": {
+          "ROLLDOWN_WORKER_THREADS": "18",
+          "RAYON_NUM_THREADS": "12",
+          "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+        },
+        "runtimeProfile": {
+          "kind": "lifecycle-fixed-baseline",
+          "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+          "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+          "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+          "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+          "changeScope": "remove-early-parent-worker-unref-only"
+        },
+        "fixture": {
+          "path": "fixtures/invalid-diagnostic.mdx",
+          "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191"
+        },
+        "diagnostic": {
+          "name": "Error",
+          "message": "Build failed with 1 error:\n\n[plugin cloudflare-mdx] /Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/fixtures/invalid-diagnostic.mdx:4:1\nMDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n    at Object.handler (/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build/node_modules/.pnpm/@astrojs+mdx@6.0.3_@astrojs+markdown-satteri@0.2.1_astro@6.4.7_@types+node@25.9.3_jiti@_d87805f04bfd16fff82d91eff31f5e26/node_modules/@astrojs/mdx/dist/vite-plugin-mdx.js:57:17)\n    at async Object.transform (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-mdx-evidence/experiments/cloudflare-mdx/create-transform.mjs:58:24)\n    at async plugin (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1511:16)\n    at async plugin.<computed> (file:///Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline/packages/rolldown/dist/shared/bindingify-input-options-CXGWR53j.mjs:1959:12)",
+          "code": null,
+          "pluginCode": null,
+          "plugin": null,
+          "hook": null,
+          "id": null,
+          "loc": null,
+          "frame": null,
+          "causeName": null,
+          "causeMessage": null,
+          "stackHasFixture": true,
+          "stackHasPluginName": true,
+          "line": null,
+          "column": null
+        }
+      },
+      {
+        "variant": "worker-2",
+        "workerCount": 2,
+        "workerModel": "rolldown",
+        "corpus": "semantic-diagnostic",
+        "measurementMode": "correctness-only",
+        "evidenceKind": "correctness-only",
+        "timingEligible": false,
+        "projectCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+        "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+        "bindingHash": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+        "distHash": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+        "sourceManifestHash": "84077a08f660782274d5502be25f0ec9297cec9c52508e2c5e9e2a3e8bedc12b",
+        "poolEnvironment": {
+          "ROLLDOWN_WORKER_THREADS": "18",
+          "RAYON_NUM_THREADS": "12",
+          "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+        },
+        "runtimeProfile": {
+          "kind": "lifecycle-fixed-baseline",
+          "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+          "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+          "distSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+          "baseCommit": "0aa600b5721b852cdc4095c7122a929a8cb4a798",
+          "changeScope": "remove-early-parent-worker-unref-only"
+        },
+        "fixture": {
+          "path": "fixtures/invalid-diagnostic.mdx",
+          "sourceSha256": "b2bc6ad588143570f64369291f6d7d19f36b324a28b389d5a7a29354b977e191"
+        },
+        "diagnostic": {
+          "name": "Error",
+          "message": "Build failed with 1 error:\n\nError: MDXError: Unexpected end of file in expression, expected a corresponding closing brace for `{`\n",
+          "code": null,
+          "pluginCode": null,
+          "plugin": null,
+          "hook": null,
+          "id": null,
+          "loc": null,
+          "frame": null,
+          "causeName": null,
+          "causeMessage": null,
+          "stackHasFixture": false,
+          "stackHasPluginName": true,
+          "line": null,
+          "column": null
+        }
+      }
+    ]
+  }
+}
