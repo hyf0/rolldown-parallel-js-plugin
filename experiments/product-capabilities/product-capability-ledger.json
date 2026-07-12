@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "kind": "parallel-js-plugin-product-capability-ledger",
+  "capabilitySet": [
+    "code",
+    "sourceMaps",
+    "metadata",
+    "diagnostics",
+    "state",
+    "pluginContext",
+    "hookOrder",
+    "lifecycle",
+    "virtualModules",
+    "cacheDeterminism",
+    "failure",
+    "shutdown"
+  ],
+  "evidence": {
+    "mdxFullCorrectness": {
+      "kind": "local-json",
+      "path": "experiments/cloudflare-mdx/data/scale-v1-9157-lifecycle-fixed-correctness.raw.json",
+      "bytes": 5961661,
+      "sha256": "0570935049182f87bd479c4ae20dea41d1c2deb8b288b0330dadf0c6b4e2b38d"
+    },
+    "mdxSemanticSentinel": {
+      "kind": "local-json",
+      "path": "experiments/cloudflare-mdx/data/scale-v1-semantic-lifecycle-fixed-correctness.raw.json",
+      "bytes": 51391,
+      "sha256": "99649c9d1ee1e0371b0d97ed50f1ac5152bd828acd72392d920855d0b132d551"
+    },
+    "mdxCorrectnessGate": {
+      "kind": "local-json",
+      "path": "experiments/cloudflare-mdx/scale-correctness-gate.json",
+      "bytes": 1262,
+      "sha256": "ddd3bc860df4f45de9ff2f91d4a2245359740076e26e5bb327ad86a141dd3f06"
+    },
+    "controlledVueBundleManifest": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/manifest.json",
+      "bytes": 1992,
+      "sha256": "bb3bd66b00f3795f1dd6dd3704770e7a5fbfd42c259e7f1ff3f242edb4783e9d"
+    },
+    "controlledVueAdmissionRaw": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/raw/admission.json",
+      "bytes": 25158,
+      "sha256": "403247c6b953ffd7fef71a77e4bd06ce00952014a63eff8f449b157b6c850f58"
+    },
+    "controlledVueAdmissionPointer": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/admission.json",
+      "bytes": 2499,
+      "sha256": "b2d0dfa20a162bb11755cf4a8fd6c15a69c1be212a9e03f6ce91436ec93b517f"
+    },
+    "controlledVueCorrectnessRaw": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/raw/correctness.json",
+      "bytes": 9720974,
+      "sha256": "2aa03aab0d6247853e43e519232b21288c20d3c0a941122564600bd3110f1420"
+    },
+    "controlledVueCorrectnessPointer": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/correctness.json",
+      "bytes": 12413,
+      "sha256": "c37b43d1afc1da47ead9a1c612f22dbf1a8a6a53e7b33fa83f76e72c1fd09a5b"
+    },
+    "controlledVueHarnessSnapshot": {
+      "kind": "local-json",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/harness-snapshot.json",
+      "bytes": 3782868,
+      "sha256": "6cf1d80822e6cb1315947d4a29f5b3c1f9f39c645739f8e74ea3de28a0d8ce08"
+    },
+    "controlledVuePluginImplementation": {
+      "kind": "local-source",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/source/parallel-vue-plugin-impl.js",
+      "bytes": 5791,
+      "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+    },
+    "controlledVueCaseRunner": {
+      "kind": "local-source",
+      "path": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6/source/vue-scale-run-case.mjs",
+      "bytes": 12132,
+      "sha256": "d91acc051a30b4015d49f388261e3e7c3d8a2e7d7ff4e9537fc1549269da0ff6"
+    }
+  },
+  "families": [
+    {
+      "id": "cloudflare-mdx",
+      "performanceCrossovers": {
+        "mechanical": {
+          "status": "not-established",
+          "evidence": [],
+          "reason": "The frozen repeated scale curve has not run on an admitted quiet host."
+        },
+        "resourceAcceptable": {
+          "status": "not-established",
+          "evidence": [],
+          "reason": "No repeated crossover currently passes the frozen wall, CPU, RSS, paging, and memory-pressure gates."
+        }
+      },
+      "capabilities": {
+        "code": {
+          "status": "pass",
+          "evidence": ["mdxFullCorrectness", "mdxCorrectnessGate"],
+          "reason": "Two ordinary and two worker-four full-corpus runs have exact normalized code and output equality over all 9,157 selected transforms."
+        },
+        "sourceMaps": {
+          "status": "product-failure",
+          "evidence": ["mdxCorrectnessGate"],
+          "reason": "The frozen adapter disables compiler source maps and returns null maps, so transform source-map-chain parity is unavailable."
+        },
+        "metadata": {
+          "status": "product-failure",
+          "evidence": ["mdxSemanticSentinel"],
+          "reason": "The semantic sentinel observes metadata on ordinary and plugin-managed transforms but none on Rolldown-managed worker transforms."
+        },
+        "diagnostics": {
+          "status": "product-failure",
+          "evidence": ["mdxSemanticSentinel"],
+          "reason": "The invalid-MDX sentinel preserves a structured failure but loses exact message and fixture-stack attribution in the worker lane."
+        },
+        "state": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "The lifecycle-fixed link-validator state fixture has not been promoted as current evidence."
+        },
+        "pluginContext": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No current fixture covers the complete transform plugin-context and side-effect boundary."
+        },
+        "hookOrder": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No dynamic multi-hook ordering fixture is bound to the lifecycle-fixed baseline."
+        },
+        "lifecycle": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "The current correctness artifacts set lifecycleClaim:false; a promoted closeBundle contract is still required."
+        },
+        "virtualModules": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "The frozen MDX graph does not establish complete virtual-module ownership and parity."
+        },
+        "cacheDeterminism": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No worker-local cache fixture proves result determinism independent of placement and task order."
+        },
+        "failure": {
+          "status": "product-failure",
+          "evidence": ["mdxSemanticSentinel"],
+          "reason": "Transform failure returns but exact ordinary diagnostics and error attribution are not preserved."
+        },
+        "shutdown": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No promoted worker-crash, queued-task cleanup, or shutdown artifact is bound yet."
+        }
+      },
+      "semanticCapabilitiesPass": false,
+      "productCrossover": false
+    },
+    {
+      "id": "controlled-vue",
+      "performanceCrossovers": {
+        "mechanical": {
+          "status": "not-established",
+          "evidence": [],
+          "reason": "The frozen repeated nested Vue curve has not run on an admitted quiet host."
+        },
+        "resourceAcceptable": {
+          "status": "not-established",
+          "evidence": [],
+          "reason": "No repeated Vue scale currently passes the frozen wall, CPU, RSS, paging, and memory-pressure gates."
+        }
+      },
+      "capabilities": {
+        "code": {
+          "status": "pass",
+          "evidence": [
+            "controlledVueBundleManifest",
+            "controlledVueCorrectnessRaw",
+            "controlledVueCorrectnessPointer"
+          ],
+          "reason": "The frozen nested curve through 5,000 SFCs has exact generated code and output-map equality across admitted ordinary and worker variants."
+        },
+        "sourceMaps": {
+          "status": "product-failure",
+          "evidence": [
+            "controlledVueBundleManifest",
+            "controlledVueCorrectnessRaw",
+            "controlledVueCorrectnessPointer",
+            "controlledVueHarnessSnapshot",
+            "controlledVuePluginImplementation"
+          ],
+          "reason": "The adapter disables unplugin-vue transform maps, so final generated-map equality does not prove original-SFC mapping fidelity or a complete source-map chain."
+        },
+        "metadata": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "Returned plugin metadata is outside the frozen transform-only Vue adapter."
+        },
+        "diagnostics": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "The admitted corpus proves compile success but not exact ordinary-versus-worker diagnostic parity."
+        },
+        "state": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No cross-module mutable-state fixture is included."
+        },
+        "pluginContext": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "The transform-only adapter does not cover the complete plugin-context or side-effect contract."
+        },
+        "hookOrder": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No ordered multi-plugin or multi-hook fixture is included."
+        },
+        "lifecycle": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "buildStart counters are checked, but the complete plugin lifecycle is not."
+        },
+        "virtualModules": {
+          "status": "product-failure",
+          "evidence": [
+            "controlledVueBundleManifest",
+            "controlledVueCorrectnessRaw",
+            "controlledVueCorrectnessPointer",
+            "controlledVueHarnessSnapshot",
+            "controlledVuePluginImplementation",
+            "controlledVueCaseRunner"
+          ],
+          "reason": "A coordinator-only plugin supplies the export helper and the adapter excludes other child virtual modules, so the Vue plugin is not transparently parallelized."
+        },
+        "cacheDeterminism": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No worker-local compiler or plugin cache fixture proves deterministic results across placement and task order."
+        },
+        "failure": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "Compiler error, worker crash, and in-flight task failure parity are not bound."
+        },
+        "shutdown": {
+          "status": "not-tested",
+          "evidence": [],
+          "reason": "No close, crash, or queued-task cleanup artifact is bound."
+        }
+      },
+      "semanticCapabilitiesPass": false,
+      "productCrossover": false
+    }
+  ],
+  "semanticCapabilitiesPass": false,
+  "productCrossoverFamilies": [],
+  "productCrossover": false
+}

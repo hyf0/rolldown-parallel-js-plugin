@@ -451,7 +451,7 @@ function validateMachineTopology(value, label) {
   }
 }
 
-function validateControlledHarnessSourceSnapshot(value, label) {
+export function validateControlledHarnessSourceSnapshot(value, label) {
   if (
     value?.schema !== 1 ||
     value.kind !== 'vue-controlled-harness-source-snapshot' ||

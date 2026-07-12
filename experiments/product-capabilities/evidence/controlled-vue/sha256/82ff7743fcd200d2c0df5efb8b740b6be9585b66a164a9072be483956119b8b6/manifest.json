@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "kind": "controlled-vue-product-evidence-bundle",
+  "repository": "github.com/hyf0/rolldown-parallel-js-plugin",
+  "root": "experiments/product-capabilities/evidence/controlled-vue/sha256/82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6",
+  "contentSha256": "82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6",
+  "contentAddressAlgorithm": "SHA-256 over UTF-8-sorted role + NUL + bytes + NUL + SHA-256 + LF records",
+  "fixtureCommit": "5b5beee821978656f3be423c4afb6c0d0d3f593d",
+  "harnessAggregateSha256": "5d31d3f7c34ebce5255faa853c121b7933294055769c74daa69a98a4840a44a5",
+  "artifacts": [
+    {
+      "role": "admission-pointer",
+      "path": "admission.json",
+      "bytes": 2499,
+      "sha256": "b2d0dfa20a162bb11755cf4a8fd6c15a69c1be212a9e03f6ce91436ec93b517f"
+    },
+    {
+      "role": "admission-raw",
+      "path": "raw/admission.json",
+      "bytes": 25158,
+      "sha256": "403247c6b953ffd7fef71a77e4bd06ce00952014a63eff8f449b157b6c850f58"
+    },
+    {
+      "role": "case-runner",
+      "path": "source/vue-scale-run-case.mjs",
+      "bytes": 12132,
+      "sha256": "d91acc051a30b4015d49f388261e3e7c3d8a2e7d7ff4e9537fc1549269da0ff6"
+    },
+    {
+      "role": "correctness-pointer",
+      "path": "correctness.json",
+      "bytes": 12413,
+      "sha256": "c37b43d1afc1da47ead9a1c612f22dbf1a8a6a53e7b33fa83f76e72c1fd09a5b"
+    },
+    {
+      "role": "correctness-raw",
+      "path": "raw/correctness.json",
+      "bytes": 9720974,
+      "sha256": "2aa03aab0d6247853e43e519232b21288c20d3c0a941122564600bd3110f1420"
+    },
+    {
+      "role": "harness-snapshot",
+      "path": "harness-snapshot.json",
+      "bytes": 3782868,
+      "sha256": "6cf1d80822e6cb1315947d4a29f5b3c1f9f39c645739f8e74ea3de28a0d8ce08"
+    },
+    {
+      "role": "plugin-implementation",
+      "path": "source/parallel-vue-plugin-impl.js",
+      "bytes": 5791,
+      "sha256": "7c30524ba7e9eed355ef55d381133271be9bdc6fe3e8f5b525b06ef7f80808b5"
+    }
+  ]
+}
