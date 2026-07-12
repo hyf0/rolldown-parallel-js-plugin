@@ -1,8 +1,7 @@
 {
   "executionScope": "local-only",
   "evidenceKind": "performance-screen",
-  "executionEnabled": false,
-  "blockedBy": "Requires a passed scale-correctness-gate.json with lifecycle-fixed full-corpus and semantic sentinel artifacts.",
+  "executionEnabled": true,
   "correctnessGate": "scale-correctness-gate.json",
   "runtimeProfile": {
     "kind": "lifecycle-fixed-baseline",

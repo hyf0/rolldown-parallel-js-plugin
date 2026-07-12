@@ -1,7 +1,6 @@
 {
   "schema": 1,
-  "status": "blocked",
-  "blockedBy": "The lifecycle-fixed 9,157-source correctness artifact and executable semantic sentinel artifact have not been recorded.",
+  "status": "passed",
   "runtimeProfile": {
     "kind": "lifecycle-fixed-baseline",
     "rolldownCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
@@ -13,13 +12,13 @@
   "requiredArtifacts": {
     "fullCorpus": {
       "path": "data/scale-v1-9157-lifecycle-fixed-correctness.raw.json",
-      "sha256": null,
-      "status": "missing"
+      "sha256": "b4afd00b9126b412b3310e0827ddb0d05030d144c002ce37c3c94725c8d35016",
+      "status": "passed"
     },
     "semanticSentinel": {
       "path": "data/scale-v1-semantic-lifecycle-fixed-correctness.raw.json",
-      "sha256": null,
-      "status": "missing"
+      "sha256": "1791f33201f817bd5c052bd46b978404cc128c49c5c14fb34dfa815bef816111",
+      "status": "passed"
     }
   },
   "sourceMapCapability": {
