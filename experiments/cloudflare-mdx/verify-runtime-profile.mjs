@@ -1,4 +1,5 @@
 import {
+  ATTRIBUTION_RUNTIME_PROFILE,
   HISTORICAL_RUNTIME_PROFILE,
   LIFECYCLE_FIXED_RUNTIME_PROFILE,
   normalizeRuntimeProfile,
@@ -64,18 +65,23 @@ validateRuntimeLane({
   evidenceKind: 'performance-screen',
 });
 
-const attribution = {
-  kind: 'instrumented-attribution',
-  rolldownCommit: '1'.repeat(40),
-  bindingSha256: '2'.repeat(64),
-  distSha256: '3'.repeat(64),
-};
+const attribution = ATTRIBUTION_RUNTIME_PROFILE;
 validateRuntimeLane({
   runtimeProfile: attribution,
   instrumentation: true,
   rustInstrumentation: true,
   evidenceKind: 'attribution',
 });
+assertRejected(
+  () =>
+    validateRuntimeLane({
+      runtimeProfile: attribution,
+      instrumentation: true,
+      rustInstrumentation: true,
+      evidenceKind: 'quota-screen',
+    }),
+  'instrumented attribution runtime relabeled as quota evidence',
+);
 assertRejected(
   () =>
     validateRuntimeLane({
@@ -93,6 +99,14 @@ assertRejected(
       bindingSha256: HISTORICAL_RUNTIME_PROFILE.bindingSha256,
     }),
   'instrumented profile reusing the unchanged binding',
+);
+assertRejected(
+  () =>
+    normalizeRuntimeProfile({
+      ...attribution,
+      distSha256: '3'.repeat(64),
+    }),
+  'instrumented profile using an unpinned attribution artifact',
 );
 
 console.log(

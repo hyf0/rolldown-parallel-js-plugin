@@ -14,6 +14,13 @@ export const LIFECYCLE_FIXED_RUNTIME_PROFILE = Object.freeze({
   changeScope: 'remove-early-parent-worker-unref-only',
 });
 
+export const ATTRIBUTION_RUNTIME_PROFILE = Object.freeze({
+  kind: 'instrumented-attribution',
+  rolldownCommit: '8e35a2249b60b65120a44d1d896eeeed19dc703b',
+  bindingSha256: '6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e',
+  distSha256: '68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735',
+});
+
 export function normalizeRuntimeProfile(value) {
   if (
     value?.kind !== 'historical-0aa-artifact' &&
@@ -79,6 +86,14 @@ export function normalizeRuntimeProfile(value) {
       'instrumented-attribution must pin its distinct commit, rebuilt binding, and dist artifacts',
     );
   }
+  if (
+    value.kind === 'instrumented-attribution' &&
+    JSON.stringify(normalized) !== JSON.stringify(ATTRIBUTION_RUNTIME_PROFILE)
+  ) {
+    throw new Error(
+      'instrumented-attribution must use the frozen 8e35a22/6b7dfa/68f57b artifact',
+    );
+  }
   const allowedFields = [
     'kind',
     'rolldownCommit',
@@ -120,8 +135,10 @@ export function validateRuntimeLane({
         'instrumented-attribution requires JavaScript and Rust instrumentation to be enabled',
       );
     }
-    if (evidenceKind?.startsWith('performance-') || evidenceKind === 'correctness-only') {
-      throw new Error(`instrumented-attribution cannot supply ${evidenceKind} baseline evidence`);
+    if (evidenceKind !== 'attribution') {
+      throw new Error(
+        `instrumented-attribution requires evidenceKind=attribution, got ${evidenceKind}`,
+      );
     }
   }
   return profile;

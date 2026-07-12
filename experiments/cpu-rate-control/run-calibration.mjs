@@ -2,6 +2,27 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { access, readFile, writeFile } from 'node:fs/promises';
 import nodePath from 'node:path';
+import { cpus, platform, totalmem } from 'node:os';
+import { captureCpulimitProvenance } from './cpulimit-provenance.mjs';
+
+const CI_MARKERS = ['CI', 'GITHUB_ACTIONS', 'BUILDKITE', 'CIRCLECI', 'TF_BUILD', 'JENKINS_URL'];
+const FROZEN_NODE = 'v24.18.0';
+const FROZEN_MACHINE = Object.freeze({
+  platform: 'darwin',
+  architecture: 'arm64',
+  cpuModel: 'Apple M3 Pro',
+  logicalCpuCount: 12,
+  totalMemoryBytes: 38_654_705_664,
+});
+const parentCiMarkers = Object.fromEntries(
+  CI_MARKERS.map((name) => [name, process.env[name] ?? null]),
+);
+const activeCiMarkers = Object.entries(parentCiMarkers)
+  .filter(([, value]) => value !== null && !['', '0', 'false'].includes(String(value).toLowerCase()))
+  .map(([name]) => name);
+if (activeCiMarkers.length > 0) {
+  throw new Error(`CPU-rate calibration is local-only; active CI markers: ${activeCiMarkers.join(', ')}`);
+}
 
 const repositoryRoot = nodePath.resolve(import.meta.dirname, '../..');
 const binaryPath = nodePath.join(repositoryRoot, 'tmp/bench/cpulimit-f4d2682/src/cpulimit');
@@ -10,6 +31,23 @@ const loadPath = nodePath.join(import.meta.dirname, 'cpu-load.mjs');
 const options = parseOptions(process.argv.slice(2));
 await access(binaryPath);
 const [binary, patch] = await Promise.all([readFile(binaryPath), readFile(patchPath)]);
+const controllerProvenance = await captureCpulimitProvenance();
+const recordedOptions = {
+  durationMs: options.durationMs,
+  threadCount: options.threadCount,
+  repetitions: options.repetitions,
+  equivalenceBlocks: options.equivalenceBlocks,
+  levels: options.levels,
+};
+const machine = {
+  platform: platform(),
+  architecture: process.arch,
+  cpuModel: cpus()[0]?.model,
+  logicalCpuCount: cpus().length,
+  totalMemoryBytes: totalmem(),
+};
+const executionEnvironmentEligible =
+  process.version === FROZEN_NODE && JSON.stringify(machine) === JSON.stringify(FROZEN_MACHINE);
 
 const samples = [];
 for (let repetition = 0; repetition < options.repetitions; repetition++) {
@@ -48,6 +86,9 @@ const levelSummary = options.levels.map((limitPercent) => {
 });
 const equivalenceWallRatios = equivalence.map((pair) => pair.wallRatio);
 const equivalenceCpuRatios = equivalence.map((pair) => pair.cpuRatio);
+const unconstrainedSaturationCpuPercent = median(
+  equivalence.map((pair) => pair.controlled.load.averageCpuPercent),
+);
 const equivalenceSummary = {
   blocks: equivalence.length,
   medianWallRatio: median(equivalenceWallRatios),
@@ -56,19 +97,57 @@ const equivalenceSummary = {
   cpuWithinTwoPercent: Math.abs(median(equivalenceCpuRatios) - 1) <= 0.02,
   noControllerStops: equivalence.every((pair) => pair.controlled.controller.stopCycles === 0),
 };
+const controllerRecordsValid =
+  samples.every(
+    (sample) =>
+      validControllerRecord(sample.controller, sample.limitPercent, sample.load.wallMs) &&
+      (sample.limitPercent >= unconstrainedSaturationCpuPercent * 0.95 ||
+        (sample.controller.stopCycles > 0 && sample.controller.stoppedUs > 0)),
+  ) &&
+  equivalence.every(
+    (pair) =>
+      validControllerRecord(
+        pair.controlled.controller,
+        1_200,
+        pair.controlled.load.wallMs,
+      ) &&
+      pair.controlled.controller.stopCycles === 0 &&
+      pair.controlled.controller.stoppedUs === 0,
+  );
 const result = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   kind: 'cpulimit-apple-calibration',
+  executionScope: 'local-only',
   createdAt: new Date().toISOString(),
+  node: process.version,
+  parentCiMarkers,
+  machine,
+  executionEnvironmentEligible,
   command: process.argv,
-  options,
+  options: recordedOptions,
   binaryPath,
   binarySha256: sha256(binary),
   patchPath,
   patchSha256: sha256(patch),
+  controllerProvenance,
   levelSummary,
   equivalenceSummary,
+  unconstrainedSaturationCpuPercent,
+  controllerRecordsValid,
+  formalProfile:
+    options.durationMs === 10_000 &&
+    options.threadCount === 8 &&
+    options.repetitions === 3 &&
+    options.equivalenceBlocks === 5 &&
+    JSON.stringify(options.levels) === JSON.stringify([200, 400, 600, 800]),
   passed:
+    executionEnvironmentEligible &&
+    options.durationMs === 10_000 &&
+    options.threadCount === 8 &&
+    options.repetitions === 3 &&
+    options.equivalenceBlocks === 5 &&
+    JSON.stringify(options.levels) === JSON.stringify([200, 400, 600, 800]) &&
+    controllerRecordsValid &&
     levelSummary.every((summary) => summary.withinFivePercent) &&
     equivalenceSummary.wallWithinTwoPercent &&
     equivalenceSummary.cpuWithinTwoPercent &&
@@ -136,6 +215,24 @@ function median(values) {
   const sorted = [...values].sort((a, b) => a - b);
   const middle = Math.floor(sorted.length / 2);
   return sorted.length % 2 === 0 ? (sorted[middle - 1] + sorted[middle]) / 2 : sorted[middle];
+}
+
+function validControllerRecord(value, limitPercent, elapsedMs) {
+  return (
+    value?.version === 1 &&
+    value.limitPercent === limitPercent &&
+    Number.isSafeInteger(value.targetPid) &&
+    value.targetPid > 1 &&
+    Number.isSafeInteger(value.controlCycles) &&
+    value.controlCycles > 0 &&
+    Number.isSafeInteger(value.stopCycles) &&
+    value.stopCycles >= 0 &&
+    value.stopCycles <= value.controlCycles &&
+    Number.isSafeInteger(value.stoppedUs) &&
+    value.stoppedUs >= 0 &&
+    value.stoppedUs <= elapsedMs * 1_000 &&
+    (value.stopCycles === 0) === (value.stoppedUs === 0)
+  );
 }
 
 function sha256(value) {

@@ -12,6 +12,7 @@ import { createCloudflareOutputNormalizer } from './normalize-output.mjs';
 import { assertPoolEnvironment, readPoolEnvironment } from './pool-environment.mjs';
 import { selectScalePrefix } from './scale-corpus.mjs';
 import { normalizeRuntimeProfile, validateRuntimeLane } from './runtime-profile.mjs';
+import { startAttributionResourceCapture } from './attribution-resources.mjs';
 
 const options = JSON.parse(process.argv[2] ?? 'null');
 if (!options) throw new Error('Expected a JSON options object');
@@ -77,10 +78,19 @@ if (measurementMode !== 'measurement' && measurementMode !== 'correctness-only')
   throw new Error(`Invalid measurementMode: ${measurementMode}`);
 }
 const recordMeasurements = measurementMode === 'measurement';
+const policyEvidenceKinds = new Set([
+  'allocation-tokio-screen',
+  'allocation-tokio-confirmation',
+  'allocation-rayon-screen',
+  'allocation-rayon-confirmation',
+  'quota-screen',
+  'quota-confirmation',
+]);
 if (
   evidenceKind !== 'correctness-only' &&
   evidenceKind !== 'historical-replay' &&
   evidenceKind !== 'attribution' &&
+  !policyEvidenceKinds.has(evidenceKind) &&
   !evidenceKind?.startsWith('performance-')
 ) {
   throw new Error(`run-case requires an explicit evidenceKind, got ${evidenceKind}`);
@@ -177,6 +187,8 @@ for (const path of entryPaths) {
   }
 }
 
+const attributionResourceCapture =
+  evidenceKind === 'attribution' ? startAttributionResourceCapture() : undefined;
 const { rolldown } = await import(
   pathToFileURL(nodePath.join(rolldownPackageRoot, 'dist/index.mjs'))
 );
@@ -234,6 +246,7 @@ if (corpus === 'semantic-diagnostic') {
     build = undefined;
     const totalFinishedAt = recordMeasurements ? performance.now() : undefined;
     const cpu = recordMeasurements ? process.cpuUsage(cpuStartedAt) : undefined;
+    const attributionResources = attributionResourceCapture?.finish();
     const metrics = readMetrics(metricsBuffer, entryPaths);
     if (metrics && metrics.handlerCalls !== entryPaths.length) {
       throw new Error(
@@ -325,6 +338,7 @@ if (corpus === 'semantic-diagnostic') {
         measurementMode,
         lifecycleClaim,
         evidenceKind,
+        processId: recordMeasurements ? process.pid : undefined,
         fixedNow,
         discoveredProductionMdxFiles: productionEntries.length,
         discoveredDocsMdxFiles: docsEntries.length,
@@ -350,6 +364,7 @@ if (corpus === 'semantic-diagnostic') {
         cpuUserMs: recordMeasurements ? cpu.user / 1000 : undefined,
         cpuSystemMs: recordMeasurements ? cpu.system / 1000 : undefined,
         finalRssBytes: recordMeasurements ? process.memoryUsage.rss() : undefined,
+        attributionResources,
         outputBytes,
         outputChunks,
         outputHash: outputHash.digest('hex'),

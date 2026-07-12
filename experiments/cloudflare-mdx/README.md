@@ -61,6 +61,7 @@ node experiments/cloudflare-mdx/summarize-graph-matrix.mjs \
 - Historical binding SHA-256: `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`; dist SHA-256: `e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc`.
 - This historical runtime contains the research worker-count and transform instrumentation but still unrefs the parent worker too early. It is retained for source provenance and historical correctness replay, not as the next formal baseline.
 - Lifecycle-fixed scale baseline: `b144106882fe244b19b738fc0acf3ffa07c7c9f3`; binding SHA-256 `7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7`; dist SHA-256 `1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45` over 17,095,091 bytes.
+- Attribution-only runtime: `8e35a2249b60b65120a44d1d896eeeed19dc703b`; binding SHA-256 `6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e`; dist SHA-256 `68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735`. Its checkout path is configurable, but `run-case.mjs` requires a clean checkout with the exact commit and artifacts.
 
 ## Frozen scale harness
 
@@ -84,6 +85,7 @@ The execution definitions are:
 The correctness counter mode does not call `performance.now`, `process.hrtime`, CPU/RSS APIs, or host samplers. It records only exact identity, hit, worker, map-result, and completion-state counters; clock and duration columns are exclusive to attribution reports.
 - `scale-base-screen-matrix.json`: one uninstrumented, no-warmup rotated screen of ordinary and worker counts one through eight at every base scale. It remains disabled until the correctness gate passes.
 - `scale-refinement-matrix.json`: a deliberately non-executable catalog. Populate it only with points inside the first direction-changing base interval.
+- `scale-attribution-matrix.json`: the disabled formal ordinary/worker-four/worker-eight attribution lane over the full 9,157-source prefix. It is never wall or correctness evidence and cannot execute before the correctness and host gates pass.
 - `scale-graph-smoke-config.json`: the 32-source server-graph correctness lane.
 - `scale-semantic-sentinel.json`: executable correctness-only coverage for the existing graph smoke, all six playground sources, fixed docs/partials Mermaid sources, and the invalid diagnostic fixture. It retains structured diagnostic differences as product failures.
 
@@ -97,6 +99,11 @@ node experiments/cloudflare-mdx/run-graph-smoke.mjs --check-config \
 node experiments/cloudflare-mdx/run-semantic-sentinel.mjs --check-config \
   experiments/cloudflare-mdx/scale-semantic-sentinel.json
 node experiments/cloudflare-mdx/verify-correctness-gate.mjs
+node experiments/cloudflare-mdx/run-attribution-matrix.mjs --check-config \
+  experiments/cloudflare-mdx/scale-attribution-matrix.json
+node experiments/cloudflare-mdx/verify-attribution-harness.mjs
+node experiments/cloudflare-mdx/verify-scale-followup.mjs
+node experiments/cloudflare-mdx/verify-mdx-policy.mjs
 ```
 
 Run the two untimed lifecycle-fixed admission artifacts before any performance matrix:
@@ -118,7 +125,61 @@ Correctness admission additionally pins Node `v24.18.0`, the `pnpm@11.12.0` reco
 
 Instrumented cases allocate five shared 64-bit columns per selected ID: exact hit count, service duration, worker index, process-wide monotonic kernel start, and kernel end. Each isolate also records a `performance.timeOrigin + performance.now()` epoch bracket around one `process.hrtime.bigint()` sample, including uncertainty, so JavaScript intervals can be aligned with Rust/lifecycle clocks without relying on the application-patched `Date`. The result retains every start/end nanosecond timestamp and derives concurrency, per-worker busy intervals, idle gaps, final completion, and the last-start-to-last-completion tail. Instrumented child capture is explicitly 64 MiB and `ENOBUFS` aborts instead of accepting a truncated trace. `verify-metrics-timeline.mjs` checks a two-worker overlap, epoch brackets, and that the uninstrumented wall lane bypasses the metrics wrapper. Instrumentation remains forbidden in wall matrices.
 
-Runtime provenance is a separate frozen axis. Commit `0aa600b5721b852cdc4095c7122a929a8cb4a798`, binding SHA-256 `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`, and dist SHA-256 `e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc` remain classified `historical-0aa-artifact`: a fresh no-timer direct build reproduces the parent `Worker.unref()` code-13 early exit, while harness or plugin timers can accidentally keep it alive. Historical correctness success therefore makes no lifecycle claim. Runnable scale wall and correctness matrices now pin `lifecycle-fixed-baseline` commit `b144106882fe244b19b738fc0acf3ffa07c7c9f3`, binding `7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7`, and dist `1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45`; its sole runtime change from 0aa removes the early parent-worker unref behavior. The base screen remains blocked on lifecycle-fixed correctness; refinement additionally remains blocked until the base screen identifies the first direction-changing interval. A future Rust lifecycle/timeline lane must separately declare `instrumented-attribution`, pin another distinct commit/binding/dist set, enable both JavaScript and Rust instrumentation, and classify itself only as attribution. The runner rejects the historical artifact as performance or lifecycle evidence and rejects an instrumented build used with metrics off as wall or correctness baseline evidence; `verify-runtime-profile.mjs` exercises these gates.
+Runtime provenance is a separate frozen axis. Commit `0aa600b5721b852cdc4095c7122a929a8cb4a798`, binding SHA-256 `deec0b2cb7a12e507ff223e12535c3280ab5fe8371f2fcc92f9db206163f1c5d`, and dist SHA-256 `e30311e764bae7fba9afe27665db741d556a7c3728eb67cfbe7ce0fed3135ebc` remain classified `historical-0aa-artifact`: a fresh no-timer direct build reproduces the parent `Worker.unref()` code-13 early exit, while harness or plugin timers can accidentally keep it alive. Historical correctness success therefore makes no lifecycle claim. Runnable scale wall and correctness matrices pin `lifecycle-fixed-baseline` commit `b144106882fe244b19b738fc0acf3ffa07c7c9f3`, binding `7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7`, and dist `1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45`; its sole runtime change from 0aa removes the early parent-worker unref behavior. The base screen remains blocked on lifecycle-fixed correctness. The separate attribution lane pins `8e35a2249b60b65120a44d1d896eeeed19dc703b`, binding `6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e`, and dist `68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735`; it enables both JavaScript and Rust instrumentation and is never accepted as wall or correctness baseline evidence. The runner rejects the historical artifact as performance or lifecycle evidence and rejects the instrumented build used outside attribution; `verify-runtime-profile.mjs` and `verify-attribution-harness.mjs` exercise these gates.
+
+After a passed base screen exists, generate the first confirmation matrix mechanically. The generator selects the fastest screened worker and adjacent eligible counts at each required scale, always includes worker four and worker eight as deduplicated fixed policy candidates, and emits ten no-warmup rotated blocks. Its decision exposes compact per-scale/per-variant policy evidence with wall, CPU, RSS, resource eligibility, paired regression upper bound, and the selected resource-eligible oracle count:
+
+```bash
+node experiments/cloudflare-mdx/generate-scale-followup.mjs confirmation \
+  experiments/cloudflare-mdx/data/scale-base-screen.raw.json \
+  --output experiments/cloudflare-mdx/scale-generated-confirmation-matrix.json
+```
+
+Run the generated matrix with `run-matrix.mjs`. Then feed the passed report back to `refine`; each invocation either emits the next one-shot refinement screen, emits the selected ten-block refinement confirmation after that screen passes, or returns an exact/censored terminal result. Add prior follow-up artifacts in execution order. `--validate-only` performs all provenance, host, output, block, frozen-prefix, best-worker, adjacency, artifact-chain, bootstrap, and next-step checks without writing a matrix or launching a build.
+
+```bash
+node experiments/cloudflare-mdx/generate-scale-followup.mjs refine \
+  experiments/cloudflare-mdx/data/scale-base-screen.raw.json \
+  experiments/cloudflare-mdx/data/scale-initial-confirmation.raw.json \
+  --output experiments/cloudflare-mdx/scale-generated-next-matrix.json
+node experiments/cloudflare-mdx/generate-scale-followup.mjs refine \
+  experiments/cloudflare-mdx/data/scale-base-screen.raw.json \
+  experiments/cloudflare-mdx/data/scale-initial-confirmation.raw.json \
+  --validate-only
+```
+
+The attribution runner separately executes exactly one ordinary, worker-four, and worker-eight process. Every child must pass the frozen host gate and the lifecycle-fixed normalized-output oracle. The report retains process and main-thread CPU, cumulative CPU for every worker, residual native/runtime CPU, sampled and `/usr/bin/time` RSS, main and worker heap/ELU/GC, one process-level native module-init record, worker initialization and termination, raw Rust arrival/acquire/complete events, permit-to-thread identity, ready and busy intervals, service distributions, widths, and throughput. Its derived per-worker service profile exposes the frozen worker-local cold call ordinals 1, 2, 4, 8, 16, and 32 plus statistics for the last 256 completed calls as the steady-service window, so initialization and JIT analysis does not have to infer cold behavior from aggregate totals. Missing, empty, or non-derived records reject the run. Its output remains `timingEligible:false` and `conclusionEligible:false`.
+
+After the MDX follow-up chain returns an exact terminal decision, the allocation generator derives the repeated lower, crossover, confirming, and full points directly from those artifacts. Pass the base screen once, every crossover artifact in order, and then each generated policy report in order. The first matrix screens Tokio `4/8/12/18` against ordinary and worker one through eight with Rayon 12 and blocking 4; subsequent matrices repeat both the selected Tokio pool and a different-pool runner-up, screen Rayon `4/8/12` at the repeated Tokio winner, and repeat both the selected Rayon pool and a different-pool runner-up. The exact base-screen execution template and a normalized-output oracle for every selected scale are carried by the crossover chain. `--validate-only` reloads and re-derives the complete chain without writing or executing a matrix.
+
+```bash
+node experiments/cloudflare-mdx/generate-mdx-policy.mjs allocation \
+  --base-screen experiments/cloudflare-mdx/data/scale-base-screen.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-initial-confirmation.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-refinement-screen.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-refinement-confirmation.raw.json \
+  --output experiments/cloudflare-mdx/mdx-generated-policy-matrix.json
+node experiments/cloudflare-mdx/run-policy-matrix.mjs \
+  experiments/cloudflare-mdx/mdx-generated-policy-matrix.json \
+  experiments/cloudflare-mdx/data/mdx-policy-stage.raw.json
+node experiments/cloudflare-mdx/summarize-policy-matrix.mjs \
+  experiments/cloudflare-mdx/data/mdx-policy-stage.raw.json \
+  experiments/cloudflare-mdx/data/mdx-policy-stage.summary.json
+```
+
+The quota generator additionally requires the exact passed schema-2 cpulimit calibration and derives only the crossover and full points. It first screens 400%, 800%, and 1,200% over ordinary and worker one through eight, then generates ten-block confirmations containing the unthrottled oracle, quota-screened best and adjacent counts, worker four, and worker eight. The runner starts `/usr/bin/time -l` directly around a stopped Node child and attaches cpulimit to that exact Node PID before build import. Controller target PID, control/stop cycles, stopped duration, aggregate CPU ceiling, direct Node wall/CPU/RSS, bounded attachment and cleanup, host paging, and the per-scale crossover output oracle are mandatory. Instrumentation is rejected, so these runs cannot be reused for service or initialization attribution. `node experiments/cloudflare-mdx/run-policy-matrix.mjs --verify-process-control` is the build-free smoke test for the direct timing wrapper plus ready- and attach-timeout cleanup.
+
+```bash
+node experiments/cloudflare-mdx/generate-mdx-policy.mjs quota \
+  --base-screen experiments/cloudflare-mdx/data/scale-base-screen.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-initial-confirmation.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-refinement-screen.raw.json \
+  --crossover experiments/cloudflare-mdx/data/scale-refinement-confirmation.raw.json \
+  --calibration tmp/bench/cpu-rate-calibration.json \
+  --output experiments/cloudflare-mdx/mdx-generated-quota-matrix.json
+```
+
+Every allocation and quota raw report is `timingEligible:true` but `conclusionEligible:false`; only the chain-aware summarizer emits the standard `policyEvidenceByCase`. Configured Tokio, Rayon, blocking, and JavaScript capacities remain exact input dimensions and are never summed or reported as observed CPU.
 
 ## Commands
 

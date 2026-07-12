@@ -1,0 +1,53 @@
+{
+  "executionScope": "local-only",
+  "evidenceKind": "attribution",
+  "executionEnabled": false,
+  "blockedBy": "Requires a passed scale-correctness-gate.json and a restarted host that passes every frozen admission gate.",
+  "correctnessGate": "scale-correctness-gate.json",
+  "runtimeProfile": {
+    "kind": "instrumented-attribution",
+    "rolldownCommit": "8e35a2249b60b65120a44d1d896eeeed19dc703b",
+    "bindingSha256": "6b7dfa175754ac57650768a68d7a567c5c0635a1bb47d47c5287914594c9795e",
+    "distSha256": "68f57be9a8883a4ca6f28b57a9bac6e16907d8c1d079686ab9921b407b132735"
+  },
+  "poolEnvironment": {
+    "ROLLDOWN_WORKER_THREADS": "18",
+    "RAYON_NUM_THREADS": "12",
+    "ROLLDOWN_MAX_BLOCKING_THREADS": "4"
+  },
+  "hostPolicy": {
+    "requiredPowerSource": "AC Power",
+    "requireLowPowerModeOff": true,
+    "requireNoThermalOrPerformanceWarning": true,
+    "requireNoCompetingStudyProcesses": true,
+    "maxUptimeSeconds": 86400,
+    "maxStartOneMinuteLoad": 2,
+    "maxStartTotalProcessCpuPercent": 150,
+    "maxStartSwapUsedBytes": 536870912,
+    "minStartMemoryFreePercent": 50,
+    "waitIntervalMs": 10000,
+    "maxWaitMs": 300000,
+    "maxSwapoutDeltaPages": 0,
+    "maxPageoutDeltaPages": 0,
+    "cooldownMs": 15000
+  },
+  "cases": [
+    {
+      "name": "cloudflare-mdx-scale-v1-9157-attribution",
+      "projectRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "rolldownPackageRoot": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-attribution-runtime/packages/rolldown",
+      "corpus": "cloudflare-mdx-scale-v1",
+      "buildProfile": "default",
+      "selectionScale": 9157,
+      "selectionPrefixSha256": "1bd8358392d85b5f7791a43385565818d988b64151d92b263d7c2abfd8044673",
+      "instrumentation": true,
+      "rustInstrumentation": true,
+      "measurementMode": "measurement",
+      "lifecycleClaim": true,
+      "variants": ["ordinary", "worker-4", "worker-8"],
+      "warmups": 0,
+      "repeats": 1,
+      "startIndex": 0
+    }
+  ]
+}

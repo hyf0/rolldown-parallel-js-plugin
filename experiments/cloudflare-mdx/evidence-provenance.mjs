@@ -9,6 +9,7 @@ export async function requireCurrentEvidenceProvenance(
   caseRunnerRecord,
   runnerName,
   caseRunnerName,
+  additionalSourceRecords = [],
 ) {
   const harness = await captureHarnessSourceManifest();
   if (JSON.stringify(environment?.harnessSourceManifest) !== JSON.stringify(harness)) {
@@ -16,6 +17,9 @@ export async function requireCurrentEvidenceProvenance(
   }
   await requireSourceRecord(runnerRecord, runnerName, harness);
   await requireSourceRecord(caseRunnerRecord, caseRunnerName, harness);
+  for (const [record, name] of additionalSourceRecords) {
+    await requireSourceRecord(record, name, harness);
+  }
 }
 
 async function requireSourceRecord(record, name, harness) {
