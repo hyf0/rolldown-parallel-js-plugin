@@ -1,0 +1,23 @@
+{
+  "schema": 2,
+  "artifactStore": {
+    "kind": "git-head-content-addressed",
+    "repository": "github.com/hyf0/rolldown-parallel-js-plugin",
+    "root": "research/artifacts/correctness/sha256/81710055baa25c0d9b9c2468b0ebee9db4ea09e3ed05bf8bfeaaf0a5d4cd8bd5",
+    "contentSha256": "81710055baa25c0d9b9c2468b0ebee9db4ea09e3ed05bf8bfeaaf0a5d4cd8bd5"
+  },
+  "artifacts": [
+    {
+      "raw": "raw/17d142485fa0e79fb4a312eecdcd4a83388a2531746848e9721564daefde4d13.json",
+      "rawSha256": "17d142485fa0e79fb4a312eecdcd4a83388a2531746848e9721564daefde4d13",
+      "summary": "summary/42a09d0b209c5e558ee3cc3ff6ef3815f505c53abd90dc59d0dec6b371a2a322.json",
+      "summarySha256": "42a09d0b209c5e558ee3cc3ff6ef3815f505c53abd90dc59d0dec6b371a2a322"
+    },
+    {
+      "raw": "raw/c275d38d413c5afd95e1dc3d2c2d747dc2a6348b110108d9dd3d85e9418f455f.json",
+      "rawSha256": "c275d38d413c5afd95e1dc3d2c2d747dc2a6348b110108d9dd3d85e9418f455f",
+      "summary": "summary/e983daac16ddaf20ed942593c544059ebef6ae143cb3f0901ba6e28ff1e3227f.json",
+      "summarySha256": "e983daac16ddaf20ed942593c544059ebef6ae143cb3f0901ba6e28ff1e3227f"
+    }
+  ]
+}
