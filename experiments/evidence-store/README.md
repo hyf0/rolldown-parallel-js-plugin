@@ -44,7 +44,7 @@ The MDX attribution report already embeds the derived per-variant attribution su
 
 Write the attribution runner's raw output and this staging summary outside the research worktree. Promotion deliberately refuses a dirty or untracked research repository, including a report staged under `experiments/cloudflare-mdx/data`.
 
-The generated summary retains each variant's already validated `attributionSummary` and binds the raw report's harness manifest, runtime triple, correctness gate, matrix, runner, case runner, and current Node executable bytes. Promotion rederives that summary instead of accepting an independently authored compact result.
+The generated summary retains each variant's already validated `attributionSummary`, the cross-variant ordinary-factory versus worker-pool initialization comparison, and the raw report's harness manifest, runtime triple, correctness gate, matrix, runner, case runner, and current Node executable bytes. Promotion rederives that summary instead of accepting an independently authored compact result.
 
 ## Commit and fresh-clone verification
 

@@ -237,6 +237,7 @@ export function buildAttributionSummary(raw, rawArtifact, nodeArtifact) {
       variant: run.variant,
       attributionSummary: run.attributionSummary,
     })),
+    initializationComparison: raw.initializationComparison,
   };
 }
 
@@ -309,7 +310,8 @@ function deriveAttributionIdentity(raw, nodeArtifactValue) {
     raw.hostPolicyViolations?.length !== 0 ||
     raw.validationErrors?.length !== 0 ||
     !Array.isArray(raw.runs) ||
-    raw.runs.length === 0
+    raw.runs.length === 0 ||
+    raw.initializationComparison?.schema !== 1
   ) {
     throw new Error('attribution raw report is not admitted attribution evidence');
   }

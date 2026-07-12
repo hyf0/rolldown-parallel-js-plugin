@@ -73,6 +73,10 @@ try {
   assert.equal(repeatedInitialization.alreadyPresent, true);
 
   const attribution = await writeAttributionEvidence(sourceRoot);
+  assert.deepEqual(
+    JSON.parse(attribution.summaryBytes).initializationComparison,
+    attribution.raw.initializationComparison,
+  );
   const promotedAttribution = await promoteEvidence({
     kind: 'attribution',
     rawPath: attribution.rawPath,
@@ -88,6 +92,26 @@ try {
   assert.deepEqual(
     verifiedAttribution.pointer.provenance.nodeArtifact,
     attribution.nodeArtifact,
+  );
+
+  const missingComparisonRawPath = nodePath.join(
+    sourceRoot,
+    'missing-initialization-comparison.raw.json',
+  );
+  const missingComparisonSummaryPath = nodePath.join(
+    sourceRoot,
+    'missing-initialization-comparison.summary.json',
+  );
+  const missingComparison = structuredClone(attribution.raw);
+  delete missingComparison.initializationComparison;
+  await writeJson(missingComparisonRawPath, missingComparison);
+  await assert.rejects(
+    () =>
+      createAttributionSummaryFile(
+        missingComparisonRawPath,
+        missingComparisonSummaryPath,
+      ),
+    /admitted attribution evidence/,
   );
 
   const freshClone = nodePath.join(sandbox, 'fresh-clone');
@@ -282,6 +306,7 @@ try {
         'summary-raw-hash-binding',
         'summary-provenance-drift',
         'summary-node-identity-drift',
+        'missing-attribution-initialization-comparison',
         'raw-harness-manifest-drift',
         'summary-source-path-escape',
         'dirty-tracked-pointer',
@@ -437,6 +462,11 @@ async function writeAttributionEvidence(root) {
       { variant: 'ordinary', attributionSummary: { workerCount: 0, throughput: 1 } },
       { variant: 'worker-4', attributionSummary: { workerCount: 4, throughput: 4 } },
     ],
+    initializationComparison: {
+      schema: 1,
+      ordinary: { factoryElapsedMsMax: 10 },
+      workerPools: [{ workerCount: 4, allReadyMs: 12 }],
+    },
   };
   const rawPath = nodePath.join(root, 'attribution.raw.json');
   const summaryPath = nodePath.join(root, 'attribution.summary.json');
