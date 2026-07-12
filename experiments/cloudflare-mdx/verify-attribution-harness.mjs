@@ -5,6 +5,7 @@ import {
   ATTRIBUTION_SCALE,
   deriveAttributionComparison,
   deriveAttributionSummary,
+  validateAttributionInitializationRecords,
   validateAttributionReport,
 } from './attribution-admission.mjs';
 import { BASELINE_POOL_ENVIRONMENT } from './pool-environment.mjs';
@@ -94,6 +95,9 @@ expectRejected('stale-ordinary-delta-summary', (report) => {
 expectRejected('factory-initialization-total-exceeds-call-max-bound', (report) => {
   report.runs[1].metrics.initializationMsTotal =
     report.runs[1].metrics.factoryCalls * report.runs[1].metrics.initializationMsMax + 1;
+});
+expectRejected('runtime-artifact-binding-size-drift', (report) => {
+  report.runs[1].runtimeArtifact.binding.bytes += 1;
 });
 expectRejected('missing-rust-events', (report) => {
   report.runs[1].rustMetrics[0].timeline.events = [];
@@ -237,6 +241,82 @@ expectRejected('missing-summary-rss-scope', (report) => {
 expectRejected('stale-summary-rss-ownership', (report) => {
   report.runs[1].attributionSummary.rssBytes.externalPeak.ownership = 'worker-owned';
 });
+expectRejected('stale-post-close-summary', (report) => {
+  report.runs[1].attributionSummary.postClose.parentGc.executedPasses = 1;
+});
+expectRejected('stale-worker-stage-resource-summary', (report) => {
+  report.runs[2].attributionSummary.initialization.workerPool.workers[0].bootstrap.plugins[0].resourceWindows.factory.deltas.processRssBytes += 1;
+});
+
+expectInitializationRejected('missing-post-close-record', 4, (input) => {
+  input.postCloseMetrics = [];
+});
+expectInitializationRejected('duplicate-post-close-record', 4, (input) => {
+  input.postCloseMetrics.push(structuredClone(input.postCloseMetrics[0]));
+});
+expectInitializationRejected('ordinary-fakes-worker-lifecycle', 0, (input) => {
+  input.lifecycleMetrics = structuredClone(runs[1].lifecycleMetrics);
+});
+expectInitializationRejected('ordinary-fakes-post-close', 0, (input) => {
+  input.postCloseMetrics = structuredClone(runs[1].postCloseMetrics);
+});
+expectInitializationRejected('lifecycle-capture-finish-before-start', 4, (input) => {
+  input.lifecycleMetrics[0].processSnapshots.allWorkersReady.captureFinishedAt = timestamp(59);
+});
+expectInitializationRejected('lifecycle-endpoint-limitation-missing', 4, (input) => {
+  input.lifecycleMetrics[0].processSnapshots.beforeWorkerPool.scope.endpoints =
+    'all counters are exact';
+});
+expectInitializationRejected('lifecycle-capture-windows-overlap', 4, (input) => {
+  input.lifecycleMetrics[0].processSnapshots.allWorkersReady.captureStartedAt = timestamp(0.01);
+  input.lifecycleMetrics[0].processSnapshots.allWorkersReady.capturedAt = timestamp(0.01);
+});
+expectInitializationRejected('process-cpu-capture-bound-mismatch', 4, (input) => {
+  input.lifecycleMetrics[0].cpuWindows.outerProcessWindow.captureBounds.start.latestAt =
+    timestamp(0.04);
+});
+expectInitializationRejected('process-cpu-delta-arithmetic-mismatch', 4, (input) => {
+  input.lifecycleMetrics[0].cpuWindows.outerProcessWindow.processCpuDeltaMicros.user += 1;
+});
+expectInitializationRejected('worker-stage-delta-arithmetic-mismatch', 4, (input) => {
+  input.lifecycleMetrics[0].workers[0].workerBootstrap.plugins[0].resourceWindows.factory.deltas.processCpuUsageMicros.user += 1;
+});
+expectInitializationRejected('worker-stage-boundary-reference-mismatch', 4, (input) => {
+  input.lifecycleMetrics[0].workers[0].workerBootstrap.plugins[0].resourceWindows.factory.boundaryRefs.before =
+    'beforeImplementationImport';
+});
+expectInitializationRejected('worker-stage-ownership-limitation-missing', 4, (input) => {
+  input.lifecycleMetrics[0].workers[0].workerBootstrap.plugins[0].resourceWindows.factory.scope.processRss =
+    'factory-owned RSS';
+});
+expectInitializationRejected('worker-stage-does-not-bracket-wall-stage', 4, (input) => {
+  input.lifecycleMetrics[0].workers[0].workerBootstrap.plugins[0].resourceBoundaries.beforeImplementationImport.captureFinishedAt =
+    timestamp(33.1);
+});
+expectInitializationRejected('registration-resource-delta-mismatch', 4, (input) => {
+  input.lifecycleMetrics[0].workers[0].workerBootstrap.registrationResources.window.deltas.workerThreadCpuUsageMicros.system += 1;
+});
+expectInitializationRejected('post-close-parent-gc-not-two-of-two', 4, (input) => {
+  input.postCloseMetrics[0].parentGc.executedPasses = 1;
+});
+expectInitializationRejected('post-close-snapshot-order-regression', 4, (input) => {
+  const snapshot = input.postCloseMetrics[0].processSnapshots.afterBundlerCloseBeforeParentGc;
+  snapshot.capturedAt = timestamp(119);
+  snapshot.captureStartedAt = timestamp(119);
+  snapshot.captureFinishedAt = timestamp(119.05);
+});
+expectInitializationRejected('post-close-rss-arithmetic-mismatch', 4, (input) => {
+  input.postCloseMetrics[0].rss.parentPostGcDeltaFromAfterTerminationBytes += 1;
+});
+expectInitializationRejected('post-close-cpu-arithmetic-mismatch', 4, (input) => {
+  input.postCloseMetrics[0].cpuWindow.mainThreadCpuDeltaMicros.user += 1;
+});
+expectInitializationRejected('post-close-endpoint-limitation-missing', 4, (input) => {
+  input.postCloseMetrics[0].processSnapshots.parentPostGc.scope.endpoints = 'exact';
+});
+expectInitializationRejected('post-close-retained-memory-ownership-limit-missing', 4, (input) => {
+  input.postCloseMetrics[0].isolationLimits[1] = 'retained memory is worker-owned';
+});
 
 console.log(
   JSON.stringify({
@@ -256,6 +336,25 @@ function expectRejected(name, mutate) {
     return;
   }
   throw new Error(`Invalid attribution artifact was accepted: ${name}`);
+}
+
+function expectInitializationRejected(name, workerCount, mutate) {
+  const source = workerCount === 0 ? runs[0] : runs.find(({ variant }) => variant === `worker-${workerCount}`);
+  const input = structuredClone({
+    workerCount,
+    createBundlerOptionsMetrics: source.createBundlerOptionsMetrics,
+    nativePluginRegistrationMetrics: source.nativePluginRegistrationMetrics,
+    lifecycleMetrics: source.lifecycleMetrics,
+    postCloseMetrics: source.postCloseMetrics,
+  });
+  mutate(input);
+  try {
+    validateAttributionInitializationRecords(input);
+  } catch {
+    rejected.push(name);
+    return;
+  }
+  throw new Error(`Invalid initialization attribution was accepted: ${name}`);
 }
 
 function makeRun(variant, workerCount) {
@@ -297,6 +396,7 @@ function makeRun(variant, workerCount) {
     timelineEntries,
   };
   const attributionResources = mainResources();
+  const lifecycle = workerCount ? lifecycleMetrics(workerCount) : [];
   const run = {
     name: 'cloudflare-mdx-scale-v1-9157-attribution',
     index: 0,
@@ -312,6 +412,7 @@ function makeRun(variant, workerCount) {
     mainPluginConstructionElapsedMs: workerCount === 0 ? 12 : 1,
     selection: { scale: ATTRIBUTION_SCALE, prefixSha256: ATTRIBUTION_PREFIX_SHA256 },
     runtimeProfile: ATTRIBUTION_RUNTIME_PROFILE,
+    runtimeArtifact: runtimeArtifact(),
     poolEnvironment: BASELINE_POOL_ENVIRONMENT,
     hostPolicy: matrix.hostPolicy,
     hostBefore: hostSnapshot(0),
@@ -328,7 +429,8 @@ function makeRun(variant, workerCount) {
     createBundlerOptionsMetrics: [createBundlerOptionsMetrics(workerCount)],
     nativePluginRegistrationMetrics: [nativePluginRegistrationMetrics(workerCount)],
     rustMetrics: workerCount ? [rustMetrics(ids, workerCount)] : [],
-    lifecycleMetrics: workerCount ? lifecycleMetrics(workerCount) : [],
+    lifecycleMetrics: lifecycle,
+    postCloseMetrics: workerCount ? [postCloseMetrics(workerCount, lifecycle[1])] : [],
   };
   run.attributionSummary = deriveAttributionSummary(run);
   return run;
@@ -421,6 +523,7 @@ function lifecycleMetrics(workerCount) {
   const beforeWorkerSnapshots = lifecycleProcessSnapshot(100, 250);
   const afterWorkerSnapshots = lifecycleProcessSnapshot(110, 260);
   const afterTermination = lifecycleProcessSnapshot(120, 180);
+  const beforeWorkerPool = lifecycleProcessSnapshot(0, 100);
   return [
     {
       kind: 'rolldown_parallel_plugin_init_metrics',
@@ -435,11 +538,12 @@ function lifecycleMetrics(workerCount) {
       rssScope: 'whole process; the before/after delta is not worker ownership',
       processSnapshots: {
         scope: 'whole process; RSS is not attributed to an isolate or worker',
-        beforeWorkerPool: lifecycleProcessSnapshot(0, 100),
+        beforeWorkerPool,
         allWorkersReady,
         resourceBaselineBeforeBuild,
       },
       cpuWindows: cpuWindow(workerCount, false, {
+        beforeWorkerPool,
         allWorkersReady,
         resourceBaselineBeforeBuild,
       }),
@@ -516,7 +620,7 @@ function cpuWindow(workerCount, includeInner, snapshots) {
     phase: includeInner ? 'lifetime-through-pre-termination-snapshot' : 'initialization',
     outerProcessWindow: includeInner
       ? processCpuWindow(snapshots.allWorkersReady, snapshots.afterWorkerSnapshots)
-      : processCpuWindow(lifecycleProcessSnapshot(0, 100), snapshots.resourceBaselineBeforeBuild),
+      : processCpuWindow(snapshots.beforeWorkerPool, snapshots.resourceBaselineBeforeBuild),
     ...(includeInner
       ? {
           innerProcessWindow: processCpuWindow(
@@ -535,16 +639,77 @@ function cpuWindow(workerCount, includeInner, snapshots) {
     ),
     completeWorkerCoverage: true,
     scope:
-      'process and main-thread deltas share exact process snapshot endpoints; worker CPU reads have different asynchronous endpoints, so they are reported independently and are never subtracted into a claimed Rust/native residual',
+      'process and main-thread counters are read within synchronous process-snapshot capture bounds; worker CPU reads have different asynchronous bounds, so they are reported independently and are never subtracted into a claimed Rust/native residual',
   };
 }
 
 function processCpuWindow(start, end) {
   return {
+    measurementClass:
+      'synchronous snapshot-bracketed cumulative-counter difference; exact CPU counter read instants are not exposed',
     startedAt: start.capturedAt,
     finishedAt: end.capturedAt,
-    processCpuDeltaMicros: { user: 10_000, system: 1_000 },
-    mainThreadCpuDeltaMicros: { user: 1_000, system: 100 },
+    captureBounds: {
+      start: {
+        earliestAt: start.captureStartedAt,
+        latestAt: start.captureFinishedAt,
+        meaning: 'the start CPU counters are read synchronously within this interval',
+      },
+      end: {
+        earliestAt: end.captureStartedAt,
+        latestAt: end.captureFinishedAt,
+        meaning: 'the end CPU counters are read synchronously within this interval',
+      },
+    },
+    processCpuDeltaMicros: subtractCpu(
+      end.processCpuUsageMicros,
+      start.processCpuUsageMicros,
+    ),
+    mainThreadCpuDeltaMicros: subtractCpu(
+      end.mainThreadCpuUsageMicros,
+      start.mainThreadCpuUsageMicros,
+    ),
+    scope:
+      'process CPU includes all JavaScript workers and native threads; main-thread CPU covers the parent Node.js thread; neither delta is plugin or native ownership',
+  };
+}
+
+function postCloseMetrics(workerCount, termination) {
+  const afterTermination = termination.processSnapshots.afterTermination;
+  const afterBundlerCloseBeforeParentGc = lifecycleProcessSnapshot(121, 190);
+  const parentPostGc = lifecycleProcessSnapshot(124, 170);
+  return {
+    kind: 'rolldown_parallel_plugin_post_close_metrics',
+    version: 1,
+    metricsId: 1,
+    workerCount,
+    pluginCount: 1,
+    parallelPluginIndexes: [0],
+    parentGc: { requestedPasses: 2, available: true, executedPasses: 2 },
+    processSnapshots: {
+      scope:
+        'whole process across worker termination, native bundler close, and parent GC requests; RSS is not worker, plugin, factory, or isolate ownership',
+      afterTermination,
+      afterBundlerCloseBeforeParentGc,
+      parentPostGc,
+    },
+    cpuWindow: processCpuWindow(afterTermination, parentPostGc),
+    rss: {
+      afterTerminationBytes: afterTermination.processMemoryUsageBytes.rss,
+      afterBundlerCloseBeforeParentGcBytes:
+        afterBundlerCloseBeforeParentGc.processMemoryUsageBytes.rss,
+      parentPostGcRetainedBytes: parentPostGc.processMemoryUsageBytes.rss,
+      parentPostGcDeltaFromAfterTerminationBytes:
+        parentPostGc.processMemoryUsageBytes.rss -
+        afterTermination.processMemoryUsageBytes.rss,
+      scope:
+        'signed whole-process observations across termination, native close, and parent GC; shared and allocator-retained pages mean the delta is never ownership',
+    },
+    isolationLimits: [
+      'parentPostGc is available only when Node.js starts with --expose-gc; unavailable GC is recorded instead of silently claiming a post-GC boundary',
+      'whole-process RSS includes the main isolate, native allocator retention, runtime threads, loaded code, and shared pages; it cannot assign retained memory to a worker, plugin, factory, or initialization stage',
+      'process and main-thread CPU counters are read synchronously within each reported capture bound, but Node.js does not expose their exact read instants; their delta includes termination-report serialization and flush, native bundler close, two explicit GC requests, metrics capture, and any concurrent runtime work',
+    ],
   };
 }
 
@@ -552,6 +717,22 @@ function workerBootstrap(threadNumber) {
   const launcherStages = {
     metricsRuntimeImport: stage(26, 27),
     runtimeAndBindingImport: stage(28, 30),
+  };
+  const pluginStages = {
+    implementationImport: stage(33, 35),
+    factory: stage(35.1, 45),
+    bindingifyPlugin: stage(45.1, 46),
+  };
+  const resourceBoundaries = {
+    beforeImplementationImport: workerStageResourceSnapshot(32.6, 32.8),
+    afterImplementationImportBeforeFactory: workerStageResourceSnapshot(35.02, 35.08),
+    afterFactoryBeforeBindingification: workerStageResourceSnapshot(45.02, 45.08),
+    afterBindingificationBeforeRegistration: workerStageResourceSnapshot(46.02, 46.08),
+  };
+  const registrationStage = stage(47, 48);
+  const registrationBoundaries = {
+    beforeRegistration: workerStageResourceSnapshot(46.2, 46.4),
+    afterRegistration: workerStageResourceSnapshot(48.05, 48.2),
   };
   return {
     kind: 'rolldown_parallel_plugin_worker_bootstrap_metrics',
@@ -595,6 +776,17 @@ function workerBootstrap(threadNumber) {
     },
     measuredBootstrapMs: 23,
     registerPluginsMs: 1,
+    registrationStage,
+    registrationResources: {
+      boundaries: registrationBoundaries,
+      window: workerStageResourceWindow(
+        registrationStage,
+        'beforeRegistration',
+        'afterRegistration',
+        registrationBoundaries.beforeRegistration,
+        registrationBoundaries.afterRegistration,
+      ),
+    },
     plugins: [
       {
         pluginIndex: 0,
@@ -609,10 +801,30 @@ function workerBootstrap(threadNumber) {
           bindingStartedAt: timestamp(45.1),
           bindingFinishedAt: timestamp(46),
         },
-        stages: {
-          implementationImport: stage(33, 35),
-          factory: stage(35.1, 45),
-          bindingifyPlugin: stage(45.1, 46),
+        stages: pluginStages,
+        resourceBoundaries,
+        resourceWindows: {
+          implementationImport: workerStageResourceWindow(
+            pluginStages.implementationImport,
+            'beforeImplementationImport',
+            'afterImplementationImportBeforeFactory',
+            resourceBoundaries.beforeImplementationImport,
+            resourceBoundaries.afterImplementationImportBeforeFactory,
+          ),
+          factory: workerStageResourceWindow(
+            pluginStages.factory,
+            'afterImplementationImportBeforeFactory',
+            'afterFactoryBeforeBindingification',
+            resourceBoundaries.afterImplementationImportBeforeFactory,
+            resourceBoundaries.afterFactoryBeforeBindingification,
+          ),
+          bindingifyPlugin: workerStageResourceWindow(
+            pluginStages.bindingifyPlugin,
+            'afterFactoryBeforeBindingification',
+            'afterBindingificationBeforeRegistration',
+            resourceBoundaries.afterFactoryBeforeBindingification,
+            resourceBoundaries.afterBindingificationBeforeRegistration,
+          ),
         },
       },
     ],
@@ -622,7 +834,71 @@ function workerBootstrap(threadNumber) {
       'runtimeAndBindingImport is the dynamic import of the compiled worker-runtime graph; that graph statically imports binding.cjs, so JavaScript graph evaluation and native-addon loading cannot be separated without changing production module boundaries',
       'the GC observer starts after the lightweight launcher dynamically imports node:perf_hooks; GC before that observer exists cannot be recovered',
       'process RSS is shared by the main isolate, every worker isolate, native addon state, and runtime threads; it is not worker ownership',
+      'per-stage process CPU and RSS windows include concurrent work in the complete process; only current-worker thread CPU and isolate heap/GC have worker-local scope',
+      'stage resource snapshots synchronously bracket wall timestamps, so their deltas include boundary-capture gaps and are not exact wall-stage CPU or RSS attribution',
     ],
+  };
+}
+
+function workerStageResourceSnapshot(start, finish) {
+  const counter = Math.round(start * 1_000);
+  return {
+    captureStartedAt: timestamp(start),
+    captureFinishedAt: timestamp(finish),
+    scope: {
+      processCpuUsage: 'whole process, including every JavaScript worker and native thread',
+      workerThreadCpuUsage: 'current Node.js worker thread only',
+      processMemoryUsage:
+        'RSS is whole process and shared; other process.memoryUsage fields follow Node.js worker-thread semantics; none is worker, plugin, factory, or isolate ownership',
+      isolateHeapStatistics: 'current worker V8 isolate only',
+      isolateEventLoopUtilization: 'current worker event loop only; this is not CPU time',
+      isolateGc:
+        'GC performance entries observed in this worker after its metrics observer started',
+    },
+    processCpuUsageMicros: { user: counter, system: Math.round(counter / 10) },
+    workerThreadCpuUsageMicros: { user: Math.round(counter / 2), system: Math.round(counter / 20) },
+    processResourceUsage: {},
+    processMemoryUsageBytes: { rss: 1_000_000 + counter },
+    isolateHeapStatistics: { heap_size_limit: 1_000_000, used_heap_size: 10_000 + counter },
+    isolateEventLoopUtilization: {},
+    isolateGc: gcMetrics(),
+  };
+}
+
+function workerStageResourceWindow(stageValue, beforeName, afterName, before, after) {
+  return {
+    measurementClass:
+      'synchronous bracketing resource snapshots; the resource delta contains the wall stage plus the two boundary-capture gaps and is not an exact wall-stage CPU or RSS attribution',
+    wallStage: stageValue,
+    boundaryRefs: { before: beforeName, after: afterName },
+    deltas: {
+      processCpuUsageMicros: subtractCpu(
+        after.processCpuUsageMicros,
+        before.processCpuUsageMicros,
+      ),
+      workerThreadCpuUsageMicros: subtractCpu(
+        after.workerThreadCpuUsageMicros,
+        before.workerThreadCpuUsageMicros,
+      ),
+      processRssBytes:
+        after.processMemoryUsageBytes.rss - before.processMemoryUsageBytes.rss,
+      isolateUsedHeapSizeBytes:
+        after.isolateHeapStatistics.used_heap_size - before.isolateHeapStatistics.used_heap_size,
+      isolateGcCount: after.isolateGc.count - before.isolateGc.count,
+      isolateGcDurationMs: after.isolateGc.durationMs - before.isolateGc.durationMs,
+    },
+    scope: {
+      endpoints:
+        'the before capture finishes before the wall stage starts and the after capture starts after the wall stage finishes',
+      processCpuUsage:
+        'whole-process cumulative-counter difference; concurrent workers, the Node.js main thread, native addons, and runtime threads are included and this is not plugin ownership',
+      workerThreadCpuUsage:
+        'current-worker cumulative-counter difference across the bracketing snapshots; boundary capture work and any interleaved work on this worker thread are included',
+      processRss:
+        'signed whole-process RSS difference; shared pages and concurrent allocation prevent worker, plugin, factory, or stage ownership',
+      isolateHeapAndGc:
+        'signed current-worker V8 used-heap difference and observed GC delta; native/shared memory is excluded, while interleaved work, GC timing, and worker state prevent plugin, factory, or stage ownership',
+    },
   };
 }
 
@@ -738,7 +1014,8 @@ function processSnapshot(at) {
     scope: {
       cpuUsage: 'whole process, including JS workers and native threads',
       mainThreadCpuUsage: 'current Node.js thread only',
-      memoryUsage: 'whole process; RSS is not assigned to an isolate or worker',
+      memoryUsage:
+        'RSS is whole process; other process.memoryUsage fields follow current-thread/isolate semantics and are not worker ownership',
       heapStatistics: 'current V8 isolate only',
       eventLoopUtilization: 'current Node.js event loop only; this is not CPU time',
       gc: 'GC performance entries observed in this isolate after its metrics observer started',
@@ -769,9 +1046,14 @@ function launcherProcessSnapshot(at) {
 function lifecycleProcessSnapshot(at, rss) {
   return {
     capturedAt: timestamp(at),
+    captureStartedAt: timestamp(at),
+    captureFinishedAt: timestamp(at + 0.05),
     scope: {
+      endpoints:
+        'every resource read occurs synchronously between captureStartedAt and captureFinishedAt; Node.js does not expose each exact counter-read instant',
       cpuUsage: 'whole process, including JS workers and native threads',
-      memoryUsage: 'whole process; RSS is not assigned to a worker',
+      memoryUsage:
+        'RSS is whole process; other process.memoryUsage fields follow main-thread/isolate semantics; RSS is not assigned to a worker',
       heapStatistics: 'main V8 isolate only',
       eventLoopUtilization: 'Node.js main event loop only; this is not CPU time',
     },
@@ -791,7 +1073,8 @@ function workerLocalSnapshot(at) {
     scope: {
       cpuUsage: 'whole process; not this worker',
       threadCpuUsage: 'this Node.js worker thread',
-      memoryUsage: 'whole process; RSS is not this worker',
+      memoryUsage:
+        'RSS is whole process; other process.memoryUsage fields follow worker-thread semantics; RSS is not this worker',
       heapStatistics: 'this worker V8 isolate',
       eventLoopUtilization: 'this worker event loop; this is not CPU time',
       gc: 'GC performance entries observed in this worker after launcher instrumentation started',
@@ -880,6 +1163,29 @@ function hostSnapshot(counter) {
     virtualMemoryCounters: { pageouts: counter, swapouts: counter },
     swapUsage: { available: true, usedBytes: 0, raw: '' },
   };
+}
+
+function runtimeArtifact() {
+  return {
+    binding: {
+      bytes: ATTRIBUTION_RUNTIME_PROFILE.bindingBytes,
+      sha256: ATTRIBUTION_RUNTIME_PROFILE.bindingSha256,
+    },
+    distribution: {
+      files: ATTRIBUTION_RUNTIME_PROFILE.distFiles,
+      bytes: ATTRIBUTION_RUNTIME_PROFILE.distBytes,
+      sha256: ATTRIBUTION_RUNTIME_PROFILE.distSha256,
+    },
+    packageEntry: {
+      path: 'dist/index.mjs',
+      bytes: ATTRIBUTION_RUNTIME_PROFILE.packageEntryBytes,
+      sha256: ATTRIBUTION_RUNTIME_PROFILE.packageEntrySha256,
+    },
+  };
+}
+
+function subtractCpu(end, start) {
+  return { user: end.user - start.user, system: end.system - start.system };
 }
 
 function range(length) {

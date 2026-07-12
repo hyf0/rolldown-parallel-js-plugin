@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import nodePath from 'node:path';
 import { performance } from 'node:perf_hooks';
@@ -120,13 +120,37 @@ const projectStatus = git(projectRoot, ['status', '--short']);
 const rolldownRoot = nodePath.resolve(rolldownPackageRoot, '../..');
 const rolldownCommit = git(rolldownRoot, ['rev-parse', 'HEAD']);
 const rolldownStatus = git(rolldownRoot, ['status', '--short']);
-const bindingHash = createHash('sha256')
-  .update(
-    await readFile(nodePath.join(rolldownPackageRoot, 'dist/rolldown-binding.darwin-arm64.node')),
-  )
-  .digest('hex');
 const distDirectory = nodePath.join(rolldownPackageRoot, 'dist');
-const distHash = await hashFiles(await listFiles(distDirectory), distDirectory);
+const { bindingHash, distHash, runtimeArtifact } = await (async () => {
+  const bindingSource = await readFile(
+    nodePath.join(rolldownPackageRoot, 'dist/rolldown-binding.darwin-arm64.node'),
+  );
+  const binding = {
+    bytes: bindingSource.byteLength,
+    sha256: createHash('sha256').update(bindingSource).digest('hex'),
+  };
+  const distFiles = await listFiles(distDirectory);
+  const distHash = await hashFiles(distFiles, distDirectory);
+  const distStats = await Promise.all(distFiles.map((path) => stat(path)));
+  const packageEntrySource = await readFile(nodePath.join(distDirectory, 'index.mjs'));
+  return {
+    bindingHash: binding.sha256,
+    distHash,
+    runtimeArtifact: {
+      binding,
+      distribution: {
+        files: distFiles.length,
+        bytes: distStats.reduce((sum, value) => sum + value.size, 0),
+        sha256: distHash,
+      },
+      packageEntry: {
+        path: 'dist/index.mjs',
+        bytes: packageEntrySource.byteLength,
+        sha256: createHash('sha256').update(packageEntrySource).digest('hex'),
+      },
+    },
+  };
+})();
 if (projectCommit !== expectedProjectCommit || projectStatus !== '') {
   throw new Error(`Cloudflare source is not the clean pin: ${projectCommit}\n${projectStatus}`);
 }
@@ -134,7 +158,13 @@ if (
   rolldownCommit !== expectedRuntime.rolldownCommit ||
   rolldownStatus !== '' ||
   bindingHash !== expectedRuntime.bindingSha256 ||
-  distHash !== expectedRuntime.distSha256
+  distHash !== expectedRuntime.distSha256 ||
+  (expectedRuntime.kind === 'instrumented-attribution' &&
+    (runtimeArtifact.binding.bytes !== expectedRuntime.bindingBytes ||
+      runtimeArtifact.distribution.files !== expectedRuntime.distFiles ||
+      runtimeArtifact.distribution.bytes !== expectedRuntime.distBytes ||
+      runtimeArtifact.packageEntry.sha256 !== expectedRuntime.packageEntrySha256 ||
+      runtimeArtifact.packageEntry.bytes !== expectedRuntime.packageEntryBytes))
 ) {
   throw new Error(
     `Rolldown runtime is not the pinned clean build: ${rolldownCommit} ${bindingHash} ${distHash}\n${rolldownStatus}`,
@@ -347,6 +377,8 @@ if (corpus === 'semantic-diagnostic') {
         rolldownCommit,
         bindingHash,
         distHash,
+        runtimeArtifact:
+          expectedRuntime.kind === 'instrumented-attribution' ? runtimeArtifact : undefined,
         sourceManifestHash,
         poolEnvironment,
         runtimeProfile: expectedRuntime,

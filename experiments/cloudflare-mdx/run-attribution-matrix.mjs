@@ -151,6 +151,10 @@ for (let index = 0; index < definition.repeats; index++) {
       ...child,
       rustMetrics: parseRecords(result.stderr, 'rolldown-parallel-plugin-metrics'),
       lifecycleMetrics: parseRecords(result.stderr, 'rolldown-parallel-plugin-init-metrics'),
+      postCloseMetrics: parseRecords(
+        result.stderr,
+        'rolldown-parallel-plugin-post-close-metrics',
+      ),
       moduleInitMetrics: parseRecords(
         result.stderr,
         'rolldown-parallel-plugin-module-init-metrics',
