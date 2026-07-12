@@ -83,7 +83,7 @@ A worker kernel receives serializable module-local inputs and returns code, sour
 
 ## Sustained production-scale behavior
 
-The Cloudflare production compiler takes about 1.94–1.95 seconds to initialize in each worker and the four-worker pool becomes ready in about 2.0 seconds, yet the repeated worker stage still exceeds 2x because 9,157 transforms amortize that cost. The original application reference remains about 11m29s wall and the direct transform stage saves only about 35 seconds, so the requested 15–30 minute and 2x complete-build target still requires a workload whose JavaScript transform dominates the critical path. Seven behaviors determine whether the mechanism retains value at that duration:
+The Cloudflare production factory takes about 1.94–1.95 seconds in each worker and the concurrently initialized four-worker pool becomes ready in about 2.0 seconds. Ordinary execution already spends about 1.84 seconds in the same factory. In the single instrumented attribution pair, those intervals differ by about 155 ms; this is not a repeated estimate or a pure measure of Node.js worker startup. The four isolates still repeat factory and configuration work, while complete-process RSS rises by roughly 1 GB across pool initialization; aggregate initialization CPU and factory-only RSS were not isolated. The repeated worker stage exceeds 2x because 9,157 transforms amortize the critical-path cost, while the original application reference remains about 11m29s and the direct transform stage saves only about 35 seconds. The [scale crossover and worker-policy study](./scale-crossover-worker-policy.md) treats initialization as a crossover and resource input before another 15–30 minute complete-build case. Seven sustained behaviors determine whether the mechanism retains value at that duration:
 
 1. Per-worker transform service must be measured over time, including whether calls become slower after more workers are added, after JIT warmup, as caches grow, or during garbage collection.
 2. Worker count must share CPU with Rolldown's Rust work and any native compiler stages. The useful count is the one that shortens complete-build wall time under a global resource budget, not the one that maximizes isolated JavaScript activity.
@@ -139,8 +139,8 @@ A cold process includes worker creation, plugin import, compiler initialization,
 ## Optimization families to investigate only after attribution
 
 - Repair only the callback or worker-lifetime condition needed to run the current transform path, and preserve the unchanged failure as evidence.
-- Lazily create or initialize workers only when startup is measured as dominant within a production build.
-- Select worker count from workload and CPU contention rather than always creating the hardware-derived maximum.
+- Lazily create or initialize workers only when observed queue and arrival history, or an explicit reliable graph forecast, supports repayment and the coordinator/kernel state contract permits ordinary fallback or progressive capacity.
+- Use machine information to cap the shared process budget, then select worker count from observed workload throughput, ready width, initialization, CPU contention, and memory rather than always creating the hardware-derived maximum.
 - Route related module hooks to the same worker when state is module-affine.
 - Move cross-worker module metadata into a shared Rolldown-owned representation or return it explicitly with hook results.
 - Batch small hook calls when dispatch latency is material and hook ordering permits it.

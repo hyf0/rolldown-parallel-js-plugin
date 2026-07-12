@@ -145,7 +145,7 @@ Cross-build pool reuse could remove startup and warmup cost, but it is outside t
 
 ## Next-iteration priority order
 
-For the 15–30 minute target, preserve the first-iteration correctness prerequisites but measure and optimize in this order:
+Before another 15–30 minute candidate, complete the local [scale crossover, worker selection, and initialization study](../.agents/docs/scale-crossover-worker-policy.md): vary the required Vue and MDX actual-hit scales, add Svelte if feasible, measure every eligible worker count, explain Cloudflare worker-8, and validate any automatic default against the unchanged-runtime fixed-count matrix. Preserve the first-iteration correctness prerequisites, then continue the production work in this order:
 
 1. Sustained per-worker transform throughput, including service slowdown as workers, JIT state, caches, garbage collection, and memory pressure accumulate.
 2. Worker count and placement under one CPU budget shared with Rolldown Rust work and native stages.
@@ -156,7 +156,7 @@ For the 15–30 minute target, preserve the first-iteration correctness prerequi
 7. Worker-local cache determinism across worker count, assignment, repeated runs, and cache warmth.
 8. Worker exit and task failure behavior for queued and in-flight work, ordinary-equivalent attribution, pure-task retry, cleanup, and state consistency.
 
-Worker startup, pre-permit filtering, and lazy initialization remain useful for small or miss-heavy workloads but cannot deliver minute-scale savings when the accepted production workload actually hits the expensive transform roughly 5,000 times.
+Generic worker startup, per-isolate plugin factory work, pre-permit filtering, and lazy or progressive initialization remain distinct. In the current measured cases they do not account for minute-scale wall savings by themselves, but they can determine the small/medium crossover, CPU/RSS pressure, and whether an automatic default regresses before reaching a high-volume workload. Future plugins with different initialization profiles require fresh attribution.
 
 ## Technical defects and compatibility boundary
 

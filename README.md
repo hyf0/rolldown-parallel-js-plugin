@@ -14,6 +14,8 @@ The result also identifies production blockers. Current ParallelPlugin observabl
 
 The historical three-candidate source screen remains preserved. Its Cloudflare disposition is superseded; Gutenberg and Kibana have not been reopened.
 
+The next performance iteration is local-only and precedes another large-project adaptation. It builds the required Vue and MDX scale curves over actual expensive-handler hits, adds Svelte as a follow-up if feasible, measures every eligible worker count around each optimum, instruments Cloudflare's four-to-eight regression, separates generic worker startup from repeated plugin factory work, and validates whether machine limits plus build-local workload signals can select a safe default. Project size and CPU count alone are not selectors. [Live crossover and worker-policy record](./.agents/docs/scale-crossover-worker-policy.md)
+
 ## First-iteration questions
 
 - Can the retained direct-Rolldown ParallelPlugin `transform` path run correctly on the latest Node.js LTS release?
@@ -43,6 +45,7 @@ The source audit and runtime probes also found compatibility blockers independen
 
 - [Project context](./.agents/docs/README.md) records the durable goal, research boundaries, and current plan.
 - [Cloudflare MDX adaptation](./.agents/docs/cloudflare-mdx-rolldown.md) and [detailed result](./experiments/cloudflare-mdx/2026-07-12-results.md) record the completed local build-stage study, repeated timing, graph boundary, original build reference, exact-transfer illustration, technical defects, and next direction.
+- [Scale crossover, worker selection, and initialization](./.agents/docs/scale-crossover-worker-policy.md) records the live local-only Vue/MDX-first scale protocol, optional Svelte follow-up, current four-to-eight evidence, automatic-policy requirements, and initialization optimization hypotheses.
 - [Production-scale goal](./.agents/docs/production-scale-goal.md) records the required JavaScript workload, distinct-module gate, plugin-owned and Rolldown-owned worker baselines, resource and statistical protocol, adaptation cost, semantic requirements, and 2x target.
 - [Production candidate search manifest](./.agents/docs/production-candidate-search.md) freezes the completed search universe, preliminary exclusions, latest-LTS pin, and three deep-screen candidates before any candidate clone or build.
 - [Production candidate screening](./.agents/docs/production-candidate-screening.md) records the historical too-strict admission decision and pinned source evidence.
