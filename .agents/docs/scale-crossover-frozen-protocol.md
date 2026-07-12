@@ -1,6 +1,6 @@
 # Frozen Scale-Crossover Execution Protocol
 
-Status: frozen before new benchmark timing or implementation changes on 2026-07-12. This protocol implements the planning rules in [scale crossover, worker selection, and initialization](./scale-crossover-worker-policy.md). A later change to a corpus, selection order, scale, acceptance threshold, host gate, runtime pin, or semantic gate requires a versioned amendment before affected timing is run. Correctness admission may reject a candidate, but it may not silently relax a gate or substitute a more favorable corpus.
+Status: frozen before new benchmark timing or implementation changes on 2026-07-12. This protocol implements the planning rules in [scale crossover, worker selection, and initialization](./scale-crossover-worker-policy.md). [Amendment 1](./scale-crossover-protocol-amendment-1.md) supersedes the historical runtime artifact as a formal baseline after a no-timer worker-lifecycle failure; all other pins remain unchanged. A later change to a corpus, selection order, scale, acceptance threshold, host gate, runtime pin, or semantic gate requires a versioned amendment before affected timing is run. Correctness admission may reject a candidate, but it may not silently relax a gate or substitute a more favorable corpus.
 
 ## Scope and lifecycle
 
