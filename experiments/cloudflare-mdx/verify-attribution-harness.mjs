@@ -3,6 +3,7 @@ import nodePath from 'node:path';
 import {
   ATTRIBUTION_PREFIX_SHA256,
   ATTRIBUTION_SCALE,
+  deriveAttributionComparison,
   deriveAttributionSummary,
   validateAttributionReport,
 } from './attribution-admission.mjs';
@@ -55,11 +56,25 @@ const valid = {
   validationErrors: [],
   runs,
 };
+valid.initializationComparison = deriveAttributionComparison(runs);
 validateAttributionReport(valid, { correctnessOracle });
 
 const rejected = [];
 expectRejected('disabled-attribution-matrix', (report) => {
   report.matrix.executionEnabled = false;
+});
+expectRejected('missing-main-plugin-construction', (report) => {
+  delete report.runs[0].mainPluginConstructionElapsedMs;
+});
+expectRejected('missing-factory-initialization-total', (report) => {
+  delete report.runs[1].metrics.initializationMsTotal;
+});
+expectRejected('factory-initialization-max-exceeds-total', (report) => {
+  report.runs[2].metrics.initializationMsMax =
+    report.runs[2].metrics.initializationMsTotal + 1;
+});
+expectRejected('stale-initialization-comparison', (report) => {
+  report.initializationComparison.workerPools[0].readySkewMs += 1;
 });
 expectRejected('missing-rust-events', (report) => {
   report.runs[1].rustMetrics[0].timeline.events = [];
@@ -241,6 +256,8 @@ function makeRun(variant, workerCount) {
   const metrics = {
     schema: 2,
     factoryCalls: effectiveWorkers,
+    initializationMsTotal: effectiveWorkers * 10,
+    initializationMsMax: 10,
     handlerCalls: ATTRIBUTION_SCALE,
     distinctHandlerIds: ATTRIBUTION_SCALE,
     active: 0,
@@ -273,6 +290,7 @@ function makeRun(variant, workerCount) {
     lifecycleClaim: true,
     corpus: 'cloudflare-mdx-scale-v1',
     transformedEntryCount: ATTRIBUTION_SCALE,
+    mainPluginConstructionElapsedMs: workerCount === 0 ? 12 : 1,
     selection: { scale: ATTRIBUTION_SCALE, prefixSha256: ATTRIBUTION_PREFIX_SHA256 },
     runtimeProfile: ATTRIBUTION_RUNTIME_PROFILE,
     poolEnvironment: BASELINE_POOL_ENVIRONMENT,

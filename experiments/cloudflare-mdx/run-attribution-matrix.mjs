@@ -1,14 +1,16 @@
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { cpus, platform, release, totalmem } from 'node:os';
 import nodePath from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
+  deriveAttributionComparison,
   deriveAttributionSummary,
   validateAttributionMatrix,
   validateAttributionReport,
 } from './attribution-admission.mjs';
+import { writeFileAtomic } from './atomic-output.mjs';
 import { assertChildCaptureComplete, CHILD_MAX_BUFFER_BYTES } from './child-buffer-policy.mjs';
 import { requirePassedScaleCorrectnessGate } from './correctness-gate.mjs';
 import {
@@ -216,6 +218,7 @@ const report = {
   hostPolicyViolations: [],
   validationErrors: [],
   rawOutputDifferences: rawOutputDifferences(runs),
+  initializationComparison: deriveAttributionComparison(runs),
   runs,
 };
 
@@ -229,7 +232,7 @@ await requireCurrentEvidenceProvenance(
 validateAttributionReport(report, { correctnessOracle });
 const serialized = `${JSON.stringify(report, null, 2)}\n`;
 if (outputPath) {
-  await writeFile(outputPath, serialized);
+  await writeFileAtomic(outputPath, serialized);
   console.log(JSON.stringify({ outputPath, runs: runs.length, timingEligible: false }));
 } else {
   process.stdout.write(serialized);

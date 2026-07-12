@@ -165,6 +165,10 @@ export function validateAttributionReport(report, { correctnessOracle } = {}) {
   }
   if (!correctnessOracle) throw new Error('Attribution validation requires the pinned correctness oracle');
   for (const run of report.runs) validateAttributionRun(run, correctnessOracle);
+  const initializationComparison = deriveAttributionComparison(report.runs);
+  if (!same(report.initializationComparison, initializationComparison)) {
+    throw new Error('Attribution initialization comparison is absent or not derived from raw runs');
+  }
   for (const field of [
     'transformedEntryCount',
     'selection',
@@ -199,7 +203,8 @@ export function validateAttributionRun(run, correctnessOracle) {
     !same(
       normalizePoolEnvironment(run.poolEnvironment),
       normalizePoolEnvironment(BASELINE_POOL_ENVIRONMENT),
-    )
+    ) ||
+    !positive(run.mainPluginConstructionElapsedMs)
   ) {
     throw new Error(`${run.variant} changed attribution inputs or provenance`);
   }
@@ -279,7 +284,7 @@ export function deriveAttributionSummary(run) {
   const widths = rust?.timeline?.timeWeightedWidths;
   const completion = rust?.timeline?.completionRateInputs;
   return {
-    schema: 2,
+    schema: 3,
     workerCount,
     cpuMicros: {
       process: processCpu,
@@ -341,6 +346,22 @@ export function deriveAttributionSummary(run) {
     },
     initialization: {
       metricsId: createBundlerOptions.metricsId,
+      pluginConstruction: {
+        mainThreadElapsedMs: run.mainPluginConstructionElapsedMs,
+        mainThreadRole:
+          workerCount === 0
+            ? 'ordinary plugin construction including the one real MDX kernel factory'
+            : 'parallel proxy construction on the main thread; real MDX kernel factories run in workers',
+        javascriptFactory: {
+          calls: run.metrics.factoryCalls,
+          elapsedMsTotal: run.metrics.initializationMsTotal,
+          elapsedMsMax: run.metrics.initializationMsMax,
+          role:
+            workerCount === 0
+              ? 'one ordinary main-isolate MDX kernel factory'
+              : 'one real MDX kernel factory in each worker isolate',
+        },
+      },
       createBundlerOptions: {
         elapsedMs: durationBetween(
           createBundlerOptions.timeline.createBundlerOptionsStartedAt,
@@ -425,9 +446,79 @@ export function deriveAttributionSummary(run) {
   };
 }
 
+export function deriveAttributionComparison(runs) {
+  if (
+    !Array.isArray(runs) ||
+    runs.length !== ATTRIBUTION_VARIANTS.length ||
+    !same(runs.map(({ variant }) => variant), ATTRIBUTION_VARIANTS)
+  ) {
+    throw new Error('Initialization comparison requires the frozen ordinary/worker-4/worker-8 order');
+  }
+  const ordinary = runs[0];
+  const ordinaryFactoryMs = ordinary.metrics.initializationMsMax;
+  return {
+    schema: 1,
+    ordinary: {
+      mainPluginConstructionElapsedMs: ordinary.mainPluginConstructionElapsedMs,
+      factoryCalls: ordinary.metrics.factoryCalls,
+      factoryElapsedMsTotal: ordinary.metrics.initializationMsTotal,
+      factoryElapsedMsMax: ordinaryFactoryMs,
+    },
+    workerPools: runs.slice(1).map((run) => {
+      const pool = run.attributionSummary.initialization.workerPool;
+      return {
+        workerCount: run.attributionSummary.workerCount,
+        mainProxyConstructionElapsedMs: run.mainPluginConstructionElapsedMs,
+        factoryCalls: run.metrics.factoryCalls,
+        factoryElapsedMsTotal: run.metrics.initializationMsTotal,
+        factoryElapsedMsMax: run.metrics.initializationMsMax,
+        poolInitializationElapsedMs: pool.elapsedMs,
+        firstReadyMs: pool.readiness.firstReadyMs,
+        allReadyMs: pool.readiness.allReadyMs,
+        readySkewMs: pool.readiness.readySkewMs,
+        criticalStageMaximaMs: pool.criticalStageMaximaMs,
+        deltasVsOrdinaryFactoryMs: {
+          maximumWorkerFactory: run.metrics.initializationMsMax - ordinaryFactoryMs,
+          firstReady: pool.readiness.firstReadyMs - ordinaryFactoryMs,
+          allReady: pool.readiness.allReadyMs - ordinaryFactoryMs,
+        },
+      };
+    }),
+    interpretation:
+      'ordinary factory time is compared directly with worker-local factory maxima and main-observed worker readiness; stage maxima are parallel critical-worker observations and must not be summed into a wall total',
+  };
+}
+
 function summarizeWorkerPoolInitialization(initialization) {
+  const readyValues = initialization.workers.map(({ mainReadyMs }) => mainReadyMs);
+  const plugins = initialization.workers.flatMap(({ workerBootstrap }) => workerBootstrap.plugins);
   return {
     elapsedMs: initialization.poolInitializationMs,
+    readiness: {
+      firstReadyMs: Math.min(...readyValues),
+      allReadyMs: Math.max(...readyValues),
+      readySkewMs: Math.max(...readyValues) - Math.min(...readyValues),
+    },
+    criticalStageMaximaMs: {
+      launcherEntryThroughRegistration: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.measuredBootstrapMs,
+        ),
+      ),
+      runtimeAndBindingImport: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.launcher.stages.runtimeAndBindingImport.durationMs,
+        ),
+      ),
+      implementationImport: Math.max(...plugins.map(({ implementationImportMs }) => implementationImportMs)),
+      factory: Math.max(...plugins.map(({ factoryMs }) => factoryMs)),
+      bindingifyPlugin: Math.max(...plugins.map(({ bindingifyMs }) => bindingifyMs)),
+      registerPlugins: Math.max(
+        ...initialization.workers.map(
+          ({ workerBootstrap }) => workerBootstrap.registerPluginsMs,
+        ),
+      ),
+    },
     cpuWindow: summarizeCpuWindow(initialization.cpuWindows),
     workers: initialization.workers.map(({ threadNumber, mainReadyMs, workerBootstrap }) => ({
       threadNumber,
@@ -832,6 +923,9 @@ function validateJsMetrics(metrics, expectedWorkers) {
   if (
     metrics?.schema !== 2 ||
     metrics.factoryCalls !== expectedWorkers ||
+    !positive(metrics.initializationMsTotal) ||
+    !positive(metrics.initializationMsMax) ||
+    metrics.initializationMsTotal < metrics.initializationMsMax ||
     metrics.handlerCalls !== ATTRIBUTION_SCALE ||
     metrics.distinctHandlerIds !== ATTRIBUTION_SCALE ||
     metrics.active !== 0 ||
