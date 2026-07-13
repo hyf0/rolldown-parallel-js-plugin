@@ -4,6 +4,10 @@ This repository is the research workspace for determining when running JavaScrip
 
 The mechanism-scale iteration and the first high-volume production-source transform-stage study are complete. The requested 15–30 minute complete-build goal remains open. All timing comparisons use direct Rolldown and local Node.js 24.18.0 runs; Vite, watch, rebuild, development-server behavior, and HMR are outside the measured scope.
 
+## Resume on another machine
+
+Start with [HANDOFF.md](./HANDOFF.md). It records the exact current outcome and remaining work, canonical repository branches and paths, frozen host identity, clean-machine bootstrap, corpus reconstruction, formal execution order, current evidence addresses, and a ready-to-use `/goal` prompt. The repository also commits the exact previously ignored lifecycle and attribution Rolldown distributions plus the patched CPU-rate controller; `experiments/handoff/doctor.mjs` verifies the checkpoint, setup, and timing-host gates independently.
+
 ## Production-scale result
 
 Cloudflare Docs supplies 9,157 real production MDX modules and a required, high-frequency JavaScript transform chain. In ten rotated local blocks, ordinary direct Rolldown has a 63.089-second median, a plugin-managed four-worker pool has a 26.779-second median, and Rolldown-managed ParallelPlugin has a 28.226-second median. The paired ordinary-to-Rolldown-managed speedup is 2.178x with bootstrap 95% interval 2.129–2.369; normalized output matches across all 30 samples. This is strong repeated local evidence that Node.js workers can more than halve a large real JavaScript transform stage, but the host failed the clean-run policy. It provides no evidence of an additional Rolldown-owned scheduling benefit: the plugin-managed-to-Rolldown-managed interval crosses parity. [Cloudflare adaptation](./.agents/docs/cloudflare-mdx-rolldown.md)
@@ -43,6 +47,7 @@ The source audit and runtime probes also found compatibility blockers independen
 
 ## Repository map
 
+- [Machine handoff](./HANDOFF.md) is the operational entry point for a clean-machine continuation and supersedes any old local path, cache, ignored result, or stale bound-harness status paragraph.
 - [Project context](./.agents/docs/README.md) records the durable goal, research boundaries, and current plan.
 - [Cloudflare MDX adaptation](./.agents/docs/cloudflare-mdx-rolldown.md) and [detailed result](./experiments/cloudflare-mdx/2026-07-12-results.md) record the completed local build-stage study, repeated timing, graph boundary, original build reference, exact-transfer illustration, technical defects, and next direction.
 - [Scale crossover, worker selection, and initialization](./.agents/docs/scale-crossover-worker-policy.md) records the live local-only Vue/MDX-first scale protocol, optional Svelte follow-up, current four-to-eight evidence, automatic-policy requirements, and initialization optimization hypotheses.

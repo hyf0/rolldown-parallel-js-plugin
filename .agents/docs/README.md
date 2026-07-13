@@ -1,5 +1,6 @@
 # Project Context Map
 
+- For clean-machine restoration, exact public refs, bundled ignored runtime artifacts, the frozen M3 Pro identity, canonical absolute paths, generated-input reconstruction, formal execution order, current evidence addresses, known handoff gaps, and the resume prompt, read the root [machine handoff](../../HANDOFF.md) and its [portability decision record](./machine-portability.md).
 - For the completed mechanism-scale outcome, audience, success criteria, and non-goals, read [goal](./goal.md).
 - For the completed local Cloudflare Docs direct-Rolldown build-stage study, its attribution rules, repeated kernel result, graph boundary, exact-transfer illustration, semantic blockers, and next direction, read [Cloudflare MDX adaptation](./cloudflare-mdx-rolldown.md) and the [detailed experiment result](../../experiments/cloudflare-mdx/2026-07-12-results.md).
 - For the live next iteration covering required Vue and MDX scale curves, an optional Svelte follow-up, the four-to-eight-worker regression, a machine-bounded workload-aware worker policy, and clean-build initialization optimization, read [scale crossover, worker selection, and initialization](./scale-crossover-worker-policy.md).

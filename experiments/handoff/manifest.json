@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "kind": "rolldown-parallel-js-plugin-scale-crossover-handoff",
+  "protocol": "scale-crossover-v1-amended-8",
+  "checkpointDate": "2026-07-13",
+  "resumeTag": "research/scale-crossover-handoff-v1",
+  "canonicalWorkspaceRoot": "/Users/yunfeihe/Documents/github-opensource",
+  "node": {
+    "version": "v24.18.0",
+    "canonicalPath": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/node",
+    "bytes": 120965360,
+    "sha256": "ee6fb0e015284d83a91e8ec5213f43a157f8a392b58555301682892ba928c04a"
+  },
+  "formalHost": {
+    "platform": "darwin",
+    "architecture": "arm64",
+    "cpuModel": "Apple M3 Pro",
+    "availableParallelism": 12,
+    "logicalCpuCount": 12,
+    "performanceCores": 6,
+    "efficiencyCores": 6,
+    "totalMemoryBytes": 38654705664,
+    "referenceOsRelease": "25.5.0",
+    "referenceMacOsVersion": "26.5.1",
+    "referenceMacOsBuild": "25F80",
+    "differentMachineDisposition": "Do not run the frozen formal matrices. Add a versioned protocol amendment and regenerate every machine-bound input before timing."
+  },
+  "repositories": [
+    {
+      "id": "research",
+      "remote": "https://github.com/hyf0/rolldown-parallel-js-plugin.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/rolldown-parallel-js-plugin",
+      "ref": "refs/heads/main",
+      "requiredCommit": null,
+      "role": "PCR, harnesses, durable evidence, product ledger, fixed-policy evaluator, and this handoff"
+    },
+    {
+      "id": "rolldown-lifecycle",
+      "remote": "https://github.com/rolldown/rolldown.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-baseline",
+      "ref": "refs/heads/research/parallel-js-plugin-scale-baseline",
+      "requiredCommit": "b144106882fe244b19b738fc0acf3ffa07c7c9f3",
+      "requiredForResume": true,
+      "installedDependencies": {
+        "path": "node_modules/.modules.yaml",
+        "packageManager": "pnpm@11.9.0",
+        "sha256": "3a555346cf3a569aced2ef5dcbb95627ff69cfd8ddefd184310fc0e444cb1a0f",
+        "artifact": "artifacts/dependencies/rolldown-lifecycle.modules.yaml",
+        "rebuild": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack pnpm@11.9.0 install --frozen-lockfile --prefer-offline --ignore-scripts"
+      },
+      "role": "Lifecycle-corrected wall and correctness runtime"
+    },
+    {
+      "id": "rolldown-attribution",
+      "remote": "https://github.com/rolldown/rolldown.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-init-stage-resources",
+      "ref": "refs/heads/research/parallel-js-plugin-init-stage-resources",
+      "requiredCommit": "76a971de8ce66e031b7d19637d13742fe4662594",
+      "requiredForResume": true,
+      "installedDependencies": {
+        "path": "node_modules/.modules.yaml",
+        "packageManager": "pnpm@11.9.0",
+        "sha256": "1538c49b1b7fbe8d08d1c661fb12da398f9698e9a0ee1f3755e0e8814c23ed51",
+        "artifact": "artifacts/dependencies/rolldown-attribution.modules.yaml",
+        "rebuild": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack pnpm@11.9.0 install --frozen-lockfile --prefer-offline --ignore-scripts"
+      },
+      "role": "Initialization and stage-resource attribution runtime"
+    },
+    {
+      "id": "rolldown-vue-harness",
+      "remote": "https://github.com/rolldown/rolldown.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-vue-evidence",
+      "ref": "refs/heads/research/parallel-js-plugin-vue-evidence",
+      "requiredCommit": "b177e85de42f8cc325b95a30d14117ff9785526b",
+      "requiredForResume": true,
+      "installedDependencies": {
+        "path": "node_modules/.modules.yaml",
+        "packageManager": "pnpm@11.9.0",
+        "sha256": "9e48ffb652eaf702dd3abdec665b5e81c9608ad9fb9806c4ee434290d3c66c04",
+        "artifact": "artifacts/dependencies/rolldown-vue-harness.modules.yaml",
+        "rebuild": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack pnpm@11.9.0 install --frozen-lockfile --prefer-offline --ignore-scripts"
+      },
+      "role": "Final controlled and independent Vue harnesses and evidence"
+    },
+    {
+      "id": "rolldown-scale-lineage",
+      "remote": "https://github.com/rolldown/rolldown.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/rolldown-parallel-js-plugin-scale-crossover",
+      "ref": "refs/heads/research/parallel-js-plugin-scale-crossover",
+      "requiredCommit": "299a83472369edcf482621cb8612c87fbb8b544d",
+      "requiredForResume": true,
+      "installedDependencies": {
+        "path": "node_modules/.modules.yaml",
+        "packageManager": "pnpm@11.9.0",
+        "sha256": "80215186a642b41c40fee465eca161a81bcc6911ff5251dc10b040fc9f83f8e1",
+        "artifact": "artifacts/dependencies/rolldown-initialization-harness.modules.yaml",
+        "rebuild": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack pnpm@11.9.0 install --frozen-lockfile --prefer-offline --ignore-scripts"
+      },
+      "role": "Focused generic initialization harness; its runtime-initialization subtree is byte-identical to the final Vue branch"
+    },
+    {
+      "id": "cloudflare-docs",
+      "remote": "https://github.com/cloudflare/cloudflare-docs.git",
+      "path": "/Users/yunfeihe/Documents/github-opensource/.worktrees/cloudflare-docs-rolldown-build",
+      "ref": null,
+      "requiredCommit": "2b08a67a41da1a521aecbcf465893abae1e9a6df",
+      "requiredForResume": true,
+      "installedDependencies": {
+        "path": "node_modules/.modules.yaml",
+        "packageManager": "pnpm@11.12.0",
+        "sha256": "60f64721c5cacfa8ec58d148e21b96a57096f3051cfd2ec6675e13bd3324edcd",
+        "artifact": "artifacts/dependencies/cloudflare-docs.modules.yaml",
+        "rebuild": "/Users/yunfeihe/.vite-plus/js_runtime/node/24.18.0/bin/corepack pnpm@11.12.0 install --frozen-lockfile"
+      },
+      "role": "Pristine production source corpus; the direct-Rolldown adaptation is in this research repository"
+    }
+  ],
+  "runtimeArtifacts": [
+    {
+      "id": "lifecycle-fixed-baseline",
+      "repositoryId": "rolldown-lifecycle",
+      "archive": "artifacts/runtime/lifecycle-fixed-b144106-dist.tar.gz",
+      "archiveSha256": "381ab3871e6a9c4a44a103d90563e5551205a51b9055abdc4913fcebbe610b9c",
+      "destination": "packages/rolldown/dist",
+      "files": 46,
+      "bytes": 17095091,
+      "distributionSha256": "1efffd0b63483e77cd2854fe716941000ae9548768691d7b5a64dceb011f3c45",
+      "bindingSha256": "7b8863bb28aefd2e2eb7409f8be6dae57a252fe4a2688383007be7ea2f847bf7",
+      "bindingBytes": 16311136,
+      "packageEntrySha256": "7e211684a1bbb8460cefdad9007bdc8ef89f30fbbcef5625f2d6453f2129af3e"
+    },
+    {
+      "id": "instrumented-attribution",
+      "repositoryId": "rolldown-attribution",
+      "archive": "artifacts/runtime/attribution-76a971-dist.tar.gz",
+      "archiveSha256": "42fe8c3433a3ba059e5d56b44f4cc53484ae9830e6a1cb463f5ef746ba1f2d13",
+      "destination": "packages/rolldown/dist",
+      "files": 49,
+      "bytes": 17240063,
+      "distributionSha256": "3e4b174ad36807430da1b5b7db3f294a47909962511531b370f421fe00d83fbd",
+      "bindingSha256": "6d6fc6e94b30b7b39b4c6d116b38bbecca2907ecc183c99a25a1a67e1cce1fce",
+      "packageEntrySha256": "ecbce9a6cfc187db4d2c818d2500f52372b15b66022358f69c8e578c1dcbb2bc"
+    }
+  ],
+  "cpuRateController": {
+    "upstream": "https://github.com/opsengine/cpulimit.git",
+    "commit": "f4d2682804931e7aea02a869137344bb5452a3cd",
+    "bundle": "artifacts/cpulimit/cpulimit-f4d2682.bundle",
+    "bundleSha256": "f6225661535d38823267575039e2412c11f04d65920563eea1e73bcbb2436adf",
+    "patch": "../cpu-rate-control/cpulimit-apple.patch",
+    "patchSha256": "de4c2800dbc1b4cbad8d280ec1aebecda7256dbf221fbb97daf83e7fa0a88060",
+      "binary": "artifacts/cpulimit/cpulimit-darwin-arm64",
+    "binaryBytes": 37848,
+    "binarySha256": "233531824804f4be5ef3b425b0903bd36a90c069fd44598da4fad77e90eb0bd9",
+    "destination": "tmp/bench/cpulimit-f4d2682"
+  },
+  "generatedInputs": [
+    {
+      "id": "controlled-vue-corpus",
+      "repositoryId": "rolldown-vue-harness",
+      "path": "examples/par-plugin/cases/vue-scale/.corpus/.snapshot.json",
+      "rebuild": "Run prepare-corpus.mjs against the five pinned public source checkouts described by examples/par-plugin/cases/vue-scale/README.md."
+    },
+    {
+      "id": "independent-vue-projects",
+      "repositoryId": "rolldown-vue-harness",
+      "path": "tmp/bench/vue-projects",
+      "rebuild": "Run prepare-projects.mjs with --project floating-vue --project cabinet-icon --project directus-amendment-candidate and the pinned Node binary."
+    }
+  ],
+  "independentVueFormalProjects": [
+    {
+      "id": "floating-vue",
+      "repositoryId": "rolldown-vue-harness",
+      "path": "tmp/bench/vue-projects/floating-vue",
+      "commit": "19857764c4f73dea7ed44a7d970adb968ee7ad90",
+      "criticalFiles": []
+    },
+    {
+      "id": "cabinet-icon",
+      "repositoryId": "rolldown-vue-harness",
+      "path": "tmp/bench/vue-projects/cabinet-icon",
+      "commit": "9cadad32c72d79424c75e3b6e56798f216bb0b06",
+      "criticalFiles": []
+    },
+    {
+      "id": "directus-amendment-candidate",
+      "repositoryId": "rolldown-vue-harness",
+      "path": "tmp/bench/vue-projects/directus-amendment-candidate",
+      "commit": "9f2f73aee7d8647d3f187dac43f724fe617763f5",
+      "criticalFiles": [
+        {
+          "path": "node_modules/.pnpm/lock.yaml",
+          "sha256": "560ff04b812fd10d7b6fa8a627164a4462c755f38fe848b490cf12923e54308a"
+        },
+        {
+          "path": "app/node_modules/vue/package.json",
+          "sha256": "8d276c52619ee65010978b5ebb45b09abd8d11ba6b2ea00da3a28eec9d940700"
+        },
+        {
+          "path": "app/node_modules/@vitejs/plugin-vue/package.json",
+          "sha256": "94f67bc6dc6da5236b313d819aecc703b486afcd720ec9e597bb03f4bc0417e6"
+        }
+      ]
+    }
+  ],
+  "durableEvidence": {
+    "controlledVueContentAddress": "82ff7743fcd200d2c0df5efb8b740b6be9585b66a164a9072be483956119b8b6",
+    "independentVueContentAddress": "e2c0cdecdb028ffac4a5f5931797b1f33ccceac201c3a30ab3dd4c5af1bed048",
+    "mdxCorrectnessSha256": "0570935049182f87bd479c4ae20dea41d1c2deb8b288b0330dadf0c6b4e2b38d",
+    "mdxSemanticSha256": "99649c9d1ee1e0371b0d97ed50f1ac5152bd828acd72392d920855d0b132d551",
+    "mdxGateSha256": "ddd3bc860df4f45de9ff2f91d4a2245359740076e26e5bb327ad86a141dd3f06",
+    "productCrossover": false
+  },
+  "remainingWork": [
+    "Qualify the exact frozen local M3 Pro host after a restart.",
+    "Add a controlled Vue formal attribution raw/summary/pointer promotion path and fresh-clone verifier; the current attribution store accepts MDX only.",
+    "Run controlled Vue wall and 76a attribution, independent Vue wall, and MDX formal wall matrices in frozen order.",
+    "Run MDX worker-four and worker-eight attribution, Tokio/Rayon allocation, CPU-rate calibration and quota matrices.",
+    "Run the ten-block generic initialization matrix.",
+    "Promote every raw artifact into the durable evidence stores, evaluate fixed four and fixed eight, and publish the result."
+  ]
+}
