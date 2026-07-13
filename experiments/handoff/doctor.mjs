@@ -32,7 +32,7 @@ await check('manifest', 'checkpoint', async () => {
 await check('research-checkout', 'checkpoint', async () => {
   const repository = repositoryById('research');
   const actualRoot = await realGitRoot(repositoryRoot);
-  if (actualRoot !== repository.path) throw new Error(`research checkout path is ${actualRoot}`);
+  if (actualRoot !== repositoryRoot) throw new Error(`research checkout root is ${actualRoot}`);
   await requireRemote(repositoryRoot, repository.remote);
   const head = git(repositoryRoot, ['rev-parse', 'HEAD']);
   const tag = git(repositoryRoot, ['rev-parse', `${manifest.resumeTag}^{commit}`]);

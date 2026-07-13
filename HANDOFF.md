@@ -1,6 +1,6 @@
 # Scale-Crossover Research Machine Handoff
 
-This is the entry point for continuing the active `scale-crossover-v1-amended-8` iteration on another machine. The repository at tag `research/scale-crossover-handoff-v1` contains the Project Context Records, all durable evidence available at the checkpoint, the exact ignored Rolldown runtime distributions, the exact patched `cpulimit` binary and source Git bundle, a machine-readable manifest, restoration code, and a doctor. No vault note or old-machine temporary directory is required to understand the state.
+This is the entry point for continuing the active `scale-crossover-v1-amended-8` iteration on another machine. The repository at tag `research/scale-crossover-handoff-v2` contains the Project Context Records, all durable evidence available at the checkpoint, the exact ignored Rolldown runtime distributions, the exact patched `cpulimit` binary and source Git bundle, a machine-readable manifest, restoration code, and a doctor. No vault note or old-machine temporary directory is required to understand the state.
 
 ## Current outcome and exact next state
 

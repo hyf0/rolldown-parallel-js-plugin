@@ -3,7 +3,7 @@
   "kind": "rolldown-parallel-js-plugin-scale-crossover-handoff",
   "protocol": "scale-crossover-v1-amended-8",
   "checkpointDate": "2026-07-13",
-  "resumeTag": "research/scale-crossover-handoff-v1",
+  "resumeTag": "research/scale-crossover-handoff-v2",
   "canonicalWorkspaceRoot": "/Users/yunfeihe/Documents/github-opensource",
   "node": {
     "version": "v24.18.0",
